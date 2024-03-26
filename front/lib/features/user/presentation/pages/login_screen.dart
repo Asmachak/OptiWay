@@ -1,0 +1,73 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/features/user/presentation/blocs/auth_providers.dart';
+import 'package:front/features/user/presentation/blocs/state/auth_state.dart';
+import 'package:front/features/user/presentation/widgets/login_form.dart';
+import 'package:front/routes/app_routes.gr.dart';
+
+@RoutePage()
+class LoginScreen extends ConsumerWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(userRepositoryProvider);
+
+    ref.listen(
+      userRepositoryProvider.select((value) => value),
+      ((previous, next) {
+        print('i am listening from here');
+        //show Snackbar on failure
+        if (next is Failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("An Error is occured")));
+        } else if (next is Success) {
+          AutoRouter.of(context).replace(const HomeRoute());
+        }
+      }),
+    );
+
+    TextStyle titleStyle = const TextStyle(
+      fontStyle: FontStyle.italic,
+      fontSize: 26,
+      fontWeight: FontWeight.bold,
+      color: Color.fromARGB(255, 1, 4, 175),
+    );
+
+    return Scaffold(
+      backgroundColor:
+          const Color.fromARGB(255, 229, 237, 243), // Set background color here
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 18.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 18.0),
+                  child: Text(
+                    "welcome back !!",
+                    style: titleStyle,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 18.0, 0, 18),
+                  child: Text(
+                    "Login to begin the adventure !",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 1, 4, 175),
+                    ),
+                  ),
+                ),
+                LoginForm(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
