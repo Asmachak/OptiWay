@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
+import 'package:front/features/user/domain/providers/user_provider.dart';
 import 'package:front/features/user/presentation/blocs/auth_providers.dart';
 import 'package:front/features/user/presentation/blocs/state/auth_state.dart';
 import 'package:front/features/user/presentation/pages/signup.dart';
@@ -43,22 +44,8 @@ class LoginForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
-    ref.listen(
-      userRepositoryProvider.select((value) => value),
-      ((previous, next) {
-        print("ref is listening");
-        //show Snackbar on failure
-        if (next is Failure) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("failure to login")));
-        } else if (next is Success) {
-          // Navigate to HomeRoute upon successful login
-          AutoRouter.of(context).replace(const HomeRoute());
-        }
-      }),
-    );
-    
+    final authState = ref.watch(authNotifierProvider);
+
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
@@ -133,33 +120,40 @@ class LoginForm extends ConsumerWidget {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    try {
-                      // Call the global login function
-                      await _performLogin(ref);
-
-                      AutoRouter.of(context).replace(const HomeRoute());
-                    } catch (e) {
-                      print('Error during login: $e');
-                    }
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    ref.read(authNotifierProvider.notifier).login(
+                          _emailController.text,
+                          _passwordController.text,
+                        );
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
+                  backgroundColor: Colors.white,
+                  side: const BorderSide(
+                    color: Colors.blue,
+                    width: 1,
+                  ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  backgroundColor: Colors.indigo,
-                  side: const BorderSide(color: Colors.indigo),
                 ),
-                child: const Text(
-                  "Login",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.white,
+                child: authState.when(
+                  initial: () => const Text(
+                    "Login",
                   ),
+                  loading: () => const Text("its loading"),
+                  authenticated: (_) {
+                    // Navigate to home route when authenticated
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      AutoRouter.of(context).replace(const HomeRoute());
+                    });
+                    return const SizedBox();
+                  },
+                  failure: (_) => const Text(
+                    "Login",
+                  ),
+                  success: () => const SizedBox(),
                 ),
               ),
               const SizedBox(
@@ -196,23 +190,9 @@ final LoginFormProvider = Provider((ref) => LoginFormState());
 
 class LoginFormState {
   bool _showPassword = false;
-
   bool get showPassword => _showPassword;
 
   void togglePasswordVisibility() {
     _showPassword = !_showPassword;
-  }
-}
-
-Future<void> _performLogin(WidgetRef ref) async {
-  try {
-    final email = _emailController.text;
-    final password = _passwordController.text;
-
-    final login = ref.read(userRepositoryProvider);
-
-    await login.loginUser(email: email, password: password);
-  } catch (e) {
-    print('Error during login performance: $e');
   }
 }

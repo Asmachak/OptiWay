@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:front/features/user/presentation/blocs/auth_providers.dart';
+import 'package:front/features/user/domain/providers/user_provider.dart';
 import 'package:front/features/user/presentation/pages/login_screen.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -236,7 +236,7 @@ class SignUpForm extends ConsumerWidget {
                   style: const TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
-                      text: 'Log in',
+                      text: 'Login',
                       style: const TextStyle(
                         color: Colors.indigo,
                         decoration: TextDecoration.underline,

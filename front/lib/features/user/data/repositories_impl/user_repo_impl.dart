@@ -5,7 +5,7 @@ import 'package:front/features/user/data/models/user_model.dart';
 import 'package:front/features/user/domain/repositories/user_repo.dart';
 
 class UserRepositoryImpl implements UserRepository {
-  final SignUpUserDataSource remoteDataSource;
+  final UserDataSource remoteDataSource;
  // final AuthLocalDataSource localDataSource;
 
   UserRepositoryImpl(this.remoteDataSource,/* this.localDataSource*/);

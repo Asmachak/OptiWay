@@ -12,22 +12,6 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(userRepositoryProvider);
-
-    ref.listen(
-      userRepositoryProvider.select((value) => value),
-      ((previous, next) {
-        print('i am listening from here');
-        //show Snackbar on failure
-        if (next is Failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("An Error is occured")));
-        } else if (next is Success) {
-          AutoRouter.of(context).replace(const HomeRoute());
-        }
-      }),
-    );
-
     TextStyle titleStyle = const TextStyle(
       fontStyle: FontStyle.italic,
       fontSize: 26,

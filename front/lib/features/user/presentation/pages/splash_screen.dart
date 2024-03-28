@@ -14,52 +14,45 @@ class SplashScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userLoginStatus = ref.watch(userLoginCheckProvider);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            FlutterLogo(size: 100),
-            const SizedBox(height: 20),
-            const Text(
-              'Welcome to MyApp',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
-            _buildLoginStatusWidget(userLoginStatus, context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLoginStatusWidget(
-      AsyncValue<bool> userLoginStatus, BuildContext context) {
-    return userLoginStatus.when(
+    userLoginStatus.when(
       data: (isLoggedIn) {
-        Future.delayed(const Duration(seconds: 2), () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           if (isLoggedIn) {
-            // Navigate to WelcomeScreen if logged in
-            context.router.replace(const HomeRoute());
-            print("User is logged in. Navigating to Home.");
+            AutoRouter.of(context).replace(const HomeRoute());
           } else {
-            // Navigate to WelcomeRoute if not logged in
-            context.router.replace(const WelcomeRoute());
-            print("User is not logged in. Navigating to WelcomeRoute.");
+            AutoRouter.of(context).replace(LoginRoute());
           }
         });
-        return const CircularProgressIndicator();
       },
-      loading: () => const CircularProgressIndicator(),
+      loading: () {
+        // Show loading indicator if needed
+        return Scaffold(
+          backgroundColor: Colors.amber,
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
       error: (error, stackTrace) {
-        // Handle error appropriately, e.g., show error message
-        return Text('Error: $error');
+        // Handle error if needed
+        return Scaffold(
+          backgroundColor: Colors.amber,
+          body: Center(
+            child: Text('Error: $error'),
+          ),
+        );
       },
+    );
+
+    return Scaffold(
+      backgroundColor: Colors.amber,
+      body: Center(
+        child: Image.asset(
+          'assets/images/splash.svg',
+          width: 200,
+          height: 43,
+        ),
+      ),
     );
   }
 }

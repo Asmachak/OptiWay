@@ -2,20 +2,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/user/data/models/user_model.dart';
 import 'package:front/features/user/domain/repositories/user_repo.dart';
+import 'package:front/features/user/domain/usescases/user/auth_use_cases.dart';
+import 'package:front/features/user/domain/usescases/user/login_use_cases.dart';
+import 'package:front/features/user/domain/usescases/user/register_use_cases.dart';
 import 'package:front/features/user/presentation/blocs/state/auth_state.dart';
-
+import 'package:get_it/get_it.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
-  final UserRepository userRepository;
-  final AuthLocalDataSource _hiveBox;
+  final AuthUseCases _authUseCases;
 
-  AuthNotifier(this.userRepository, this._hiveBox)
-      : super(const AuthState.initial());
+  AuthNotifier(
+    this._authUseCases,
+  ) : super(const AuthState.initial()) {}
 
   Future<void> login(String email, String password) async {
     state = const AuthState.loading();
-    final result =
-        await userRepository.loginUser(email: email, password: password);
+    final result = await _authUseCases.loginUseCases
+        .call(Params(email: email, password: password));
     result.fold(
       (failure) => state = AuthState.failure(failure),
       (user) {
@@ -26,17 +29,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> signup(Map<String, dynamic> body) async {
     state = const AuthState.loading();
-    final result = await userRepository.signUpUser(body: body);
+    final result =
+        await _authUseCases.registerUseCases.call(RegistreParams(body: body));
     result.fold(
       (failure) => state = AuthState.failure(failure),
       (user) {
+        // _hiveBox.put('currentUser', user.toJson());
         state = AuthState.authenticated(user: userModelToEntity(user));
       },
     );
   }
 
   void logout() {
-    _hiveBox.logout();
+    GetIt.instance.get<AuthLocalDataSource>().logout();
     state = const AuthState.initial();
   }
 }

@@ -4,25 +4,38 @@ import 'package:front/core/infrastructure/providers/network_service_provider.dar
 import 'package:front/features/user/data/data_sources/remote_data_source.dart';
 import 'package:front/features/user/data/repositories_impl/user_repo_impl.dart';
 import 'package:front/features/user/domain/repositories/user_repo.dart';
+import 'package:front/features/user/domain/usescases/user/login_use_cases.dart';
+import 'package:front/features/user/domain/usescases/user/register_use_cases.dart';
 import 'package:front/features/user/presentation/blocs/auth_providers.dart';
 
-// Define a provider family for creating instances of SignUpUserDataSource.
-final signUpDataSourceProvider =
-    Provider.family<SignUpUserDataSource, NetworkService>(
-  (_, networkService) => SignUpUserRemoteDataSource(networkService),
+final userdatasourceProvider =
+    Provider.family<UserRemoteDataSource, NetworkService>(
+  (_, networkService) => UserRemoteDataSource(networkService),
 );
 
-// Define a provider for creating instances of UserRepository using SignUpUserDataSource.
-final signUpRepositoryProvider = Provider<UserRepository>(
-  (ref) {
-    // Retrieve the NetworkService dependency from the provider.
-    final NetworkService networkService = ref.watch(networkServiceProvider);
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  final networkService = ref.watch(networkServiceProvider);
+  final datasource = ref.watch(userdatasourceProvider(networkService));
+  // final localDataSource = ref.watch(authLocalDataSourceProvider);
+  final repository = UserRepositoryImpl(
+    datasource, /*localDataSource:localDataSource*/
+  );
 
-    // Retrieve the SignUpUserDataSource dependency using the signUpDataSourceProvider.
-    final SignUpUserDataSource dataSource =
-        ref.watch(signUpDataSourceProvider(networkService));
-    final localDataSource = ref.watch(authLocalDataSourceProvider);
-    // Create an instance of UserRepositoryImpl using SignUpUserDataSource.
-    return UserRepositoryImpl(dataSource /*,localDataSource*/);
-  },
-);
+  return repository;
+});
+
+final loginUseCaseProvider = Provider<LoginUseCases>((ref) {
+  return LoginUseCases(ref.read(userRepositoryProvider));
+});
+
+final registerUseCaseProvider = Provider<RegistreUsecase>((ref) {
+  return RegistreUsecase(ref.read(userRepositoryProvider));
+});
+
+// final editProfileUseCaseProvider = Provider<EditProfileUsecases>((ref) {
+//   return EditProfileUsecases(ref.read(userRepositoryProvider));
+// });
+
+// final updatePasswordUseCaseProvider = Provider<UpdatePasswordUsecases>((ref) {
+//   return UpdatePasswordUsecases(ref.read(userRepositoryProvider));
+// });

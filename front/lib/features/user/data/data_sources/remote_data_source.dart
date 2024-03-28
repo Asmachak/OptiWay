@@ -5,17 +5,17 @@ import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/user/data/models/user_model.dart';
 import 'package:get_it/get_it.dart';
 
-abstract class SignUpUserDataSource {
+abstract class UserDataSource {
   Future<Either<AppException, UserModel>> signUpUser(
       {required Map<String, dynamic> body});
   Future<Either<AppException, UserModel>> loginUser(
       {required String email, required String password});
 }
 
-class SignUpUserRemoteDataSource implements SignUpUserDataSource {
+class UserRemoteDataSource implements UserDataSource {
   final NetworkService networkService;
 
-  SignUpUserRemoteDataSource(this.networkService);
+  UserRemoteDataSource(this.networkService);
 
   @override
   Future<Either<AppException, UserModel>> signUpUser(
@@ -70,7 +70,7 @@ class SignUpUserRemoteDataSource implements SignUpUserDataSource {
           if (response.statusCode == 200) {
             await GetIt.instance
                 .get<AuthLocalDataSource>()
-                .setToken(user.token);
+                .setToken(user.token!);
 
             await GetIt.instance
                 .get<AuthLocalDataSource>()

@@ -1,22 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
+import 'package:front/features/user/presentation/blocs/auth_providers.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 
 @RoutePage()
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final AuthLocalDataSource _hiveBox = AuthLocalDataSource();
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authNotifierProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
@@ -37,15 +33,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 // Call logout asynchronously
-                await GetIt.instance.get<AuthLocalDataSource>().logout();
-                // Navigate to welcomeScreen after logout
-                AutoRouter.of(context).navigate(const WelcomeRoute());
+                ref.read(authNotifierProvider.notifier).logout();
+                // Navigate to WelcomeRoute after logout
+                AutoRouter.of(context).replace(const WelcomeRoute());
               },
-              child: Text('Logout'),
+              child: const Text('Logout'),
             ),
           ],
         ),
@@ -54,14 +50,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<String> test() async {
-    // Changed return type to Future<String>
     try {
-      String tet = GetIt.instance.get<AuthLocalDataSource>().currentUser!.name;
+      String tet = GetIt.instance.get<AuthLocalDataSource>().currentUser!.name!;
+      print("tet");
+      print(tet);
       if (tet != null) {
         print('tet is here');
-        print(_hiveBox.currentUser);
+        return tet;
       }
       print('tet is not here');
+      tet = "hi ! ";
       return tet; // Return the result as a String
     } catch (e) {
       print('Error during login performance: $e');

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:front/features/user/presentation/pages/login_screen.dart';
-import 'package:front/features/user/presentation/pages/signup.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
@@ -17,16 +15,8 @@ class WelcomeButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () {
           if (buttonText.toLowerCase() == "login") {
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const LoginScreen()),
-            // );
             AutoRouter.of(context).navigate(const LoginRoute());
           } else if (buttonText.toLowerCase() == "signup") {
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const SignupScreen()),
-            // );
             AutoRouter.of(context).navigate(const SignupRoute());
           }
         },

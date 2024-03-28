@@ -53,6 +53,7 @@ dependencies:
   auto_route: ^7.8.5
   auto_route_generator: ^7.3.2
   rive: ^0.13.1
+  
 
 
 dev_dependencies:
