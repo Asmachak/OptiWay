@@ -107,11 +107,11 @@ class LoginForm extends ConsumerWidget {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignupScreen()),
-                        );
+                        // Navigator.push(
+                        //   context
+                        //    MaterialPageRoute(
+                        //       builder: (context) => const SignupScreen()),
+                        // );
                       },
                   ),
                 ),
@@ -129,9 +129,9 @@ class LoginForm extends ConsumerWidget {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: const Color.fromARGB(255, 67, 70, 225),
                   side: const BorderSide(
-                    color: Colors.blue,
+                    color: Color.fromARGB(255, 67, 70, 225),
                     width: 1,
                   ),
                   shape: RoundedRectangleBorder(
@@ -141,6 +141,7 @@ class LoginForm extends ConsumerWidget {
                 child: authState.when(
                   initial: () => const Text(
                     "Login",
+                    style: TextStyle(color: Colors.white),
                   ),
                   loading: () => const Text("its loading"),
                   authenticated: (_) {
@@ -159,23 +160,29 @@ class LoginForm extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              RichText(
-                text: TextSpan(
-                  text: "You don't have an account? ",
-                  style: const TextStyle(color: Colors.black),
-                  children: [
-                    TextSpan(
-                      text: 'Sign Up',
-                      style: const TextStyle(
-                        color: Colors.indigo,
-                        decoration: TextDecoration.underline,
+              Builder(
+                builder: (context) => RichText(
+                  text: TextSpan(
+                    text: "You don't have an account? ",
+                    style: const TextStyle(color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: 'Sign Up',
+                        style: const TextStyle(
+                          color: Colors.indigo,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignupScreen()),
+                            );
+                          },
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          AutoRouter.of(context).replace(const SignupRoute());
-                        },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],

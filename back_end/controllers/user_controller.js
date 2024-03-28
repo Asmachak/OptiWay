@@ -43,11 +43,7 @@ async function handleAddUser (req,res)
       });
 
       const myToken = generateToken(user.toJSON());
-      res.json({token:myToken,user:user.toJSON()});
-
-      console.log("user created")
-
-
+      return res.status(200).json({ token: myToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address});
       
     } catch (error) {
       console.error("Error:", error);
