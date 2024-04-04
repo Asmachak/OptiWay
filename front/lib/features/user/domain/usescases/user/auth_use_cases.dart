@@ -1,19 +1,20 @@
-
-import 'package:front/features/user/domain/usescases/user/edit_profile_use_cases.dart';
+import 'package:front/features/user/domain/usescases/user/login_otp_use_case.dart';
 import 'package:front/features/user/domain/usescases/user/login_use_cases.dart';
 import 'package:front/features/user/domain/usescases/user/register_use_cases.dart';
-import 'package:front/features/user/domain/usescases/user/update_password_use_cases.dart';
+import 'package:front/features/user/domain/usescases/user/verify_otp_use_case.dart';
 
 class AuthUseCases {
   final LoginUseCases loginUseCases;
   final RegistreUsecase registerUseCases;
+
   //final EditProfileUsecases editProfileUseCases;
   //final UpdatePasswordUsecases updatePasswordUseCases;
 
   AuthUseCases({
     required this.loginUseCases,
     required this.registerUseCases,
-  // required this.editProfileUseCases,
-  // required this.updatePasswordUseCases,
+
+    // required this.editProfileUseCases,
+    // required this.updatePasswordUseCases,
   });
 }

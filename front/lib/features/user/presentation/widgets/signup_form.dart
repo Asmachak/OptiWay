@@ -264,10 +264,10 @@ class _SignupFormState extends ConsumerState<SignupForm>
                   final authState = ref.watch(authNotifierProvider);
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator(); // Display a loading indicator while waiting for the registration process
-                  } else if (authState is Authenticated) {
+                  } else if (authState is Success) {
                     Future.delayed(Duration.zero, () {
-                      AutoRouter.of(context).replace(
-                          const LoginRoute()); // Schedule the call to show the verification modal after the build process is completed
+                      AutoRouter.of(context).navigate(
+                          const EmailOTPscreen()); // Schedule the call to show the verification modal after the build process is completed
                     });
                     return const SizedBox(); // Return an empty widget since we're showing the modal separately
                   } else {

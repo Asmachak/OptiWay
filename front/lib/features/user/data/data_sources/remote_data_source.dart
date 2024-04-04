@@ -2,6 +2,7 @@ import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/core/infrastructure/network_service.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
+import 'package:front/features/user/data/models/login_response_model.dart';
 import 'package:front/features/user/data/models/user_model.dart';
 import 'package:get_it/get_it.dart';
 
@@ -10,6 +11,10 @@ abstract class UserDataSource {
       {required Map<String, dynamic> body});
   Future<Either<AppException, UserModel>> loginUser(
       {required String email, required String password});
+  Future<Either<AppException, LoginResponseModel>> otpLogin(
+      {required String email});
+  Future<Either<AppException, LoginResponseModel>> verifyOTP(
+      {required String email, required String otp});
 }
 
 class UserRemoteDataSource implements UserDataSource {
@@ -87,6 +92,68 @@ class UserRemoteDataSource implements UserDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nLoginUserRemoteDataSource.loginUser',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, LoginResponseModel>> otpLogin(
+      {required String email}) async {
+    try {
+      final body = {
+        'email': email,
+      };
+      final eitherType = await networkService.post(
+        '/otp-login',
+        data: body,
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          final login = LoginResponseModel.fromJson(response.data);
+          return Right(login);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nLoginOTPUserRemoteDataSource.loginOTP',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, LoginResponseModel>> verifyOTP(
+      {required String email, required String otp}) async {
+    try {
+      final body = {'email': email, 'otp': otp};
+      final eitherType = await networkService.post(
+        '/otp-verify',
+        data: body,
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          final verify = LoginResponseModel.fromJson(response.data);
+          return Right(verify);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nLoginOTPUserRemoteDataSource.loginOTP',
         ),
       );
     }

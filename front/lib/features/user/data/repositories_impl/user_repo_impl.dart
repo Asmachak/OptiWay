@@ -1,14 +1,18 @@
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/features/user/data/data_sources/remote_data_source.dart';
+import 'package:front/features/user/data/models/login_response_model.dart';
 import 'package:front/features/user/data/models/user_model.dart';
 import 'package:front/features/user/domain/repositories/user_repo.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserDataSource remoteDataSource;
- // final AuthLocalDataSource localDataSource;
+  // final AuthLocalDataSource localDataSource;
 
-  UserRepositoryImpl(this.remoteDataSource,/* this.localDataSource*/);
+  UserRepositoryImpl(
+    this.remoteDataSource,
+    /* this.localDataSource*/
+  );
 
   @override
   Future<Either<AppException, UserModel>> signUpUser(
@@ -20,5 +24,20 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<AppException, UserModel>> loginUser(
       {required String email, required String password}) async {
     return remoteDataSource.loginUser(email: email, password: password);
+  }
+
+  @override
+  Future<Either<AppException, LoginResponseModel>> otpLogin(
+      {required String email}) async {
+    return remoteDataSource.otpLogin(email: email);
+  }
+
+  @override
+  Future<Either<AppException, LoginResponseModel>> verifyOTP(
+      {required String email,
+      required String otp,
+      }) async {
+    return remoteDataSource.verifyOTP(
+        email: email, otp: otp);
   }
 }

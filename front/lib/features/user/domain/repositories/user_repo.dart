@@ -1,5 +1,6 @@
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
+import 'package:front/features/user/data/models/login_response_model.dart';
 import 'package:front/features/user/data/models/user_model.dart';
 
 abstract class UserRepository {
@@ -7,4 +8,10 @@ abstract class UserRepository {
       {required Map<String, dynamic> body});
   Future<Either<AppException, UserModel>> loginUser(
       {required String email, required String password});
+  Future<Either<AppException, LoginResponseModel>> otpLogin(
+      {required String email});
+  Future<Either<AppException, LoginResponseModel>> verifyOTP(
+      {required String email,
+      required String otp,
+     });
 }

@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/user/data/models/user_model.dart';
-import 'package:front/features/user/domain/repositories/user_repo.dart';
 import 'package:front/features/user/domain/usescases/user/auth_use_cases.dart';
 import 'package:front/features/user/domain/usescases/user/login_use_cases.dart';
 import 'package:front/features/user/domain/usescases/user/register_use_cases.dart';
@@ -34,11 +33,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
     result.fold(
       (failure) => state = AuthState.failure(failure),
       (user) {
-        // _hiveBox.put('currentUser', user.toJson());
-        state = AuthState.authenticated(user: userModelToEntity(user));
+        state = AuthState.success();
       },
     );
   }
+
 
   void logout() {
     GetIt.instance.get<AuthLocalDataSource>().logout();
