@@ -1,10 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front/features/user/presentation/blocs/auth_providers.dart';
-import 'package:front/features/user/presentation/blocs/state/auth_state.dart';
 import 'package:front/features/user/presentation/widgets/login_form.dart';
-import 'package:front/routes/app_routes.gr.dart';
 
 @RoutePage()
 class LoginScreen extends ConsumerWidget {

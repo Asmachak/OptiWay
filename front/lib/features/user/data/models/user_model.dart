@@ -87,14 +87,14 @@ UserEntity userModelToEntity(UserModel userModel) {
 
 UserModel userEntityToModel(UserEntity userEntity) {
   return UserModel(
-    id: userEntity.id!,
-    name: userEntity.name!,
-    email: userEntity.email!,
-    token: userEntity.token!,
-    password: userEntity.password!,
-    phone: userEntity.phone!,
-    photo: userEntity.photo!,
-    lastName: userEntity.lastName!,
-    address: userEntity.address!,
+    id: userEntity.id,
+    name: userEntity.name,
+    email: userEntity.email,
+    token: userEntity.token,
+    password: userEntity.password,
+    phone: userEntity.phone,
+    photo: userEntity.photo,
+    lastName: userEntity.lastName,
+    address: userEntity.address,
   );
 }

@@ -2,7 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/features/user/presentation/blocs/auth_providers.dart';
 import 'package:front/features/user/presentation/blocs/otp_providers.dart';
+import 'package:front/features/user/presentation/blocs/state/auth_state.dart'
+    as auth_state;
+import 'package:front/features/user/presentation/blocs/state/auth_state.dart';
 import 'package:front/features/user/presentation/blocs/state/otp_state.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
@@ -11,8 +15,10 @@ final verificationCodeProvider = StateProvider<String>((ref) => '');
 
 @RoutePage()
 class VerifyOtpScreen extends ConsumerWidget {
-  const VerifyOtpScreen({Key? key, required this.email}) : super(key: key);
+  const VerifyOtpScreen({Key? key, required this.email, required this.json})
+      : super(key: key);
   final String email;
+  final json;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,6 +26,8 @@ class VerifyOtpScreen extends ConsumerWidget {
         ModalRoute.of(context)?.settings.arguments as VerifyOtpRouteArgs;
     final otpState = ref.watch(otpNotifierProvider);
     final verificationCode = ref.watch(verificationCodeProvider);
+    final authNotifier = ref.watch(authNotifierProvider.notifier);
+    final authState = ref.watch(authNotifierProvider);
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 229, 237, 243),
@@ -85,6 +93,37 @@ class VerifyOtpScreen extends ConsumerWidget {
                   success: () => const SizedBox(),
                 ),
               ),
+              if (otpState is Verified) ...[
+                FutureBuilder<AuthState>(
+                  future:
+                      null, // No need to provide a future, we will use the current state from the provider
+                  builder: (context, snapshot) {
+                    final authState = ref.watch(authNotifierProvider);
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator(); // Display a loading indicator while waiting for the registration process
+                    } else if (authState is auth_state.Success) {
+                      Future.delayed(Duration.zero, () {
+                        AutoRouter.of(context).navigate(
+                            const LoginRoute() // Schedule the call to show the verification modal after the build process is completed
+                            );
+                      });
+                      return const SizedBox(); // Return an empty widget since we're showing the modal separately
+                    } else {
+                      return const SizedBox(); // Return an empty widget if the registration process is not completed or failed
+                    }
+                  },
+                ),
+                if (authState is auth_state.Failure) ...[
+                  const SizedBox(height: 10),
+                  const Text(
+                    'An Error is occured while signing up !!',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontFamily: 'SFUIText',
+                        fontSize: 14),
+                  ),
+                ],
+              ],
               const SizedBox(
                 height: 30,
               ),
@@ -97,6 +136,7 @@ class VerifyOtpScreen extends ConsumerWidget {
                   ref
                       .read(verificationCodeProvider.notifier)
                       .update((state) => value);
+                  authNotifier.signup(args.json);
                 },
                 onEditing: (value) {},
               ),

@@ -24,7 +24,7 @@ class SplashScreen extends ConsumerWidget {
       },
       loading: () {
         // Show loading indicator if needed
-        return Scaffold(
+        return const Scaffold(
           backgroundColor: Colors.amber,
           body: Center(
             child: CircularProgressIndicator(),

@@ -12,7 +12,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   AuthNotifier(
     this._authUseCases,
-  ) : super(const AuthState.initial()) {}
+  ) : super(const AuthState.initial());
 
   Future<void> login(String email, String password) async {
     state = const AuthState.loading();
@@ -37,7 +37,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
       },
     );
   }
-
 
   void logout() {
     GetIt.instance.get<AuthLocalDataSource>().logout();

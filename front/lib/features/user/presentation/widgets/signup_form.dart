@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:front/features/user/presentation/blocs/auth_providers.dart';
+import 'package:front/features/user/presentation/blocs/otp_providers.dart';
 import 'package:front/features/user/presentation/blocs/state/auth_state.dart';
 import 'package:front/features/user/presentation/pages/login_screen.dart';
 import 'package:front/routes/app_routes.gr.dart';
@@ -66,11 +67,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
   }
 
   @override
-  void initState() {}
-
   Widget build(BuildContext context) {
-    final authState = ref.watch(authNotifierProvider);
-
     return SingleChildScrollView(
       child: Form(
         key: _formKey,
@@ -209,7 +206,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                     borderRadius: BorderRadius.circular(10),
                   ),
                   suffixIcon: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       _showPassword ? Icons.visibility : Icons.visibility_off,
                     ),
                     onPressed: () {
@@ -223,7 +220,6 @@ class _SignupFormState extends ConsumerState<SignupForm>
               ),
               Consumer(
                 builder: (context, watch, child) {
-                  final authNotifier = ref.watch(authNotifierProvider.notifier);
                   return ConstrainedBox(
                     constraints: const BoxConstraints.tightFor(
                       height: 40,
@@ -240,7 +236,13 @@ class _SignupFormState extends ConsumerState<SignupForm>
                             "phone": _phoneController.text,
                             "address": _addressController.text,
                           };
-                          authNotifier.signup(json);
+                          ref
+                              .read(otpNotifierProvider.notifier)
+                              .loginOtp(_emailController.text);
+                          AutoRouter.of(context).push(
+                            VerifyOtpRoute(
+                                email: _emailController.text, json: json),
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -257,32 +259,6 @@ class _SignupFormState extends ConsumerState<SignupForm>
                   );
                 },
               ),
-              FutureBuilder<AuthState>(
-                future:
-                    null, // No need to provide a future, we will use the current state from the provider
-                builder: (context, snapshot) {
-                  final authState = ref.watch(authNotifierProvider);
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator(); // Display a loading indicator while waiting for the registration process
-                  } else if (authState is Success) {
-                    Future.delayed(Duration.zero, () {
-                      AutoRouter.of(context).navigate(
-                          const EmailOTPscreen()); // Schedule the call to show the verification modal after the build process is completed
-                    });
-                    return const SizedBox(); // Return an empty widget since we're showing the modal separately
-                  } else {
-                    return const SizedBox(); // Return an empty widget if the registration process is not completed or failed
-                  }
-                },
-              ),
-              if (authState is Failure) ...[
-                const SizedBox(height: 10),
-                Text(
-                  authState.exception.message,
-                  style: const TextStyle(
-                      color: Colors.red, fontFamily: 'SFUIText', fontSize: 14),
-                ),
-              ],
               const SizedBox(
                 height: 10,
               ),

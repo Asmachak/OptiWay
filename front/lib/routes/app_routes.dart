@@ -11,7 +11,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: LoginRoute.page),
         AutoRoute(page: SignupRoute.page),
         AutoRoute(page: HomeRoute.page),
-        AutoRoute(page: EmailOTPscreen.page),
+        //AutoRoute(page: EmailOTPscreen.page),
         AutoRoute(page: VerifyOtpRoute.page)
       ];
 }

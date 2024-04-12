@@ -32,13 +32,13 @@ class LoginResponseModel extends HiveObject {
   LoginResponseEntity LoginResponseModelToEntity(
       LoginResponseModel LoginResponseModel) {
     return LoginResponseEntity(
-        message: LoginResponseModel.message!, data: LoginResponseModel.data!);
+        message: LoginResponseModel.message, data: LoginResponseModel.data!);
   }
 
   LoginResponseModel LoginResponseEntityToModel(
       LoginResponseEntity LoginResponseEntity) {
     return LoginResponseModel(
-      message: LoginResponseEntity.message!,
+      message: LoginResponseEntity.message,
       data: LoginResponseEntity.data!,
     );
   }

@@ -1,10 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/domain/providers/user_provider.dart';
-import 'package:front/features/user/domain/usescases/user/auth_use_cases.dart';
-import 'package:front/features/user/domain/usescases/user/login_otp_use_case.dart';
 import 'package:front/features/user/domain/usescases/user/otp_use_cases.dart';
-import 'package:front/features/user/presentation/blocs/state/auth_notifier.dart';
-import 'package:front/features/user/presentation/blocs/state/auth_state.dart';
 import 'package:front/features/user/presentation/blocs/state/otp_notifier.dart';
 import 'package:front/features/user/presentation/blocs/state/otp_state.dart';
 

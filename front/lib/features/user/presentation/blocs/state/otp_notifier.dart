@@ -9,7 +9,7 @@ class OtpNotifier extends StateNotifier<OtpState> {
 
   OtpNotifier(
     this._otpUseCases,
-  ) : super(const OtpState.initial()) {}
+  ) : super(const OtpState.initial());
 
   Future<void> loginOtp(String email) async {
     state = const OtpState.loading();
@@ -25,8 +25,8 @@ class OtpNotifier extends StateNotifier<OtpState> {
 
   Future<void> verifyOtp(String email, String otp) async {
     state = const OtpState.loading();
-    final result = await _otpUseCases.verifyOtpUseCase.call(
-        VerifyOtpParams(email: email, otp: otp));
+    final result = await _otpUseCases.verifyOtpUseCase
+        .call(VerifyOtpParams(email: email, otp: otp));
     result.fold(
       (failure) => state = OtpState.failure(failure),
       (verify) {
