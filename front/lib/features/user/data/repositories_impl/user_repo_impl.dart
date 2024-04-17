@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/features/user/data/data_sources/remote_data_source.dart';
@@ -33,11 +35,22 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<AppException, LoginResponseModel>> verifyOTP(
-      {required String email,
-      required String otp,
-      }) async {
-    return remoteDataSource.verifyOTP(
-        email: email, otp: otp);
+  Future<Either<AppException, LoginResponseModel>> verifyOTP({
+    required String email,
+    required String otp,
+  }) async {
+    return remoteDataSource.verifyOTP(email: email, otp: otp);
+  }
+
+  @override
+  Future<Either<AppException, UserModel>> editProfile(
+      {required Map<String, dynamic> body, required String id}) async {
+    return remoteDataSource.editProfile(body: body, id: id);
+  }
+
+  @override
+  Future<Either<AppException, UserModel>> uploadImage(
+      {required File imageFile, required String id}) async {
+    return remoteDataSource.uploadImage(imageFile: imageFile, id: id);
   }
 }

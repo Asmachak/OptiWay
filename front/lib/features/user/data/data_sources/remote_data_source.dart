@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/core/infrastructure/network_service.dart';
@@ -15,6 +18,10 @@ abstract class UserDataSource {
       {required String email});
   Future<Either<AppException, LoginResponseModel>> verifyOTP(
       {required String email, required String otp});
+  Future<Either<AppException, UserModel>> editProfile(
+      {required Map<String, dynamic> body, required String id});
+  Future<Either<AppException, UserModel>> uploadImage(
+      {required File imageFile, required String id});
 }
 
 class UserRemoteDataSource implements UserDataSource {
@@ -154,6 +161,92 @@ class UserRemoteDataSource implements UserDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nLoginOTPUserRemoteDataSource.loginOTP',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, UserModel>> editProfile(
+      {required Map<String, dynamic> body, required String id}) async {
+    try {
+      final eitherType = await networkService.put(
+        '/user/update/$id',
+        body: body,
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) async {
+          final user = UserModel.fromJson(response.data);
+          if (response.statusCode == 200) {
+            await GetIt.instance
+                .get<AuthLocalDataSource>()
+                .setToken(user.token!);
+
+            await GetIt.instance
+                .get<AuthLocalDataSource>()
+                .setCurrentUser(user);
+
+            await GetIt.instance.get<AuthLocalDataSource>().refreshUserData();
+          }
+          return Right(user);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nUpdateUserRemoteDataSource.UpdateUser',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, UserModel>> uploadImage(
+      {required File imageFile, required String id}) async {
+    try {
+      FormData formData = FormData.fromMap({
+        'image': await MultipartFile.fromFile(
+          imageFile.path,
+          filename: 'image.jpg', // Provide a filename for the uploaded file
+        ),
+      });
+      final eitherType = await networkService.put(
+        '/user/uploadImage/$id',
+        formData: formData,
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) async {
+          final user = UserModel.fromJson(response.data);
+          if (response.statusCode == 200) {
+            await GetIt.instance
+                .get<AuthLocalDataSource>()
+                .setToken(user.token!);
+
+            await GetIt.instance
+                .get<AuthLocalDataSource>()
+                .setCurrentUser(user);
+
+            await GetIt.instance.get<AuthLocalDataSource>().refreshUserData();
+          }
+          return Right(user);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nUpdateUserRemoteDataSource.UploadImage',
         ),
       );
     }

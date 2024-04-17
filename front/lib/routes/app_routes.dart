@@ -10,8 +10,14 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: WelcomeRoute.page),
         AutoRoute(page: LoginRoute.page),
         AutoRoute(page: SignupRoute.page),
-        AutoRoute(page: HomeRoute.page),
+        AutoRoute(page: MainRoute.page, children: [
+          AutoRoute(page: HomeRoute.page, maintainState: true),
+          AutoRoute(page: ParkingsRoute.page, maintainState: true),
+          AutoRoute(page: EventRoute.page, maintainState: true),
+          AutoRoute(page: AccountRoute.page, maintainState: true),
+        ]),
         //AutoRoute(page: EmailOTPscreen.page),
-        AutoRoute(page: VerifyOtpRoute.page)
+        AutoRoute(page: VerifyOtpRoute.page),
+        AutoRoute(page: UpdateProfileRoute.page),
       ];
 }

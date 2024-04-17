@@ -1,10 +1,9 @@
 
 const {generateToken} = require('../middleware/jwt')
 const bcrypt = require('bcrypt');
-const defaultImageBuffer = 'https://console.cloudinary.com/pm/c-13fd3ce62c7fc6945052e7e86cff2d/media-explorer?assetId=7f4095df668bbbdacd1763b0cae13dee';
+const defaultImageBuffer = 'https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg';
 const {handleImageUploadAsync} = require('../middleware/cloudinary')
 const multer = require('multer');
-const upload = multer();
 const {generateID} = require("../middleware/generateID");
 const User = require('../models/user');
 
@@ -53,6 +52,42 @@ async function handleAddUser (req,res)
 
 async function updateUser (req, res) {
   try {
+    const userId = req.params.userId;
+
+    const existingUser = await User.findByPk(userId);
+
+    if (!existingUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const updatedUserData = req.body;
+
+    console.log(updatedUserData);
+
+    console.log("exist ",existingUser);
+
+   await existingUser.update({
+      last_name: updatedUserData.last_name || existingUser.last_name,
+      name: updatedUserData.name || existingUser.name,
+      phone: updatedUserData.phone || existingUser.phone,
+      address: updatedUserData.address || existingUser.address,
+      email: updatedUserData.email || existingUser.email,
+    });
+
+    const user = await User.findByPk(userId);
+    const myNewToken=generateToken(user.toJSON());
+    console.log(myNewToken)
+    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address});
+
+  } catch (error) {
+    // Handle errors
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Something went wrong in updateUser' });
+  }
+};
+
+async function uploadImage(req,res){
+  try {
     // Wait for the uploadPromise to resolve or reject
     const imageUrl = await handleImageUploadAsync(req, res);
 
@@ -72,31 +107,20 @@ async function updateUser (req, res) {
     if (!existingUser) {
       return res.status(404).json({ error: 'User not found' });
     }
-
-    const updatedUserData = req.body;
-
-
-   await existingUser.update({
-      last_name: updatedUserData.last_name || existingUser.last_name,
-      name: updatedUserData.name || existingUser.name,
-      phone: updatedUserData.phone || existingUser.phone,
-      address: updatedUserData.address || existingUser.address,
-      photo : myImage,
-      email: updatedUserData.email || existingUser.email,
+    await existingUser.update({
+     photo : myImage,
     });
-
-    const updatedUser = await User.findByPk(userId);
-    const myNewToken=generateToken(updatedUser.toJSON());
-   console.log(myNewToken)
-    return res.json({ msg:myNewToken });
+    const user = await User.findByPk(userId);
+    const myNewToken=generateToken(user.toJSON());
+    console.log(myNewToken)
+    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address});
 
   } catch (error) {
-    // Handle errors
-    console.error(error);
-    res.status(500).json({ success: false, error: 'Something went wrong in updateUser' });
+        // Handle errors
+        console.error(error);
+        res.status(500).json({ success: false, error: 'Something went wrong in upload image' });
   }
-};
-
+}
 async function deleteUser(req,res){
 try {
   const userId = req.params.userId;
@@ -124,4 +148,4 @@ try {
 }
 
 
-module.exports={handleAddUser,updateUser,deleteUser}
+module.exports={handleAddUser,updateUser,deleteUser,uploadImage}

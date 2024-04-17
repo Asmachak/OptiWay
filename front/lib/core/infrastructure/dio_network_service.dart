@@ -57,11 +57,45 @@ class DioNetworkService extends NetworkService with ExceptionHandlerMixin {
   }
 
   @override
+  Future<Either<AppException, response.Response>> put(String endpoint,
+      {FormData? formData, Map<String, dynamic>? body}) async {
+    String finalEndpoint = '$baseUrl$endpoint';
+    final res = await handleException(() async {
+      if (formData != null) {
+        return await dio.put(
+          finalEndpoint,
+          data: formData,
+          options: Options(
+            headers: {
+              'Authorization':
+                  'Bearer ${GetIt.instance.get<AuthLocalDataSource>().token}',
+            },
+          ),
+        );
+      } else {
+        return await dio.put(
+          finalEndpoint,
+          data: body,
+          options: Options(
+            headers: {
+              'Authorization':
+                  'Bearer ${GetIt.instance.get<AuthLocalDataSource>().token}',
+            },
+          ),
+        );
+      }
+    }, endpoint: endpoint);
+    return res;
+  }
+
+  @override
   Future<Either<AppException, response.Response>> get(String endpoint,
       {Map<String, dynamic>? queryParameters}) {
+    String finalEndpoint = '$baseUrl$endpoint';
+
     final res = handleException(
       () => dio.get(
-        endpoint,
+        finalEndpoint,
         queryParameters: queryParameters,
         options: Options(
           headers: {
@@ -78,9 +112,11 @@ class DioNetworkService extends NetworkService with ExceptionHandlerMixin {
   @override
   Future<Either<AppException, response.Response>> patch(String endpoint,
       {Map<String, dynamic>? queryParameters}) {
+    String finalEndpoint = '$baseUrl$endpoint';
+
     final res = handleException(
       () => dio.patch(
-        endpoint,
+        finalEndpoint,
         queryParameters: queryParameters,
         options: Options(
           headers: {
@@ -97,28 +133,11 @@ class DioNetworkService extends NetworkService with ExceptionHandlerMixin {
   @override
   Future<Either<AppException, response.Response>> delete(String endpoint,
       {Map<String, dynamic>? queryParameters}) {
+    String finalEndpoint = '$baseUrl$endpoint';
+
     final res = handleException(
       () => dio.delete(
-        endpoint,
-        queryParameters: queryParameters,
-        options: Options(
-          headers: {
-            'Authorisation':
-                "Bearer ${GetIt.instance.get<AuthLocalDataSource>().token}"
-          },
-        ),
-      ),
-      endpoint: endpoint,
-    );
-    return res;
-  }
-
-  @override
-  Future<Either<AppException, response.Response>> put(String endpoint,
-      {Map<String, dynamic>? queryParameters}) {
-    final res = handleException(
-      () => dio.put(
-        endpoint,
+        finalEndpoint,
         queryParameters: queryParameters,
         options: Options(
           headers: {

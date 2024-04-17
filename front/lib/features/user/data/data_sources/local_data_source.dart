@@ -40,6 +40,8 @@ class AuthLocalDataSource {
     _token = box.get('token', defaultValue: null);
     return currentUser != null && _token != null;
   }
-
+ Future<void> refreshUserData() async {
+    await getCurrentUser();
+  }
   String? get token => _token;
 }

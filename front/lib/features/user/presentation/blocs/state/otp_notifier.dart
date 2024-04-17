@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/domain/usescases/user/login_otp_use_case.dart';
 import 'package:front/features/user/domain/usescases/user/otp_use_cases.dart';
 import 'package:front/features/user/domain/usescases/user/verify_otp_use_case.dart';
-import 'package:front/features/user/presentation/blocs/state/otp_state.dart';
+import 'package:front/features/user/presentation/blocs/state/otp/otp_state.dart';
 
 class OtpNotifier extends StateNotifier<OtpState> {
   final OtpUseCases _otpUseCases;

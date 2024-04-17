@@ -4,10 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/presentation/blocs/auth_providers.dart';
 import 'package:front/features/user/presentation/blocs/otp_providers.dart';
-import 'package:front/features/user/presentation/blocs/state/auth_state.dart'
+import 'package:front/features/user/presentation/blocs/state/auth/auth_state.dart'
     as auth_state;
-import 'package:front/features/user/presentation/blocs/state/auth_state.dart';
-import 'package:front/features/user/presentation/blocs/state/otp_state.dart';
+import 'package:front/features/user/presentation/blocs/state/auth/auth_state.dart';
+import 'package:front/features/user/presentation/blocs/state/otp/otp_state.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 

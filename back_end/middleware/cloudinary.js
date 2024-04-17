@@ -1,6 +1,5 @@
 const cloudinary = require('cloudinary').v2;
 const dotenv=require('dotenv');
-const defaultImageBuffer = 'https://console.cloudinary.com/pm/c-13fd3ce62c7fc6945052e7e86cff2d/media-explorer?assetId=138f2e7c890feea57d4e610cdc55f917';
 const multer = require('multer');
 const upload = multer();
 
@@ -20,6 +19,7 @@ const handleImageUpload = async (req) => {
       // Resolve with an empty object
       resolve({});
     } else {
+      console.log("file",req.file);
       // Upload image buffer to Cloudinary with resizing transformation
       cloudinary.uploader.upload_stream(
         { 

@@ -16,7 +16,7 @@ class SplashScreen extends ConsumerWidget {
       data: (isLoggedIn) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (isLoggedIn) {
-            AutoRouter.of(context).replace(const HomeRoute());
+            AutoRouter.of(context).replace(const MainRoute());
           } else {
             AutoRouter.of(context).replace(const WelcomeRoute());
           }

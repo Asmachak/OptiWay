@@ -145,7 +145,7 @@ class LoginForm extends ConsumerWidget {
                   authenticated: (_) {
                     // Navigate to home route when authenticated
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      AutoRouter.of(context).replace(const HomeRoute());
+                      AutoRouter.of(context).replace(const MainRoute());
                     });
                     return const SizedBox();
                   },

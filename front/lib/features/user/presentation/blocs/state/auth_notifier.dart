@@ -4,7 +4,7 @@ import 'package:front/features/user/data/models/user_model.dart';
 import 'package:front/features/user/domain/usescases/user/auth_use_cases.dart';
 import 'package:front/features/user/domain/usescases/user/login_use_cases.dart';
 import 'package:front/features/user/domain/usescases/user/register_use_cases.dart';
-import 'package:front/features/user/presentation/blocs/state/auth_state.dart';
+import 'package:front/features/user/presentation/blocs/state/auth/auth_state.dart';
 import 'package:get_it/get_it.dart';
 
 class AuthNotifier extends StateNotifier<AuthState> {
@@ -33,7 +33,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     result.fold(
       (failure) => state = AuthState.failure(failure),
       (user) {
-        state = AuthState.success();
+        state = const AuthState.success();
       },
     );
   }
