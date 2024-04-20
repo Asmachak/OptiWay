@@ -74,7 +74,7 @@ class _ProfilTopWidgetState extends ConsumerState<ProfilTopWidget> {
             onTap: () async {
               await pickImage(ImageSource.gallery);
               if (imageFile != null) {
-                var user = await editNotifier.uploadImage(
+                await editNotifier.uploadImage(
                   imageFile!,
                   GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!,
                 );

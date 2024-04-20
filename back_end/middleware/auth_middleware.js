@@ -27,7 +27,7 @@ module.exports = function authMiddleware() {
             if (result) {
               console.log("password match");
               const newToken = generateToken(existingUser.toJSON());
-              return res.status(200).json({ token: newToken, id : existingUser.id , email : existingUser.email , name : existingUser.name , last_name : existingUser.last_name , phone : existingUser.phone , photo : existingUser.photo , password : existingUser.password , address : existingUser.address});
+              return res.status(200).json({ token: newToken, id : existingUser.id , email : existingUser.email , name : existingUser.name , last_name : existingUser.last_name , phone : existingUser.phone , photo : existingUser.photo , password : existingUser.password , address : existingUser.address,city : existingUser.city,country : existingUser.country});
             } else {
               console.log("password don't match");
               return res.status(400).json({ msg: "Verifier vos données" });

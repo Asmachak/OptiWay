@@ -9,6 +9,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:get_it/get_it.dart';
 
+
+
 void main() async {
   // Initialize Hive
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +38,6 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Check if the user is logged in
-  
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,

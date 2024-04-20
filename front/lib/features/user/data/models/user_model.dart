@@ -32,6 +32,12 @@ class UserModel {
   @HiveField(8)
   final String? address;
 
+  @HiveField(9)
+  final String? city;
+
+  @HiveField(10)
+  final String? country;
+
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
@@ -43,6 +49,8 @@ class UserModel {
       phone: json['phone'],
       address: json['address'],
       password: json['password'],
+      city: json['city'],
+      country: json['country'],
     );
   }
 
@@ -55,7 +63,9 @@ class UserModel {
       this.password,
       this.photo,
       this.lastName,
-      this.address});
+      this.address,
+      this.city,
+      this.country});
 
   Map<String, dynamic> toJson() {
     return {
@@ -68,6 +78,8 @@ class UserModel {
       'phone': phone,
       'password': password,
       'address': address,
+      'city': city,
+      'country': country,
     };
   }
 }
@@ -82,7 +94,9 @@ UserEntity userModelToEntity(UserModel userModel) {
       photo: userModel.photo!,
       password: userModel.password!,
       address: userModel.address!,
-      token: userModel.token!);
+      token: userModel.token!,
+      city: userModel.city!,
+      country: userModel.country!);
 }
 
 UserModel userEntityToModel(UserEntity userEntity) {
@@ -96,5 +110,7 @@ UserModel userEntityToModel(UserEntity userEntity) {
     photo: userEntity.photo,
     lastName: userEntity.lastName,
     address: userEntity.address,
+    city: userEntity.city,
+    country: userEntity.country,
   );
 }

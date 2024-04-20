@@ -39,10 +39,12 @@ async function handleAddUser (req,res)
         address: formData.address,
         password: await bcrypt.hash(formData.password, 10), // Ensure to hash this password before saving
         photo : defaultImageBuffer,
+        city : formData.city,
+        country : formData.country
       });
 
       const myToken = generateToken(user.toJSON());
-      return res.status(200).json({ token: myToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address});
+      return res.status(200).json({ token: myToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address , city : user.city, country : user.country});
       
     } catch (error) {
       console.error("Error:", error);
@@ -72,12 +74,14 @@ async function updateUser (req, res) {
       phone: updatedUserData.phone || existingUser.phone,
       address: updatedUserData.address || existingUser.address,
       email: updatedUserData.email || existingUser.email,
+      city: updatedUserData.city || existingUser.city,
+      country: updatedUserData.country || existingUser.country,
     });
 
     const user = await User.findByPk(userId);
     const myNewToken=generateToken(user.toJSON());
     console.log(myNewToken)
-    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address});
+    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address, city : user.city, country : user.country});
 
   } catch (error) {
     // Handle errors
@@ -113,7 +117,7 @@ async function uploadImage(req,res){
     const user = await User.findByPk(userId);
     const myNewToken=generateToken(user.toJSON());
     console.log(myNewToken)
-    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address});
+    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address, city : user.city, country : user.country});
 
   } catch (error) {
         // Handle errors

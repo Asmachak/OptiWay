@@ -26,6 +26,14 @@ class UpdateProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final editNotifier = ref.watch(editNotifierProvider.notifier);
     final editState = ref.watch(editNotifierProvider);
+    String? _validateName(String? value) {
+      if (value == null || value.isEmpty) {
+        return "Please set your name";
+      } else if (value.length < 4) {
+        return "Minimum length is 4 Characters";
+      }
+      return null;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -51,12 +59,13 @@ class UpdateProfileScreen extends ConsumerWidget {
                   children: [
                     TextFormField(
                       controller: _nameController,
+                      validator: _validateName,
                       decoration: const InputDecoration(
                           label: Text(
                             "First Name",
                             style: TextStyle(color: Colors.indigo),
                           ),
-                          prefixIcon: Icon(Icons.manage_accounts,
+                          prefixIcon: Icon(Icons.manage_accounts_outlined,
                               color: Colors.indigo)),
                     ),
                     const SizedBox(height: 20),

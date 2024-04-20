@@ -57,14 +57,10 @@ class _accountScreenState extends ConsumerState<accountScreen> {
                               GetIt.instance
                                   .get<AuthLocalDataSource>()
                                   .currentUser!
-                                  .lastName! /*user.currentUser!.name!*/,
+                                  .lastName!,
                           style: Theme.of(context).textTheme.headline4,
                         ),
                         const SizedBox(width: 5),
-                        /*Text(
-                          user.currentUser!.lastName!,
-                          style: Theme.of(context).textTheme.headline4,
-                        ),*/
                       ],
                     ),
                   ),
@@ -93,15 +89,25 @@ class _accountScreenState extends ConsumerState<accountScreen> {
                   const Divider(),
                   const SizedBox(height: 10),
                   ProfileMenuWidget(
-                      title: "Settings", icon: Icons.settings, onPress: () {}),
+                      title: "Settings",
+                      icon: Icons.settings,
+                      onPress: () {
+                        AutoRouter.of(context).push(const SettingRoute());
+                      }),
                   ProfileMenuWidget(
                       title: "Billing Details",
                       icon: Icons.wallet,
-                      onPress: () {}),
+                      onPress: () {
+                        AutoRouter.of(context)
+                            .push(const BillingDetailsRoute());
+                      }),
                   ProfileMenuWidget(
                       title: "User Management",
                       icon: Icons.verified_user_sharp,
-                      onPress: () {}),
+                      onPress: () {
+                        AutoRouter.of(context)
+                            .push(const UserManagementRoute());
+                      }),
                   const Divider(),
                   const SizedBox(height: 10),
                   ProfileMenuWidget(
