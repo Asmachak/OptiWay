@@ -124,7 +124,8 @@ async function uploadImage(req,res){
         console.error(error);
         res.status(500).json({ success: false, error: 'Something went wrong in upload image' });
   }
-}
+};
+
 async function deleteUser(req,res){
 try {
   const userId = req.params.userId;
@@ -149,7 +150,52 @@ try {
   res.status(500).send("Error is occured when deleting user !!");
   
 }
+};
+
+async function editPassword(req, res) {
+  try {
+    const userId = req.params.userId;
+    const existingUser = await User.findByPk(userId);
+    const formData = req.body;
+
+    if (!existingUser) {
+      console.log("User does not exist");
+      return res.status(400).json({ msg: "User does not exist" });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(
+      formData.password,
+      existingUser.password
+    );
+
+    if (!isPasswordMatch) {
+      console.log("Password does not match");
+      return res.status(400).json({ msg: "Verifier vos données" });
+    }
+
+    const newHashedPassword = await bcrypt.hash(formData.newPassword, 10);
+    await existingUser.update({ password: newHashedPassword });
+    const user = await User.findByPk(userId);
+    const myNewToken=generateToken(user.toJSON());
+
+    return res.status(200).json({
+      token: myNewToken,
+      id: existingUser.id,
+      email: existingUser.email,
+      name: existingUser.name,
+      last_name: existingUser.last_name,
+      phone: existingUser.phone,
+      photo: existingUser.photo,
+      password: existingUser.password, 
+      address: existingUser.address,
+      city: existingUser.city,
+      country: existingUser.country,
+    });
+  } catch (error) {
+    console.log("Error:", error);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
 }
 
 
-module.exports={handleAddUser,updateUser,deleteUser,uploadImage}
+module.exports={handleAddUser,updateUser,deleteUser,uploadImage,editPassword}

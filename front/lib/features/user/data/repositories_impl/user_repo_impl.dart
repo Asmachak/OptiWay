@@ -49,6 +49,12 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<Either<AppException, UserModel>> editPassword(
+      {required Map<String, dynamic> body, required String id}) async {
+    return remoteDataSource.editPassword(body: body, id: id);
+  }
+
+  @override
   Future<Either<AppException, UserModel>> uploadImage(
       {required File imageFile, required String id}) async {
     return remoteDataSource.uploadImage(imageFile: imageFile, id: id);

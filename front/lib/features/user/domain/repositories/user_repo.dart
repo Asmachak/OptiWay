@@ -20,6 +20,10 @@ abstract class UserRepository {
     required Map<String, dynamic> body,
     required String id,
   });
+    Future<Either<AppException, UserModel>> editPassword({
+    required Map<String, dynamic> body,
+    required String id,
+  });
   Future<Either<AppException, UserModel>> uploadImage(
       {required File imageFile, required String id});
 }

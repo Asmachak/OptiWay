@@ -49,15 +49,13 @@ class _accountScreenState extends ConsumerState<accountScreen> {
                           .center, // Center the text horizontally
                       children: [
                         Text(
-                          GetIt.instance
+                          "${GetIt.instance
                                   .get<AuthLocalDataSource>()
                                   .currentUser!
-                                  .name! +
-                              " " +
-                              GetIt.instance
+                                  .name!} ${GetIt.instance
                                   .get<AuthLocalDataSource>()
                                   .currentUser!
-                                  .lastName!,
+                                  .lastName!}",
                           style: Theme.of(context).textTheme.headline4,
                         ),
                         const SizedBox(width: 5),

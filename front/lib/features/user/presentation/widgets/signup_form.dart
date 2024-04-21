@@ -252,11 +252,11 @@ class _SignupFormState extends ConsumerState<SignupForm>
                       onPressed: () {
                         _getLocation();
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.location_on,
                         color: Colors.white,
                       ),
-                      label: Text(
+                      label: const Text(
                         'Get Location',
                         style: TextStyle(
                           color: Colors.white,
@@ -272,7 +272,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                     ),
                   ),
                   if (isLoading)
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: CircularProgressIndicator(),
                     ),
