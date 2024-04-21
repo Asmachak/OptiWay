@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:front/features/user/presentation/blocs/otp_providers.dart';
@@ -28,9 +27,10 @@ class _SignupFormState extends ConsumerState<SignupForm>
   final TextEditingController _passwordController = TextEditingController();
   final _controllerConfirmPassword = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+
   bool _isPasswordMatch = false;
-  static const bool _showPassword = false;
+  bool _showPassword = false;
+  bool _showPasswordConf = false;
   String? _locationMessage;
   String? city;
   String? country;
@@ -96,6 +96,18 @@ class _SignupFormState extends ConsumerState<SignupForm>
         print(locationInfo);
       });
     }
+  }
+
+  void showPassword() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
+
+  void showPasswordConfirm() {
+    setState(() {
+      _showPasswordConf = !_showPasswordConf;
+    });
   }
 
   String? _validateName(String? value) {
@@ -283,11 +295,11 @@ class _SignupFormState extends ConsumerState<SignupForm>
                     borderRadius: BorderRadius.circular(10),
                   ),
                   suffixIcon: IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       _showPassword ? Icons.visibility : Icons.visibility_off,
                     ),
                     onPressed: () {
-                      ref.read(signUpFormProvider).togglePasswordVisibility();
+                      showPassword();
                     },
                   ),
                 ),
@@ -296,29 +308,24 @@ class _SignupFormState extends ConsumerState<SignupForm>
                 height: 20,
               ),
               TextFormField(
-                // mdps validator
-                validator: (value) {
-                  if (value != _passwordController.text) {
-                    return "Les mots de passe ne correspondent pas.";
-                  }
-                  return null;
-                },
+                controller: _passwordController,
+                validator: _validatePassword,
                 maxLines: 1,
                 obscureText: !_showPassword,
                 decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
                   prefixIcon: const Icon(Icons.lock),
-                  hintText: 'Verifier votre password',
+                  hintText: 'Confirm your password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   suffixIcon: IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       _showPassword ? Icons.visibility : Icons.visibility_off,
                     ),
                     onPressed: () {
-                      ref.read(signUpFormProvider).togglePasswordVisibility();
+                      showPasswordConfirm();
                     },
                   ),
                 ),

@@ -2,31 +2,37 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/user/presentation/blocs/auth_providers.dart';
 import 'package:front/features/user/presentation/pages/signup.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
 
 // Text editing controllers for user input
-
 final TextEditingController _emailController = TextEditingController();
 final TextEditingController _passwordController = TextEditingController();
 
-AuthLocalDataSource? hiveeee;
-
-const bool _showPassword = false;
-
-class LoginForm extends ConsumerWidget {
-  final _formKey = GlobalKey<FormState>();
-
+class LoginForm extends ConsumerStatefulWidget {
   LoginForm({Key? key}) : super(key: key);
+
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends ConsumerState<LoginForm> {
+  final _formKey = GlobalKey<FormState>();
+  bool _showPassword = false;
+
+  void showPassword() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return "please set e-mail address.";
     } else if (!EmailValidator.validate(value)) {
-      return "please enter a valide email address";
+      return "please enter a valid email address";
     }
     return null;
   }
@@ -41,7 +47,7 @@ class LoginForm extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
 
     return SingleChildScrollView(
@@ -56,7 +62,7 @@ class LoginForm extends ConsumerWidget {
                 validator: _validateEmail,
                 maxLines: 1,
                 decoration: InputDecoration(
-                  labelText: 'Email aadress',
+                  labelText: 'Email address',
                   hintText: 'Set your Email',
                   prefixIcon: const Icon(Icons.email),
                   border: OutlineInputBorder(
@@ -83,11 +89,11 @@ class LoginForm extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   suffixIcon: IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       _showPassword ? Icons.visibility : Icons.visibility_off,
                     ),
                     onPressed: () {
-                      ref.read(LoginFormProvider).togglePasswordVisibility();
+                      showPassword();
                     },
                   ),
                 ),
@@ -188,16 +194,5 @@ class LoginForm extends ConsumerWidget {
         ),
       ),
     );
-  }
-}
-
-final LoginFormProvider = Provider((ref) => LoginFormState());
-
-class LoginFormState {
-  bool _showPassword = false;
-  bool get showPassword => _showPassword;
-
-  void togglePasswordVisibility() {
-    _showPassword = !_showPassword;
   }
 }
