@@ -195,7 +195,47 @@ async function editPassword(req, res) {
     console.log("Error:", error);
     return res.status(500).json({ msg: "Internal Server Error" });
   }
+};
+
+async function forgetPassword(req, res) {
+  try {
+    const formData = req.body;
+  
+      const existingUser = await User.findOne({
+        where: {
+          email: formData.email
+        }
+      });
+
+
+    if (!existingUser) {
+      console.log("User does not exist");
+      return res.status(400).json({ msg: "User does not exist" });
+    }
+
+    const newHashedPassword = await bcrypt.hash(formData.newPassword, 10);
+    await existingUser.update({ password: newHashedPassword });
+    const user = await User.findByPk(existingUser.id);
+    const myNewToken=generateToken(user.toJSON());
+
+    return res.status(200).json({
+      token: myNewToken,
+      id: existingUser.id,
+      email: existingUser.email,
+      name: existingUser.name,
+      last_name: existingUser.last_name,
+      phone: existingUser.phone,
+      photo: existingUser.photo,
+      password: existingUser.password, 
+      address: existingUser.address,
+      city: existingUser.city,
+      country: existingUser.country,
+    });
+  } catch (error) {
+    console.log("Error:", error);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
 }
 
 
-module.exports={handleAddUser,updateUser,deleteUser,uploadImage,editPassword}
+module.exports={handleAddUser,updateUser,deleteUser,uploadImage,editPassword,forgetPassword}

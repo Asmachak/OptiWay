@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:front/features/user/presentation/blocs/auth_providers.dart';
 import 'package:front/features/user/presentation/pages/signup.dart';
+import 'package:front/features/user/presentation/widgets/forget_password_btn.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -111,11 +112,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        // Navigator.push(
-                        //   context
-                        //    MaterialPageRoute(
-                        //       builder: (context) => const SignupScreen()),
-                        // );
+                        _showModalBottomSheet(context);
                       },
                   ),
                 ),
@@ -195,4 +192,46 @@ class _LoginFormState extends ConsumerState<LoginForm> {
       ),
     );
   }
+}
+
+void _showModalBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+    ),
+    builder: (context) => SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Make a Selection!",
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 32, 40, 89))),
+            Text("Select one of the options given below to reset your password",
+                style: Theme.of(context).textTheme.bodyText1),
+            const SizedBox(height: 30.0),
+            ForgetPasswordBtnWidget(
+              onTap: () {
+                AutoRouter.of(context).push(const ForgetPasswordMailRoute());
+              },
+              title: "E-mail",
+              subTitle: "Reset via Mail verification",
+              btnIcon: Icons.mail_outline_rounded,
+            ),
+            const SizedBox(height: 20.0),
+            ForgetPasswordBtnWidget(
+              onTap: () {},
+              title: "Phone Number",
+              subTitle: "Reset via Phone verification",
+              btnIcon: Icons.mobile_friendly_rounded,
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
 }

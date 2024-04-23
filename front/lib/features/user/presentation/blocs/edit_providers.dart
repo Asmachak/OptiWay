@@ -9,11 +9,12 @@ final editNotifierProvider =
   final editProfileUseCases = ref.read(editProfileUseCaseProvider);
   final uploadImageUsecases = ref.read(uploadImageUseCaseProvider);
   final editPasswordUseCases = ref.read(editPasswordUseCaseProvider);
+  final forgetPasswordUseCases = ref.read(forgetPasswordUseCaseProvider);
 
   final editUseCases = EditUseCases(
-    editProfileUseCases: editProfileUseCases,
-    uploadImageUsecases: uploadImageUsecases,
-    editPasswordUseCases: editPasswordUseCases,
-  );
+      editProfileUseCases: editProfileUseCases,
+      uploadImageUsecases: uploadImageUsecases,
+      editPasswordUseCases: editPasswordUseCases,
+      forgetPasswordUseCases: forgetPasswordUseCases);
   return EditNotifier(editUseCases);
 });

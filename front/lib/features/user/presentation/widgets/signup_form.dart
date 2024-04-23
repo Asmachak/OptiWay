@@ -10,6 +10,19 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geocoding/geocoding.dart';
+import 'dart:async';
+
+class Debouncer {
+  final Duration delay;
+  Timer? _timer;
+
+  Debouncer({required this.delay});
+
+  void debounce(Function() action) {
+    _timer?.cancel();
+    _timer = Timer(delay, action);
+  }
+}
 
 class SignupForm extends ConsumerStatefulWidget {
   const SignupForm({Key? key}) : super(key: key);
@@ -27,6 +40,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
   final TextEditingController _passwordController = TextEditingController();
   final _controllerConfirmPassword = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  Debouncer locationDebouncer = Debouncer(delay: Duration(milliseconds: 500));
 
   bool _isPasswordMatch = false;
   bool _showPassword = false;
@@ -47,23 +61,32 @@ class _SignupFormState extends ConsumerState<SignupForm>
   }
 
   Future<void> _getLocation() async {
-    try {
-      await requestLocationPermission();
+    if (!isLoading) {
       setState(() {
         isLoading = true; // Show loading indicator
       });
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
 
-      setState(() {
-        _locationMessage = '${position.latitude} ${position.longitude}';
-        print(_locationMessage);
-      });
-      await getLocationInfo();
-    } catch (e) {
-      setState(() {
-        _locationMessage = 'Error getting location: $e';
-        print(_locationMessage);
+      locationDebouncer.debounce(() async {
+        try {
+          await requestLocationPermission();
+          Position position = await Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.high);
+
+          setState(() {
+            _locationMessage = '${position.latitude} ${position.longitude}';
+            print(_locationMessage);
+          });
+          await getLocationInfo();
+        } catch (e) {
+          setState(() {
+            _locationMessage = 'Error getting location: $e';
+            print(_locationMessage);
+          });
+        } finally {
+          setState(() {
+            isLoading = false; // Hide loading indicator
+          });
+        }
       });
     }
   }
@@ -156,6 +179,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
           child: Column(
             children: [
               TextFormField(
+                enabled: !isLoading,
                 controller: _nameController,
                 validator: _validateName,
                 maxLines: 1,
@@ -173,6 +197,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                 height: 20,
               ),
               TextFormField(
+                enabled: !isLoading,
                 controller: _lastNameController,
                 validator: _validateName,
                 maxLines: 1,
@@ -191,6 +216,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                 height: 20,
               ),
               TextFormField(
+                enabled: !isLoading,
                 controller: _emailController,
                 validator: _validateEmail,
                 maxLines: 1,
@@ -209,6 +235,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                 height: 20,
               ),
               IntlPhoneField(
+                enabled: !isLoading,
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
@@ -227,20 +254,24 @@ class _SignupFormState extends ConsumerState<SignupForm>
               Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      height: 48, // Adjust the height as needed
-                      child: TextFormField(
-                        controller: TextEditingController(text: locationInfo),
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 14,
-                          ),
-                          hintText: 'Please Set your Address',
-                          prefixIcon: const Icon(Icons.home),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(6),
+                    child: AbsorbPointer(
+                      absorbing: isLoading,
+                      child: Container(
+                        height: 48, // Adjust the height as needed
+                        child: TextFormField(
+                          enabled: !isLoading,
+                          controller: TextEditingController(text: locationInfo),
+                          maxLines: 1,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 14,
+                            ),
+                            hintText: 'Please Set your Address',
+                            prefixIcon: const Icon(Icons.home),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6),
+                            ),
                           ),
                         ),
                       ),
@@ -282,6 +313,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                 height: 20,
               ),
               TextFormField(
+                enabled: !isLoading,
                 controller: _passwordController,
                 validator: _validatePassword,
                 maxLines: 1,
@@ -308,10 +340,11 @@ class _SignupFormState extends ConsumerState<SignupForm>
                 height: 20,
               ),
               TextFormField(
+                enabled: !isLoading,
                 controller: _passwordController,
                 validator: _validatePassword,
                 maxLines: 1,
-                obscureText: !_showPassword,
+                obscureText: !_showPasswordConf,
                 decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 14),

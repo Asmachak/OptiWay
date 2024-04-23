@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/presentation/blocs/auth_providers.dart';
 import 'package:front/features/user/presentation/blocs/otp_providers.dart';
@@ -73,7 +72,7 @@ class VerifyOtpScreen extends ConsumerWidget {
               ),
               Text(
                 textAlign: TextAlign.center,
-                "Please enter the 6 digit code sent to \n $email",
+                "Please enter the 4 digit code sent to \n $email",
                 style: TextStyle(
                     fontSize: 16, color: Colors.grey.shade500, height: 1.5),
               ),

@@ -22,6 +22,8 @@ abstract class UserDataSource {
       {required Map<String, dynamic> body, required String id});
   Future<Either<AppException, UserModel>> editPassword(
       {required Map<String, dynamic> body, required String id});
+  Future<Either<AppException, UserModel>> forgetPassword(
+      {required Map<String, dynamic> body});
   Future<Either<AppException, UserModel>> uploadImage(
       {required File imageFile, required String id});
 }
@@ -243,6 +245,35 @@ class UserRemoteDataSource implements UserDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nUpdateUserRemoteDataSource.UpdateUser',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, UserModel>> forgetPassword(
+      {required Map<String, dynamic> body}) async {
+    try {
+      final eitherType = await networkService.put(
+        '/user/forgetPassword',
+        body: body,
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) async {
+          final user = UserModel.fromJson(response.data);
+          return Right(user);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nUpdateUserRemoteDataSource.ForgetPassword',
         ),
       );
     }

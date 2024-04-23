@@ -6,6 +6,7 @@ import 'package:front/features/user/data/repositories_impl/user_repo_impl.dart';
 import 'package:front/features/user/domain/repositories/user_repo.dart';
 import 'package:front/features/user/domain/usescases/user/edit_password_use_case.dart';
 import 'package:front/features/user/domain/usescases/user/edit_profile_use_case.dart';
+import 'package:front/features/user/domain/usescases/user/forget_password_use_case.dart';
 import 'package:front/features/user/domain/usescases/user/login_otp_use_case.dart';
 import 'package:front/features/user/domain/usescases/user/login_use_cases.dart';
 import 'package:front/features/user/domain/usescases/user/register_use_cases.dart';
@@ -53,4 +54,8 @@ final uploadImageUseCaseProvider = Provider<UploadImageUsecases>((ref) {
 
 final editPasswordUseCaseProvider = Provider<EditPasswordUseCase>((ref) {
   return EditPasswordUseCase(ref.read(userRepositoryProvider));
+});
+
+final forgetPasswordUseCaseProvider = Provider<ForgetPasswordUseCase>((ref) {
+  return ForgetPasswordUseCase(ref.read(userRepositoryProvider));
 });

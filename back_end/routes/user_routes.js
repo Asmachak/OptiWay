@@ -2,7 +2,7 @@ const express = require('express');
 const { body } = require('express-validator');
 const router = express.Router();
 const authMiddleware  = require('../middleware/auth_middleware')
-const {deleteUser,handleAddUser,updateUser, uploadImage, editPassword} = require('../controllers/user_controller')
+const {deleteUser,handleAddUser,updateUser, uploadImage, editPassword, forgetPassword} = require('../controllers/user_controller')
 const otpController = require("../controllers/otp_controller");
 
 
@@ -15,6 +15,7 @@ router.post('/user/login',authMiddleware(),(req,res)=>{
 router.put('/user/update/:userId', updateUser); 
 router.put('/user/uploadImage/:userId', uploadImage); 
 router.put('/user/editPassword/:userId', editPassword); 
+router.put('/user/forgetPassword', forgetPassword); 
 
 
 router.delete('/user/delete/:userId', deleteUser);

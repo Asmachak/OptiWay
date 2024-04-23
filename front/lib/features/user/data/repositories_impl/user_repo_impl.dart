@@ -55,6 +55,12 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<Either<AppException, UserModel>> forgetPassword(
+      {required Map<String, dynamic> body}) async {
+    return remoteDataSource.forgetPassword(body: body);
+  }
+
+  @override
   Future<Either<AppException, UserModel>> uploadImage(
       {required File imageFile, required String id}) async {
     return remoteDataSource.uploadImage(imageFile: imageFile, id: id);
