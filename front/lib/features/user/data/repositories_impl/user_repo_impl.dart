@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/features/user/data/data_sources/remote_data_source.dart';

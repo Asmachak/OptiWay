@@ -32,6 +32,7 @@ app.use((req, res, next) => {
 
 
 app.use(require('./routes/user_routes')); 
+app.use(require('./routes/parking_routes')); 
 
 /****************************************End-Routes****************************************/ 
 
