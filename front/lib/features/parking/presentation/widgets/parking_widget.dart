@@ -16,12 +16,12 @@ class ParkingWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 10, 20, 0),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(18),
           child: Container(
             width: double.maxFinite,
             height: 140,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 207, 211, 232).withOpacity(0.1),
+              color: Color.fromARGB(255, 149, 160, 214).withOpacity(0.1),
             ),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -35,7 +35,7 @@ class ParkingWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: const DecorationImage(
                           image: NetworkImage(
-                              "https://www.virages.com/Images/Categorie_A8/24942-500.jpg"),
+                              "https://www.shutterstock.com/image-vector/car-parking-icon-space-lot-260nw-1024735732.jpg"),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(12),
@@ -52,11 +52,15 @@ class ParkingWidget extends StatelessWidget {
                         children: [
                           Text(
                             title,
-                            style: const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 35, 42, 83)),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2, // Set maximum lines for the text
                           ),
-                          const SizedBox(height: 4), // Add some vertical spacing
+                          const SizedBox(
+                              height: 4), // Add some vertical spacing
                           Text(
                             adress,
                             style: const TextStyle(fontSize: 14),
