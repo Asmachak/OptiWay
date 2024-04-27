@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
 class ParkingDetailsScreen extends ConsumerWidget {
@@ -69,6 +70,37 @@ class ParkingDetailsScreen extends ConsumerWidget {
     calculateDistance();
 
     double heightScr = MediaQuery.of(context).size.height;
+
+    void _launchCall(String phoneNumber) async {
+      String url = 'tel:$phoneNumber';
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        // Handle exception gracefully, e.g., show a snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Could not launch $url'),
+          ),
+        );
+      }
+    }
+
+    void _launchEmail(String email) async {
+      final Uri emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: email,
+      );
+
+      if (await canLaunch(emailLaunchUri.toString())) {
+        await launch(emailLaunchUri.toString());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Could not Open Mail Box '),
+          ),
+        );
+      }
+    }
 
     // Use a `FutureBuilder` to handle the asynchronous `_parseLocation` method
     return FutureBuilder<LatLng>(
@@ -271,7 +303,9 @@ class ParkingDetailsScreen extends ConsumerWidget {
                         SizedBox(
                           height: 35,
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _launchCall(phoneContact);
+                            },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white10,
                               side: const BorderSide(
@@ -305,7 +339,9 @@ class ParkingDetailsScreen extends ConsumerWidget {
                         SizedBox(
                           height: 35,
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _launchEmail(mailContact);
+                            },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white10,
                               side: const BorderSide(

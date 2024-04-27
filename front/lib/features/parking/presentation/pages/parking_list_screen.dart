@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/parking/presentation/blocs/parking_provider.dart';
-import 'package:front/features/parking/presentation/pages/parking_details_screen.dart';
 import 'package:front/features/parking/presentation/widgets/parking_widget.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
