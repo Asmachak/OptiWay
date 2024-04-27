@@ -305,7 +305,10 @@ class _SignupFormState extends ConsumerState<SignupForm>
                   if (isLoading)
                     const Padding(
                       padding: EdgeInsets.only(left: 10),
-                      child: CircularProgressIndicator(),
+                      child: SizedBox(
+                          height: 20.0,
+                          width: 20.0,
+                          child: CircularProgressIndicator()),
                     ),
                 ],
               ),

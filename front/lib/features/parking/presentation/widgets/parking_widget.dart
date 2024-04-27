@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
 class ParkingWidget extends StatelessWidget {
-  const ParkingWidget({
-    Key? key,
-    required this.title,
-    required this.adress, // Add photoUrl parameter for the image URL
-  }) : super(key: key);
+  const ParkingWidget(
+      {Key? key,
+      required this.title,
+      required this.adress,
+      required this.onPress})
+      : super(key: key);
 
   final String title;
-  final String adress; // Define the photoUrl variable
+  final String adress;
+  final void Function()? onPress;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: onPress,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 10, 20, 0),
         child: ClipRRect(
