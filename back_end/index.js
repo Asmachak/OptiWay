@@ -4,16 +4,24 @@ const sequelize = require('./database');
 const express=require("express")
 const app=express();
 const bodyParser = require('body-parser');
+const User = require('./models/user');
+const Reservation = require('./models/reservation');
+const Event = require('./models/event');
+const Parking = require('./models/parking');
+const Vehicule = require('./models/vehicule');
+const Message = require('./models/message');
+const Promotion = require('./models/promotion');
+const Notification = require('./models/notification');
 
 /****************************************End-Declarations****************************************/ 
 //synchronize data base with models
 /*(async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: true,models: [User, Event, Parking,Reservation,Vehicule,Message,Promotion,Notification] });
     console.log('Database synchronized successfully');
   } catch (error) {
     console.error('Error synchronizing database:', error);
-  }
+  } 
 })(); 
 /****************************************Middlewares****************************************/
 
