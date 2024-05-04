@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/presentation/widgets/menu_profile_widget.dart';
+import 'package:front/routes/app_routes.gr.dart';
 
 @RoutePage()
 class UserManagementScreen extends ConsumerWidget {
@@ -37,7 +38,9 @@ class UserManagementScreen extends ConsumerWidget {
                   ProfileMenuWidget(
                       title: "vehicules",
                       icon: Icons.directions_car,
-                      onPress: () {}),
+                      onPress: () {
+                        AutoRouter.of(context).push(VehiculeListRoute());
+                      }),
                   ProfileMenuWidget(
                       title: "connections",
                       icon: Icons.connect_without_contact,

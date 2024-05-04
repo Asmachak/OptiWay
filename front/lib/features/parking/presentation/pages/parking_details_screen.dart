@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart' as flutter_html;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/routes/app_routes.gr.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ParkingDetailsScreen extends ConsumerWidget {
   const ParkingDetailsScreen({
     Key? key,
+    required this.id,
     required this.parkingName,
     required this.capacity,
     required this.description,
@@ -20,7 +22,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
     required this.mailContact,
     required this.adress,
   }) : super(key: key);
-
+  final String id;
   final String parkingName;
   final String location;
   final String description;
@@ -34,6 +36,10 @@ class ParkingDetailsScreen extends ConsumerWidget {
     var latitude;
     var longitude;
     Future<LatLng> _parseLocation(String location, String adress) async {
+      //print("adress $adress");
+      print("loc");
+      print("location $location");
+
       try {
         if (location.isEmpty) {
           List<Location> locations = await locationFromAddress(adress);
@@ -405,7 +411,10 @@ class ParkingDetailsScreen extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AutoRouter.of(context)
+                            .push(ReservationRoute(idparking: id));
+                      },
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(Colors.indigo[50]),

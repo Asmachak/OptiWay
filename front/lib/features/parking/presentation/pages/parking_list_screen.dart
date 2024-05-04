@@ -100,6 +100,7 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
                         onPress: () {
                           AutoRouter.of(context).push(
                             ParkingDetailsRoute(
+                                id: parking.id!,
                                 capacity: parking.capacity!,
                                 parkingName: parking.parkingName!,
                                 description: parking.description!,

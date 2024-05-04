@@ -33,7 +33,10 @@ const Event = sequelize.define('event', {
     type:DataTypes.FLOAT, 
     allowNull:false
   },
-
+  capacity:{
+    type:DataTypes.INTEGER, 
+    allowNull:false
+  },
   
 }, {
   timestamps: false 

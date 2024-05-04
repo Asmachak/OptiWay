@@ -16,6 +16,10 @@ const Vehicule = sequelize.define('vehicule', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  model: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   
 }, {
   timestamps: false

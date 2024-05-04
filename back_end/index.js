@@ -17,7 +17,7 @@ const Notification = require('./models/notification');
 //synchronize data base with models
 /*(async () => {
   try {
-    await sequelize.sync({ force: true,models: [User, Event, Parking,Reservation,Vehicule,Message,Promotion,Notification] });
+    await sequelize.sync({ force: true,models: [User, Event,Reservation,Vehicule,Message,Promotion,Notification] });
     console.log('Database synchronized successfully');
   } catch (error) {
     console.error('Error synchronizing database:', error);
@@ -41,6 +41,12 @@ app.use((req, res, next) => {
 
 app.use(require('./routes/user_routes')); 
 app.use(require('./routes/parking_routes')); 
+app.use(require('./routes/reservation_routes')); 
+app.use(require('./routes/event_routes')); 
+app.use(require('./routes/vehicule_routes')); 
+
+
+
 
 /****************************************End-Routes****************************************/ 
 

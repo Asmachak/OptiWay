@@ -28,5 +28,9 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: ForgetPasswordMailRoute.page),
         AutoRoute(page: ResetPasswordRoute.page),
         AutoRoute(page: ParkingDetailsRoute.page),
+        AutoRoute(page: ReservationRoute.page),
+        AutoRoute(page: RelatedEventRoute.page),
+        AutoRoute(page: VehiculeListRoute.page),
+        AutoRoute(page: AddVehiculeRoute.page),
       ];
 }
