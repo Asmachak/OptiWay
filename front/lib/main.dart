@@ -19,15 +19,15 @@ void main() async {
       : await getApplicationSupportDirectory();
   await Hive.initFlutter(appStorageDir!.path);
   Hive.registerAdapter(UserModelAdapter());
-  Hive.registerAdapter(VehiculeModelAdapter());
+  //Hive.registerAdapter(VehiculeModelAdapter());
 
   await Hive.openBox('currentUser');
 
   final getIt = GetIt.instance;
   getIt.registerSingleton<AuthLocalDataSource>(
       AuthLocalDataSource()..initialize());
-  getIt.registerSingleton<VehiculeLocalDataSource>(
-      VehiculeLocalDataSource()..initialize());
+  // getIt.registerSingleton<VehiculeLocalDataSource>(
+  //     VehiculeLocalDataSource()..initialize());
 
   runApp(
     ProviderScope(

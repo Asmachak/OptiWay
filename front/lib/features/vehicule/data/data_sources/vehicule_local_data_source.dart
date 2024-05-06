@@ -6,7 +6,6 @@ class VehiculeLocalDataSource {
 
   Future<void> initialize() async {
     _vehiculeBox = await Hive.openBox<VehiculeModel>('vehicules');
-    // You can also add some initial data or perform other initialization tasks here
   }
 
   Future<void> addVehicule(VehiculeModel vehicule) async {
@@ -18,6 +17,7 @@ class VehiculeLocalDataSource {
   }
 
   Future<void> updateVehicule(VehiculeModel updatedVehicule) async {
+    await _vehiculeBox.delete(updatedVehicule.id);
     await _vehiculeBox.put(updatedVehicule.id, updatedVehicule);
   }
 
@@ -27,5 +27,9 @@ class VehiculeLocalDataSource {
 
   Future<void> closeBox() async {
     await _vehiculeBox.close();
+  }
+
+  Future<void> voidVehiculeBox() async {
+    await _vehiculeBox.clear(); // Clears all entries from the box
   }
 }

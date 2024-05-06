@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
-import 'package:front/features/vehicule/presentation/blocs/state/vehicule_state.dart';
+import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicule_state.dart';
+import 'package:front/features/vehicule/presentation/blocs/vehicule_list_provider.dart';
 import 'package:front/features/vehicule/presentation/blocs/vehicule_providers.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
@@ -19,7 +20,6 @@ class AddVehiculeScreen extends ConsumerWidget {
     final TextEditingController modelController = TextEditingController();
     final TextEditingController registrationNumberController =
         TextEditingController();
-    final VehiculeState = ref.watch(vehiculeNotifierProvider);
     final VehiculeNotifier = ref.read(vehiculeNotifierProvider.notifier);
 
     return Scaffold(
@@ -143,7 +143,7 @@ class AddVehiculeScreen extends ConsumerWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                             ),
-                            child: Column(
+                            child: const Column(
                               children: [
                                 Text(
                                   "Congrats!",
@@ -162,10 +162,17 @@ class AddVehiculeScreen extends ConsumerWidget {
                           elevation: 0,
                         ),
                       );
+                      ref
+                          .read(vehiculeListNotifierProvider.notifier)
+                          .getVehicules(GetIt.instance
+                              .get<AuthLocalDataSource>()
+                              .currentUser!
+                              .id!);
+
                       AutoRouter.of(context).replace(const VehiculeListRoute());
                     });
                   }
-                  return SizedBox(); // or any other widget if needed
+                  return const SizedBox(); // or any other widget if needed
                 },
               )
             ],

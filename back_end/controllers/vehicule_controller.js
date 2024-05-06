@@ -40,4 +40,22 @@ async function vehiculeListe(req, res) {
   }
 }
 
-module.exports = {handleAddVehicule,vehiculeListe}
+async function handleDeleteVehicule(req, res) {
+  try {
+    const params = req.params;
+
+    const vehicule = await Vehicule.destroy({
+     where : {
+      id : params.id
+     }
+      
+    });
+
+    return res.status(200).json("Vehicule is deleted successfully");
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Error occurred when handling Destroy vehicule");
+  }
+}
+
+module.exports = {handleAddVehicule,vehiculeListe,handleDeleteVehicule}

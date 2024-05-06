@@ -1,5 +1,5 @@
 const express = require('express');
-const { handleAddVehicule, vehiculeListe } = require("../controllers/vehicule_controller");
+const { handleAddVehicule, vehiculeListe, handleDeleteVehicule } = require("../controllers/vehicule_controller");
 const router = express.Router();
 
 
@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/vehicule/:iduser',vehiculeListe);
 router.post('/vehicule/addVeh/:iduser',handleAddVehicule);
+router.delete('/vehicule/delete/:id',handleDeleteVehicule);
+
 
 
 module.exports = router;

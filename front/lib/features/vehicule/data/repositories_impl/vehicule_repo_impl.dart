@@ -16,4 +16,10 @@ class VehiculeRepositoryImpl implements VehiculeRepository {
       {required Map<String, dynamic> body, required String iduser}) async {
     return remoteDataSource.addVehicule(body: body, iduser: iduser);
   }
+
+  @override
+  Future<Either<AppException, List<VehiculeModel>>> getAllVehicules(
+      {required String iduser}) async {
+    return remoteDataSource.getAllVehicules(iduser: iduser);
+  }
 }

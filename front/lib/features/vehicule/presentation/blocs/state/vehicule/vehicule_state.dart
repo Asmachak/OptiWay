@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
+import 'package:front/features/vehicule/data/models/vehicule_model.dart';
 import 'package:front/features/vehicule/domain/entities/vehicule_entity.dart';
 
 part 'vehicule_state.freezed.dart';

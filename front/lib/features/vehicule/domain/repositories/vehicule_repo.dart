@@ -5,4 +5,6 @@ import 'package:front/features/vehicule/data/models/vehicule_model.dart';
 abstract class VehiculeRepository {
   Future<Either<AppException, VehiculeModel>> addVehicule(
       {required Map<String, dynamic> body, required String iduser});
+  Future<Either<AppException, List<VehiculeModel>>> getAllVehicules(
+      {required String iduser});
 }
