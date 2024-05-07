@@ -7,9 +7,10 @@ import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicu
 final vehiculeNotifierProvider =
     StateNotifierProvider<VehiculeNotifier, VehiculeState>((ref) {
   final addVehiculeUseCases = ref.read(addVehiculeUseCaseProvider);
+  final deleteVehiculeUseCases = ref.read(deleteVehiculeUseCaseProvider);
 
   final vehiculeUseCases = VehiculeUseCases(
-    addVehiculeUseCase: addVehiculeUseCases,
-  );
+      addVehiculeUseCase: addVehiculeUseCases,
+      deleteVehiculeUseCase: deleteVehiculeUseCases);
   return VehiculeNotifier(vehiculeUseCases);
 });

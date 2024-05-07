@@ -20,6 +20,7 @@ mixin _$VehiculeState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() deleted,
     required TResult Function(AppException exception) failure,
     required TResult Function(VehiculeEntity vehicule) success,
   }) =>
@@ -28,6 +29,7 @@ mixin _$VehiculeState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function()? deleted,
     TResult? Function(AppException exception)? failure,
     TResult? Function(VehiculeEntity vehicule)? success,
   }) =>
@@ -36,6 +38,7 @@ mixin _$VehiculeState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? deleted,
     TResult Function(AppException exception)? failure,
     TResult Function(VehiculeEntity vehicule)? success,
     required TResult orElse(),
@@ -45,6 +48,7 @@ mixin _$VehiculeState {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Deleted value) deleted,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) =>
@@ -53,6 +57,7 @@ mixin _$VehiculeState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Deleted value)? deleted,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) =>
@@ -61,6 +66,7 @@ mixin _$VehiculeState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Deleted value)? deleted,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),
@@ -126,6 +132,7 @@ class _$InitialImpl implements Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() deleted,
     required TResult Function(AppException exception) failure,
     required TResult Function(VehiculeEntity vehicule) success,
   }) {
@@ -137,6 +144,7 @@ class _$InitialImpl implements Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function()? deleted,
     TResult? Function(AppException exception)? failure,
     TResult? Function(VehiculeEntity vehicule)? success,
   }) {
@@ -148,6 +156,7 @@ class _$InitialImpl implements Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? deleted,
     TResult Function(AppException exception)? failure,
     TResult Function(VehiculeEntity vehicule)? success,
     required TResult orElse(),
@@ -163,6 +172,7 @@ class _$InitialImpl implements Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Deleted value) deleted,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) {
@@ -174,6 +184,7 @@ class _$InitialImpl implements Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Deleted value)? deleted,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) {
@@ -185,6 +196,7 @@ class _$InitialImpl implements Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Deleted value)? deleted,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),
@@ -240,6 +252,7 @@ class _$LoadingImpl implements Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() deleted,
     required TResult Function(AppException exception) failure,
     required TResult Function(VehiculeEntity vehicule) success,
   }) {
@@ -251,6 +264,7 @@ class _$LoadingImpl implements Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function()? deleted,
     TResult? Function(AppException exception)? failure,
     TResult? Function(VehiculeEntity vehicule)? success,
   }) {
@@ -262,6 +276,7 @@ class _$LoadingImpl implements Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? deleted,
     TResult Function(AppException exception)? failure,
     TResult Function(VehiculeEntity vehicule)? success,
     required TResult orElse(),
@@ -277,6 +292,7 @@ class _$LoadingImpl implements Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Deleted value) deleted,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) {
@@ -288,6 +304,7 @@ class _$LoadingImpl implements Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Deleted value)? deleted,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) {
@@ -299,6 +316,7 @@ class _$LoadingImpl implements Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Deleted value)? deleted,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),
@@ -312,6 +330,126 @@ class _$LoadingImpl implements Loading {
 
 abstract class Loading implements VehiculeState {
   const factory Loading() = _$LoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$DeletedImplCopyWith<$Res> {
+  factory _$$DeletedImplCopyWith(
+          _$DeletedImpl value, $Res Function(_$DeletedImpl) then) =
+      __$$DeletedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$DeletedImplCopyWithImpl<$Res>
+    extends _$VehiculeStateCopyWithImpl<$Res, _$DeletedImpl>
+    implements _$$DeletedImplCopyWith<$Res> {
+  __$$DeletedImplCopyWithImpl(
+      _$DeletedImpl _value, $Res Function(_$DeletedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$DeletedImpl implements Deleted {
+  const _$DeletedImpl();
+
+  @override
+  String toString() {
+    return 'VehiculeState.deleted()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$DeletedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() deleted,
+    required TResult Function(AppException exception) failure,
+    required TResult Function(VehiculeEntity vehicule) success,
+  }) {
+    return deleted();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? deleted,
+    TResult? Function(AppException exception)? failure,
+    TResult? Function(VehiculeEntity vehicule)? success,
+  }) {
+    return deleted?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? deleted,
+    TResult Function(AppException exception)? failure,
+    TResult Function(VehiculeEntity vehicule)? success,
+    required TResult orElse(),
+  }) {
+    if (deleted != null) {
+      return deleted();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Deleted value) deleted,
+    required TResult Function(Failure value) failure,
+    required TResult Function(Success value) success,
+  }) {
+    return deleted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Deleted value)? deleted,
+    TResult? Function(Failure value)? failure,
+    TResult? Function(Success value)? success,
+  }) {
+    return deleted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Deleted value)? deleted,
+    TResult Function(Failure value)? failure,
+    TResult Function(Success value)? success,
+    required TResult orElse(),
+  }) {
+    if (deleted != null) {
+      return deleted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Deleted implements VehiculeState {
+  const factory Deleted() = _$DeletedImpl;
 }
 
 /// @nodoc
@@ -381,6 +519,7 @@ class _$FailureImpl implements Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() deleted,
     required TResult Function(AppException exception) failure,
     required TResult Function(VehiculeEntity vehicule) success,
   }) {
@@ -392,6 +531,7 @@ class _$FailureImpl implements Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function()? deleted,
     TResult? Function(AppException exception)? failure,
     TResult? Function(VehiculeEntity vehicule)? success,
   }) {
@@ -403,6 +543,7 @@ class _$FailureImpl implements Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? deleted,
     TResult Function(AppException exception)? failure,
     TResult Function(VehiculeEntity vehicule)? success,
     required TResult orElse(),
@@ -418,6 +559,7 @@ class _$FailureImpl implements Failure {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Deleted value) deleted,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) {
@@ -429,6 +571,7 @@ class _$FailureImpl implements Failure {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Deleted value)? deleted,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) {
@@ -440,6 +583,7 @@ class _$FailureImpl implements Failure {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Deleted value)? deleted,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),
@@ -527,6 +671,7 @@ class _$SuccessImpl implements Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function() deleted,
     required TResult Function(AppException exception) failure,
     required TResult Function(VehiculeEntity vehicule) success,
   }) {
@@ -538,6 +683,7 @@ class _$SuccessImpl implements Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function()? deleted,
     TResult? Function(AppException exception)? failure,
     TResult? Function(VehiculeEntity vehicule)? success,
   }) {
@@ -549,6 +695,7 @@ class _$SuccessImpl implements Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function()? deleted,
     TResult Function(AppException exception)? failure,
     TResult Function(VehiculeEntity vehicule)? success,
     required TResult orElse(),
@@ -564,6 +711,7 @@ class _$SuccessImpl implements Success {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Deleted value) deleted,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) {
@@ -575,6 +723,7 @@ class _$SuccessImpl implements Success {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Deleted value)? deleted,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) {
@@ -586,6 +735,7 @@ class _$SuccessImpl implements Success {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Deleted value)? deleted,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),

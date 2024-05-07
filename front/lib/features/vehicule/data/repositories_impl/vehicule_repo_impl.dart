@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/features/vehicule/data/data_sources/vehicule_remote_data_source.dart';
@@ -21,5 +22,11 @@ class VehiculeRepositoryImpl implements VehiculeRepository {
   Future<Either<AppException, List<VehiculeModel>>> getAllVehicules(
       {required String iduser}) async {
     return remoteDataSource.getAllVehicules(iduser: iduser);
+  }
+
+  @override
+  Future<Either<AppException, String>> deleteVehicules(
+      {required String id}) async {
+    return remoteDataSource.deleteVehicules(id: id);
   }
 }

@@ -6,25 +6,29 @@ class VehiculeWidget extends StatefulWidget {
     required this.marque,
     required this.matricule,
     required this.model,
+    required this.onSelect,
+    required this.isSelected,
   }) : super(key: key);
 
   final String marque;
   final String matricule;
   final String model;
+  final VoidCallback? onSelect;
+  final bool isSelected;
 
   @override
   _VehiculeWidgetState createState() => _VehiculeWidgetState();
 }
 
 class _VehiculeWidgetState extends State<VehiculeWidget> {
-  bool _isSelected = true; // Initialize the radio button to be selected
-
+  bool isSelected = true; // Initialize the radio button to be selected
+  int _selectedIndex = -1;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _isSelected = !_isSelected;
+          _selectedIndex = widget.key!.hashCode; // Update selected index
         });
       },
       child: Padding(
@@ -41,10 +45,10 @@ class _VehiculeWidgetState extends State<VehiculeWidget> {
               children: [
                 Radio<bool>(
                   value: true,
-                  groupValue: _isSelected,
+                  groupValue: isSelected,
                   onChanged: (value) {
                     setState(() {
-                      _isSelected = value!;
+                      isSelected = value!;
                     });
                   },
                 ),

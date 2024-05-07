@@ -9,6 +9,7 @@ part 'vehicule_state.freezed.dart';
 abstract class VehiculeState with _$VehiculeState {
   const factory VehiculeState.initial() = Initial;
   const factory VehiculeState.loading() = Loading;
+  const factory VehiculeState.deleted() = Deleted;
   const factory VehiculeState.failure(AppException exception) = Failure;
   const factory VehiculeState.success({required VehiculeEntity vehicule}) =
       Success;

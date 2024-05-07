@@ -7,6 +7,7 @@ import 'package:front/routes/app_routes.gr.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
@@ -35,12 +36,24 @@ class ParkingDetailsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var latitude;
     var longitude;
+
+    Future<void> requestLocationPermission() async {
+      var status = await Permission.location.request();
+      if (status.isDenied) {
+        // L'utilisateur a refusé les autorisations
+        // Gérez cette situation selon vos besoins
+        print('User denied location permissions');
+      }
+    }
+
     Future<LatLng> _parseLocation(String location, String adress) async {
       //print("adress $adress");
       print("loc");
       print("location $location");
 
       try {
+        await requestLocationPermission();
+
         if (location.isEmpty) {
           List<Location> locations = await locationFromAddress(adress);
           latitude = locations[0].latitude;

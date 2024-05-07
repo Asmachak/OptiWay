@@ -7,4 +7,5 @@ abstract class VehiculeRepository {
       {required Map<String, dynamic> body, required String iduser});
   Future<Either<AppException, List<VehiculeModel>>> getAllVehicules(
       {required String iduser});
+  Future<Either<AppException, String>> deleteVehicules({required String id});
 }
