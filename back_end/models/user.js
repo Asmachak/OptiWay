@@ -31,7 +31,6 @@ const User = sequelize.define('user', {
   },
   photo: {
     type: DataTypes.STRING,
-    allowNull: false
   },
   address: {
     type: DataTypes.STRING,

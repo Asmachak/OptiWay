@@ -48,6 +48,8 @@ import 'package:front/features/user/presentation/pages/user_management_screen.da
     as _i14;
 import 'package:front/features/user/presentation/pages/welcome_screen.dart'
     as _i17;
+import 'package:front/features/vehicule/data/models/vehicule_model.dart'
+    as _i25;
 import 'package:front/features/vehicule/presentation/pages/add_vehicule_screen.dart'
     as _i1;
 import 'package:front/features/vehicule/presentation/pages/vehicule_list_screen.dart'
@@ -59,9 +61,13 @@ abstract class $AppRouter extends _i23.RootStackRouter {
   @override
   final Map<String, _i23.PageFactory> pagesMap = {
     AddVehiculeRoute.name: (routeData) {
+      final args = routeData.argsAs<AddVehiculeRouteArgs>();
       return _i23.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.AddVehiculeScreen(),
+        child: _i1.AddVehiculeScreen(
+          key: args.key,
+          vehicles: args.vehicles,
+        ),
       );
     },
     BillingDetailsRoute.name: (routeData) {
@@ -170,9 +176,13 @@ abstract class $AppRouter extends _i23.RootStackRouter {
       );
     },
     VehiculeListRoute.name: (routeData) {
+      final args = routeData.argsAs<VehiculeListRouteArgs>();
       return _i23.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i15.VehiculeListScreen(),
+        child: _i15.VehiculeListScreen(
+          key: args.key,
+          previous: args.previous,
+        ),
       );
     },
     VerifyOtpRoute.name: (routeData) {
@@ -227,16 +237,40 @@ abstract class $AppRouter extends _i23.RootStackRouter {
 
 /// generated route for
 /// [_i1.AddVehiculeScreen]
-class AddVehiculeRoute extends _i23.PageRouteInfo<void> {
-  const AddVehiculeRoute({List<_i23.PageRouteInfo>? children})
-      : super(
+class AddVehiculeRoute extends _i23.PageRouteInfo<AddVehiculeRouteArgs> {
+  AddVehiculeRoute({
+    _i24.Key? key,
+    required List<_i25.VehiculeModel> vehicles,
+    List<_i23.PageRouteInfo>? children,
+  }) : super(
           AddVehiculeRoute.name,
+          args: AddVehiculeRouteArgs(
+            key: key,
+            vehicles: vehicles,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddVehiculeRoute';
 
-  static const _i23.PageInfo<void> page = _i23.PageInfo<void>(name);
+  static const _i23.PageInfo<AddVehiculeRouteArgs> page =
+      _i23.PageInfo<AddVehiculeRouteArgs>(name);
+}
+
+class AddVehiculeRouteArgs {
+  const AddVehiculeRouteArgs({
+    this.key,
+    required this.vehicles,
+  });
+
+  final _i24.Key? key;
+
+  final List<_i25.VehiculeModel> vehicles;
+
+  @override
+  String toString() {
+    return 'AddVehiculeRouteArgs{key: $key, vehicles: $vehicles}';
+  }
 }
 
 /// generated route for
@@ -578,16 +612,40 @@ class UserManagementRoute extends _i23.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.VehiculeListScreen]
-class VehiculeListRoute extends _i23.PageRouteInfo<void> {
-  const VehiculeListRoute({List<_i23.PageRouteInfo>? children})
-      : super(
+class VehiculeListRoute extends _i23.PageRouteInfo<VehiculeListRouteArgs> {
+  VehiculeListRoute({
+    _i24.Key? key,
+    required String previous,
+    List<_i23.PageRouteInfo>? children,
+  }) : super(
           VehiculeListRoute.name,
+          args: VehiculeListRouteArgs(
+            key: key,
+            previous: previous,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'VehiculeListRoute';
 
-  static const _i23.PageInfo<void> page = _i23.PageInfo<void>(name);
+  static const _i23.PageInfo<VehiculeListRouteArgs> page =
+      _i23.PageInfo<VehiculeListRouteArgs>(name);
+}
+
+class VehiculeListRouteArgs {
+  const VehiculeListRouteArgs({
+    this.key,
+    required this.previous,
+  });
+
+  final _i24.Key? key;
+
+  final String previous;
+
+  @override
+  String toString() {
+    return 'VehiculeListRouteArgs{key: $key, previous: $previous}';
+  }
 }
 
 /// generated route for

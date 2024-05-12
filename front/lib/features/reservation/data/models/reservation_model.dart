@@ -11,6 +11,8 @@ class ReservationModel {
   String? iduser;
   String? idevent;
   String? idparking;
+  String? idvehicule;
+
 
   ReservationModel(
       {this.id,
@@ -19,7 +21,8 @@ class ReservationModel {
       this.state,
       this.iduser,
       this.idevent,
-      this.idparking});
+      this.idparking,
+      this.idvehicule});
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
     return ReservationModel(
@@ -30,6 +33,8 @@ class ReservationModel {
       iduser: json['iduser'],
       idevent: json['idevent'],
       idparking: json['idparking'],
+      idvehicule: json['idvehicule'],
+
     );
   }
 
@@ -42,6 +47,8 @@ class ReservationModel {
       'iduser': iduser,
       'idevent': idevent,
       'idparking': idparking,
+      'idvehicule': idvehicule,
+
     };
   }
 
@@ -55,6 +62,8 @@ class ReservationModel {
       iduser: reservation.iduser!,
       idevent: reservation.idevent!,
       idparking: reservation.idparking!,
+      idvehicule: reservation.idvehicule!,
+
     );
   }
 
@@ -68,6 +77,8 @@ class ReservationModel {
       iduser: reservationEntity.iduser,
       idevent: reservationEntity.idevent,
       idparking: reservationEntity.idparking,
+      idvehicule: reservationEntity.idvehicule,
+
     );
   }
 }

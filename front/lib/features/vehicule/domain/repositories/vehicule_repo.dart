@@ -8,4 +8,7 @@ abstract class VehiculeRepository {
   Future<Either<AppException, List<VehiculeModel>>> getAllVehicules(
       {required String iduser});
   Future<Either<AppException, String>> deleteVehicules({required String id});
+  Future<Either<AppException, List<dynamic>>> getAllManufacturer();
+  Future<Either<AppException, List<dynamic>>> getAllModels(
+      {required String manufacturerId});
 }

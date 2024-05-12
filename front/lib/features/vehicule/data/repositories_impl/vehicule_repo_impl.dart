@@ -29,4 +29,15 @@ class VehiculeRepositoryImpl implements VehiculeRepository {
       {required String id}) async {
     return remoteDataSource.deleteVehicules(id: id);
   }
+
+  @override
+  Future<Either<AppException, List<dynamic>>> getAllManufacturer() async {
+    return remoteDataSource.getAllManufacturer();
+  }
+
+  @override
+  Future<Either<AppException, List<dynamic>>> getAllModels(
+      {required String manufacturerId}) async {
+    return remoteDataSource.getAllModels(manufacturerId: manufacturerId);
+  }
 }

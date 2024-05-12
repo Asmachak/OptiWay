@@ -32,4 +32,6 @@ class VehiculeLocalDataSource {
   Future<void> voidVehiculeBox() async {
     await _vehiculeBox.clear(); // Clears all entries from the box
   }
+
+  Box<VehiculeModel> get vehiculeBox => _vehiculeBox;
 }

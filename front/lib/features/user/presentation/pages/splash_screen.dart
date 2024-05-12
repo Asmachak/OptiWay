@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/presentation/blocs/splash_provider.dart';
 import 'package:front/routes/app_routes.gr.dart';
+import 'package:lottie/lottie.dart';
 
 @RoutePage()
 class SplashScreen extends ConsumerWidget {
@@ -24,10 +25,9 @@ class SplashScreen extends ConsumerWidget {
       },
       loading: () {
         // Show loading indicator if needed
-        return const Scaffold(
-          backgroundColor: Colors.amber,
+        return Scaffold(
           body: Center(
-            child: CircularProgressIndicator(),
+            child: _buildUI(),
           ),
         );
       },
@@ -43,10 +43,15 @@ class SplashScreen extends ConsumerWidget {
     );
 
     return Scaffold(
-      backgroundColor: Colors.amber,
       body: Center(
-        child: FlutterLogo(),
+        child: _buildUI(),
       ),
+    );
+  }
+
+  Widget _buildUI() {
+    return Center(
+      child: Lottie.asset("assets/animations/spalsh.json"),
     );
   }
 }

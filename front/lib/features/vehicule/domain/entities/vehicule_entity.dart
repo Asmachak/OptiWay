@@ -6,6 +6,7 @@ class VehiculeEntity {
   final String model;
   final String marque;
   final String iduser;
+  final String color;
 
   VehiculeEntity(
       {required this.id,
@@ -13,6 +14,7 @@ class VehiculeEntity {
       required this.model,
       required this.marque,
       required this.iduser,
+      required this.color,
       y});
 
   factory VehiculeEntity.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class VehiculeEntity {
       marque: json['marque'],
       model: json['last_matricule'],
       iduser: json['iduser'],
+      color: json['color'],
     );
   }
 
@@ -32,6 +35,7 @@ class VehiculeEntity {
       'marque': marque,
       'last_matricule': model,
       'iduser': iduser,
+      'color': color,
     };
   }
 
@@ -42,6 +46,7 @@ class VehiculeEntity {
       marque: vehiculeEntity.marque,
       iduser: vehiculeEntity.iduser,
       model: vehiculeEntity.model,
+      color: vehiculeEntity.color,
     );
   }
 }

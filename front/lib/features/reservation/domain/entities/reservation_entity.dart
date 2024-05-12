@@ -8,6 +8,7 @@ class ReservationEntity {
   final String iduser;
   final String idevent;
   final String idparking;
+  final String idvehicule;
 
   ReservationEntity(
       {required this.id,
@@ -16,7 +17,8 @@ class ReservationEntity {
       required this.state,
       required this.iduser,
       required this.idevent,
-      required this.idparking});
+      required this.idparking,
+      required this.idvehicule});
 
   factory ReservationEntity.fromJson(Map<String, dynamic> json) {
     return ReservationEntity(
@@ -27,6 +29,7 @@ class ReservationEntity {
       iduser: json['iduser'],
       idevent: json['idevent'],
       idparking: json['idparking'],
+      idvehicule: json['idvehicule'],
     );
   }
 
@@ -39,6 +42,7 @@ class ReservationEntity {
       'iduser': iduser,
       'idevent': idevent,
       'idparking': idparking,
+      'idvehicule': idvehicule,
     };
   }
 
@@ -52,6 +56,7 @@ class ReservationEntity {
       iduser: reservationEntity.iduser,
       idevent: reservationEntity.idevent,
       idparking: reservationEntity.idparking,
+      idvehicule: reservationEntity.idvehicule,
     );
   }
 }

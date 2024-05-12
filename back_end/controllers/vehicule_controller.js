@@ -12,9 +12,11 @@ async function handleAddVehicule(req, res) {
       matricule: formData.matricule,
       marque: formData.marque,
       model:formData.model,
-      iduser:params.iduser
+      iduser:params.iduser,
+      color:formData.color
       
     });
+    console.log("formData" );
 
     return res.status(200).json(vehicule);
   } catch (error) {
@@ -57,5 +59,7 @@ async function handleDeleteVehicule(req, res) {
     res.status(500).send("Error occurred when handling Destroy vehicule");
   }
 }
+
+
 
 module.exports = {handleAddVehicule,vehiculeListe,handleDeleteVehicule}

@@ -20,12 +20,18 @@ const Vehicule = sequelize.define('vehicule', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  color : {
+  type:DataTypes.STRING,
+  allowNull: false
+}
   
 }, {
   timestamps: false
 });
 
 Vehicule.belongsTo(User, { foreignKey: 'iduser', targetKey: 'id' });
+Vehicule.belongsTo(User, { foreignKey: 'iduser', targetKey: 'id' });
+
 
 
 module.exports = Vehicule;

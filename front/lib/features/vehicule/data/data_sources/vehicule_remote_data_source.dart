@@ -11,6 +11,9 @@ abstract class VehiculeDataSource {
   Future<Either<AppException, List<VehiculeModel>>> getAllVehicules(
       {required String iduser});
   Future<Either<AppException, String>> deleteVehicules({required String id});
+  Future<Either<AppException, List<dynamic>>> getAllManufacturer();
+  Future<Either<AppException, List<dynamic>>> getAllModels(
+      {required String manufacturerId});
 }
 
 class VehiculeRemoteDataSource implements VehiculeDataSource {
@@ -32,11 +35,11 @@ class VehiculeRemoteDataSource implements VehiculeDataSource {
         },
         (response) async {
           final vehicule = VehiculeModel.fromJson(response.data);
-          // if (response.statusCode == 200) {
-          //   await GetIt.instance
-          //       .get<VehiculeLocalDataSource>()
-          //       .addVehicule(vehicule);
-          // }
+          if (response.statusCode == 200) {
+            await GetIt.instance
+                .get<VehiculeLocalDataSource>()
+                .addVehicule(vehicule);
+          }
           return Right(vehicule);
         },
       );
@@ -71,12 +74,12 @@ class VehiculeRemoteDataSource implements VehiculeDataSource {
           );
 
           // Clear and populate local data source
-          // final vehiculeLocalDataSource =
-          //     GetIt.instance.get<VehiculeLocalDataSource>();
-          // await vehiculeLocalDataSource.voidVehiculeBox(); // Clear the box
-          //   vehicules.forEach((vehicule) {
-          //     vehiculeLocalDataSource.addVehicule(vehicule); // Add each vehicle
-          //   });
+          final vehiculeLocalDataSource =
+              GetIt.instance.get<VehiculeLocalDataSource>();
+          await vehiculeLocalDataSource.voidVehiculeBox(); // Clear the box
+          vehicules.forEach((vehicule) {
+            vehiculeLocalDataSource.addVehicule(vehicule); // Add each vehicle
+          });
         }
         return Right(vehicules);
       });
@@ -116,6 +119,60 @@ class VehiculeRemoteDataSource implements VehiculeDataSource {
           statusCode: 1,
           identifier:
               '${e.toString()}\nAddVehiculeRemoteDataSource.addVehicule',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<dynamic>>> getAllManufacturer() async {
+    try {
+      final eitherType = await networkService.get('/cars');
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          print("maaan ${response.data}");
+          return Right(response.data);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier:
+              '${e.toString()}\nAddVehiculeRemoteDataSource.GetManufacturer',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<dynamic>>> getAllModels(
+      {required String manufacturerId}) async {
+    try {
+      final eitherType = await networkService.get(
+        '/cars/$manufacturerId',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) async {
+          return Right(response.data);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier:
+              '${e.toString()}\nAddVehiculeRemoteDataSource.GetManufacturer',
         ),
       );
     }

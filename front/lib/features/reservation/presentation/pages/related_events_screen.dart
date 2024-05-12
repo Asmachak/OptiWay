@@ -50,9 +50,9 @@ class RelatedEventScreen extends ConsumerWidget {
                   ),
                 ),
                 TextButton.icon(
-                  onPressed: () {
+                  onPressed: () async {
                     // Action for the "Skip" button
-                    reservationNotifier.addReservation(json);
+                    await reservationNotifier.addReservation(json);
                     if (reservationState is Success) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

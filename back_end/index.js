@@ -12,12 +12,17 @@ const Vehicule = require('./models/vehicule');
 const Message = require('./models/message');
 const Promotion = require('./models/promotion');
 const Notification = require('./models/notification');
+const Manufacturer = require('./models/carManufacturer');
+const CarModel = require('./models/carModel');
+const {importData} = require('./controllers/car_controller');
+
+
 
 /****************************************End-Declarations****************************************/ 
 //synchronize data base with models
 /*(async () => {
   try {
-    await sequelize.sync({ force: true,models: [User, Event,Reservation,Vehicule,Message,Promotion,Notification] });
+    await sequelize.sync({ force: true,models: [User, Event,Reservation,Vehicule,Message,Promotion,Notification,CarModel,Manufacturer] });
     console.log('Database synchronized successfully');
   } catch (error) {
     console.error('Error synchronizing database:', error);
@@ -45,11 +50,13 @@ app.use(require('./routes/reservation_routes'));
 app.use(require('./routes/event_routes')); 
 app.use(require('./routes/vehicule_routes')); 
 
+//app.use(require("./controllers/car_controller"))
+
 
 
 
 /****************************************End-Routes****************************************/ 
-
+//importData();
 
 
   

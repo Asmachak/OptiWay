@@ -22,13 +22,14 @@ class VehiculeModelAdapter extends TypeAdapter<VehiculeModel> {
       model: fields[2] as String?,
       marque: fields[3] as String?,
       iduser: fields[4] as String?,
+      color: fields[5] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, VehiculeModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class VehiculeModelAdapter extends TypeAdapter<VehiculeModel> {
       ..writeByte(3)
       ..write(obj.marque)
       ..writeByte(4)
-      ..write(obj.iduser);
+      ..write(obj.iduser)
+      ..writeByte(5)
+      ..write(obj.color);
   }
 
   @override

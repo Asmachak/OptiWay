@@ -42,13 +42,8 @@ class UserManagementScreen extends ConsumerWidget {
                       title: "vehicules",
                       icon: Icons.directions_car,
                       onPress: () {
-                        ref
-                            .read(vehiculeListNotifierProvider.notifier)
-                            .getVehicules(GetIt.instance
-                                .get<AuthLocalDataSource>()
-                                .currentUser!
-                                .id!);
-                        AutoRouter.of(context).push(VehiculeListRoute());
+                        AutoRouter.of(context)
+                            .push(VehiculeListRoute(previous: ""));
                       }),
                   ProfileMenuWidget(
                       title: "connections",

@@ -7,6 +7,8 @@ import 'package:front/features/vehicule/domain/repositories/vehicule_repo.dart';
 import 'package:front/features/vehicule/domain/use_cases/add_vehicule_use_case.dart';
 import 'package:front/features/vehicule/domain/use_cases/delete_vehicule_use_case.dart';
 import 'package:front/features/vehicule/domain/use_cases/get_all_vehicules_use_case.dart';
+import 'package:front/features/vehicule/domain/use_cases/get_manufacturer.dart';
+import 'package:front/features/vehicule/domain/use_cases/get_models.dart';
 
 final vehiculedatasourceProvider =
     Provider.family<VehiculeRemoteDataSource, NetworkService>(
@@ -32,4 +34,10 @@ final getAllVehiculeUseCaseProvider = Provider<GetVehiculeUseCase>((ref) {
 });
 final deleteVehiculeUseCaseProvider = Provider<DeleteVehiculeUseCase>((ref) {
   return DeleteVehiculeUseCase(ref.read(vehiculeRepositoryProvider));
+});
+final getManufacturerUseCaseProvider = Provider<GetManufacturerUseCase>((ref) {
+  return GetManufacturerUseCase(ref.read(vehiculeRepositoryProvider));
+});
+final getModelsUseCaseProvider = Provider<GetModelsUseCase>((ref) {
+  return GetModelsUseCase(ref.read(vehiculeRepositoryProvider));
 });

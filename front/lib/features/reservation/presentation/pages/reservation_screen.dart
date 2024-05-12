@@ -375,8 +375,49 @@ class ReservationScreen extends ConsumerWidget {
                             .id!,
                         "idevent": null
                       };
-                      AutoRouter.of(context)
-                          .push(RelatedEventRoute(json: json));
+
+                      if (startDateTime != null && endDateTime != null) {
+                        AutoRouter.of(context)
+                            .push(RelatedEventRoute(json: json));
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 234, 111, 103),
+                              title: const Text(
+                                'Oups !',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              content: const Text(
+                                'Your informations are missing',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    // Handle picking another time
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
+                                    ref
+                                        .read(selectedEndTimeProvider.notifier)
+                                        .state = null;
+                                  },
+                                  style: TextButton.styleFrom(
+                                    side: const BorderSide(
+                                        color: Colors.white), // Border color
+                                  ),
+                                  child: const Text(
+                                    'Return',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     style: ButtonStyle(
                       backgroundColor:
