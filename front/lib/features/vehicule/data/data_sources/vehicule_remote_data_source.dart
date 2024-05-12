@@ -100,7 +100,7 @@ class VehiculeRemoteDataSource implements VehiculeDataSource {
   Future<Either<AppException, String>> deleteVehicules(
       {required String id}) async {
     try {
-      final eitherType = await networkService.post(
+      final eitherType = await networkService.delete(
         '/vehicule/delete/$id',
       );
       return eitherType.fold(

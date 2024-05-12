@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
-import 'package:front/features/vehicule/data/data_sources/vehicule_local_data_source.dart';
 import 'package:front/features/vehicule/data/models/vehicule_model.dart';
-import 'package:front/features/vehicule/domain/entities/vehicule_entity.dart';
+import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicule_notifier.dart';
+import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicule_state.dart';
 import 'package:front/features/vehicule/presentation/blocs/vehicule_list_provider.dart';
+import 'package:front/features/vehicule/presentation/blocs/vehicule_providers.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
@@ -28,17 +29,43 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(vehiculeListNotifierProvider);
 
+    late VehiculeNotifier vehiculeNotifier =
+        ref.read(vehiculeNotifierProvider.notifier);
+
     final String title;
+    late String imageUrl = 'assets/red.png';
+
     if (widget.previous == "reservation") {
       title = "Select a car";
     } else {
       title = 'Vehicule List';
     }
+
     initState() {
       super.initState();
-
+      imageUrl = 'assets/red.png';
       ref.read(vehiculeListNotifierProvider.notifier).getVehicules(
           GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
+      vehiculeNotifier = ref.read(vehiculeNotifierProvider.notifier);
+    }
+
+    String setvehicleImage(String color) {
+      if (color.contains('Color(0xffffffff)')) {
+        return 'assets/white.png';
+      } else if (color.contains('Color(0xff000000)')) {
+        return 'assets/black.png';
+      } else if (color.contains('Color(0xffffff00)')) {
+        return 'assets/yellow.png';
+      } else if (color.contains('Color(0xffff0000)')) {
+        return 'assets/red.png';
+      } else if (color.contains('Color(0xff808080)')) {
+        return 'assets/grey.png';
+      } else if (color.contains('Color(0xff00ff00)')) {
+        return 'assets/green.png';
+      } else if (color.contains('Color(0xff2196f3)')) {
+        return 'assets/blue.png';
+      }
+      return imageUrl; // Return default image URL if no condition matches
     }
 
     return Scaffold(
@@ -94,7 +121,8 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Image.asset(
-                                      'assets/red.jpg',
+                                      setvehicleImage(
+                                          vehicules[index].color.toString()),
                                       width: 110,
                                       height: 70,
                                       fit: BoxFit.cover,
@@ -138,10 +166,65 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
                                         });
                                       },
                                     ),
-                                  ] else
-                                    ...[
-                                      
-                                    ]
+                                  ] else ...[
+                                    GestureDetector(
+                                      onTap: () {
+                                        var stateVehicule =
+                                            ref.watch(vehiculeNotifierProvider);
+                                        print(stateVehicule);
+                                        vehiculeNotifier.deleteVehicule(
+                                            vehicules[index].id.toString());
+                                        print("state veh");
+                                        print(stateVehicule);
+                                        if (stateVehicule is Success) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Container(
+                                                padding:
+                                                    const EdgeInsets.all(16),
+                                                height: 90,
+                                                decoration: const BoxDecoration(
+                                                  color: Color.fromARGB(
+                                                      255, 175, 76, 76),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20)),
+                                                ),
+                                                child: const Column(
+                                                  children: [
+                                                  
+                                                    Text(
+                                                      " The Car is deleted Successfully! ",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              elevation: 0,
+                                            ),
+                                          );
+                                          ref
+                                              .read(vehiculeListNotifierProvider
+                                                  .notifier)
+                                              .getVehicules(GetIt.instance
+                                                  .get<AuthLocalDataSource>()
+                                                  .currentUser!
+                                                  .id!);
+                                        }
+                                      },
+                                      child: const Icon(
+                                        Icons.delete,
+                                        size: 35,
+                                        color: Color.fromARGB(255, 214, 52, 41),
+                                      ),
+                                    )
+                                  ]
                                 ],
                               ),
                             ),

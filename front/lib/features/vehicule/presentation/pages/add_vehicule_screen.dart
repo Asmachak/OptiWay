@@ -15,7 +15,8 @@ import 'package:get_it/get_it.dart';
 @RoutePage()
 class AddVehiculeScreen extends ConsumerStatefulWidget {
   AddVehiculeScreen({Key? key, required this.vehicles}) : super(key: key);
-  List<VehiculeModel> vehicles;
+  final List<VehiculeModel> vehicles;
+
   @override
   _AddVehiculeScreenState createState() => _AddVehiculeScreenState();
 }
@@ -55,6 +56,10 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
   @override
   void initState() {
     super.initState();
+    initializeNotifiers();
+  }
+
+  void initializeNotifiers() {
     vehiculeNotifier = ref.read(vehiculeNotifierProvider.notifier);
     carBrandNotifier = ref.read(carsBrandNotifierProvider.notifier);
     carModelNotifier = ref.read(carsModelNotifierProvider.notifier);
@@ -66,6 +71,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
     selectedColor = "";
   }
 
+  @override
   void _showModalBottomSheet(BuildContext context, String state) {
     final stateBrand = ref.watch(carsBrandNotifierProvider);
     final stateModel = ref.watch(carsModelNotifierProvider);
