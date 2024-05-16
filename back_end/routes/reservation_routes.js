@@ -1,5 +1,5 @@
 const express = require('express');
-const { handleAddReservation } = require("../controllers/reservation_controller");
+const { handleAddReservation, getReservation } = require("../controllers/reservation_controller");
 const router = express.Router();
 
 
@@ -7,6 +7,8 @@ const router = express.Router();
 
 
 router.post('/reservation/addRes',handleAddReservation);
+router.get('/reservation/:userid',getReservation);
+
 
 
 module.exports = router;

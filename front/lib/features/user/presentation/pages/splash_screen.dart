@@ -16,11 +16,14 @@ class SplashScreen extends ConsumerWidget {
     userLoginStatus.when(
       data: (isLoggedIn) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (isLoggedIn) {
-            AutoRouter.of(context).replace(const MainRoute());
-          } else {
-            AutoRouter.of(context).replace(const WelcomeRoute());
-          }
+          // Delay execution by 3 seconds using Future.delayed
+          Future.delayed(const Duration(seconds: 3), () {
+            if (isLoggedIn) {
+              AutoRouter.of(context).replace(const MainRoute());
+            } else {
+              AutoRouter.of(context).replace(const WelcomeRoute());
+            }
+          });
         });
       },
       loading: () {
@@ -34,7 +37,6 @@ class SplashScreen extends ConsumerWidget {
       error: (error, stackTrace) {
         // Handle error if needed
         return Scaffold(
-          backgroundColor: Colors.amber,
           body: Center(
             child: Text('Error: $error'),
           ),
@@ -51,7 +53,22 @@ class SplashScreen extends ConsumerWidget {
 
   Widget _buildUI() {
     return Center(
-      child: Lottie.asset("assets/animations/spalsh.json"),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset("assets/animations/spalsh.json"),
+          const SizedBox(
+              height:
+                  20), // Add some space between the Lottie animation and the text
+          const Text(
+            "OptiWay",
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.indigo),
+          ),
+        ],
+      ),
     );
   }
 }

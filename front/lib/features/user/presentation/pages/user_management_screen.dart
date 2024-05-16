@@ -37,13 +37,14 @@ class UserManagementScreen extends ConsumerWidget {
                   ProfileMenuWidget(
                       title: "reservations",
                       icon: Icons.event_note_outlined,
-                      onPress: () {}),
+                      onPress: () {
+                        AutoRouter.of(context).push(ReservationListRoute());
+                      }),
                   ProfileMenuWidget(
                       title: "vehicules",
                       icon: Icons.directions_car,
                       onPress: () {
-                        AutoRouter.of(context)
-                            .push(VehiculeListRoute(previous: ""));
+                        AutoRouter.of(context).push(VehiculeListRoute());
                       }),
                   ProfileMenuWidget(
                       title: "connections",

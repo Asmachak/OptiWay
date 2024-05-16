@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/core/setImage.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/vehicule/data/models/vehicule_model.dart';
 import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicule_notifier.dart';
@@ -9,13 +10,10 @@ import 'package:front/features/vehicule/presentation/blocs/vehicule_list_provide
 import 'package:front/features/vehicule/presentation/blocs/vehicule_providers.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
-import 'package:roundcheckbox/roundcheckbox.dart';
 
 @RoutePage()
 class VehiculeListScreen extends ConsumerStatefulWidget {
-  VehiculeListScreen({Key? key, required this.previous}) : super(key: key);
-
-  String previous = "";
+  VehiculeListScreen({Key? key}) : super(key: key);
 
   @override
   _VehiculeListScreenState createState() => _VehiculeListScreenState();
@@ -31,41 +29,12 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
 
     late VehiculeNotifier vehiculeNotifier =
         ref.read(vehiculeNotifierProvider.notifier);
-
-    final String title;
-    late String imageUrl = 'assets/red.png';
-
-    if (widget.previous == "reservation") {
-      title = "Select a car";
-    } else {
-      title = 'Vehicule List';
-    }
-
+    @override
     initState() {
       super.initState();
-      imageUrl = 'assets/red.png';
       ref.read(vehiculeListNotifierProvider.notifier).getVehicules(
           GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
       vehiculeNotifier = ref.read(vehiculeNotifierProvider.notifier);
-    }
-
-    String setvehicleImage(String color) {
-      if (color.contains('Color(0xffffffff)')) {
-        return 'assets/white.png';
-      } else if (color.contains('Color(0xff000000)')) {
-        return 'assets/black.png';
-      } else if (color.contains('Color(0xffffff00)')) {
-        return 'assets/yellow.png';
-      } else if (color.contains('Color(0xffff0000)')) {
-        return 'assets/red.png';
-      } else if (color.contains('Color(0xff808080)')) {
-        return 'assets/grey.png';
-      } else if (color.contains('Color(0xff00ff00)')) {
-        return 'assets/green.png';
-      } else if (color.contains('Color(0xff2196f3)')) {
-        return 'assets/blue.png';
-      }
-      return imageUrl; // Return default image URL if no condition matches
     }
 
     return Scaffold(
@@ -74,9 +43,9 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
-        title: Align(
+        title: const Align(
           alignment: Alignment.centerLeft,
-          child: Text(title),
+          child: Text('Vehicule List'),
         ),
       ),
       body: Column(
@@ -110,7 +79,6 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
                                 selectedCar = selectedCar == vehicules[index].id
                                     ? null
                                     : vehicules[index].id;
-                                print(selectedCar);
                               });
                             },
                             child: Padding(
@@ -121,7 +89,7 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: Image.asset(
-                                      setvehicleImage(
+                                      setVehicleImage(
                                           vehicules[index].color.toString()),
                                       width: 110,
                                       height: 70,
@@ -152,79 +120,58 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 16),
-                                  if (widget.previous == "reservation") ...[
-                                    RoundCheckBox(
-                                      isChecked: selectedCar ==
-                                          vehicules[index]
-                                              .id, // Check if the car is selected
-                                      onTap: (selected) {
-                                        setState(() {
-                                          selectedCar = selected == true
-                                              ? vehicules[index].id
-                                              : null; // Update selectedCar based on checkbox state
-                                          print(selectedCar);
-                                        });
-                                      },
-                                    ),
-                                  ] else ...[
-                                    GestureDetector(
-                                      onTap: () {
-                                        var stateVehicule =
-                                            ref.watch(vehiculeNotifierProvider);
-                                        print(stateVehicule);
-                                        vehiculeNotifier.deleteVehicule(
-                                            vehicules[index].id.toString());
-                                        print("state veh");
-                                        print(stateVehicule);
-                                        if (stateVehicule is Success) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Container(
-                                                padding:
-                                                    const EdgeInsets.all(16),
-                                                height: 90,
-                                                decoration: const BoxDecoration(
-                                                  color: Color.fromARGB(
-                                                      255, 175, 76, 76),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20)),
-                                                ),
-                                                child: const Column(
-                                                  children: [
-                                                  
-                                                    Text(
-                                                      " The Car is deleted Successfully! ",
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                  ],
-                                                ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      var stateVehicule =
+                                          ref.watch(vehiculeNotifierProvider);
+                                      print(stateVehicule);
+                                      vehiculeNotifier.deleteVehicule(
+                                          vehicules[index].id.toString());
+                                      print("state veh");
+                                      print(stateVehicule);
+                                      if (stateVehicule is Success) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Container(
+                                              padding: const EdgeInsets.all(16),
+                                              height: 90,
+                                              decoration: const BoxDecoration(
+                                                color: Color.fromARGB(
+                                                    255, 175, 76, 76),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20)),
                                               ),
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              elevation: 0,
+                                              child: const Column(
+                                                children: [
+                                                  Text(
+                                                    " The Car is deleted Successfully! ",
+                                                    style: TextStyle(
+                                                        color: Colors.white),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          );
-                                          ref
-                                              .read(vehiculeListNotifierProvider
-                                                  .notifier)
-                                              .getVehicules(GetIt.instance
-                                                  .get<AuthLocalDataSource>()
-                                                  .currentUser!
-                                                  .id!);
-                                        }
-                                      },
-                                      child: const Icon(
-                                        Icons.delete,
-                                        size: 35,
-                                        color: Color.fromARGB(255, 214, 52, 41),
-                                      ),
-                                    )
-                                  ]
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor: Colors.transparent,
+                                            elevation: 0,
+                                          ),
+                                        );
+                                        ref
+                                            .read(vehiculeListNotifierProvider
+                                                .notifier)
+                                            .getVehicules(GetIt.instance
+                                                .get<AuthLocalDataSource>()
+                                                .currentUser!
+                                                .id!);
+                                      }
+                                    },
+                                    child: const Icon(
+                                      Icons.delete,
+                                      size: 35,
+                                      color: Color.fromARGB(255, 214, 52, 41),
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
@@ -240,31 +187,40 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
               ),
             ],
           ),
-          Center(
-            child: TextButton(
-              onPressed: () {
-                AutoRouter.of(context)
-                    .push(AddVehiculeRoute(vehicles: vehicles));
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.indigo[50]),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                    side: BorderSide.none,
+          Row(
+            children: [
+              const SizedBox(width: 16),
+              Expanded(
+                child: Center(
+                  child: TextButton(
+                    onPressed: () {
+                      AutoRouter.of(context)
+                          .push(AddVehiculeRoute(vehicles: vehicles));
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.indigo[50]),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          side: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                    child: const Text(
+                      "Add Vehicle",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.indigo,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
-              child: const Text(
-                "Add Vehicule",
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.indigo,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+              const SizedBox(width: 16), // Adjust the width as needed for spacing
+            ],
+          )
         ],
       ),
     );

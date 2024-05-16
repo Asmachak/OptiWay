@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/widgets/seperator.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
+import 'package:front/features/vehicule/presentation/pages/vehicule_list_reservation.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -37,6 +39,7 @@ DateTime convertToDateTime(TimeOfDay time) {
 @RoutePage()
 class ReservationScreen extends ConsumerWidget {
   final String idparking;
+  var price = 50.0;
   ReservationScreen({Key? key, required this.idparking}) : super(key: key);
 
   @override
@@ -305,7 +308,7 @@ class ReservationScreen extends ConsumerWidget {
                 child: Row(
                   children: [
                     Text(
-                      '5Euro/',
+                      '50Euro/',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -340,8 +343,8 @@ class ReservationScreen extends ConsumerWidget {
                   padding: const EdgeInsets.only(right: 20.0),
                   child: Row(
                     children: [
-                      const Text(
-                        '5Euro/',
+                      Text(
+                        '${(duration.inHours.remainder(24)) * price}Euro/',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -365,6 +368,8 @@ class ReservationScreen extends ConsumerWidget {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
+                      final jsonData = ref.read(jsonDataProvider);
+
                       var json = {
                         "idparking": idparking,
                         "CreatedAt": startDateTime?.toIso8601String(),
@@ -373,12 +378,19 @@ class ReservationScreen extends ConsumerWidget {
                             .get<AuthLocalDataSource>()
                             .currentUser!
                             .id!,
-                        "idevent": null
+                        "idevent": null,
+                        "idvehicule": null
                       };
+
+                      jsonData['idparking'] = idparking;
+                      jsonData['CreatedAt'] = startDateTime?.toIso8601String();
+                      jsonData['EndedAt'] = endDateTime?.toIso8601String();
+                      print('jsonData');
+                      print(jsonData.values);
 
                       if (startDateTime != null && endDateTime != null) {
                         AutoRouter.of(context)
-                            .push(RelatedEventRoute(json: json));
+                            .push(VehiculeListReservationRoute());
                       } else {
                         showDialog(
                           context: context,

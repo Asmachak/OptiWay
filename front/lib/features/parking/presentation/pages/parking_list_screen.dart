@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/core/loading.dart';
 import 'package:front/features/parking/presentation/blocs/parking_provider.dart';
 import 'package:front/features/parking/presentation/widgets/parking_widget.dart';
 import 'package:front/routes/app_routes.gr.dart';
@@ -80,7 +81,7 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
                 return const Text("initial");
               },
               loading: () {
-                return const Center(child: CircularProgressIndicator());
+                return Center(child: loadingWidget());
               },
               loaded: (parkings) {
                 return SingleChildScrollView(

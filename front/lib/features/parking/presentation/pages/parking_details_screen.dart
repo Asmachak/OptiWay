@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart' as flutter_html;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/core/loading.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -126,7 +127,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
       future: _parseLocation(location, adress),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return loadingWidget();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

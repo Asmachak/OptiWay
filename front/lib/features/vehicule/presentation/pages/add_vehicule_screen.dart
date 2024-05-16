@@ -48,8 +48,6 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
   ];
 
   bool isMatriculeExists(String matricule) {
-    print("from add");
-    print(widget.vehicles);
     return widget.vehicles.any((vehicle) => vehicle.matricule == matricule);
   }
 
@@ -541,8 +539,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                         .currentUser!
                         .id!);
 
-                    AutoRouter.of(context)
-                        .replace(VehiculeListRoute(previous: ""));
+                    AutoRouter.of(context).replace(VehiculeListRoute());
                   });
                   return const SizedBox.shrink();
                 },

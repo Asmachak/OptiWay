@@ -12,3 +12,15 @@ final jsonDataProvider = Provider<Map<String, dynamic>>((ref) {
     "idvehicule": null,
   };
 });
+
+
+final reservationDataProvider = StateProvider<Map<String, dynamic>>((ref) {
+  return {
+    "idparking": "", // Initialize with default values
+    "CreatedAt": null,
+    "EndedAt": null,
+    "iduser": GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!,
+    "idevent": null,
+    "idvehicule": null,
+  };
+});
