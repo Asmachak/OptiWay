@@ -35,4 +35,8 @@ class VehiculeNotifier extends StateNotifier<VehiculeState> {
       }
     });
   }
+
+  void resetState() {
+    state = const VehiculeState.initial();
+  }
 }

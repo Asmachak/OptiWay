@@ -423,6 +423,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                 ),
               ),
               const SizedBox(height: 40),
+              const SizedBox(height: 40),
               SizedBox(
                 width: double.infinity,
                 child: Center(
@@ -453,12 +454,14 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                                 child: const Column(
                                   children: [
                                     Text(
-                                      "Ooops!",
+                                      "Oops!",
                                       style: TextStyle(
-                                          fontSize: 18, color: Colors.white),
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                     Text(
-                                      " This Car Number is already added! ",
+                                      "This Car Number is already added!",
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ],
@@ -500,51 +503,64 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                 ),
               ),
               // SnackBar for feedback
-              vehicleState.when(
-                initial: () => const SizedBox.shrink(),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                success: (car) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Container(
-                          padding: const EdgeInsets.all(16),
-                          height: 90,
-                          decoration: const BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          child: const Column(
-                            children: [
-                              Text(
-                                "Congrats!",
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.white),
-                              ),
-                              Text(
-                                " Your Car is added successfully!",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Colors.transparent,
-                        elevation: 0,
-                      ),
-                    );
 
-                    vehiculeListNotifier.getVehicules(GetIt.instance
-                        .get<AuthLocalDataSource>()
-                        .currentUser!
-                        .id!);
+              Consumer(
+                builder: (context, watch, child) {
+                  final vehicleState = ref.watch(vehiculeNotifierProvider);
+                  return vehicleState.when(
+                    initial: () => const SizedBox.shrink(),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    success: (car) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Container(
+                              padding: const EdgeInsets.all(16),
+                              height: 90,
+                              decoration: const BoxDecoration(
+                                color: Colors.green,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                              child: const Column(
+                                children: [
+                                  Text(
+                                    "Congrats!",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Your Car is added successfully!",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                          ),
+                        );
 
-                    AutoRouter.of(context).replace(VehiculeListRoute());
-                  });
-                  return const SizedBox.shrink();
+                        vehiculeListNotifier.getVehicules(GetIt.instance
+                            .get<AuthLocalDataSource>()
+                            .currentUser!
+                            .id!);
+
+                        AutoRouter.of(context).replace(VehiculeListRoute());
+
+                        // Reset the state after navigation
+                        vehiculeNotifier.resetState();
+                      });
+                      return const SizedBox.shrink();
+                    },
+                    failure: (exception) => Text("$exception"),
+                    deleted: () => const Text("success"),
+                  );
                 },
-                failure: (exception) => Text("$exception"),
-                deleted: () => const Text("success"),
               ),
             ],
           ),

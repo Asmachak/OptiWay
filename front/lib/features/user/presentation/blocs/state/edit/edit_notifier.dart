@@ -62,4 +62,8 @@ class EditNotifier extends StateNotifier<EditState> {
       },
     );
   }
+
+  void resetState() {
+    state = const EditState.initial();
+  }
 }

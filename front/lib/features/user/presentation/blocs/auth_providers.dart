@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/domain/providers/user_provider.dart';
 import 'package:front/features/user/domain/usescases/user/auth_use_cases.dart';
-import 'package:front/features/user/presentation/blocs/state/auth_notifier.dart';
+import 'package:front/features/user/presentation/blocs/state/auth/auth_notifier.dart';
 import 'package:front/features/user/presentation/blocs/state/auth/auth_state.dart';
 
 final authNotifierProvider =
