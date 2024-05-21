@@ -59,10 +59,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
 
   void initializeNotifiers() {
     vehiculeNotifier = ref.read(vehiculeNotifierProvider.notifier);
-    carBrandNotifier = ref.read(carsBrandNotifierProvider.notifier);
     carModelNotifier = ref.read(carsModelNotifierProvider.notifier);
-
-    carBrandNotifier.getManufacturer();
 
     selectedCar = "";
     selectedCarModel = "";
@@ -261,7 +258,11 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
               ),
               const SizedBox(height: 10),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  carBrandNotifier =
+                      await ref.read(carsBrandNotifierProvider.notifier);
+
+                  await carBrandNotifier.getManufacturer();
                   _showModalBottomSheet(context, "brand");
                 },
                 style: ButtonStyle(
@@ -310,8 +311,16 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () async {
-                  await carModelNotifier.getModels(selectedCar);
-                  _showModalBottomSheet(context, "model");
+                  if (selectedCar != '') {
+                    await carModelNotifier.getModels(selectedCar);
+                    _showModalBottomSheet(context, "model");
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('woooy'),
+                      ),
+                    );
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
