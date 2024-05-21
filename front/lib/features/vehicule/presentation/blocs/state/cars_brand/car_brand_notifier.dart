@@ -25,4 +25,8 @@ class CarsBrandNotifier extends StateNotifier<CarBrandState> {
       },
     );
   }
+
+  void resetState() {
+    state = const CarBrandState.initial();
+  }
 }

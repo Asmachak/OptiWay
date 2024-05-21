@@ -5,13 +5,13 @@ String setVehicleImage(String color) {
     return 'assets/white.png';
   } else if (color.contains('Color(0xff000000)')) {
     return 'assets/black.png';
-  } else if (color.contains('Color(0xffffff00)')) {
+  } else if (color.contains('Color(0xffffeb3b)')) {
     return 'assets/yellow.png';
   } else if (color.contains('Color(0xffff0000)')) {
     return 'assets/red.png';
   } else if (color.contains('Color(0xff808080)')) {
     return 'assets/grey.png';
-  } else if (color.contains('Color(0xff00ff00)')) {
+  } else if (color.contains('Color(0xff4caf50)')) {
     return 'assets/green.png';
   } else if (color.contains('Color(0xff2196f3)')) {
     return 'assets/blue.png';

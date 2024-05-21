@@ -1,16 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/reservation/presentation/widgets/booking_switcher.dart';
 
 @RoutePage()
-class reservationListScreen extends StatefulWidget {
-  const reservationListScreen({super.key});
+class ReservationListScreen extends ConsumerStatefulWidget {
+  // Changed to ConsumerStatefulWidget
+  const ReservationListScreen({super.key});
 
   @override
-  State<reservationListScreen> createState() => _reservationListScreenState();
+  ConsumerState<ReservationListScreen> createState() =>
+      _ReservationListScreenState(); // Updated return type
 }
 
-class _reservationListScreenState extends State<reservationListScreen> {
+class _ReservationListScreenState extends ConsumerState<ReservationListScreen> {
+  // Changed to ConsumerState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +25,10 @@ class _reservationListScreenState extends State<reservationListScreen> {
         ),
         title: const Align(
           alignment: Alignment.centerLeft,
-          child: Text('My Bookings'),
+          child: Text(
+            'My Bookings',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27),
+          ),
         ),
       ),
       body: BookingSwitcher(),

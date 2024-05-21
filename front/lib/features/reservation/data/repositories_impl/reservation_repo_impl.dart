@@ -18,4 +18,11 @@ class ReservationRepositoryImpl implements ReservationRepository {
   }) {
     return remoteDataSource.addReservation(body: body);
   }
+
+  @override
+  Future<Either<AppException, List<ReservationModel>>> getReservation({
+    required String iduser,
+  }) {
+    return remoteDataSource.getReservation(iduser: iduser);
+  }
 }

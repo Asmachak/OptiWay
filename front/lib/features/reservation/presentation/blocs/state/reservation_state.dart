@@ -7,7 +7,9 @@ part 'reservation_state.freezed.dart';
 abstract class ReservationState with _$ReservationState {
   const factory ReservationState.initial() = Initial;
   const factory ReservationState.loading() = Loading;
+  const factory ReservationState.loaded(
+      {required List<ReservationModel> reservations}) = Loaded;
   const factory ReservationState.failure(AppException exception) = Failure;
-  const factory ReservationState.success({required ReservationModel reservation}) =
-      Success;
+  const factory ReservationState.success(
+      {required ReservationModel reservation}) = Success;
 }

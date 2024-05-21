@@ -22,4 +22,8 @@ class CarsModelNotifier extends StateNotifier<CarModelState> {
       },
     );
   }
+
+  void resetState() {
+    state = const CarModelState.initial();
+  }
 }

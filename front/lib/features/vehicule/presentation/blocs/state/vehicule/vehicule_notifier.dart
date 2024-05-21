@@ -29,10 +29,11 @@ class VehiculeNotifier extends StateNotifier<VehiculeState> {
     state = const VehiculeState.loading();
     final result = await _vehiculeUseCases.deleteVehiculeUseCase
         .call(DeleteVehiculeParams(id: id));
-    result.fold((failure) => state = VehiculeState.failure(failure), (msg) {
-      if (msg == "Vehicule is deleted successfully") {
-        state = const VehiculeState.deleted();
-      }
+    result.fold((failure) => state = VehiculeState.failure(failure),
+        (response) {
+      print("responsed $response.");
+      state = const VehiculeState.deleted();
+      print(state);
     });
   }
 

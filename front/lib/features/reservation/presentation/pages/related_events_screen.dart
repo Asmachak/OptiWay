@@ -79,6 +79,8 @@ class RelatedEventScreen extends ConsumerWidget {
                   return Container(
                     child: loadingWidget(),
                   );
+                }, loaded: (reservations) {
+                  return const SizedBox();
                 }, failure: (failure) {
                   return Text(failure.toString());
                 }, success: (reservation) {

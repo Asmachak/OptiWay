@@ -2,6 +2,7 @@ const Reservation = require("../models/reservation");
 const {generateID} = require("../middleware/generateID");
 const Parking = require("../models/parking");
 const User = require("../models/user");
+const { where } = require("sequelize");
 
 async function handleAddReservation(req, res) {
   try {
@@ -55,14 +56,14 @@ async function handleAddReservation(req, res) {
 
 async function getReservation(req, res) {
   try {
-    const params = req.params; // Corrected typo 'res.params' to 'req.params'
+    const params = req.params; 
 
-    const user = await User.findByPk(params.userid); // Added 'await' to ensure asynchronous operation completion
+    const user = await User.findByPk(params.userid); 
     console.log(params.userid);
     if (user) {
-      const reservations = await Reservation.findAll({ // Corrected the usage of 'where' clause
+      const reservations = await Reservation.findAll({ 
         where: {
-          iduser: params.userid, // Changed "userid" to "userId" for consistency
+          iduser: params.userid, 
         },
       });
 
@@ -79,6 +80,32 @@ async function getReservation(req, res) {
   }
 }
 
+async function changeReservationState() {
+  try {
+    // Define the current date
+    const today = new Date();
 
+    // Find all reservations with state "in progress"
+    const reservations = await Reservation.findAll({
+      where: {
+        state: 'in progress',
+      },
+    });
+
+    // Iterate through the reservations and update their state if EndedAt < today
+    for (const reservation of reservations) {
+      if (reservation.EndedAt < today) {
+        await reservation.update({ state: 'ended' }); // Change the state as needed
+      }
+    }
+
+    console.log('Reservations updated successfully');
+  } catch (error) {
+    console.error('Error occurred when handling changing reservation:', error);
+  }
+}
+
+// Run the function every second
+setInterval(changeReservationState, 1000);
 
 module.exports = {handleAddReservation,getReservation}

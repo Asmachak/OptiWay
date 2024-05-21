@@ -7,11 +7,11 @@ import 'package:front/features/reservation/presentation/blocs/state/reservation_
 final reservationNotifierProvider =
     StateNotifierProvider<ReservationNotifier, ReservationState>((ref) {
   final addReservationUseCases = ref.read(addReservationUseCaseProvider);
-  // final updatePasswordUseCases = ref.read(updatePasswordUseCaseProvider);
+  final getReservationUseCases = ref.read(getReservationUseCaseProvider);
 
   final reservationUseCases = ReservationUseCases(
     addReservationUseCases: addReservationUseCases,
-    // updatePasswordUseCases: updatePasswordUseCases,
+    getReservationUsecases: getReservationUseCases,
   );
   // final hiveBox = ref.watch(hiveBoxProvider);
   return ReservationNotifier(reservationUseCases);

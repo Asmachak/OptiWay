@@ -6,4 +6,6 @@ abstract class ReservationRepository {
   Future<Either<AppException, ReservationModel>> addReservation({
     required Map<String, dynamic> body,
   });
+  Future<Either<AppException, List<ReservationModel>>> getReservation(
+      {required String iduser});
 }

@@ -20,6 +20,7 @@ mixin _$ReservationState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
   }) =>
@@ -28,6 +29,7 @@ mixin _$ReservationState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
   }) =>
@@ -36,6 +38,7 @@ mixin _$ReservationState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
     required TResult orElse(),
@@ -45,6 +48,7 @@ mixin _$ReservationState {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) =>
@@ -53,6 +57,7 @@ mixin _$ReservationState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) =>
@@ -61,6 +66,7 @@ mixin _$ReservationState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),
@@ -126,6 +132,7 @@ class _$InitialImpl implements Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
   }) {
@@ -137,6 +144,7 @@ class _$InitialImpl implements Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
   }) {
@@ -148,6 +156,7 @@ class _$InitialImpl implements Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
     required TResult orElse(),
@@ -163,6 +172,7 @@ class _$InitialImpl implements Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) {
@@ -174,6 +184,7 @@ class _$InitialImpl implements Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) {
@@ -185,6 +196,7 @@ class _$InitialImpl implements Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),
@@ -240,6 +252,7 @@ class _$LoadingImpl implements Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
   }) {
@@ -251,6 +264,7 @@ class _$LoadingImpl implements Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
   }) {
@@ -262,6 +276,7 @@ class _$LoadingImpl implements Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
     required TResult orElse(),
@@ -277,6 +292,7 @@ class _$LoadingImpl implements Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) {
@@ -288,6 +304,7 @@ class _$LoadingImpl implements Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) {
@@ -299,6 +316,7 @@ class _$LoadingImpl implements Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),
@@ -312,6 +330,166 @@ class _$LoadingImpl implements Loading {
 
 abstract class Loading implements ReservationState {
   const factory Loading() = _$LoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$LoadedImplCopyWith<$Res> {
+  factory _$$LoadedImplCopyWith(
+          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<ReservationModel> reservations});
+}
+
+/// @nodoc
+class __$$LoadedImplCopyWithImpl<$Res>
+    extends _$ReservationStateCopyWithImpl<$Res, _$LoadedImpl>
+    implements _$$LoadedImplCopyWith<$Res> {
+  __$$LoadedImplCopyWithImpl(
+      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reservations = null,
+  }) {
+    return _then(_$LoadedImpl(
+      reservations: null == reservations
+          ? _value._reservations
+          : reservations // ignore: cast_nullable_to_non_nullable
+              as List<ReservationModel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoadedImpl implements Loaded {
+  const _$LoadedImpl({required final List<ReservationModel> reservations})
+      : _reservations = reservations;
+
+  final List<ReservationModel> _reservations;
+  @override
+  List<ReservationModel> get reservations {
+    if (_reservations is EqualUnmodifiableListView) return _reservations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reservations);
+  }
+
+  @override
+  String toString() {
+    return 'ReservationState.loaded(reservations: $reservations)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoadedImpl &&
+            const DeepCollectionEquality()
+                .equals(other._reservations, _reservations));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_reservations));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<ReservationModel> reservations) loaded,
+    required TResult Function(AppException exception) failure,
+    required TResult Function(ReservationModel reservation) success,
+  }) {
+    return loaded(reservations);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<ReservationModel> reservations)? loaded,
+    TResult? Function(AppException exception)? failure,
+    TResult? Function(ReservationModel reservation)? success,
+  }) {
+    return loaded?.call(reservations);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<ReservationModel> reservations)? loaded,
+    TResult Function(AppException exception)? failure,
+    TResult Function(ReservationModel reservation)? success,
+    required TResult orElse(),
+  }) {
+    if (loaded != null) {
+      return loaded(reservations);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Failure value) failure,
+    required TResult Function(Success value) success,
+  }) {
+    return loaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Failure value)? failure,
+    TResult? Function(Success value)? success,
+  }) {
+    return loaded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Failure value)? failure,
+    TResult Function(Success value)? success,
+    required TResult orElse(),
+  }) {
+    if (loaded != null) {
+      return loaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Loaded implements ReservationState {
+  const factory Loaded({required final List<ReservationModel> reservations}) =
+      _$LoadedImpl;
+
+  List<ReservationModel> get reservations;
+  @JsonKey(ignore: true)
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -381,6 +559,7 @@ class _$FailureImpl implements Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
   }) {
@@ -392,6 +571,7 @@ class _$FailureImpl implements Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
   }) {
@@ -403,6 +583,7 @@ class _$FailureImpl implements Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
     required TResult orElse(),
@@ -418,6 +599,7 @@ class _$FailureImpl implements Failure {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) {
@@ -429,6 +611,7 @@ class _$FailureImpl implements Failure {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) {
@@ -440,6 +623,7 @@ class _$FailureImpl implements Failure {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),
@@ -527,6 +711,7 @@ class _$SuccessImpl implements Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
+    required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
   }) {
@@ -538,6 +723,7 @@ class _$SuccessImpl implements Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
+    TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
   }) {
@@ -549,6 +735,7 @@ class _$SuccessImpl implements Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
+    TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
     required TResult orElse(),
@@ -564,6 +751,7 @@ class _$SuccessImpl implements Success {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
   }) {
@@ -575,6 +763,7 @@ class _$SuccessImpl implements Success {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
   }) {
@@ -586,6 +775,7 @@ class _$SuccessImpl implements Success {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
     required TResult orElse(),

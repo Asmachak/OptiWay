@@ -18,11 +18,9 @@ final vehiculedatasourceProvider =
 final vehiculeRepositoryProvider = Provider<VehiculeRepository>((ref) {
   final networkService = ref.watch(networkServiceProvider);
   final datasource = ref.watch(vehiculedatasourceProvider(networkService));
-  // final localDataSource = ref.watch(authLocalDataSourceProvider);
   final repository = VehiculeRepositoryImpl(
     datasource,
   );
-
   return repository;
 });
 

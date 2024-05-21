@@ -507,6 +507,11 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
               Consumer(
                 builder: (context, watch, child) {
                   final vehicleState = ref.watch(vehiculeNotifierProvider);
+
+                  vehiculeListNotifier.getVehicules(GetIt.instance
+                      .get<AuthLocalDataSource>()
+                      .currentUser!
+                      .id!);
                   return vehicleState.when(
                     initial: () => const SizedBox.shrink(),
                     loading: () =>
@@ -545,15 +550,12 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                           ),
                         );
 
-                        vehiculeListNotifier.getVehicules(GetIt.instance
-                            .get<AuthLocalDataSource>()
-                            .currentUser!
-                            .id!);
-
-                        AutoRouter.of(context).replace(VehiculeListRoute());
+                        AutoRouter.of(context).popForced();
 
                         // Reset the state after navigation
                         vehiculeNotifier.resetState();
+                        carBrandNotifier.resetState();
+                        carModelNotifier.resetState();
                       });
                       return const SizedBox.shrink();
                     },

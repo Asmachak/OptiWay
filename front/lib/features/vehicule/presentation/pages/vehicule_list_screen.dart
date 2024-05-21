@@ -121,15 +121,14 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
                                   ),
                                   const SizedBox(width: 16),
                                   GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
+                                      await vehiculeNotifier.deleteVehicule(
+                                          vehicules[index].id.toString());
                                       var stateVehicule =
                                           ref.watch(vehiculeNotifierProvider);
                                       print(stateVehicule);
-                                      vehiculeNotifier.deleteVehicule(
-                                          vehicules[index].id.toString());
-                                      print("state veh");
-                                      print(stateVehicule);
-                                      if (stateVehicule is Success) {
+                                      print("state veh $stateVehicule");
+                                      if (stateVehicule is Deleted) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
@@ -218,7 +217,8 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 16), // Adjust the width as needed for spacing
+              const SizedBox(
+                  width: 16), // Adjust the width as needed for spacing
             ],
           )
         ],

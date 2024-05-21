@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/reservation/domain/use_cases/add_reservation_use_case.dart';
+import 'package:front/features/reservation/domain/use_cases/get_reservation_use_case.dart';
 import 'package:front/features/reservation/domain/use_cases/reservation_use_cases.dart';
 import 'package:front/features/reservation/presentation/blocs/state/reservation_state.dart';
 
@@ -20,6 +21,20 @@ class ReservationNotifier extends StateNotifier<ReservationState> {
       (failure) => state = ReservationState.failure(failure),
       (reservation) {
         state = ReservationState.success(reservation: reservation);
+      },
+    );
+  }
+
+  Future<void> getReservation(String iduser) async {
+    state = const ReservationState.loading();
+    final result = await _reservationUseCases.getReservationUsecases
+        .call(GetReservationParams(
+      iduser: iduser,
+    ));
+    result.fold(
+      (failure) => state = ReservationState.failure(failure),
+      (reservations) {
+        state = ReservationState.loaded(reservations: reservations);
       },
     );
   }

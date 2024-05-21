@@ -1,6 +1,5 @@
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
-import 'package:front/features/vehicule/data/models/vehicule_model.dart';
 import 'package:front/features/vehicule/domain/repositories/vehicule_repo.dart';
 import 'package:front/shared/use_case.dart';
 

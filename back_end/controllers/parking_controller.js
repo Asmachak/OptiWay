@@ -28,3 +28,19 @@ const Parking = require('../models/parking');
        res.status(500).json({ error: 'Internal server error' });    }
   }
 
+
+  exports.getParkingByID = async(req, res) =>{
+    try {
+      const params = req.params; 
+  
+      const parking = await Parking.findByPk(params.parkingid); 
+     
+      if (parking) {
+        res.status(200).send(parking);
+      } else {
+        res.status(500).send("Parking not found!");
+      }
+    } catch (error) {
+      res.status(500).send("Error occurred when getting parking by ID : " + error); 
+  }
+  }
