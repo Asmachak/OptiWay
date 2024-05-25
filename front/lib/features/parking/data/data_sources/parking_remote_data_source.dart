@@ -5,6 +5,8 @@ import 'package:front/features/parking/data/models/parking_model.dart';
 
 abstract class ParkingDataSource {
   Future<Either<AppException, List<ParkingModel>>> getAllParkings();
+  // Future<Either<AppException, ParkingModel>> getParkingID(
+  //     {required String idparking});
 }
 
 class ParkingRemoteDataSource implements ParkingDataSource {
@@ -38,6 +40,34 @@ class ParkingRemoteDataSource implements ParkingDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nParkingRemoteDataSource.GetAllParkings',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, ParkingModel>> getParkingByID({
+    required String idparking,
+  }) async {
+    try {
+      final eitherType = await networkService.get(
+        '/parking/$idparking',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          return Right(ParkingModel.fromJson(response.data));
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nParkingRemoteDataSource.GetParkingByID',
         ),
       );
     }
