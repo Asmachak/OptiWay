@@ -3,6 +3,7 @@ const {generateID} = require("../middleware/generateID");
 const Parking = require("../models/parking");
 const User = require("../models/user");
 const { where } = require("sequelize");
+const Vehicule = require("../models/vehicule");
 
 async function handleAddReservation(req, res) {
   try {
@@ -56,29 +57,42 @@ async function handleAddReservation(req, res) {
 
 async function getReservation(req, res) {
   try {
-    const params = req.params; 
+    const { userid } = req.params;
 
-    const user = await User.findByPk(params.userid); 
-    console.log(params.userid);
-    if (user) {
-      const reservations = await Reservation.findAll({ 
-        where: {
-          iduser: params.userid, 
-        },
-      });
-
-      if (reservations) {
-        res.status(200).send(reservations);
-      } else {
-        res.status(500).send("No reservations found for the user.");
-      }
-    } else {
-      res.status(500).send("User not found!");
+    const user = await User.findByPk(userid);
+    if (!user) {
+      return res.status(404).send("User not found!");
     }
+
+    const reservations = await Reservation.findAll({
+      where: { iduser: userid },
+      include: [
+        {
+          model: Parking,
+        
+        },
+        {
+          model: Vehicule,
+          
+        },
+        {
+          model: User,
+
+        }
+
+      ],
+    });
+
+    if (!reservations || reservations.length === 0) {
+      return res.status(404).send("No reservations found for the user.");
+    }
+
+    res.status(200).send(reservations);
   } catch (error) {
-    res.status(500).send("Error occurred when handling get reservation: " + error); // Concatenated error message with the actual error
+    res.status(500).send("Error occurred when handling get reservation: " + error);
   }
 }
+
 
 async function changeReservationState() {
   try {

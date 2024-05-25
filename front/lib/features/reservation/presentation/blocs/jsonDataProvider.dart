@@ -10,9 +10,10 @@ final jsonDataProvider = Provider<Map<String, dynamic>>((ref) {
     "iduser": GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!,
     "idevent": null,
     "idvehicule": null,
+    "parking": null,
+    "vehicle": null
   };
 });
-
 
 final reservationDataProvider = StateProvider<Map<String, dynamic>>((ref) {
   return {
@@ -22,5 +23,7 @@ final reservationDataProvider = StateProvider<Map<String, dynamic>>((ref) {
     "iduser": GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!,
     "idevent": null,
     "idvehicule": null,
+    "parking": null,
+    "vehicle": null
   };
 });

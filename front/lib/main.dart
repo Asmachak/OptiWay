@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/core/observers.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/user/data/models/user_model.dart';
 import 'package:front/features/vehicule/data/data_sources/vehicule_local_data_source.dart';
@@ -31,6 +32,7 @@ void main() async {
 
   runApp(
     ProviderScope(
+      observers: [Observers()],
       child: MyApp(),
     ),
   );

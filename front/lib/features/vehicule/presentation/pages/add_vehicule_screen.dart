@@ -9,7 +9,6 @@ import 'package:front/features/vehicule/presentation/blocs/state/cars_model/car_
 import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicule_notifier.dart';
 import 'package:front/features/vehicule/presentation/blocs/vehicule_list_provider.dart';
 import 'package:front/features/vehicule/presentation/blocs/vehicule_providers.dart';
-import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 
 @RoutePage()
@@ -59,10 +58,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
 
   void initializeNotifiers() {
     vehiculeNotifier = ref.read(vehiculeNotifierProvider.notifier);
-    carBrandNotifier = ref.read(carsBrandNotifierProvider.notifier);
     carModelNotifier = ref.read(carsModelNotifierProvider.notifier);
-
-    carBrandNotifier.getManufacturer();
 
     selectedCar = "";
     selectedCarModel = "";
@@ -230,7 +226,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
   }
 
   Widget build(BuildContext context) {
-    final vehicleState = ref.watch(vehiculeNotifierProvider);
+   
     final vehiculeListNotifier =
         ref.read(vehiculeListNotifierProvider.notifier);
 
@@ -261,7 +257,11 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
               ),
               const SizedBox(height: 10),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  carBrandNotifier =
+                      await ref.read(carsBrandNotifierProvider.notifier);
+
+                  await carBrandNotifier.getManufacturer();
                   _showModalBottomSheet(context, "brand");
                 },
                 style: ButtonStyle(
@@ -310,8 +310,16 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
               const SizedBox(height: 10),
               TextButton(
                 onPressed: () async {
-                  await carModelNotifier.getModels(selectedCar);
-                  _showModalBottomSheet(context, "model");
+                  if (selectedCar != '') {
+                    await carModelNotifier.getModels(selectedCar);
+                    _showModalBottomSheet(context, "model");
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('woooy'),
+                      ),
+                    );
+                  }
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(

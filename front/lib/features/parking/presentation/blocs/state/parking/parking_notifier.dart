@@ -6,10 +6,8 @@ import 'parking_state.dart';
 class ParkingNotifier extends StateNotifier<ParkingState> {
   final ParkingUseCases _parkingUseCases;
 
-  ParkingNotifier(
-    this._parkingUseCases,
-  ) : super(const ParkingState.initial()) {
-    getParkings(); // Fetch data on initialization
+  ParkingNotifier(this._parkingUseCases) : super(const ParkingState.initial()) {
+    getParkings();
   }
 
   Future<void> getParkings() async {

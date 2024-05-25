@@ -22,34 +22,54 @@ class TicketScreen extends ConsumerWidget {
         title: const Text("Reservation Ticket"),
       ),
       body: SingleChildScrollView(
-          child: TicketReservation(reservation: reservation)),
+        child: TicketReservation(reservation: reservation),
+      ),
     );
   }
 }
 
-class TicketReservation extends StatefulWidget {
+class TicketReservation extends ConsumerStatefulWidget {
   TicketReservation({Key? key, required this.reservation}) : super(key: key);
   final ReservationModel reservation;
+
   @override
-  State<TicketReservation> createState() => _TicketReservationState();
+  _TicketReservationState createState() => _TicketReservationState();
 }
 
-class _TicketReservationState extends State<TicketReservation> {
+class _TicketReservationState extends ConsumerState<TicketReservation> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double widthScr = MediaQuery.of(context).size.width;
     double heightScr = MediaQuery.of(context).size.height;
 
+    // Calculate the duration
+    DateTime createdAt = DateTime.parse(widget.reservation.createdAt ?? '');
+    DateTime endedAt = DateTime.parse(widget.reservation.endedAt ?? '');
+    Duration duration = endedAt.difference(createdAt);
+
+    String formatDuration(Duration duration) {
+      int days = duration.inDays;
+      int hours = duration.inHours.remainder(24);
+      int minutes = duration.inMinutes.remainder(60);
+      return '${days}d${hours}h${minutes}min';
+    }
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Center(
             child: TicketWidget(
-              height: heightScr * 1.1,
+              height: heightScr * 1.05,
               width: widthScr * 0.9,
               isCornerRounded: true,
-              color: Colors.indigo.shade50,
+              color: const Color.fromARGB(255, 241, 241, 246),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -60,7 +80,7 @@ class _TicketReservationState extends State<TicketReservation> {
                       child: Text(
                         "Scan this Code on the scanner machine when you are in the parking or event",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Color.fromARGB(255, 37, 45, 91),
                         ),
@@ -86,49 +106,52 @@ class _TicketReservationState extends State<TicketReservation> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Parking Name",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Parking Name",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "name",
-                                // widget.reservation
-                                //     .id!, // Replace with actual data
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  widget.reservation.parking?["parkingName"]!,
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          const Spacer(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Parking spot",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Parking spot",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "spot", // Replace with actual data
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  "spot", // Replace with actual data
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -137,47 +160,52 @@ class _TicketReservationState extends State<TicketReservation> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Parking area",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Parking area",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "area", // Replace with actual data
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  "area", // Replace with actual data
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          const Spacer(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "vehicle",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Vehicle",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "vehicle", // Replace with actual data
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  '${widget.reservation.vehicle?["model"] ?? ''} ${widget.reservation.vehicle?["matricule"] ?? ''}',
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -186,47 +214,52 @@ class _TicketReservationState extends State<TicketReservation> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Duration",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Duration",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Duration', // Replace with actual data
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  formatDuration(duration),
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          const Spacer(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Date",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Date",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                "Date time", // Replace with actual data
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  "${widget.reservation.endedAt?.split("T")[0] ?? ''}",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -235,53 +268,75 @@ class _TicketReservationState extends State<TicketReservation> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Hour",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Hour",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Hour', // Replace with actual data
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  "${widget.reservation.createdAt?.split("T")[1].substring(0, 5) ?? ''} - ${widget.reservation.endedAt?.split("T")[1].substring(0, 5) ?? ''}",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          const Spacer(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Phone",
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Phone",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'phone', // Replace with actual data
-                                style: TextStyle(
-                                  color: Colors.grey[600],
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.bold,
+                                Text(
+                                  "${widget.reservation.user?["phone"] ?? ''}",
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () async {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.indigo,
+                    side: BorderSide.none,
+                    shape: const StadiumBorder()),
+                child: const Text("Get Direction",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Color.fromARGB(255, 255, 255, 255))),
               ),
             ),
           ),

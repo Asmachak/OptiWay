@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/loading.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/blocs/reservation_providers.dart';
+import 'package:front/routes/app_routes.gr.dart';
 import 'package:lottie/lottie.dart';
 
 @RoutePage()
@@ -102,7 +103,7 @@ class RelatedEventScreen extends ConsumerWidget {
                                     fontSize: 18, color: Colors.white),
                               ),
                               Text(
-                                " Your Car is added successfully!",
+                                " Your reservation is added successfully!",
                                 style: TextStyle(color: Colors.white),
                               ),
                             ],
@@ -114,6 +115,7 @@ class RelatedEventScreen extends ConsumerWidget {
                       ),
                     );
                   });
+                  AutoRouter.of(context).push(ReservationListRoute());
                   return const SizedBox.shrink();
                 }),
               ],

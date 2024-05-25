@@ -13,6 +13,5 @@ final reservationNotifierProvider =
     addReservationUseCases: addReservationUseCases,
     getReservationUsecases: getReservationUseCases,
   );
-  // final hiveBox = ref.watch(hiveBoxProvider);
   return ReservationNotifier(reservationUseCases);
 });

@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/setImage.dart';
+import 'package:front/features/reservation/presentation/blocs/state/reservation_state.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/vehicule/data/models/vehicule_model.dart';
-import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicule_notifier.dart';
 import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicule_state.dart';
 import 'package:front/features/vehicule/presentation/blocs/vehicule_list_provider.dart';
 import 'package:front/features/vehicule/presentation/blocs/vehicule_providers.dart';
@@ -22,19 +22,21 @@ class VehiculeListScreen extends ConsumerStatefulWidget {
 class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
   String? selectedCar;
   late List<VehiculeModel> vehicles;
+  @override
+  initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(vehiculeListNotifierProvider);
-
-    late VehiculeNotifier vehiculeNotifier =
-        ref.read(vehiculeNotifierProvider.notifier);
-    @override
-    initState() {
-      super.initState();
+    _refreshCarList() {
       ref.read(vehiculeListNotifierProvider.notifier).getVehicules(
           GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
-      vehiculeNotifier = ref.read(vehiculeNotifierProvider.notifier);
+    }
+
+    if (state is! Loaded) {
+      _refreshCarList();
     }
 
     return Scaffold(
@@ -122,8 +124,11 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
                                   const SizedBox(width: 16),
                                   GestureDetector(
                                     onTap: () async {
-                                      await vehiculeNotifier.deleteVehicule(
-                                          vehicules[index].id.toString());
+                                      await ref
+                                          .read(
+                                              vehiculeNotifierProvider.notifier)
+                                          .deleteVehicule(
+                                              vehicules[index].id.toString());
                                       var stateVehicule =
                                           ref.watch(vehiculeNotifierProvider);
                                       print(stateVehicule);

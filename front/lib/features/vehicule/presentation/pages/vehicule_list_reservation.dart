@@ -33,6 +33,8 @@ class _VehiculeListReservationScreenState
 
   @override
   Widget build(BuildContext context) {
+    ref.read(vehiculeListNotifierProvider.notifier).getVehicules(
+        GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

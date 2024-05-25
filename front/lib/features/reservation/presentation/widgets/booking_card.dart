@@ -44,16 +44,16 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.reservation.id!,
+                        widget.reservation.parking?["parkingName"]!,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      const Text(
-                        'test',
-                        style: TextStyle(
+                      Text(
+                        widget.reservation.parking?["adress"]!,
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                       ),
