@@ -18,6 +18,7 @@ ReservationModel _$ReservationModelFromJson(Map<String, dynamic> json) =>
       idvehicule: json['idvehicule'] as String?,
       parking: json['parking'] as Map<String, dynamic>?,
       vehicle: json['vehicle'] as Map<String, dynamic>?,
+      user: json['user'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$ReservationModelToJson(ReservationModel instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$ReservationModelToJson(ReservationModel instance) =>
       'idvehicule': instance.idvehicule,
       'parking': instance.parking,
       'vehicle': instance.vehicle,
+      'user': instance.user,
     };

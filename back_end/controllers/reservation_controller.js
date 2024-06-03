@@ -84,7 +84,7 @@ async function getReservation(req, res) {
     });
 
     if (!reservations || reservations.length === 0) {
-      return res.status(404).send("No reservations found for the user.");
+      return res.status(200).send("No reservations found for the user.");
     }
 
     res.status(200).send(reservations);
@@ -105,14 +105,18 @@ async function changeReservationState() {
         state: 'in progress',
       },
     });
-
+    
     // Iterate through the reservations and update their state if EndedAt < today
     for (const reservation of reservations) {
       if (reservation.EndedAt < today) {
+        const parking = await Parking.findByPk(
+          reservation.idparking
+        );
         await reservation.update({ state: 'ended' }); // Change the state as needed
+        await parking.update({ capacity: parking.capacity+1 });
       }
     }
-
+    
     console.log('Reservations updated successfully');
   } catch (error) {
     console.error('Error occurred when handling changing reservation:', error);

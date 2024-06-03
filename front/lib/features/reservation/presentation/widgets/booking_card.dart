@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/features/rate/presentation/blocs/check_rate_provider.dart';
+import 'package:front/features/rate/presentation/blocs/state/check_rate/check_state.dart';
+import 'package:front/features/rate/presentation/pages/rate_content.dart';
 import 'package:front/features/reservation/data/models/reservation_model.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
@@ -14,8 +17,22 @@ class BookingCardWidget extends ConsumerStatefulWidget {
 }
 
 class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
+  late CheckRateState checkRateState;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(checkRateNotifierProvider.notifier)
+          .checkRate(widget.reservation.id!);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    checkRateState = ref.watch(checkRateNotifierProvider);
+
     return Card(
       elevation: 2.0,
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -44,7 +61,7 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.reservation.parking?["parkingName"]!,
+                        widget.reservation.parking?["parkingName"] ?? '',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -52,7 +69,7 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        widget.reservation.parking?["adress"]!,
+                        widget.reservation.parking?["adress"] ?? '',
                         style: const TextStyle(
                           fontSize: 16,
                         ),
@@ -63,24 +80,63 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                 const SizedBox(width: 16),
               ],
             ),
-            SizedBox(
-              height: 5,
-            ),
+            const SizedBox(height: 5),
             Row(
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      setState(() {
+                        checkRateState = ref.watch(checkRateNotifierProvider);
+                      });
+                      print("check rate $checkRateState");
+                      double eventRate = 0.0;
+                      double parkingRate = 0.0;
+
+                      checkRateState.when(
+                        initial: () {},
+                        loading: () {},
+                        failure: (exception) {},
+                        success: (rate) {
+                          eventRate = rate.eventRate ?? 0.0;
+                          parkingRate = rate.parkingRate ?? 0.0;
+                        },
+                        failed: () {},
+                      );
+
+                      print("eventRate $eventRate  parkingRate $parkingRate");
+
+                      showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30.0)),
+                        ),
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        builder: (context) => RateContent(
+                          reservation: widget.reservation,
+                          eventRate: eventRate,
+                          parkingRate: parkingRate,
+                        ),
+                      );
+
+                      setState(() {
+                        checkRateState = ref.watch(checkRateNotifierProvider);
+                      });
+                    },
                     child: Container(
                       color: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          "Give Rate",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.indigo),
+                          checkRateState is Failed
+                              ? "Give Rate"
+                              : "Modify Your Vote",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.indigo,
+                          ),
                         ),
                       ),
                     ),
@@ -94,14 +150,15 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 10),
-                      color: Color.fromARGB(255, 145, 159, 241),
+                      color: const Color.fromARGB(255, 145, 159, 241),
                       child: const Center(
                         child: Text(
                           "View Ticket",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),

@@ -62,7 +62,7 @@ class ReservationRemoteDataSource implements ReservationDataSource {
         },
         (response) {
           List<ReservationModel> reservations = [];
-          if (response.data != null) {
+          if (response.data is List) {
             reservations = List<ReservationModel>.from(
                 response.data.map((x) => ReservationModel.fromJson(x)));
           }

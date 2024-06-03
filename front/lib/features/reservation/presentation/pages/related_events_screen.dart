@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/loading.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
@@ -25,103 +27,111 @@ class RelatedEventScreen extends ConsumerWidget {
         ),
         title: const Text("Related Events"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 100,
-          ),
-          const Text(
-            "No Events Related to this parking!!",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Colors.indigo,
+      body: Padding(
+        padding: EdgeInsets.all(12),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 100,
             ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16), // Add space between text and animation
-          Center(
-            child: Lottie.asset("assets/animations/events.json"),
-          ),
-          const SizedBox(height: 16), // Add space below the animation
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () async {
-                    print("json $json");
-                    await reservationNotifier.addReservation(json);
-                    print("terminated");
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.indigo[50]),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                  child: const Text(
-                    "Continue",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.indigo,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16), // Add space between buttons
-                reservationState.when(initial: () {
-                  return const SizedBox();
-                }, loading: () {
-                  return Container(
-                    child: loadingWidget(),
-                  );
-                }, loaded: (reservations) {
-                  return const SizedBox();
-                }, failure: (failure) {
-                  return Text(failure.toString());
-                }, success: (reservation) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Container(
-                          padding: const EdgeInsets.all(16),
-                          height: 90,
-                          decoration: const BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          child: const Column(
-                            children: [
-                              Text(
-                                "Congrats!",
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.white),
-                              ),
-                              Text(
-                                " Your reservation is added successfully!",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
+            // Expanded(
+            //   child: const Text(
+            //     "No Events Related to this parking!!",
+            //     style: TextStyle(
+            //       fontWeight: FontWeight.bold,
+            //       fontSize: 20,
+            //       color: Colors.indigo,
+            //     ),
+            //     textAlign: TextAlign.center,
+            //   ),
+            // ),
+            // const SizedBox(height: 16), // Add space between text and animation
+            // Expanded(
+            //   child: Center(
+            //     child: Lottie.asset("assets/animations/events.json"),
+            //   ),
+            // ),
+            const SizedBox(height: 16), // Add space below the animation
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      print("json $json");
+                      await reservationNotifier.addReservation(json);
+                      print("terminated");
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.indigo[50]),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                          side: BorderSide.none,
                         ),
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Colors.transparent,
-                        elevation: 0,
                       ),
+                    ),
+                    child: const Text(
+                      "Continue",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16), // Add space between buttons
+                  reservationState.when(initial: () {
+                    return const SizedBox();
+                  }, loading: () {
+                    return Container(
+                      child: loadingWidget(),
                     );
-                  });
-                  AutoRouter.of(context).push(ReservationListRoute());
-                  return const SizedBox.shrink();
-                }),
-              ],
+                  }, loaded: (reservations) {
+                    return const SizedBox();
+                  }, failure: (failure) {
+                    return Text(failure.toString());
+                  }, success: (reservation) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Container(
+                            padding: const EdgeInsets.all(16),
+                            height: 90,
+                            decoration: const BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            child: const Column(
+                              children: [
+                                Text(
+                                  "Congrats!",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                ),
+                                Text(
+                                  " Your reservation is added successfully!",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                    });
+                    AutoRouter.of(context).push(ReservationListRoute());
+                    return const SizedBox.shrink();
+                  }),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

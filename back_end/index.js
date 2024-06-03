@@ -14,6 +14,7 @@ const Promotion = require('./models/promotion');
 const Notification = require('./models/notification');
 const Manufacturer = require('./models/carManufacturer');
 const CarModel = require('./models/carModel');
+const Rate = require('./models/rate');
 const {importData} = require('./controllers/car_controller');
 
 
@@ -22,12 +23,48 @@ const {importData} = require('./controllers/car_controller');
 //synchronize data base with models
 /*(async () => {
   try {
-    await sequelize.sync({ force: true,models: [User, Event,Reservation,Vehicule,Message,Promotion,Notification,CarModel,Manufacturer] });
+    await sequelize.sync({ force: true,models: [Rate] });
     console.log('Database synchronized successfully');
   } catch (error) {
     console.error('Error synchronizing database:', error);
   } 
 })(); 
+
+
+
+
+// async function syncDatabase() {
+//   try {
+//     await sequelize.sync({ force: true, models: [Rate] });
+
+//     // Adding and removing columns
+//     await sequelize.getQueryInterface().addColumn('rates', 'parkingRate', {
+//       type: Sequelize.STRING,
+//       allowNull: false,
+//       defaultValue: '',
+//     });
+
+//     await sequelize.getQueryInterface().addColumn('rates', 'eventRate', {
+//       type: Sequelize.STRING,
+//       allowNull: false,
+//       defaultValue: '',
+//     });
+
+//     await sequelize.getQueryInterface().removeColumn('rates', 'userRate');
+//     await sequelize.getQueryInterface().removeColumn('rates', 'reservationRate');
+
+//     console.log('Database synchronized successfully');
+//   } catch (error) {
+//     console.error('Error synchronizing database:', error);
+//   }
+// }
+
+// syncDatabase();
+
+
+  
+
+
 /****************************************Middlewares****************************************/
 
 // Set up body parser middleware to parse form data
@@ -49,6 +86,8 @@ app.use(require('./routes/parking_routes'));
 app.use(require('./routes/reservation_routes')); 
 app.use(require('./routes/event_routes')); 
 app.use(require('./routes/vehicule_routes')); 
+app.use(require('./routes/rate_routes')); 
+
 
 
 
@@ -57,6 +96,8 @@ app.use(require('./routes/vehicule_routes'));
 
 /****************************************End-Routes****************************************/ 
 //importData();
+
+
 
 
 

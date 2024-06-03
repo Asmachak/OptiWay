@@ -33,6 +33,11 @@ class _BookingSwitcherState extends ConsumerState<BookingSwitcher> {
   bool isOnGoingSelected = true;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final reservationNotifier = ref.read(reservationNotifierProvider.notifier);
 

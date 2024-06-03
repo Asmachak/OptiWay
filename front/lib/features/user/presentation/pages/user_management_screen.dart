@@ -1,11 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/user/presentation/widgets/menu_profile_widget.dart';
-import 'package:front/features/vehicule/presentation/blocs/vehicule_list_provider.dart';
 import 'package:front/routes/app_routes.gr.dart';
-import 'package:get_it/get_it.dart';
 
 @RoutePage()
 class UserManagementScreen extends ConsumerWidget {

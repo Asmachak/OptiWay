@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/reservation/presentation/widgets/booking_switcher.dart';
+import 'package:front/routes/app_routes.gr.dart';
 
 @RoutePage()
 class ReservationListScreen extends ConsumerStatefulWidget {
@@ -14,7 +15,13 @@ class ReservationListScreen extends ConsumerStatefulWidget {
 }
 
 class _ReservationListScreenState extends ConsumerState<ReservationListScreen> {
-  // Changed to ConsumerState
+  late ScrollController scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

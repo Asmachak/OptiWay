@@ -37,8 +37,7 @@ class ParkingWidget extends StatelessWidget {
                       height: double.maxFinite,
                       decoration: BoxDecoration(
                         image: const DecorationImage(
-                          image: NetworkImage(
-                              "https://www.shutterstock.com/image-vector/car-parking-icon-space-lot-260nw-1024735732.jpg"),
+                          image: AssetImage("assets/parking.webp"),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(12),

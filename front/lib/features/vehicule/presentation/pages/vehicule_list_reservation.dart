@@ -11,7 +11,7 @@ import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
 
-String? _selectedCarId;
+final selectedCarIdProvider = StateProvider<String?>((ref) => null);
 
 @RoutePage()
 class VehiculeListReservationScreen extends ConsumerStatefulWidget {
@@ -33,8 +33,6 @@ class _VehiculeListReservationScreenState
 
   @override
   Widget build(BuildContext context) {
-    ref.read(vehiculeListNotifierProvider.notifier).getVehicules(
-        GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -48,14 +46,7 @@ class _VehiculeListReservationScreenState
       ),
       body: Column(
         children: [
-          _VehiculeList(
-            selectedCarId: _selectedCarId,
-            onCarSelected: (carId) {
-              setState(() {
-                _selectedCarId = carId;
-              });
-            },
-          ),
+          _VehiculeList(),
           _ButtonRow(),
         ],
       ),
@@ -64,17 +55,10 @@ class _VehiculeListReservationScreenState
 }
 
 class _VehiculeList extends ConsumerWidget {
-  final String? selectedCarId;
-  final Function(String?) onCarSelected;
-
-  const _VehiculeList({
-    required this.selectedCarId,
-    required this.onCarSelected,
-  });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final VehiculeListState listState = ref.watch(vehiculeListNotifierProvider);
+    final selectedCarId = ref.watch(selectedCarIdProvider);
 
     return listState.when(
       initial: () => const Text("initial"),
@@ -82,7 +66,9 @@ class _VehiculeList extends ConsumerWidget {
       loaded: (vehicules) => _VehiculeListView(
         vehicules: vehicules,
         selectedCarId: selectedCarId,
-        onCarSelected: onCarSelected,
+        onCarSelected: (carId) {
+          ref.read(selectedCarIdProvider.notifier).state = carId;
+        },
       ),
       failure: (exception) => Text("$exception"),
     );
@@ -112,7 +98,6 @@ class _VehiculeListView extends StatelessWidget {
             vehicule: vehicules[index],
             isSelected: isSelected,
             onTap: () {
-              print(selectedCarId);
               onCarSelected(isSelected ? null : vehicules[index].id);
             },
           );
@@ -197,6 +182,8 @@ class _VehiculeCard extends StatelessWidget {
 class _ButtonRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCarId = ref.watch(selectedCarIdProvider);
+
     return Row(
       children: [
         const SizedBox(width: 16),
@@ -232,9 +219,9 @@ class _ButtonRow extends ConsumerWidget {
           child: Center(
             child: TextButton(
               onPressed: () {
-                if (_selectedCarId != null) {
-                  final jsonData = ref.watch(jsonDataProvider);
-                  jsonData["idvehicule"] = _selectedCarId;
+                if (selectedCarId != null) {
+                  final jsonData = ref.read(jsonDataProvider);
+                  jsonData["idvehicule"] = selectedCarId;
                   AutoRouter.of(context).push(RelatedEventRoute());
                   print(jsonData);
                 } else {
