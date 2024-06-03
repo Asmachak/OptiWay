@@ -86,6 +86,9 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () async {
+                      await ref
+                          .read(checkRateNotifierProvider.notifier)
+                          .checkRate(widget.reservation.id!);
                       setState(() {
                         checkRateState = ref.watch(checkRateNotifierProvider);
                       });
