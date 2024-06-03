@@ -27,7 +27,7 @@ class ReservationModel {
       this.idvehicule,
       this.parking,
       this.vehicle,
-       this.user});
+      this.user});
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
     return ReservationModel(
@@ -40,9 +40,8 @@ class ReservationModel {
       idparking: json['idparking'],
       idvehicule: json['idvehicule'],
       parking: json['parking'],
-      vehicle: json['vehicle'],
+      vehicle: json['vehicule'],
       user: json['user'],
-
     );
   }
 
@@ -57,9 +56,8 @@ class ReservationModel {
       'idparking': idparking,
       'idvehicule': idvehicule,
       'parking': parking,
-      'vehicle': vehicle,
+      'vehicule': vehicle,
       'user': user,
-
     };
   }
 
@@ -77,7 +75,6 @@ class ReservationModel {
       parking: reservation.parking!,
       vehicle: reservation.vehicle!,
       user: reservation.user!,
-
     );
   }
 
@@ -95,7 +92,6 @@ class ReservationModel {
       parking: reservationEntity.parking,
       vehicle: reservationEntity.vehicle,
       user: reservationEntity.user,
-
     );
   }
 }

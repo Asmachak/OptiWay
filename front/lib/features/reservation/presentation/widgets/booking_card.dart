@@ -148,6 +148,9 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
+                      print("widget.reservation");
+
+                      print(widget.reservation.vehicle);
                       AutoRouter.of(context)
                           .push(TicketRoute(reservation: widget.reservation));
                     },

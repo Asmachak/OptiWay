@@ -197,7 +197,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  '${widget.reservation.vehicle?["model"] ?? ''} ${widget.reservation.vehicle?["matricule"] ?? ''}',
+                                  '${widget.reservation.vehicle?["model"]} ${widget.reservation.vehicle?["matricule"]}',
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,
