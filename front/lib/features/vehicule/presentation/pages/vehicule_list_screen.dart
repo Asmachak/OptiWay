@@ -13,7 +13,7 @@ import 'package:get_it/get_it.dart';
 
 @RoutePage()
 class VehiculeListScreen extends ConsumerStatefulWidget {
-  VehiculeListScreen({Key? key}) : super(key: key);
+  const VehiculeListScreen({Key? key}) : super(key: key);
 
   @override
   _VehiculeListScreenState createState() => _VehiculeListScreenState();

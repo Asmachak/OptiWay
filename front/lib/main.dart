@@ -52,6 +52,7 @@ class MyApp extends ConsumerWidget {
         navigatorObservers: () => [AutoRouteObserver()],
       ),
       routeInformationParser: appRouter.defaultRouteParser(),
+      theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.white)),
     );
   }
 }

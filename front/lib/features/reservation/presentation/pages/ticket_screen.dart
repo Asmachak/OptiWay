@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/routes/app_routes.gr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ticket_widget/ticket_widget.dart';
@@ -328,7 +329,10 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () async {},
+                onPressed: () {
+                  AutoRouter.of(context)
+                      .push(GetDirectionRoute(reservation: widget.reservation));
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.indigo,
                     side: BorderSide.none,

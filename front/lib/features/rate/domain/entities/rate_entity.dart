@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:front/features/rate/data/models/rate_model.dart';
 
 class RateEntity {

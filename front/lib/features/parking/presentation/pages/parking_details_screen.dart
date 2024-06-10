@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart' as flutter_html;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/loading.dart';
