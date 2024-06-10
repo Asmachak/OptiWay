@@ -57,6 +57,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
       int days = duration.inDays;
       int hours = duration.inHours.remainder(24);
       int minutes = duration.inMinutes.remainder(60);
+
       return '${days}d${hours}h${minutes}min';
     }
 
@@ -198,7 +199,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  '${widget.reservation.vehicle?["model"]} ${widget.reservation.vehicle?["matricule"]}',
+                                  '${widget.reservation.vehicle?["model"]} ${widget.reservation.vehicle?["matricule"]} ',
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,
@@ -252,7 +253,10 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  "${widget.reservation.endedAt?.split("T")[0] ?? ''}",
+                                  DateTime.parse(widget.reservation.endedAt!)
+                                      .toLocal()
+                                      .toString()
+                                      .split(" ")[0],
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,
@@ -283,7 +287,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  "${widget.reservation.createdAt?.split("T")[1].substring(0, 5) ?? ''} - ${widget.reservation.endedAt?.split("T")[1].substring(0, 5) ?? ''}",
+                                  "${DateTime.parse(widget.reservation.createdAt!).toLocal().toString().split(" ")[1].substring(0, 5)} - ${DateTime.parse(widget.reservation.endedAt!).toLocal().toString().split(" ")[1].substring(0, 5)}",
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,

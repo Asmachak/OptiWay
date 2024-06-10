@@ -86,55 +86,62 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () async {
-                      await ref
-                          .read(checkRateNotifierProvider.notifier)
-                          .checkRate(widget.reservation.id!);
-                      setState(() {
-                        checkRateState = ref.watch(checkRateNotifierProvider);
-                      });
-                      print("check rate $checkRateState");
-                      double eventRate = 0.0;
-                      double parkingRate = 0.0;
+                      if (widget.reservation.state == "ended") {
+                        await ref
+                            .read(checkRateNotifierProvider.notifier)
+                            .checkRate(widget.reservation.id!);
+                        setState(() {
+                          checkRateState = ref.watch(checkRateNotifierProvider);
+                        });
+                        print("check rate $checkRateState");
+                        double eventRate = 0.0;
+                        double parkingRate = 0.0;
 
-                      checkRateState.when(
-                        initial: () {},
-                        loading: () {},
-                        failure: (exception) {},
-                        success: (rate) {
-                          eventRate = rate.eventRate ?? 0.0;
-                          parkingRate = rate.parkingRate ?? 0.0;
-                        },
-                        failed: () {},
-                      );
+                        checkRateState.when(
+                          initial: () {},
+                          loading: () {},
+                          failure: (exception) {},
+                          success: (rate) {
+                            eventRate = rate.eventRate ?? 0.0;
+                            parkingRate = rate.parkingRate ?? 0.0;
+                          },
+                          failed: () {},
+                        );
 
-                      print("eventRate $eventRate  parkingRate $parkingRate");
+                        print("eventRate $eventRate  parkingRate $parkingRate");
 
-                      showModalBottomSheet(
-                        context: context,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(30.0)),
-                        ),
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        builder: (context) => RateContent(
-                          reservation: widget.reservation,
-                          eventRate: eventRate,
-                          parkingRate: parkingRate,
-                        ),
-                      );
+                        showModalBottomSheet(
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(30.0)),
+                          ),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          builder: (context) => RateContent(
+                            reservation: widget.reservation,
+                            eventRate: eventRate,
+                            parkingRate: parkingRate,
+                          ),
+                        );
 
-                      setState(() {
-                        checkRateState = ref.watch(checkRateNotifierProvider);
-                      });
+                        setState(() {
+                          checkRateState = ref.watch(checkRateNotifierProvider);
+                        });
+                      } else {
+                        AutoRouter.of(context)
+                            .push(TimerRoute(reservation: widget.reservation));
+                      }
                     },
                     child: Container(
                       color: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Center(
                         child: Text(
-                          checkRateState is Failed
-                              ? "Give Rate"
-                              : "Modify Your Vote",
+                          widget.reservation.state != "ended"
+                              ? "View Timer"
+                              : checkRateState is Failed
+                                  ? "Give Rate"
+                                  : "Modify Your Vote",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
