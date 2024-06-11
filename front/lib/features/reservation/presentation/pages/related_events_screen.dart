@@ -27,26 +27,11 @@ class RelatedEventScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            const SizedBox(height: 100),
-            // Your other widgets here
-            const Text(
-              "No Events Related to this parking!!",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Colors.indigo,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16), // Add space between text and animation
-            Center(
-              child: Lottie.asset("assets/animations/events.json"),
-            ),
-            const SizedBox(height: 16), // Add space below the animation
-            Expanded(
-              child: Row(
+        child: Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   TextButton(
@@ -74,53 +59,56 @@ class RelatedEventScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(width: 16), // Add space between buttons
-                  reservationState.when(
-                    initial: () => const SizedBox(),
-                    loading: () => loadingWidget(),
-                    loaded: (reservations) => const SizedBox(),
-                    failure: (failure) => Text(failure.toString()),
-                    success: (reservation) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Container(
-                              padding: const EdgeInsets.all(16),
-                              height: 90,
-                              decoration: const BoxDecoration(
-                                color: Colors.green,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
-                              ),
-                              child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Congrats!",
-                                    style: TextStyle(
-                                        fontSize: 18, color: Colors.white),
-                                  ),
-                                  Text(
-                                    "Your reservation is added successfully!",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
-                          ),
-                        );
-                      });
-                      AutoRouter.of(context).push(ReservationListRoute());
-                      return const SizedBox.shrink();
-                    },
-                  ),
+                  // Other widgets based on reservationState here
                 ],
               ),
-            ),
-          ],
+              Expanded(
+                child: reservationState.when(
+                  initial: () => const SizedBox(),
+                  loading: () => loadingWidget(),
+                  loaded: (reservations) => const SizedBox(),
+                  failure: (failure) => Text(failure.toString()),
+                  success: (reservation) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Container(
+                            padding: const EdgeInsets.all(16),
+                            height: 90,
+                            decoration: const BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Congrats!",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                ),
+                                Text(
+                                  "Your reservation is added successfully!",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                    });
+                    AutoRouter.of(context).push(ReservationListRoute());
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

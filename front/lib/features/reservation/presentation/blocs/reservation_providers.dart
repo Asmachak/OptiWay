@@ -8,10 +8,12 @@ final reservationNotifierProvider =
     StateNotifierProvider<ReservationNotifier, ReservationState>((ref) {
   final addReservationUseCases = ref.read(addReservationUseCaseProvider);
   final getReservationUseCases = ref.read(getReservationUseCaseProvider);
+  final extendReservationUseCases = ref.read(extendReservationUseCaseProvider);
 
   final reservationUseCases = ReservationUseCases(
     addReservationUseCases: addReservationUseCases,
     getReservationUsecases: getReservationUseCases,
+    extendReservationUsecases: extendReservationUseCases,
   );
   return ReservationNotifier(reservationUseCases);
 });

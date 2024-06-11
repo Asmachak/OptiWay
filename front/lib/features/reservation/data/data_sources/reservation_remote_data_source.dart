@@ -10,6 +10,10 @@ abstract class ReservationDataSource {
   Future<Either<AppException, List<ReservationModel>>> getReservation({
     required String iduser,
   });
+  Future<Either<AppException, ReservationModel>> extendReservation({
+    required String id,
+    required Map<String, dynamic> body,
+  });
 }
 
 class ReservationRemoteDataSource implements ReservationDataSource {
@@ -77,6 +81,36 @@ class ReservationRemoteDataSource implements ReservationDataSource {
           statusCode: 1,
           identifier:
               '${e.toString()}\nRegisterReservationRemoteDataSource.GetReservations',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, ReservationModel>> extendReservation({
+    required String id,
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      final eitherType = await networkService.post(
+        '/extendReservation/$id',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          return Right(ReservationModel.fromJson(response.data));
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier:
+              '${e.toString()}\nReservationRemoteDataSource.ExtendReservations',
         ),
       );
     }

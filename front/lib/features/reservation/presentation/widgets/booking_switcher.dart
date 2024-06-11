@@ -192,9 +192,8 @@ class historyContainer extends ConsumerWidget {
       initial: () => const SizedBox.shrink(),
       loading: () => loadingWidget(),
       loaded: (reservations) {
-        // Filter reservations to exclude those with state "ended"
         final historyReservations = reservations
-            .where((reservation) => reservation.state!.contains("ended"))
+            .where((reservation) => reservation.state == "ended")
             .toList();
 
         if (historyReservations.isEmpty) {

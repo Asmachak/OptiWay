@@ -92,6 +92,37 @@ async function getReservation(req, res) {
     res.status(500).send("Error occurred when handling get reservation: " + error);
   }
 }
+async function extendReservation(req, res) {
+  try {
+    const id = req.params.id; // Assuming the ID parameter is named 'id'
+    const formData = req.body;
+
+    const reservation = await Reservation.findByPk(id);
+    const parking = await Parking.findByPk(reservation.idparking);
+
+    if (!reservation) {
+      return res.status(404).send("Reservation not found!");
+    }
+
+    if (reservation.state !== "ended" && parking.capacity !== 0) {
+      await Reservation.update(
+        { EndedAt: formData.EndedAt, state: "extended" },
+        { where: { id: id } }
+      );
+      
+      // Reload the updated reservation to get the updated data
+      const updatedReservation = await Reservation.findByPk(id);
+
+      res.status(200).send(updatedReservation);
+    } else {
+      return res.status(400).send("Can't extend an ended reservation or parking is full");
+    }
+  } catch (error) {
+    res.status(500).send("Error occurred when extending reservation: " + error);
+  }
+}
+
+
 
 
 async function changeReservationState() {
@@ -102,7 +133,7 @@ async function changeReservationState() {
     // Find all reservations with state "in progress"
     const reservations = await Reservation.findAll({
       where: {
-        state: 'in progress',
+        state: ['in progress', 'extended'],
       },
     });
     
@@ -126,4 +157,4 @@ async function changeReservationState() {
 // Run the function every second
 setInterval(changeReservationState, 1000);
 
-module.exports = {handleAddReservation,getReservation}
+module.exports = {handleAddReservation,getReservation,extendReservation}

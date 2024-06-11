@@ -6,7 +6,6 @@ import 'package:front/features/reservation/domain/repositories/reservation_repo.
 
 class ReservationRepositoryImpl implements ReservationRepository {
   final ReservationDataSource remoteDataSource;
-  // final AuthLocalDataSource localDataSource;
 
   ReservationRepositoryImpl(
     this.remoteDataSource,
@@ -24,5 +23,13 @@ class ReservationRepositoryImpl implements ReservationRepository {
     required String iduser,
   }) {
     return remoteDataSource.getReservation(iduser: iduser);
+  }
+
+  @override
+  Future<Either<AppException, ReservationModel>> extendReservation({
+    required String id,
+    required Map<String, dynamic> body,
+  }) {
+    return remoteDataSource.extendReservation(id: id, body: body);
   }
 }

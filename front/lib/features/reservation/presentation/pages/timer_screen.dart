@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/reservation/data/models/reservation_model.dart';
 import 'package:front/features/reservation/presentation/blocs/timerProvider.dart';
+import 'package:front/features/reservation/presentation/widgets/extend_reservation_widget.dart';
 
 @RoutePage()
 class TimerScreen extends ConsumerStatefulWidget {
@@ -297,7 +298,19 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                 constraints:
                     const BoxConstraints.tightFor(height: 52, width: 353),
                 child: ElevatedButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30.0)),
+                      ),
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      builder: (context) => ExtendReservationContent(
+                        reservation: widget.reservation,
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.indigo,
                     shape: RoundedRectangleBorder(
