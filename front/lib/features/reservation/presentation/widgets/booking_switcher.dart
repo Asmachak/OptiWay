@@ -174,6 +174,9 @@ class OnGoingContainer extends ConsumerWidget {
       },
       success: (car) => const SizedBox.shrink(),
       failure: (exception) => Center(child: Text("$exception")),
+      extended: (reservation) {
+        return const SizedBox.shrink();
+      },
     );
   }
 }
@@ -218,6 +221,9 @@ class historyContainer extends ConsumerWidget {
       },
       success: (car) => const SizedBox.shrink(),
       failure: (exception) => Center(child: Text("$exception")),
+      extended: (reservation) {
+        return const SizedBox.shrink();
+      },
     );
   }
 }

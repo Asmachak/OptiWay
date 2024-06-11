@@ -12,4 +12,6 @@ abstract class ReservationState with _$ReservationState {
   const factory ReservationState.failure(AppException exception) = Failure;
   const factory ReservationState.success(
       {required ReservationModel reservation}) = Success;
+  const factory ReservationState.extended(
+      {required ReservationModel reservation}) = Extended;
 }

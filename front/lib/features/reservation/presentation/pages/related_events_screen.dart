@@ -105,6 +105,9 @@ class RelatedEventScreen extends ConsumerWidget {
                     AutoRouter.of(context).push(ReservationListRoute());
                     return const SizedBox.shrink();
                   },
+                  extended: (reservation) {
+                    return const SizedBox.shrink();
+                  },
                 ),
               ),
             ],

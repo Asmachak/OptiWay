@@ -12,7 +12,8 @@ class ExtendReservationUsecases
   @override
   Future<Either<AppException, ReservationModel>> call(
       ExtendReservationParams params) async {
-    return await reservationRepository.addReservation(body: params.body);
+    return await reservationRepository.extendReservation(
+        body: params.body, id: params.id);
   }
 }
 

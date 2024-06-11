@@ -92,9 +92,8 @@ class ReservationRemoteDataSource implements ReservationDataSource {
     required Map<String, dynamic> body,
   }) async {
     try {
-      final eitherType = await networkService.post(
-        '/extendReservation/$id',
-      );
+      final eitherType =
+          await networkService.post('/extendReservation/$id', data: body);
       return eitherType.fold(
         (exception) {
           return Left(exception);

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:front/features/reservation/data/models/reservation_model.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -66,7 +67,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(
+          Container(
             child: TicketWidget(
               height: heightScr * 1.05,
               width: widthScr * 0.9,

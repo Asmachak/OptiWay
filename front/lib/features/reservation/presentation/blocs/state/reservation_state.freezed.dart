@@ -23,6 +23,7 @@ mixin _$ReservationState {
     required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
+    required TResult Function(ReservationModel reservation) extended,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,6 +33,7 @@ mixin _$ReservationState {
     TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
+    TResult? Function(ReservationModel reservation)? extended,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,6 +43,7 @@ mixin _$ReservationState {
     TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
+    TResult Function(ReservationModel reservation)? extended,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -51,6 +54,7 @@ mixin _$ReservationState {
     required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Extended value) extended,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -60,6 +64,7 @@ mixin _$ReservationState {
     TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Extended value)? extended,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -69,6 +74,7 @@ mixin _$ReservationState {
     TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Extended value)? extended,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -135,6 +141,7 @@ class _$InitialImpl implements Initial {
     required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
+    required TResult Function(ReservationModel reservation) extended,
   }) {
     return initial();
   }
@@ -147,6 +154,7 @@ class _$InitialImpl implements Initial {
     TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
+    TResult? Function(ReservationModel reservation)? extended,
   }) {
     return initial?.call();
   }
@@ -159,6 +167,7 @@ class _$InitialImpl implements Initial {
     TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
+    TResult Function(ReservationModel reservation)? extended,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -175,6 +184,7 @@ class _$InitialImpl implements Initial {
     required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Extended value) extended,
   }) {
     return initial(this);
   }
@@ -187,6 +197,7 @@ class _$InitialImpl implements Initial {
     TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Extended value)? extended,
   }) {
     return initial?.call(this);
   }
@@ -199,6 +210,7 @@ class _$InitialImpl implements Initial {
     TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Extended value)? extended,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -255,6 +267,7 @@ class _$LoadingImpl implements Loading {
     required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
+    required TResult Function(ReservationModel reservation) extended,
   }) {
     return loading();
   }
@@ -267,6 +280,7 @@ class _$LoadingImpl implements Loading {
     TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
+    TResult? Function(ReservationModel reservation)? extended,
   }) {
     return loading?.call();
   }
@@ -279,6 +293,7 @@ class _$LoadingImpl implements Loading {
     TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
+    TResult Function(ReservationModel reservation)? extended,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -295,6 +310,7 @@ class _$LoadingImpl implements Loading {
     required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Extended value) extended,
   }) {
     return loading(this);
   }
@@ -307,6 +323,7 @@ class _$LoadingImpl implements Loading {
     TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Extended value)? extended,
   }) {
     return loading?.call(this);
   }
@@ -319,6 +336,7 @@ class _$LoadingImpl implements Loading {
     TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Extended value)? extended,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -409,6 +427,7 @@ class _$LoadedImpl implements Loaded {
     required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
+    required TResult Function(ReservationModel reservation) extended,
   }) {
     return loaded(reservations);
   }
@@ -421,6 +440,7 @@ class _$LoadedImpl implements Loaded {
     TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
+    TResult? Function(ReservationModel reservation)? extended,
   }) {
     return loaded?.call(reservations);
   }
@@ -433,6 +453,7 @@ class _$LoadedImpl implements Loaded {
     TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
+    TResult Function(ReservationModel reservation)? extended,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -449,6 +470,7 @@ class _$LoadedImpl implements Loaded {
     required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Extended value) extended,
   }) {
     return loaded(this);
   }
@@ -461,6 +483,7 @@ class _$LoadedImpl implements Loaded {
     TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Extended value)? extended,
   }) {
     return loaded?.call(this);
   }
@@ -473,6 +496,7 @@ class _$LoadedImpl implements Loaded {
     TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Extended value)? extended,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -562,6 +586,7 @@ class _$FailureImpl implements Failure {
     required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
+    required TResult Function(ReservationModel reservation) extended,
   }) {
     return failure(exception);
   }
@@ -574,6 +599,7 @@ class _$FailureImpl implements Failure {
     TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
+    TResult? Function(ReservationModel reservation)? extended,
   }) {
     return failure?.call(exception);
   }
@@ -586,6 +612,7 @@ class _$FailureImpl implements Failure {
     TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
+    TResult Function(ReservationModel reservation)? extended,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -602,6 +629,7 @@ class _$FailureImpl implements Failure {
     required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Extended value) extended,
   }) {
     return failure(this);
   }
@@ -614,6 +642,7 @@ class _$FailureImpl implements Failure {
     TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Extended value)? extended,
   }) {
     return failure?.call(this);
   }
@@ -626,6 +655,7 @@ class _$FailureImpl implements Failure {
     TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Extended value)? extended,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -714,6 +744,7 @@ class _$SuccessImpl implements Success {
     required TResult Function(List<ReservationModel> reservations) loaded,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReservationModel reservation) success,
+    required TResult Function(ReservationModel reservation) extended,
   }) {
     return success(reservation);
   }
@@ -726,6 +757,7 @@ class _$SuccessImpl implements Success {
     TResult? Function(List<ReservationModel> reservations)? loaded,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReservationModel reservation)? success,
+    TResult? Function(ReservationModel reservation)? extended,
   }) {
     return success?.call(reservation);
   }
@@ -738,6 +770,7 @@ class _$SuccessImpl implements Success {
     TResult Function(List<ReservationModel> reservations)? loaded,
     TResult Function(AppException exception)? failure,
     TResult Function(ReservationModel reservation)? success,
+    TResult Function(ReservationModel reservation)? extended,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -754,6 +787,7 @@ class _$SuccessImpl implements Success {
     required TResult Function(Loaded value) loaded,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Extended value) extended,
   }) {
     return success(this);
   }
@@ -766,6 +800,7 @@ class _$SuccessImpl implements Success {
     TResult? Function(Loaded value)? loaded,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Extended value)? extended,
   }) {
     return success?.call(this);
   }
@@ -778,6 +813,7 @@ class _$SuccessImpl implements Success {
     TResult Function(Loaded value)? loaded,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Extended value)? extended,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -794,5 +830,164 @@ abstract class Success implements ReservationState {
   ReservationModel get reservation;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ExtendedImplCopyWith<$Res> {
+  factory _$$ExtendedImplCopyWith(
+          _$ExtendedImpl value, $Res Function(_$ExtendedImpl) then) =
+      __$$ExtendedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({ReservationModel reservation});
+}
+
+/// @nodoc
+class __$$ExtendedImplCopyWithImpl<$Res>
+    extends _$ReservationStateCopyWithImpl<$Res, _$ExtendedImpl>
+    implements _$$ExtendedImplCopyWith<$Res> {
+  __$$ExtendedImplCopyWithImpl(
+      _$ExtendedImpl _value, $Res Function(_$ExtendedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reservation = null,
+  }) {
+    return _then(_$ExtendedImpl(
+      reservation: null == reservation
+          ? _value.reservation
+          : reservation // ignore: cast_nullable_to_non_nullable
+              as ReservationModel,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ExtendedImpl implements Extended {
+  const _$ExtendedImpl({required this.reservation});
+
+  @override
+  final ReservationModel reservation;
+
+  @override
+  String toString() {
+    return 'ReservationState.extended(reservation: $reservation)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ExtendedImpl &&
+            (identical(other.reservation, reservation) ||
+                other.reservation == reservation));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, reservation);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ExtendedImplCopyWith<_$ExtendedImpl> get copyWith =>
+      __$$ExtendedImplCopyWithImpl<_$ExtendedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<ReservationModel> reservations) loaded,
+    required TResult Function(AppException exception) failure,
+    required TResult Function(ReservationModel reservation) success,
+    required TResult Function(ReservationModel reservation) extended,
+  }) {
+    return extended(reservation);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<ReservationModel> reservations)? loaded,
+    TResult? Function(AppException exception)? failure,
+    TResult? Function(ReservationModel reservation)? success,
+    TResult? Function(ReservationModel reservation)? extended,
+  }) {
+    return extended?.call(reservation);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<ReservationModel> reservations)? loaded,
+    TResult Function(AppException exception)? failure,
+    TResult Function(ReservationModel reservation)? success,
+    TResult Function(ReservationModel reservation)? extended,
+    required TResult orElse(),
+  }) {
+    if (extended != null) {
+      return extended(reservation);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Loaded value) loaded,
+    required TResult Function(Failure value) failure,
+    required TResult Function(Success value) success,
+    required TResult Function(Extended value) extended,
+  }) {
+    return extended(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Loaded value)? loaded,
+    TResult? Function(Failure value)? failure,
+    TResult? Function(Success value)? success,
+    TResult? Function(Extended value)? extended,
+  }) {
+    return extended?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Loaded value)? loaded,
+    TResult Function(Failure value)? failure,
+    TResult Function(Success value)? success,
+    TResult Function(Extended value)? extended,
+    required TResult orElse(),
+  }) {
+    if (extended != null) {
+      return extended(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Extended implements ReservationState {
+  const factory Extended({required final ReservationModel reservation}) =
+      _$ExtendedImpl;
+
+  ReservationModel get reservation;
+  @JsonKey(ignore: true)
+  _$$ExtendedImplCopyWith<_$ExtendedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

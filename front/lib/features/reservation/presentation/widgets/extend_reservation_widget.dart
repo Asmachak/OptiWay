@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/presentation/blocs/reservation_providers.dart';
+import 'package:front/features/reservation/presentation/blocs/state/reservation_state.dart';
+import 'package:front/features/user/data/data_sources/local_data_source.dart';
+import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
 
 class ExtendReservationContent extends ConsumerStatefulWidget {
-  ReservationModel reservation;
+  final ReservationModel reservation;
 
   ExtendReservationContent({Key? key, required this.reservation})
       : super(key: key);
@@ -20,10 +25,11 @@ class _ExtendReservationContentState
 
   @override
   Widget build(BuildContext context) {
+    final reservationState = ref.watch(reservationNotifierProvider);
+
     return SingleChildScrollView(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height *
-            0.4, // Adjust the height as needed
+        height: MediaQuery.of(context).size.height * 0.4,
         child: Column(
           children: [
             const Padding(
@@ -82,7 +88,8 @@ class _ExtendReservationContentState
                         selectedDate != null && selectedTime != null
                             ? '${selectedDate!.toLocal().toString().split(' ')[0]} ${selectedTime!.format(context)}'
                             : 'Select Date & Time',
-                        style: TextStyle(color: Colors.black, fontSize: 18),
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 18),
                       ),
                     ],
                   ),
@@ -96,7 +103,105 @@ class _ExtendReservationContentState
               constraints:
                   const BoxConstraints.tightFor(height: 52, width: 350),
               child: ElevatedButton(
-                onPressed: () async {},
+                onPressed: () async {
+                  if (selectedDate != null && selectedTime != null) {
+                    final DateTime newEndTime = DateTime(
+                      selectedDate!.year,
+                      selectedDate!.month,
+                      selectedDate!.day,
+                      selectedTime!.hour,
+                      selectedTime!.minute,
+                    );
+                    final String formattedEndTime =
+                        DateFormat('yyyy-MM-ddTHH:mm:ss').format(newEndTime);
+
+                    var body = {
+                      "EndedAt": formattedEndTime,
+                    };
+
+                    await Future(() {
+                      ref
+                          .read(reservationNotifierProvider.notifier)
+                          .extendReservation(widget.reservation.id!, body);
+                    }).then((_) {
+                      if (reservationState is Extended) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Container(
+                              padding: const EdgeInsets.all(16),
+                              height: 90,
+                              decoration: const BoxDecoration(
+                                color: Colors.green,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                              child: const Column(
+                                children: [
+                                  Text(
+                                    "Congrats!",
+                                    style: TextStyle(
+                                        fontSize: 18, color: Colors.white),
+                                  ),
+                                  Text(
+                                    " Your reservation is extended successfully!",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                          ),
+                        );
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+
+                        // Reload reservation information after extension
+                        ref
+                            .read(reservationNotifierProvider.notifier)
+                            .getReservation(GetIt.instance
+                                .get<AuthLocalDataSource>()
+                                .currentUser!
+                                .id!);
+                      } else if (reservationState is Failure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Container(
+                              padding: const EdgeInsets.all(16),
+                              height: 90,
+                              decoration: const BoxDecoration(
+                                color: Color.fromARGB(255, 175, 76, 76),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                              child: const Column(
+                                children: [
+                                  Text(
+                                    "Oops!",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    "SomeThing Went Wrong!",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                          ),
+                        );
+                      }
+                    });
+                  } else {
+                    print('Please select both date and time.');
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.indigo,
                   shape: RoundedRectangleBorder(

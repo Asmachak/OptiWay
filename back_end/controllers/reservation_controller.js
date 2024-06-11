@@ -4,6 +4,8 @@ const Parking = require("../models/parking");
 const User = require("../models/user");
 const { where } = require("sequelize");
 const Vehicule = require("../models/vehicule");
+const moment = require('moment'); 
+
 
 async function handleAddReservation(req, res) {
   try {
@@ -17,16 +19,33 @@ async function handleAddReservation(req, res) {
 
     if (formData.idparking != null) {
       parking = await Parking.findByPk(formData.idparking);
+      if (!parking) {
+        return res.status(404).send("Parking not found");
+      }
       capacityCheck = parking.capacity > 0;
+      
+      let reservations = await Reservation.findAll({ 
+        where: {
+          idvehicule: formData.idvehicule,
+          state: ["in progress", "extended"]
+        }
+      });
+
+      if (reservations.length > 0) {
+        return res.status(400).send("The car is already taken!");
+      }
     }
 
     if (formData.idevent != null) {
       event = await Event.findByPk(formData.idevent);
+      if (!event) {
+        return res.status(404).send("Event not found");
+      }
       capacityCheck = capacityCheck && event.capacity > 0;
     }
 
     if (!capacityCheck) {
-      return res.status(500).send("Parking or event is full");
+      return res.status(400).send("Parking or event is full");
     }
 
     if (parking) {
@@ -45,13 +64,13 @@ async function handleAddReservation(req, res) {
       iduser: formData.iduser,
       idevent: formData.idevent,
       idparking: formData.idparking,
-      idvehicule:formData.idvehicule
+      idvehicule: formData.idvehicule
     });
 
-    return res.status(200).json( reservation );
+    return res.status(200).json(reservation);
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).send("Error occurred when handling Add reservation");
+    res.status(500).send("Error occurred when handling add reservation");
   }
 }
 
@@ -92,24 +111,37 @@ async function getReservation(req, res) {
     res.status(500).send("Error occurred when handling get reservation: " + error);
   }
 }
+
 async function extendReservation(req, res) {
   try {
-    const id = req.params.id; // Assuming the ID parameter is named 'id'
-    const formData = req.body;
+    const id = req.params.id; 
+    let { EndedAt } = req.body;
+
+    // Parse the date and format it to match the database format
+    EndedAt = moment(EndedAt).format('YYYY-MM-DD HH:mm:ssZ');
 
     const reservation = await Reservation.findByPk(id);
-    const parking = await Parking.findByPk(reservation.idparking);
-
     if (!reservation) {
       return res.status(404).send("Reservation not found!");
     }
 
+    const parking = await Parking.findByPk(reservation.idparking);
+    if (!parking) {
+      return res.status(404).send("Parking not found!");
+    }
+
+    console.log("Form Data:", req.body);
+    console.log("Formatted EndedAt:", EndedAt);
+    console.log("Reservation:", reservation);
+    console.log("Parking:", parking);
+
+    // Check if reservation is not ended and parking capacity is not 0
     if (reservation.state !== "ended" && parking.capacity !== 0) {
       await Reservation.update(
-        { EndedAt: formData.EndedAt, state: "extended" },
+        { EndedAt: EndedAt, state: "extended" },
         { where: { id: id } }
       );
-      
+
       // Reload the updated reservation to get the updated data
       const updatedReservation = await Reservation.findByPk(id);
 
@@ -118,9 +150,11 @@ async function extendReservation(req, res) {
       return res.status(400).send("Can't extend an ended reservation or parking is full");
     }
   } catch (error) {
-    res.status(500).send("Error occurred when extending reservation: " + error);
+    console.error("Error occurred when extending reservation:", error);
+    res.status(500).send("Error occurred when extending reservation: " + error.message);
   }
 }
+
 
 
 

@@ -47,7 +47,7 @@ class ReservationNotifier extends StateNotifier<ReservationState> {
     result.fold(
       (failure) => state = ReservationState.failure(failure),
       (reservation) {
-        state = ReservationState.success(reservation: reservation);
+        state = ReservationState.extended(reservation: reservation);
       },
     );
   }
