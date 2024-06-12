@@ -13,6 +13,7 @@ class ParkingModel {
   String? description;
   String? phoneContact;
   String? mailContact;
+  String? averageRate;
 
   ParkingModel({
     this.id,
@@ -23,6 +24,7 @@ class ParkingModel {
     this.description,
     this.phoneContact,
     this.mailContact,
+    this.averageRate,
   });
 
   factory ParkingModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class ParkingModel {
       description: json['description'],
       phoneContact: json['phoneContact'],
       mailContact: json['mailContact'],
+      averageRate: json['rate'].toString(),
     );
   }
 

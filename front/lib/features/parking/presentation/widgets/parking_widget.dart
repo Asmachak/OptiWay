@@ -5,11 +5,14 @@ class ParkingWidget extends StatelessWidget {
       {Key? key,
       required this.title,
       required this.adress,
+      required this.averageRate,
       required this.onPress})
       : super(key: key);
 
   final String title;
   final String adress;
+  final String averageRate;
+
   final void Function()? onPress;
 
   @override
@@ -67,6 +70,11 @@ class ParkingWidget extends StatelessWidget {
                             adress,
                             style: const TextStyle(fontSize: 14),
                           ),
+                          if (averageRate != "null")
+                            Text(
+                              "averageRate $averageRate",
+                              style: const TextStyle(fontSize: 14),
+                            ),
                         ],
                       ),
                     ),

@@ -96,6 +96,7 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
                                 .contains(searchQuery.toLowerCase()))
                         .map((parking) {
                       return ParkingWidget(
+                        averageRate: parking.averageRate ?? "",
                         title: parking.parkingName ?? '',
                         adress: parking.adress ?? '',
                         onPress: () {

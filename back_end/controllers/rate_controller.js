@@ -3,6 +3,7 @@ const { generateID } = require("../middleware/generateID");
 const Rate = require("../models/rate");
 const Reservation = require("../models/reservation");
 const User = require("../models/user");
+const Parking = require("../models/parking");
 
 async function giveRate(req, res) {
     try {
@@ -93,6 +94,49 @@ async function checkRate(req, res) {
       res.status(500).json({ error: 'Internal server error' });
     }
   }
+ 
+
+  async function averageRate(id) {
+    try {
+      const reservations = await Reservation.findAll({
+        where: {
+          idparking: id
+        }
+      });
+  
+      if (reservations.length > 0) {
+        let totalRate = 0;
+        let rateCount = 0;
+  
+        for (const reservation of reservations) {
+          const rates = await Rate.findAll({
+            where: {
+              reservation: reservation.id
+            }
+          });
+  
+          for (const rate of rates) {
+            totalRate += rate.parkingRate;
+            rateCount++;
+          }
+        }
+  
+        if (rateCount > 0) {
+          const avgRate = totalRate / rateCount;
+          return avgRate;
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Error calculating average rate', error);
+      throw new Error('Internal server error');
+    }
+  }
+  
+  
   
 
-module.exports = {giveRate,checkRate,updateRate}
+module.exports = {giveRate,checkRate,updateRate,averageRate}
