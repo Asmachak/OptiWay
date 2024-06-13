@@ -5,6 +5,7 @@ const User = require("../models/user");
 const { where } = require("sequelize");
 const Vehicule = require("../models/vehicule");
 const moment = require('moment'); 
+const { averageRate } = require("./rate_controller");
 
 
 async function handleAddReservation(req, res) {
@@ -83,34 +84,64 @@ async function getReservation(req, res) {
       return res.status(404).send("User not found!");
     }
 
-    const reservations = await Reservation.findAll({
+    let reservations = await Reservation.findAll({
       where: { iduser: userid },
       include: [
-        {
-          model: Parking,
-        
-        },
-        {
-          model: Vehicule,
-          
-        },
-        {
-          model: User,
-
-        }
-
+        { model: Parking },
+        { model: Vehicule },
+        { model: User }
       ],
     });
 
     if (!reservations || reservations.length === 0) {
       return res.status(200).send("No reservations found for the user.");
     }
+    var tab=[]
+    // Loop through reservations and add the average rate to each parking
+    for (let i = 0; i < reservations.length; i++) {
+      if (reservations[i]["parking"]) {
+        // Convert reservation["parking"] to a plain JavaScript object
+        var parkingData = reservations[i]["parking"].toJSON();
 
-    res.status(200).send(reservations);
+        // Calculate the rate
+        const rate = await averageRate(parkingData.id);
+
+        // Add the rate to the parking data
+        parkingData.rate = rate;
+
+        // Log the updated parking data with rate
+        console.log("Updated parking data:", parkingData);
+        tab[i]={
+          id: reservations[i].id,
+          CreatedAt: reservations[i].CreatedAt,
+          EndedAt: reservations[i].EndedAt,
+          state: reservations[i].state,
+          iduser: reservations[i].iduser,
+          idevent: reservations[i].idevent,
+          idparking: reservations[i].idparking,
+          idvehicule: reservations[i].idvehicule,
+          parking:parkingData,
+          user:reservations[i].user,
+          vehicle:reservations[i].vehicle};
+
+
+        reservations[i].parking=parkingData;
+
+      }
+    }
+
+   
+
+    console.log(tab)
+    res.status(200).send(tab);
   } catch (error) {
     res.status(500).send("Error occurred when handling get reservation: " + error);
   }
 }
+
+
+
+
 
 async function extendReservation(req, res) {
   try {

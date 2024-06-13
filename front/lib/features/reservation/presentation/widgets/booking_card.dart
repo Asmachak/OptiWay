@@ -46,14 +46,52 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                    "assets/parking.jpg",
-                    width: 110,
-                    height: 110,
-                    fit: BoxFit.cover,
-                  ),
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        "assets/parking.jpg",
+                        width: 110,
+                        height: 110,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    if (widget.reservation.parking?["rate"].toString() !=
+                        "null")
+                      Positioned(
+                        bottom: 0.0,
+                        right: 0.0,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 2.0,
+                            horizontal: 2.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 218, 216, 216)
+                                .withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 19.0,
+                              ),
+                              SizedBox(width: 4.0),
+                              Text(
+                                widget.reservation.parking!["rate"].toString(),
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 const SizedBox(width: 16),
                 Expanded(
