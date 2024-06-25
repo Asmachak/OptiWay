@@ -15,6 +15,7 @@ ParkingModel _$ParkingModelFromJson(Map<String, dynamic> json) => ParkingModel(
       description: json['description'] as String?,
       phoneContact: json['phoneContact'] as String?,
       mailContact: json['mailContact'] as String?,
+      averageRate: json['averageRate'] as String?,
     );
 
 Map<String, dynamic> _$ParkingModelToJson(ParkingModel instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$ParkingModelToJson(ParkingModel instance) =>
       'description': instance.description,
       'phoneContact': instance.phoneContact,
       'mailContact': instance.mailContact,
+      'averageRate': instance.averageRate,
     };

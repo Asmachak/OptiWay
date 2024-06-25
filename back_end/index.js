@@ -19,6 +19,7 @@ const {importData} = require('./controllers/car_controller');
 
 
 
+
 /****************************************End-Declarations****************************************/ 
 //synchronize data base with models
 /*(async () => {
@@ -100,6 +101,31 @@ app.use(require('./routes/rate_routes'));
 
 
 
+
+
+// // Call the scrapeWebsite function and log the result
+// scrapeWebsite().then(json => {
+//     console.log(json);
+// });
+
+const { exec } = require('child_process');
+
+// Command to execute Python script
+const command = 'python scrapping.py';
+
+exec(command, (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Error executing Python script: ${error.message}`);
+    return;
+  }
+  if (stderr) {
+    console.error(`Python script encountered an error: ${stderr}`);
+    return;
+  }
+
+  // Process the output from the Python script
+  console.log(`Python script output: ${stdout}`);
+});
 
   
 // Start the server

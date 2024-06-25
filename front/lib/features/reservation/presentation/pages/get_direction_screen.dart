@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:front/core/conts.dart';
 import 'package:front/features/reservation/data/models/reservation_model.dart';
@@ -31,14 +29,6 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
   BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor currentIcon = BitmapDescriptor.defaultMarker;
-
-  // void setCustomMarkerICon() {
-  //   BitmapDescriptor.fromAssetImage(
-  //           ImageConfiguration.empty, "assets/placeholder.webp")
-  //       .then((icon) {
-  //     sourceIcon = icon;
-  //   });
-  // }
 
   Future<void> requestLocationPermission() async {
     var status = await Permission.location.request();
@@ -127,7 +117,7 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
                 Polyline(
                     polylineId: const PolylineId("route"),
                     points: polylineCoordinates,
-                    color: Colors.blue,
+                    color: const Color.fromARGB(255, 27, 107, 172),
                     width: 6)
               },
               markers: {

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/user/presentation/widgets/menu_profile_widget.dart';
+import 'package:front/routes/app_routes.gr.dart';
 
 @RoutePage()
 class BillingDetailsScreen extends ConsumerWidget {
@@ -33,7 +34,10 @@ class BillingDetailsScreen extends ConsumerWidget {
                   ProfileMenuWidget(
                       title: "Available Cards",
                       icon: Icons.credit_card,
-                      onPress: () {}),
+                      onPress: () {
+                        AutoRouter.of(context)
+                            .push(const PaiementMethodeRoute());
+                      }),
                   ProfileMenuWidget(
                       title: "Billing Historic",
                       icon: Icons.monetization_on_sharp,
