@@ -16,6 +16,8 @@ class DropdownMenu extends ConsumerStatefulWidget {
 
 class _DropdownMenuState extends ConsumerState<DropdownMenu> {
   String? _selectedItem;
+  TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -36,36 +38,78 @@ class _DropdownMenuState extends ConsumerState<DropdownMenu> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Select Item'),
-                  content: SingleChildScrollView(
-                    child: SizedBox(
-                      width: double.maxFinite, // Expand to max width
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.items.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(widget.items[index]),
-                            onTap: () {
+                return StatefulBuilder(
+                  builder: (BuildContext context, setState) {
+                    var filteredItems = widget.items
+                        .where((item) => item
+                            .toLowerCase()
+                            .contains(_searchQuery.toLowerCase()))
+                        .toList();
+
+                    return AlertDialog(
+                      title: const Text('Select Item'),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: _searchController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(255, 138, 151, 216)
+                                      .withOpacity(0.1),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              hintText: "Search",
+                              prefixIcon: const Icon(Icons.search),
+                              prefixIconColor:
+                                  const Color.fromARGB(255, 45, 56, 116),
+                            ),
+                            onChanged: (query) {
                               setState(() {
-                                _selectedItem = widget.items[index];
+                                _searchQuery = query;
                               });
-                              Navigator.of(context).pop();
                             },
-                          );
-                        },
+                          ),
+                          SizedBox(
+                            width: double.maxFinite,
+                            height: filteredItems.length > 5
+                                ? 300.0 // Set a max height for scrollable items
+                                : filteredItems.length *
+                                    56.0, // Adjust height based on items
+                            child: Scrollbar(
+                              thumbVisibility:
+                                  true, // Ensure scrollbar is always visible
+                              child: ListView.builder(
+                                itemCount: filteredItems.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ListTile(
+                                    title: Text(filteredItems[index]),
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedItem = filteredItems[index];
+                                      });
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Cancel'),
-                    ),
-                  ],
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                      ],
+                    );
+                  },
                 );
               },
             );
@@ -91,5 +135,11 @@ class _DropdownMenuState extends ConsumerState<DropdownMenu> {
         ],
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }
