@@ -77,52 +77,39 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
               ),
             ),
             state.when(
-              initial: () {
-                return const Text("initial");
-              },
-              loading: () {
-                return Center(child: loadingWidget());
-              },
-              loaded: (parkings) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: parkings
-                        .where((parking) =>
-                            parking.parkingName!
-                                .toLowerCase()
-                                .contains(searchQuery.toLowerCase()) ||
-                            parking.adress!
-                                .toLowerCase()
-                                .contains(searchQuery.toLowerCase()))
-                        .map((parking) {
-                      return ParkingWidget(
-                        averageRate: parking.averageRate ?? "",
-                        title: parking.parkingName ?? '',
-                        adress: parking.adress ?? '',
-                        onPress: () {
-                          AutoRouter.of(context).push(
-                            ParkingDetailsRoute(
-                                id: parking.id!,
-                                capacity: parking.capacity!,
-                                parkingName: parking.parkingName!,
-                                description: parking.description!,
-                                location: parking.location ?? "",
-                                mailContact: parking.mailContact!,
-                                phoneContact: parking.phoneContact!,
-                                adress: parking.adress!),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
-                );
-              },
-              failure: (exception) {
-                return Text("$exception");
-              },
-              success: () {
-                return const Text("success");
-              },
+              initial: () => const Text("initial"),
+              loading: () => Center(child: loadingWidget()),
+              loaded: (parkings) => Column(
+                children: parkings
+                    .where((parking) =>
+                        parking.parkingName!
+                            .toLowerCase()
+                            .contains(searchQuery.toLowerCase()) ||
+                        parking.adress!
+                            .toLowerCase()
+                            .contains(searchQuery.toLowerCase()))
+                    .map((parking) => ParkingWidget(
+                          averageRate: parking.averageRate ?? "",
+                          title: parking.parkingName ?? '',
+                          adress: parking.adress ?? '',
+                          onPress: () {
+                            AutoRouter.of(context).push(
+                              ParkingDetailsRoute(
+                                  id: parking.id!,
+                                  capacity: parking.capacity!,
+                                  parkingName: parking.parkingName!,
+                                  description: parking.description!,
+                                  location: parking.location ?? "",
+                                  mailContact: parking.mailContact!,
+                                  phoneContact: parking.phoneContact!,
+                                  adress: parking.adress!),
+                            );
+                          },
+                        ))
+                    .toList(),
+              ),
+              failure: (exception) => Text("$exception"),
+              success: () => const Text("success"),
             ),
           ],
         ),

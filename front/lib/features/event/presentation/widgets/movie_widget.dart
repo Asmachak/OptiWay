@@ -27,7 +27,7 @@ class MovieWidget extends StatelessWidget {
               color: const Color.fromARGB(255, 149, 160, 214).withOpacity(0.1),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
                   Padding(
