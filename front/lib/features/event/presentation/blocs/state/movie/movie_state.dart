@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
-import 'package:front/features/event/data/models/movie_model.dart';
+import 'package:front/features/event/data/models/movie/movie_model.dart';
 
 part 'movie_state.freezed.dart';
 

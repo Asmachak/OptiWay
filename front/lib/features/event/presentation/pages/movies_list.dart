@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/presentation/blocs/movie_provider.dart';
+import 'package:front/features/event/presentation/blocs/state/movie/movie_notifier.dart';
+import 'package:front/features/event/presentation/widgets/drop_down_widget.dart';
 import 'package:front/features/event/presentation/widgets/movie_widget.dart';
 import 'package:front/features/event/presentation/widgets/drop_down_widget.dart'
     as drop_down_widget;
@@ -22,7 +24,7 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
     super.initState();
     // Fetch the items when the widget is first created
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(itemNotifierProvider.notifier).fetchItems();
+      ref.read(MovieNotifierProvider.notifier).fetchItems();
       ref.read(parkingNotifierProvider.notifier).getParkings();
     });
     // Initialize the scrollController here
@@ -55,9 +57,11 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final movieState = ref.watch(itemNotifierProvider);
+    final movieState = ref.watch(MovieNotifierProvider);
     final parkingState = ref.watch(parkingNotifierProvider);
     final searchQuery = ref.watch(searchQueryProvider);
+    final type = ref.watch(typeProvider);
+    final parking = ref.watch(parkingProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -70,6 +74,8 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  Text("type provider : $type"),
+                  Text("parking provider : $parking"),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextField(

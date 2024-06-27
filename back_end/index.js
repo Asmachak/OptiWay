@@ -111,25 +111,45 @@ app.use(require('./routes/rate_routes'));
 const { exec } = require('child_process');
 
 // Command to execute Python script
-const command = 'python scrapping.py';
+// const command = 'python scrapping.py';
 
-exec(command, (error, stdout, stderr) => {
-  if (error) {
-    console.error(`Error executing Python script: ${error.message}`);
-    return;
-  }
-  if (stderr) {
-    console.error(`Python script encountered an error: ${stderr}`);
-    return;
-  }
+// exec(command, (error, stdout, stderr) => {
+//   if (error) {
+//     console.error(`Error executing Python script: ${error.message}`);
+//     return;
+//   }
+//   if (stderr) {
+//     console.error(`Python script encountered an error: ${stderr}`);
+//     return;
+//   }
 
-  // Process the output from the Python script
-  console.log(`Python script output: ${stdout}`);
-});
+//   // Process the output from the Python script
+//   console.log(`Python script output: ${stdout}`);
+// });
 
+// // Example using axios (install axios using npm install axios)
+// const axios = require('axios');
+
+// // Function to call Python API
+// async function scrapeData() {
+//   try {
+//     const response = await axios.get('http://localhost:5000/scrape');
+//     console.log('Scraping results:', response.data);
+//     return response.data;
+// } catch (error) {
+//     console.error('Error fetching data:', error.message);
+//     throw error;
+// }
+
+// }
+
+// // Call the function
+// scrapeData();
   
 // Start the server
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
+
+
 

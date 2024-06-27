@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import uuid
+import random
+from closest_place import fetch_parking_info
 
 def scrape_website(url):
     try:
@@ -33,9 +35,9 @@ def scrape_website(url):
             genre_list = [genre.text for genre in genres]
             genre_string = ', '.join(genre_list) if genre_list else ''
 
-            # Extract the rating
-            rating = article.find('span', class_='stk-rating loaded')
-            rating_value = rating.get('data-star') if rating else None
+            random_value = random.uniform(1, 5)
+            rating_value = round(random_value * 2) / 2
+
 
             # Extract the director(s)
             directors = article.find_all('span', class_='stk-directedBy')
@@ -57,8 +59,13 @@ def scrape_website(url):
                     cinema_name = li.find('a').text
                     cinema_url = li.find('a')['href']
                     #cinema_timings = get_cinema_timings(cinema_url)
+                    place_name="cinema "+cinema_name + " Bruxelle";
+                    
+                    closest_parkings = fetch_parking_info(place_name, "parkingList.csv")
+
                     cinema_list.append({
                         'name': cinema_name,
+                        'parking':closest_parkings
                         #'timings': cinema_timings
                     })
 
@@ -85,7 +92,7 @@ def scrape_website(url):
 # Function to scrape cinema timings from a specific cinema URL
 def get_cinema_timings(cinema_url):
     try:
-        response = requests.get('https://www.cinenews.be' + cinema_url)
+        response = requests.get('https://www.cinenews.be/en/' + cinema_url)
         response.raise_for_status()  # Check if the request was successful
 
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -134,3 +141,5 @@ with open('movie_data.json', 'w') as json_file:
 
 # Print the JSON data
 print(json_data)
+
+

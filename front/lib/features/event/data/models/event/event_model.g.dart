@@ -11,6 +11,8 @@ EventModel _$EventModelFromJson(Map<String, dynamic> json) => EventModel(
       title: json['title'] as String,
       image_url: json['image_url'] as String,
       description: json['description'] as String,
+      parkings: json['parkings'] as List<dynamic>,
+      rating: (json['rating'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
@@ -19,4 +21,6 @@ Map<String, dynamic> _$EventModelToJson(EventModel instance) =>
       'title': instance.title,
       'image_url': instance.image_url,
       'description': instance.description,
+      'rating': instance.rating,
+      'parkings': instance.parkings,
     };

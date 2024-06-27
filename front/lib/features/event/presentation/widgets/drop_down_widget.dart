@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final searchQueryProvider = StateProvider<String>((ref) => '');
+// State providers for type and parking
+final typeProvider = StateProvider<String>((ref) => '');
+final parkingProvider = StateProvider<String>((ref) => '');
 
 class DropdownMenu extends ConsumerStatefulWidget {
   final List<String> items;
@@ -91,6 +93,17 @@ class _DropdownMenuState extends ConsumerState<DropdownMenu> {
                                       setState(() {
                                         _selectedItem = filteredItems[index];
                                       });
+                                      if (widget.title.contains('Type')) {
+                                        // Update type provider
+                                        ref.read(typeProvider.notifier).state =
+                                            filteredItems[index];
+                                      } else if (widget.title
+                                          .contains('Parking')) {
+                                        // Update parking provider
+                                        ref
+                                            .read(parkingProvider.notifier)
+                                            .state = filteredItems[index];
+                                      }
                                       Navigator.of(context).pop();
                                     },
                                   );
@@ -129,10 +142,6 @@ class _DropdownMenuState extends ConsumerState<DropdownMenu> {
             ],
           ),
         ),
-        if (_selectedItem != null) ...[
-          const SizedBox(height: 16),
-          Text('Selected Item: $_selectedItem'),
-        ],
       ],
     );
   }

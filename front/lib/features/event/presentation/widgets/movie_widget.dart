@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:front/features/event/data/models/movie_model.dart';
+import 'package:front/features/event/data/models/movie/movie_model.dart';
 
 class MovieWidget extends StatelessWidget {
   const MovieWidget({
@@ -91,7 +91,7 @@ class MovieWidget extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 4.0),
                                   Text(
-                                    movie.rating ?? "",
+                                    movie.rating.toString(),
                                     style: const TextStyle(
                                       fontSize: 15.0,
                                       fontWeight: FontWeight.bold,
