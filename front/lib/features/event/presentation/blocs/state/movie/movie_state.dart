@@ -9,5 +9,8 @@ abstract class MovieState with _$MovieState {
   const factory MovieState.initial() = Initial;
   const factory MovieState.loading() = Loading;
   const factory MovieState.failure(AppException exception) = Failure;
-  const factory MovieState.loaded({required List<MovieModel> moviesList}) = Loaded;
+  const factory MovieState.loaded({required List<MovieModel> moviesList}) =
+      Loaded;
+    const factory MovieState.eventLoaded({required List<MovieModel> moviesList}) =
+      EventLoaded;
 }

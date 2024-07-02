@@ -539,14 +539,6 @@
     "image_url": "https://www.cinenews.be/image/s300/q80/mm/been/movies26572/posters/un-p-tit-truc-en-plus.20240613111804.webp",
     "parkings": [
       [
-        "Parking Guimard",
-        6.1390156685664
-      ],
-      [
-        "Parking Matong\u00e9",
-        6.745986848450918
-      ],
-      [
         "Parking Matong\u00e9",
         0.21339207168663746
       ],
@@ -588,66 +580,6 @@
           [
             "Parking Guimard",
             0.9398724120256174
-          ]
-        ]
-      }
-    ]
-  },
-  {
-    "id": "dc815972-9937-4c78-a880-bbfb16ff0cd5",
-    "title": "Un P'tit Truc en Plus",
-    "image_url": "https://www.cinenews.be/image/s300/q80/mm/been/movies26572/posters/un-p-tit-truc-en-plus.20240613111804.webp",
-    "parkings": [
-      [
-        "Parking Guimard",
-        1.4307278162055341
-      ],
-      [
-        "Parking Matong\u00e9",
-        1.8054158497458872
-      ],
-      [
-        "Parking shopping Linthout Tongres",
-        4.425215952769794
-      ],
-      [
-        "Parking Cinquantenaire",
-        4.5128613519782945
-      ]
-    ],
-    "genres": "Comedy",
-    "rating": 3.5,
-    "directors": [
-      "Artus & Milan Mauger"
-    ],
-    "stars": [
-      "Artus, Clovis Cornillac, Alice Bela\u00efdi"
-    ],
-    "description": "",
-    "cinemas": [
-      {
-        "name": "UGC De Brouckere",
-        "parking": [
-          [
-            "Parking Guimard",
-            1.4307278162055341
-          ],
-          [
-            "Parking Matong\u00e9",
-            1.8054158497458872
-          ]
-        ]
-      },
-      {
-        "name": "Stockel",
-        "parking": [
-          [
-            "Parking shopping Linthout Tongres",
-            4.425215952769794
-          ],
-          [
-            "Parking Cinquantenaire",
-            4.5128613519782945
           ]
         ]
       }
@@ -1161,45 +1093,6 @@
           [
             "Parking Matong\u00e9",
             4.749810676864063
-          ]
-        ]
-      }
-    ]
-  },
-  {
-    "id": "401901b5-4b3e-40f3-ad3e-68dd55d2275e",
-    "title": "The Watchers",
-    "image_url": "https://www.cinenews.be/image/s300/q80/mm/been/movies25346/posters/the-watchers.20240611105954.webp",
-    "parkings": [
-      [
-        "Parking Guimard",
-        6.1390156685664
-      ],
-      [
-        "Parking Matong\u00e9",
-        6.745986848450918
-      ]
-    ],
-    "genres": "Horror",
-    "rating": 2.5,
-    "directors": [
-      "Ishana Night Shyamalan"
-    ],
-    "stars": [
-      "Dakota Fanning"
-    ],
-    "description": "",
-    "cinemas": [
-      {
-        "name": "Kinepolis Brussels",
-        "parking": [
-          [
-            "Parking Guimard",
-            6.1390156685664
-          ],
-          [
-            "Parking Matong\u00e9",
-            6.745986848450918
           ]
         ]
       }

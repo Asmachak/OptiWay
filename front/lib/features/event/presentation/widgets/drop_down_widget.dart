@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// State providers for type and parking
+// State providers for type, parking, and rating
 final typeProvider = StateProvider<String>((ref) => '');
 final parkingProvider = StateProvider<String>((ref) => '');
+final ratingProvider = StateProvider<String>((ref) => '');
 
 class DropdownMenu extends ConsumerStatefulWidget {
   final List<String> items;
   final String title;
+  final StateProvider<String> provider;
 
-  DropdownMenu({Key? key, required this.items, required this.title})
-      : super(key: key);
+  DropdownMenu({
+    Key? key,
+    required this.items,
+    required this.title,
+    required this.provider,
+  }) : super(key: key);
 
   @override
   _DropdownMenuState createState() => _DropdownMenuState();
@@ -22,7 +28,19 @@ class _DropdownMenuState extends ConsumerState<DropdownMenu> {
   String _searchQuery = '';
 
   @override
+  void initState() {
+    super.initState();
+    _selectedItem = ref.read(widget.provider).isEmpty
+        ? widget.title
+        : ref.read(widget.provider);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _selectedItem = ref.watch(widget.provider).isEmpty
+        ? widget.title
+        : ref.watch(widget.provider);
+
     return Column(
       children: [
         OutlinedButton(
@@ -93,17 +111,8 @@ class _DropdownMenuState extends ConsumerState<DropdownMenu> {
                                       setState(() {
                                         _selectedItem = filteredItems[index];
                                       });
-                                      if (widget.title.contains('Type')) {
-                                        // Update type provider
-                                        ref.read(typeProvider.notifier).state =
-                                            filteredItems[index];
-                                      } else if (widget.title
-                                          .contains('Parking')) {
-                                        // Update parking provider
-                                        ref
-                                            .read(parkingProvider.notifier)
-                                            .state = filteredItems[index];
-                                      }
+                                      ref.read(widget.provider.notifier).state =
+                                          filteredItems[index];
                                       Navigator.of(context).pop();
                                     },
                                   );
@@ -119,6 +128,16 @@ class _DropdownMenuState extends ConsumerState<DropdownMenu> {
                             Navigator.of(context).pop();
                           },
                           child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedItem = widget.title;
+                            });
+                            ref.read(widget.provider.notifier).state = '';
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Clear Selection'),
                         ),
                       ],
                     );

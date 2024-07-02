@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'movie_state.dart';
+part of 'loading_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$MovieState {
+mixin _$LoadingMovieState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
@@ -75,16 +75,16 @@ mixin _$MovieState {
 }
 
 /// @nodoc
-abstract class $MovieStateCopyWith<$Res> {
-  factory $MovieStateCopyWith(
-          MovieState value, $Res Function(MovieState) then) =
-      _$MovieStateCopyWithImpl<$Res, MovieState>;
+abstract class $LoadingMovieStateCopyWith<$Res> {
+  factory $LoadingMovieStateCopyWith(
+          LoadingMovieState value, $Res Function(LoadingMovieState) then) =
+      _$LoadingMovieStateCopyWithImpl<$Res, LoadingMovieState>;
 }
 
 /// @nodoc
-class _$MovieStateCopyWithImpl<$Res, $Val extends MovieState>
-    implements $MovieStateCopyWith<$Res> {
-  _$MovieStateCopyWithImpl(this._value, this._then);
+class _$LoadingMovieStateCopyWithImpl<$Res, $Val extends LoadingMovieState>
+    implements $LoadingMovieStateCopyWith<$Res> {
+  _$LoadingMovieStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -101,7 +101,7 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$MovieStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$LoadingMovieStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
@@ -115,7 +115,7 @@ class _$InitialImpl implements Initial {
 
   @override
   String toString() {
-    return 'MovieState.initial()';
+    return 'LoadingMovieState.initial()';
   }
 
   @override
@@ -208,7 +208,7 @@ class _$InitialImpl implements Initial {
   }
 }
 
-abstract class Initial implements MovieState {
+abstract class Initial implements LoadingMovieState {
   const factory Initial() = _$InitialImpl;
 }
 
@@ -221,7 +221,7 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$MovieStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$LoadingMovieStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
@@ -235,7 +235,7 @@ class _$LoadingImpl implements Loading {
 
   @override
   String toString() {
-    return 'MovieState.loading()';
+    return 'LoadingMovieState.loading()';
   }
 
   @override
@@ -328,7 +328,7 @@ class _$LoadingImpl implements Loading {
   }
 }
 
-abstract class Loading implements MovieState {
+abstract class Loading implements LoadingMovieState {
   const factory Loading() = _$LoadingImpl;
 }
 
@@ -343,7 +343,7 @@ abstract class _$$FailureImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$FailureImplCopyWithImpl<$Res>
-    extends _$MovieStateCopyWithImpl<$Res, _$FailureImpl>
+    extends _$LoadingMovieStateCopyWithImpl<$Res, _$FailureImpl>
     implements _$$FailureImplCopyWith<$Res> {
   __$$FailureImplCopyWithImpl(
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
@@ -373,7 +373,7 @@ class _$FailureImpl implements Failure {
 
   @override
   String toString() {
-    return 'MovieState.failure(exception: $exception)';
+    return 'LoadingMovieState.failure(exception: $exception)';
   }
 
   @override
@@ -475,7 +475,7 @@ class _$FailureImpl implements Failure {
   }
 }
 
-abstract class Failure implements MovieState {
+abstract class Failure implements LoadingMovieState {
   const factory Failure(final AppException exception) = _$FailureImpl;
 
   AppException get exception;
@@ -495,7 +495,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$MovieStateCopyWithImpl<$Res, _$LoadedImpl>
+    extends _$LoadingMovieStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
       _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
@@ -531,7 +531,7 @@ class _$LoadedImpl implements Loaded {
 
   @override
   String toString() {
-    return 'MovieState.loaded(moviesList: $moviesList)';
+    return 'LoadingMovieState.loaded(moviesList: $moviesList)';
   }
 
   @override
@@ -634,7 +634,7 @@ class _$LoadedImpl implements Loaded {
   }
 }
 
-abstract class Loaded implements MovieState {
+abstract class Loaded implements LoadingMovieState {
   const factory Loaded({required final List<MovieModel> moviesList}) =
       _$LoadedImpl;
 
@@ -655,7 +655,7 @@ abstract class _$$EventLoadedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$EventLoadedImplCopyWithImpl<$Res>
-    extends _$MovieStateCopyWithImpl<$Res, _$EventLoadedImpl>
+    extends _$LoadingMovieStateCopyWithImpl<$Res, _$EventLoadedImpl>
     implements _$$EventLoadedImplCopyWith<$Res> {
   __$$EventLoadedImplCopyWithImpl(
       _$EventLoadedImpl _value, $Res Function(_$EventLoadedImpl) _then)
@@ -691,7 +691,7 @@ class _$EventLoadedImpl implements EventLoaded {
 
   @override
   String toString() {
-    return 'MovieState.eventLoaded(moviesList: $moviesList)';
+    return 'LoadingMovieState.eventLoaded(moviesList: $moviesList)';
   }
 
   @override
@@ -794,7 +794,7 @@ class _$EventLoadedImpl implements EventLoaded {
   }
 }
 
-abstract class EventLoaded implements MovieState {
+abstract class EventLoaded implements LoadingMovieState {
   const factory EventLoaded({required final List<MovieModel> moviesList}) =
       _$EventLoadedImpl;
 

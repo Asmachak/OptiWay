@@ -93,6 +93,7 @@ async function getReservation(req, res) {
       ],
     });
 
+    console.log(reservations);
     if (!reservations || reservations.length === 0) {
       return res.status(200).send("No reservations found for the user.");
     }
@@ -122,7 +123,7 @@ async function getReservation(req, res) {
           idvehicule: reservations[i].idvehicule,
           parking:parkingData,
           user:reservations[i].user,
-          vehicle:reservations[i].vehicle};
+          vehicle:reservations[i].vehicule};
 
 
         reservations[i].parking=parkingData;
@@ -220,6 +221,6 @@ async function changeReservationState() {
 }
 
 // Run the function every second
-//setInterval(changeReservationState, 1000);
+setInterval(changeReservationState, 1000);
 
 module.exports = {handleAddReservation,getReservation,extendReservation}

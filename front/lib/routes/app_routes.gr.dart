@@ -10,14 +10,14 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i29;
 import 'package:flutter/material.dart' as _i30;
+import 'package:front/features/event/presentation/pages/related_events_screen.dart'
+    as _i9;
 import 'package:front/features/parking/presentation/pages/parking_details_screen.dart'
     as _i7;
 import 'package:front/features/reservation/data/models/reservation_model.dart'
     as _i32;
 import 'package:front/features/reservation/presentation/pages/get_direction_screen.dart'
     as _i4;
-import 'package:front/features/reservation/presentation/pages/related_events_screen.dart'
-    as _i9;
 import 'package:front/features/reservation/presentation/pages/reservation_list_screen.dart'
     as _i10;
 import 'package:front/features/reservation/presentation/pages/reservation_screen.dart'

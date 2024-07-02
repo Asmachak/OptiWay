@@ -30,7 +30,6 @@ const Vehicule = sequelize.define('vehicule', {
 });
 
 Vehicule.belongsTo(User, { foreignKey: 'iduser', targetKey: 'id' });
-Vehicule.belongsTo(User, { foreignKey: 'iduser', targetKey: 'id' });
 
 
 

@@ -40,7 +40,7 @@ class ReservationModel {
       idparking: json['idparking'],
       idvehicule: json['idvehicule'],
       parking: json['parking'],
-      vehicle: json['vehicule'],
+      vehicle: json['vehicle'],
       user: json['user'],
     );
   }
@@ -56,7 +56,7 @@ class ReservationModel {
       'idparking': idparking,
       'idvehicule': idvehicule,
       'parking': parking,
-      'vehicule': vehicle,
+      'vehicle': vehicle,
       'user': user,
     };
   }

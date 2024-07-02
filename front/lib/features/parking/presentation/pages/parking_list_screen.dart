@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/loading.dart';
 import 'package:front/features/parking/presentation/blocs/parking_provider.dart';
 import 'package:front/features/parking/presentation/widgets/parking_widget.dart';
+import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/routes/app_routes.gr.dart';
+import 'package:get/get.dart';
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
 
@@ -18,12 +20,16 @@ class ParkingListScreen extends ConsumerStatefulWidget {
 class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
   late ScrollController scrollController;
   bool _showFab = false;
+  late dynamic json;
 
   @override
   void initState() {
     super.initState();
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      json = ref.read(jsonDataProvider);
+    });
   }
 
   void _scrollListener() {
@@ -93,6 +99,9 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
                           title: parking.parkingName ?? '',
                           adress: parking.adress ?? '',
                           onPress: () {
+                            print("taay $json");
+                            json["parking"] = parking;
+                            print("siiiii ${json["parking"]}");
                             AutoRouter.of(context).push(
                               ParkingDetailsRoute(
                                   id: parking.id!,

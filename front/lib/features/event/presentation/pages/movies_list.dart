@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/blocs/movie_provider.dart';
-import 'package:front/features/event/presentation/blocs/state/movie/movie_notifier.dart';
 import 'package:front/features/event/presentation/widgets/drop_down_widget.dart';
 import 'package:front/features/event/presentation/widgets/movie_widget.dart';
 import 'package:front/features/event/presentation/widgets/drop_down_widget.dart'
@@ -61,7 +61,8 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
     final parkingState = ref.watch(parkingNotifierProvider);
     final searchQuery = ref.watch(searchQueryProvider);
     final type = ref.watch(typeProvider);
-    final parking = ref.watch(parkingProvider);
+    final parkingProv = ref.watch(parkingProvider);
+    final rating = ref.watch(ratingProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -74,8 +75,6 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text("type provider : $type"),
-                  Text("parking provider : $parking"),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextField(
@@ -105,11 +104,15 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
                     child: Row(
                       children: [
                         drop_down_widget.DropdownMenu(
-                          items: ["Movies", "Festivals", "Cultural events"],
+                          items: const [
+                            "Movies",
+                            "Festivals",
+                            "Cultural events"
+                          ],
                           title: "Event Type",
+                          provider: typeProvider,
                         ),
                         const SizedBox(width: 10),
-                        // Wrap with maybeWhen to conditionally render based on state
                         parkingState.maybeWhen(
                           loading: () =>
                               Center(child: CircularProgressIndicator()),
@@ -120,14 +123,30 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
                             return drop_down_widget.DropdownMenu(
                               items: list,
                               title: "Related Parking",
+                              provider: parkingProvider,
                             );
                           },
-                          orElse: () =>
-                              Container(), // Return empty container as default
+                          orElse: () => Container(),
+                        ),
+                        const SizedBox(width: 10),
+                        drop_down_widget.DropdownMenu(
+                          items: const [
+                            "1.0",
+                            "1.5",
+                            "2.0",
+                            "2.5",
+                            "3.0",
+                            "3.5",
+                            "4.0",
+                            "4.5",
+                            "5.0"
+                          ],
+                          title: "Rating",
+                          provider: ratingProvider,
                         ),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -143,11 +162,19 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
               child: Center(child: Text('Error: $exception')),
             ),
             loaded: (moviesList) {
-              final filteredMovies = moviesList
-                  .where((movie) => movie.title
-                      .toLowerCase()
-                      .contains(searchQuery.toLowerCase()))
-                  .toList();
+              final filteredMovies = moviesList.where((movie) {
+                final matchesTitle = movie.title
+                    .toLowerCase()
+                    .contains(searchQuery.toLowerCase());
+
+                final matchesParking = movie.parkings.any((parking) {
+                  return parking[0].contains(parkingProv);
+                });
+                final matchesRating =
+                    rating.isEmpty || movie.rating.toString() == rating;
+
+                return matchesTitle && matchesParking && matchesRating;
+              }).toList();
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -157,6 +184,9 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
                   childCount: filteredMovies.length,
                 ),
               );
+            },
+            eventLoaded: (List<MovieModel> moviesList) {
+              return SizedBox();
             },
           ),
         ],
