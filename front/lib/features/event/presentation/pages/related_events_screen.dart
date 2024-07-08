@@ -1,15 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front/core/loading.dart';
-import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/blocs/movie_provider.dart';
 import 'package:front/features/event/presentation/blocs/state/movie/movie_notifier.dart';
 import 'package:front/features/event/presentation/widgets/movie_widget.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/blocs/reservation_providers.dart';
 import 'package:front/features/reservation/presentation/blocs/state/reservation_notifier.dart';
-import 'package:front/routes/app_routes.gr.dart';
 import 'package:lottie/lottie.dart';
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
@@ -99,10 +96,10 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
               child: CustomScrollView(
                 slivers: [
                   loadingState.when(
-                    initial: () => SliverToBoxAdapter(
+                    initial: () => const SliverToBoxAdapter(
                       child: Center(child: Text('No data')),
                     ),
-                    loading: () => SliverToBoxAdapter(
+                    loading: () => const SliverToBoxAdapter(
                       child: Center(child: CircularProgressIndicator()),
                     ),
                     failure: (exception) => SliverToBoxAdapter(
@@ -125,6 +122,30 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
 
                         return matchesTitle;
                       }).toList();
+
+                      if (filteredMovies.isEmpty) {
+                        return SliverToBoxAdapter(
+                          child: Column(
+                            children: [
+                              const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'No Related Events for this parking',
+                                    style: TextStyle(fontSize: 25),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Lottie.asset(
+                                    "assets/animations/events.json"),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
                       return SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {

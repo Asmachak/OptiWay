@@ -8,6 +8,7 @@ import 'package:front/features/vehicule/data/models/vehicule_model.dart';
 import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicule_state.dart';
 import 'package:front/features/vehicule/presentation/blocs/vehicule_list_provider.dart';
 import 'package:front/features/vehicule/presentation/blocs/vehicule_providers.dart';
+import 'package:front/features/vehicule/presentation/widgets/add_vehicle_button.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 
@@ -191,41 +192,7 @@ class _VehiculeListScreenState extends ConsumerState<VehiculeListScreen> {
               ),
             ],
           ),
-          Row(
-            children: [
-              const SizedBox(width: 16),
-              Expanded(
-                child: Center(
-                  child: TextButton(
-                    onPressed: () {
-                      AutoRouter.of(context)
-                          .push(AddVehiculeRoute(vehicles: vehicles));
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.indigo[50]),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide.none,
-                        ),
-                      ),
-                    ),
-                    child: const Text(
-                      "Add Vehicle",
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.indigo,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                  width: 16), // Adjust the width as needed for spacing
-            ],
-          )
+          const AddVehicleButton(),
         ],
       ),
     );

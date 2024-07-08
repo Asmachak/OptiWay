@@ -29,6 +29,7 @@
     "otp-generator": "^4.0.1",
     "pg": "^8.11.3",
     "python-shell": "^5.0.0",
-    "sequelize": "^6.37.1"
+    "sequelize": "^6.37.1",
+    "stripe": "^16.1.0"
   }
 }
