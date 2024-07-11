@@ -345,7 +345,7 @@ class ReservationScreen extends ConsumerWidget {
                       children: [
                         Text(
                           '${(duration.inHours.remainder(24)) * price}Euro/',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -386,6 +386,10 @@ class ReservationScreen extends ConsumerWidget {
                         jsonData['CreatedAt'] =
                             startDateTime?.toIso8601String();
                         jsonData['EndedAt'] = endDateTime?.toIso8601String();
+                        jsonData['amount'] =
+                            ((duration!.inHours.remainder(24)) * price)
+                                .toDouble();
+
                         print('jsonData');
                         print(jsonData.values);
 

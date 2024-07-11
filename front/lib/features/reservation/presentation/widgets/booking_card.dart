@@ -74,15 +74,15 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                           ),
                           child: Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.star,
                                 color: Colors.amber,
                                 size: 19.0,
                               ),
-                              SizedBox(width: 4.0),
+                              const SizedBox(width: 4.0),
                               Text(
                                 widget.reservation.parking!["rate"].toString(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.bold,
                                 ),

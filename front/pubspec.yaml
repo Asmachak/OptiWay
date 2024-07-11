@@ -68,7 +68,6 @@ dependencies:
   table_calendar: ^3.0.9
   roundcheckbox: ^2.0.5
   lottie: ^3.1.0
-  flutter_any_logo: ^1.1.1
   qr_flutter: ^4.1.0
   ticket_widget: ^1.0.2
   dotted_line: ^3.2.2

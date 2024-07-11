@@ -15,6 +15,7 @@ class ReservationModel {
   Map<String, dynamic>? parking;
   Map<String, dynamic>? vehicle;
   Map<String, dynamic>? user;
+  double? amount;
 
   ReservationModel(
       {this.id,
@@ -27,7 +28,8 @@ class ReservationModel {
       this.idvehicule,
       this.parking,
       this.vehicle,
-      this.user});
+      this.user,
+      this.amount});
 
   factory ReservationModel.fromJson(Map<String, dynamic> json) {
     return ReservationModel(
@@ -42,6 +44,7 @@ class ReservationModel {
       parking: json['parking'],
       vehicle: json['vehicle'],
       user: json['user'],
+      amount: (json['amount'] as num).toDouble(),
     );
   }
 
@@ -58,6 +61,7 @@ class ReservationModel {
       'parking': parking,
       'vehicle': vehicle,
       'user': user,
+      'amount': amount,
     };
   }
 
@@ -75,6 +79,7 @@ class ReservationModel {
       parking: reservation.parking!,
       vehicle: reservation.vehicle!,
       user: reservation.user!,
+      amount: reservation.amount!,
     );
   }
 
@@ -92,6 +97,7 @@ class ReservationModel {
       parking: reservationEntity.parking,
       vehicle: reservationEntity.vehicle,
       user: reservationEntity.user,
+      amount: reservationEntity.amount,
     );
   }
 }

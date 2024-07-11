@@ -138,14 +138,14 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Parking spot",
+                                  "Paiement amount",
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,
                                   ),
                                 ),
                                 Text(
-                                  "spot", // Replace with actual data
+                                  "${widget.reservation.amount.toString()} Euro",
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,

@@ -4,7 +4,8 @@ import 'package:front/core/infrastructure/network_service.dart';
 import 'package:front/features/paiement/data/models/paiement_model.dart';
 
 abstract class PaiementDataSource {
-  Future<Either<AppException, PaiementModel>> initPaymentSheet();
+  Future<Either<AppException, PaiementModel>> initPaymentSheet(
+      {required Map<String, dynamic> body});
 }
 
 class PaiementRemoteDataSource implements PaiementDataSource {
@@ -13,17 +14,20 @@ class PaiementRemoteDataSource implements PaiementDataSource {
   PaiementRemoteDataSource(this.networkService);
 
   @override
-  Future<Either<AppException, PaiementModel>> initPaymentSheet() async {
+  Future<Either<AppException, PaiementModel>> initPaymentSheet(
+      {required Map<String, dynamic> body}) async {
     try {
       final eitherType = await networkService.post(
         '/create-payment-intent',
+        data: body,
       );
       return eitherType.fold(
         (exception) {
           return Left(exception);
         },
-        (response) {
+        (response) async {
           final paie = PaiementModel.fromJson(response.data);
+
           return Right(paie);
         },
       );

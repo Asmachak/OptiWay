@@ -65,7 +65,9 @@ async function handleAddReservation(req, res) {
       iduser: formData.iduser,
       idevent: formData.idevent,
       idparking: formData.idparking,
-      idvehicule: formData.idvehicule
+      idvehicule: formData.idvehicule,
+      amount: formData.amount,
+
     });
 
     return res.status(200).json(reservation);
@@ -123,7 +125,8 @@ async function getReservation(req, res) {
           idvehicule: reservations[i].idvehicule,
           parking:parkingData,
           user:reservations[i].user,
-          vehicle:reservations[i].vehicule};
+          vehicle:reservations[i].vehicule,
+          amount:reservations[i].amount,};
 
 
         reservations[i].parking=parkingData;

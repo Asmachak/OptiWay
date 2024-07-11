@@ -7,6 +7,8 @@ import 'package:front/features/event/presentation/widgets/movie_widget.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/blocs/reservation_providers.dart';
 import 'package:front/features/reservation/presentation/blocs/state/reservation_notifier.dart';
+import 'package:front/features/reservation/presentation/blocs/state/reservation_state.dart';
+import 'package:front/routes/app_routes.gr.dart';
 import 'package:lottie/lottie.dart';
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
@@ -70,6 +72,9 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
                     print("json $json");
                     await reservationNotifier.addReservation(json);
                     print("terminated");
+
+                    if (reservationState is Success)
+                      AutoRouter.of(context).replace(ReservationListRoute());
                   },
                   style: ButtonStyle(
                     backgroundColor:

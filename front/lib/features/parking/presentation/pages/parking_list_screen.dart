@@ -6,7 +6,6 @@ import 'package:front/features/parking/presentation/blocs/parking_provider.dart'
 import 'package:front/features/parking/presentation/widgets/parking_widget.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/routes/app_routes.gr.dart';
-import 'package:get/get.dart';
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
 

@@ -11,7 +11,8 @@ final jsonDataProvider = Provider<Map<String, dynamic>>((ref) {
     "idevent": null,
     "idvehicule": null,
     "parking": null,
-    "vehicle": null
+    "vehicle": null,
+    "amount": ""
   };
 });
 

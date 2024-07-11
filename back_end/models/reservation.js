@@ -29,6 +29,10 @@ const Reservation = sequelize.define('reservation', {
     type: DataTypes.ENUM('ended','in progress','extended'),
     allowNull: false,
   },
+  amount: {
+    type: DataTypes.DOUBLE,
+    allowNull: false,
+  },
 
  
 }, {

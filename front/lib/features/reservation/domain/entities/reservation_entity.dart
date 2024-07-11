@@ -12,6 +12,7 @@ class ReservationEntity {
   final Map<String, dynamic> parking;
   final Map<String, dynamic> vehicle;
   final Map<String, dynamic> user;
+  final double? amount;
 
   ReservationEntity({
     required this.id,
@@ -25,6 +26,7 @@ class ReservationEntity {
     required this.parking,
     required this.vehicle,
     required this.user,
+    required this.amount,
   });
 
   factory ReservationEntity.fromJson(Map<String, dynamic> json) {
@@ -40,6 +42,7 @@ class ReservationEntity {
       parking: json['parking'],
       vehicle: json['vehicle'],
       user: json['user'],
+      amount: json['amount'],
     );
   }
 
@@ -56,6 +59,7 @@ class ReservationEntity {
       'parking': parking,
       'vehicle': vehicle,
       'user': user,
+      'amount': amount,
     };
   }
 
@@ -73,6 +77,7 @@ class ReservationEntity {
       parking: reservationEntity.parking,
       vehicle: reservationEntity.vehicle,
       user: reservationEntity.user,
+      amount: reservationEntity.amount,
     );
   }
 }
