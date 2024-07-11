@@ -133,7 +133,6 @@ class _ButtonRow extends ConsumerWidget {
     final selectedCarId = ref.watch(selectedCarIdProvider);
     final paiementState = ref.watch(paiementNotifierProvider);
     final reservationNotifier = ref.read(reservationNotifierProvider.notifier);
-    final json = ref.read(jsonDataProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -150,7 +149,7 @@ class _ButtonRow extends ConsumerWidget {
                     AutoRouter.of(context).push(const RelatedEventRoute());
                     print(jsonData);
                   } else {
-                    print("select a car");
+                    print("Select a car");
                   }
                 },
                 style: ButtonStyle(
@@ -180,6 +179,10 @@ class _ButtonRow extends ConsumerWidget {
                 onPressed: selectedCarId != null
                     ? () async {
                         print("Go to Payment");
+                        final jsonData = ref.read(jsonDataProvider);
+                        jsonData["idvehicule"] =
+                            selectedCarId; // Update jsonData with selected car ID
+
                         paiementState.when(
                           initial: () {
                             SizedBox();
@@ -226,7 +229,11 @@ class _ButtonRow extends ConsumerWidget {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Payment Successful')),
                               );
-                              await reservationNotifier.addReservation(json);
+
+                              print("Updated jsonData: $jsonData");
+
+                              await reservationNotifier
+                                  .addReservation(jsonData);
 
                               AutoRouter.of(context)
                                   .replace(ReservationListRoute());

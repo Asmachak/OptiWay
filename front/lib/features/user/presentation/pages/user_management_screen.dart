@@ -13,7 +13,7 @@ class UserManagementScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.router.replace(AccountRoute()),
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
         title: const Align(

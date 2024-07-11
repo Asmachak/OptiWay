@@ -36,13 +36,20 @@ DateTime convertToDateTime(TimeOfDay time) {
 }
 
 @RoutePage()
-class ReservationScreen extends ConsumerWidget {
+class ReservationScreen extends ConsumerStatefulWidget {
   final String idparking;
-  var price = 50.0;
+
   ReservationScreen({Key? key, required this.idparking}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _ReservationScreenState createState() => _ReservationScreenState();
+}
+
+class _ReservationScreenState extends ConsumerState<ReservationScreen> {
+  var price = 50.0;
+
+  @override
+  Widget build(BuildContext context) {
     final selectedDate = ref.watch(selectedDateProvider);
     final selectedStartTime = ref.watch(selectedStartTimeProvider);
     final selectedEndTime = ref.watch(selectedEndTimeProvider);
@@ -371,7 +378,7 @@ class ReservationScreen extends ConsumerWidget {
                         final jsonData = ref.read(jsonDataProvider);
 
                         var json = {
-                          "idparking": idparking,
+                          "idparking": widget.idparking,
                           "CreatedAt": startDateTime?.toIso8601String(),
                           "EndedAt": endDateTime?.toIso8601String(),
                           "iduser": GetIt.instance
@@ -382,7 +389,7 @@ class ReservationScreen extends ConsumerWidget {
                           "idvehicule": null
                         };
 
-                        jsonData['idparking'] = idparking;
+                        jsonData['idparking'] = widget.idparking;
                         jsonData['CreatedAt'] =
                             startDateTime?.toIso8601String();
                         jsonData['EndedAt'] = endDateTime?.toIso8601String();

@@ -11,15 +11,16 @@ class parkingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => AutoRouter.of(context).push(const MainRoute()),
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-        ),
-        title: Text('Parkings Screen'),
+        // leading: IconButton(
+        //   onPressed: () => AutoRouter.of(context).push(const MainRoute()),
+        //   icon: const Icon(Icons.arrow_back_ios_new_rounded),
+        // ),
+        leading: null,
+        automaticallyImplyLeading: false,
+        title: const Align(
+            alignment: Alignment.center, child: Text('Parkings Screen')),
       ),
-      body: Container(
-        child: ParkingListScreen(),
-      ),
+      body: const ParkingListScreen(),
     );
   }
 }

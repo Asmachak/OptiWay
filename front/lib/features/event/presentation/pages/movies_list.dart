@@ -11,6 +11,8 @@ import 'package:front/features/parking/presentation/blocs/parking_provider.dart'
 final searchQueryProvider = StateProvider<String>((ref) => '');
 
 class MyWidget extends ConsumerStatefulWidget {
+  const MyWidget({super.key});
+
   @override
   _MyWidgetState createState() => _MyWidgetState();
 }
@@ -66,7 +68,12 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Available Events'),
+        automaticallyImplyLeading: false,
+        leading: null,
+        title: const Align(
+          alignment: Alignment.center,
+          child: Text('Available Events'),
+        ),
       ),
       body: CustomScrollView(
         controller: scrollController,
@@ -115,7 +122,7 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
                         const SizedBox(width: 10),
                         parkingState.maybeWhen(
                           loading: () =>
-                              Center(child: CircularProgressIndicator()),
+                              const Center(child: CircularProgressIndicator()),
                           loaded: (parkings) {
                             final list = parkings
                                 .map((parking) => parking.parkingName!)
@@ -186,7 +193,7 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
               );
             },
             eventLoaded: (List<MovieModel> moviesList) {
-              return SizedBox();
+              return const SizedBox();
             },
           ),
         ],
@@ -204,8 +211,8 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
               backgroundColor:
                   const Color.fromARGB(255, 166, 173, 211).withOpacity(0.5),
               foregroundColor: Colors.white,
-              child: const Icon(Icons.arrow_upward),
               elevation: 0,
+              child: const Icon(Icons.arrow_upward),
             )
           : null,
     );

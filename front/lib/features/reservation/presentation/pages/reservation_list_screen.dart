@@ -2,15 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/reservation/presentation/widgets/booking_switcher.dart';
+import 'package:front/routes/app_routes.gr.dart';
 
 @RoutePage()
 class ReservationListScreen extends ConsumerStatefulWidget {
-  // Changed to ConsumerStatefulWidget
   const ReservationListScreen({super.key});
 
   @override
   ConsumerState<ReservationListScreen> createState() =>
-      _ReservationListScreenState(); // Updated return type
+      _ReservationListScreenState();
 }
 
 class _ReservationListScreenState extends ConsumerState<ReservationListScreen> {
@@ -19,6 +19,13 @@ class _ReservationListScreenState extends ConsumerState<ReservationListScreen> {
   @override
   void initState() {
     super.initState();
+    scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -26,7 +33,7 @@ class _ReservationListScreenState extends ConsumerState<ReservationListScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.router.replace(UserManagementRoute()),
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
         title: const Align(

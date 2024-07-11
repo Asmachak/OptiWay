@@ -24,13 +24,17 @@ class _accountScreenState extends ConsumerState<accountScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-        ),
+        // leading: IconButton(
+        //   onPressed: () => Navigator.of(context).pop(),
+        //   icon: const Icon(Icons.arrow_back_ios_new_rounded),
+        // ),
+        automaticallyImplyLeading: false,
+        leading: null,
         title: const Align(
-          alignment: Alignment.centerLeft,
-          child: Text('Account'),
+          alignment: Alignment.topCenter,
+          child: Text(
+            'Account',
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -49,13 +53,7 @@ class _accountScreenState extends ConsumerState<accountScreen> {
                           .center, // Center the text horizontally
                       children: [
                         Text(
-                          "${GetIt.instance
-                                  .get<AuthLocalDataSource>()
-                                  .currentUser!
-                                  .name!} ${GetIt.instance
-                                  .get<AuthLocalDataSource>()
-                                  .currentUser!
-                                  .lastName!}",
+                          "${GetIt.instance.get<AuthLocalDataSource>().currentUser!.name!} ${GetIt.instance.get<AuthLocalDataSource>().currentUser!.lastName!}",
                           style: Theme.of(context).textTheme.headline4,
                         ),
                         const SizedBox(width: 5),
