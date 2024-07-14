@@ -6,6 +6,8 @@ import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:get_it/get_it.dart';
 
 class PaymentPage extends ConsumerWidget {
+  const PaymentPage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final paiementState = ref.watch(paiementNotifierProvider);

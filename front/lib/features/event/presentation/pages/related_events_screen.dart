@@ -53,12 +53,10 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        // leading: IconButton(
-        //   onPressed: () => Navigator.of(context).pop(),
-        //   icon: const Icon(Icons.arrow_back_ios_new_rounded),
-        // ),
-        automaticallyImplyLeading: false,
-        leading: null,
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+        ),
         title: const Text(
           "Related Events",
           textAlign: TextAlign.center,
