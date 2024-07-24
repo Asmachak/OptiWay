@@ -27,7 +27,7 @@ exports.getAllParkings = async (req, res) => {
       allParkings.map(async (parking) => {
         try {
           const rate = await averageRate(parking.id);
-          console.log("rateeee ",rate)
+          //console.log("rateeee ",rate)
           return {
             id: parking.id,
             parkingName: parking.parkingName,

@@ -3,115 +3,147 @@ from bs4 import BeautifulSoup
 import json
 import uuid
 import random
-from closest_place import fetch_parking_info
 
-def scrape_website(url):
+def generate_random_timings(num_timings=3):
+    timings = []
+    for _ in range(num_timings):
+        timing = f"{random.randint(10, 22)}:{random.choice(['00', '15', '30', '45'])}"
+        version = random.choice(['2D', '3D', 'IMAX'])
+        timings.append({'time': timing, 'version': version})
+    return timings
+
+def scrape_nested_urls(base_url, urls):
+    scraped_data = []
+    for url in urls:
+        try:
+            full_url = f"{base_url}{url}"
+            response = requests.get(full_url)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.content, 'html.parser')
+
+            director = soup.select_one("span[itemprop='director'] a").text if soup.select_one("span[itemprop='director'] a") else None
+            release_date = soup.select_one("span[itemprop='datePublished']").text if soup.select_one("span[itemprop='datePublished']") else None
+            genre = soup.select_one("div[data-tabup='infos'] a[href*='genre']").text if soup.select_one("div[data-tabup='infos'] a[href*='genre']") else None
+            country = soup.select_one("span:contains('Country :')").find_next_sibling().text.strip() if soup.select_one("span:contains('Country :')") else None
+            original_language = soup.select_one("span:contains('Original language:')").find_next_sibling().text.strip() if soup.select_one("span:contains('Original language:')") else None
+
+
+            additional_info = {
+                'director': director,
+                'release_date': release_date,
+                'genre': genre,
+                'country': country,
+                'original_language': original_language
+            }
+
+
+            scraped_data.append(additional_info)
+
+        except requests.exceptions.RequestException as e:
+            print(f"Error scraping nested URL {url}: {e}")
+
+    return scraped_data
+
+def scrape_website(urls, base_url):
     try:
-        # Make an HTTP request to the website
-        response = requests.get(url)
-        response.raise_for_status()  # Check if the request was successful
+        movie_dict = {}
 
-        # Load the HTML into BeautifulSoup
-        soup = BeautifulSoup(response.content, 'html.parser')
+        for url in urls:
+            response = requests.get(url)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.content, 'html.parser')
 
-        # List to hold the scraped movie data
-        movie_data = []
+            articles = soup.find_all('article', class_='stk movies-stk')
+            for article in articles:
+                title = article.find('h3', class_='stk-title').text.strip()
+                existing_movie_id = next((movie_id for movie_id, movie_data in movie_dict.items() if movie_data['title'] == title), None)
+                details_url = article.find('a')['href']
+                print(details_url)
 
-        # Find all article elements with the class 'stk movies-stk'
-        articles = soup.find_all('article', class_='stk movies-stk')
-        for article in articles:
-            # Generate a unique ID for each movie
-            movie_id = str(uuid.uuid4())
+                # Fetch additional info
+                additional_info = scrape_nested_urls(base_url, [details_url])
 
-            # Extract the image URL
-            img = article.find('img')
-            img_url = img.get('data-src') if img else None
+                if existing_movie_id:
+                    cinemas = article.find('ul', class_='stk-place')
+                    if cinemas:
+                        for li in cinemas.find_all('li'):
+                            cinema_name = li.find('a').text
+                            place_name = f"cinema {cinema_name} Bruxelle"
 
-            # Extract the movie title
-            title = article.find('h3', class_='stk-title').text.strip()
+                            closest_parkings = fetch_parking_info(place_name, "parkingList.csv")
+                            timings = generate_random_timings()
+                            existing_movie = movie_dict[existing_movie_id]
 
-            # Extract the genre
-            genres = article.find_all('a', itemprop='genre')
-            genre_list = [genre.text for genre in genres]
-            genre_string = ', '.join(genre_list) if genre_list else ''
+                            if cinema_name not in [cinema['name'] for cinema in existing_movie['cinemas']]:
+                                existing_movie['cinemas'].append({
+                                    'name': cinema_name,
+                                    'timings': timings,
+                                    'parkings': closest_parkings,
+                                })
+                                existing_movie['parkings'] = list(set(existing_movie['parkings']) | set([parking[0] for parking in closest_parkings]))
 
-            random_value = random.uniform(1, 5)
-            rating_value = round(random_value * 2) / 2
+                else:
+                    movie_id = str(uuid.uuid4())
+                    img = article.find('img')
+                    img_url = img.get('data-src') if img else None
 
+                    genres = article.find_all('a', itemprop='genre')
+                    genre_list = [genre.text for genre in genres]
+                    genre_string = ', '.join(genre_list) if genre_list else ''
 
-            # Extract the director(s)
-            directors = article.find_all('span', class_='stk-directedBy')
-            director_list = [director.text.replace('Directed by:', '').strip() for director in directors]
+                    random_value = random.uniform(1, 5)
+                    rating_value = round(random_value * 2) / 2
 
-            # Extract the starring actors
-            stars = article.find_all('span', class_='stk-staring')
-            star_list = [star.text.replace('With:', '').strip() for star in stars]
+                    directors = article.find_all('span', class_='stk-directedBy')
+                    director_list = [director.text.replace('Directed by:', '').strip() for director in directors]
 
-            # Extract the description
-            description = article.find('span', class_='stk-description')
-            description_text = description.text if description else None
+                    stars = article.find_all('span', class_='stk-staring')
+                    star_list = [star.text.replace('With:', '').strip() for star in stars]
 
-            # Extract the cinema locations and timings
-            cinema_list = []
-            cinemas = article.find('ul', class_='stk-place')
-            if cinemas:
-                for li in cinemas.find_all('li'):
-                    cinema_name = li.find('a').text
-                    cinema_url = li.find('a')['href']
-                    #cinema_timings = get_cinema_timings(cinema_url)
-                    place_name="cinema "+cinema_name + " Bruxelle";
-                    
-                    closest_parkings = fetch_parking_info(place_name, "parkingList.csv")
+                    description = article.find('span', class_='stk-description')
+                    description_text = description.text if description else None
 
-                    cinema_list.append({
-                        'name': cinema_name,
-                        'parking':closest_parkings
-                        #'timings': cinema_timings
-                    })
+                    cinema_list = []
+                    parking_set = set()
 
-            # Append the movie data to the list
-            movie_data.append({
-                'id': movie_id,
-                'title': title,
-                'image_url': img_url,
-                'genres': genre_string,
-                'rating': rating_value,
-                'directors': director_list,
-                'stars': star_list,
-                'description': description_text,
-                'cinemas': cinema_list
-            })
+                    cinemas = article.find('ul', class_='stk-place')
+                    if cinemas:
+                        for li in cinemas.find_all('li'):
+                            cinema_name = li.find('a').text
+                            cinema_url = li.find('a')['href']
+                            place_name = f"cinema {cinema_name} Bruxelle"
 
-        return movie_data
+                            closest_parkings = fetch_parking_info(place_name, "parkingList.csv")
+                            timings = generate_random_timings()
+
+                            cinema_list.append({
+                                'name': cinema_name,
+                                'timings': timings,
+                                'parkings': closest_parkings,
+                            })
+                            parking_set.update([parking[0] for parking in closest_parkings])
+
+                    movie_dict[movie_id] = {
+                        'id': movie_id,
+                        'title': title,
+                        'image_url': img_url,
+                        'genres': genre_string,
+                        'rating': rating_value,
+                        'directors': director_list,
+                        'stars': star_list,
+                        'description': description_text,
+                        'cinemas': cinema_list,
+                        'parkings': list(parking_set),
+                         'additional_info': additional_info[0]
+
+                    }
+
+        return list(movie_dict.values())
 
     except requests.exceptions.RequestException as e:
         print(f"Error scraping the website: {e}")
         return []
 
-
-# Function to scrape cinema timings from a specific cinema URL
-def get_cinema_timings(cinema_url):
-    try:
-        response = requests.get('https://www.cinenews.be/en/' + cinema_url)
-        response.raise_for_status()  # Check if the request was successful
-
-        soup = BeautifulSoup(response.content, 'html.parser')
-        timings = []
-
-        # Find all timings for the cinema
-        showtimes = soup.find_all('li', {'data-st-id': True})
-        for showtime in showtimes:
-            timing = showtime.find('span', class_='t').text.strip()
-            version = showtime.find('span', class_='v').text.strip()
-            timings.append({'time': timing, 'version': version})
-
-        return timings
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error scraping cinema timings: {e}")
-        return []
-
-# URLs to scrape
 urls = [
     'https://www.cinenews.be/en/cinema/program/region/brussels/?startrow=1',
     'https://www.cinenews.be/en/cinema/program/region/brussels/?startrow=25',
@@ -121,25 +153,14 @@ urls = [
     "https://www.cinenews.be/en/cinema/program/region/brussels/?startrow=121",
     "https://www.cinenews.be/en/cinema/program/region/brussels/?startrow=145",
     "https://www.cinenews.be/en/cinema/program/region/brussels/?startrow=169"
-
 ]
 
-# List to hold all movie data
-all_movie_data = []
+base_url = 'https://www.cinenews.be'
 
-# Iterate through each URL and scrape movie data
-for url in urls:
-    movie_data = scrape_website(url)
-    all_movie_data.extend(movie_data)
-
-# Convert the list of movie data to JSON format
+all_movie_data = scrape_website(urls, base_url)
 json_data = json.dumps(all_movie_data, indent=2)
 
-# Write the JSON data to a file
 with open('movie_data.json', 'w') as json_file:
     json_file.write(json_data)
 
-# Print the JSON data
 print(json_data)
-
-

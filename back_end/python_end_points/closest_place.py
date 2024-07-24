@@ -9,7 +9,7 @@ def get_coordinates(place_name):
     url = f"https://maps.googleapis.com/maps/api/geocode/json?address={place_name}&key={API_KEY}"
     response = requests.get(url)
     data = response.json()
-    
+
     if data['status'] == 'OK':
         location = data['results'][0]['geometry']['location']
         return location['lat'], location['lng']
@@ -29,10 +29,10 @@ def haversine(lat1, lon1, lat2, lon2):
 def fetch_parkings_from_csv(file_path):
     try:
         df = pd.read_csv(file_path, dtype={'location': str})
-        
+
         # Filter rows where location is not null
         df = df[df['location'].notnull()]
-        
+
         parkings = []
         for _, row in df.iterrows():
             lat, lon = map(float, row['location'].split(','))
@@ -46,27 +46,27 @@ def find_closest_parkings(place_name, parkings):
     lat, lon = get_coordinates(place_name)
     if lat is None or lon is None:
         return None
-    
+
     distances = []
     for parking in parkings:
         distance = haversine(lat, lon, parking["lat"], parking["lon"])
         distances.append((parking["parkingName"], distance))
-    
+
     # Sort by distance
     distances.sort(key=lambda x: x[1])
-    
+
     # Get the two closest parkings
     closest_parkings = distances[:2]
     return closest_parkings
 
-def fetch_parking_info(cinema_name, file_path):
+def fetch_parking_info(place_name, file_path):
     parkings = fetch_parkings_from_csv(file_path)
     if parkings:
-        closest_parkings = find_closest_parkings(cinema_name, parkings)
+        closest_parkings = find_closest_parkings(place_name, parkings)
         if closest_parkings:
-            return [parking for parking, distance in closest_parkings]
+            return closest_parkings  # Return the list of tuples (parkingName, distance)
         else:
-            print(f"No parkings found near {cinema_name}")
+            print(f"No parkings found near {place_name}")
             return []
     else:
         print("No parking data found.")
@@ -79,8 +79,8 @@ closest_parkings = fetch_parking_info(place_name, file_path)
 
 if closest_parkings:
     print(f"The two closest parkings to {place_name} are:")
-    print(closest_parkings)
-    for parking in closest_parkings:
-        print(parking)
+    print(closest_parkings);
+    for parking, distance in closest_parkings:
+        print(f"{parking} at {distance:.2f} km")
 else:
     print("No parking data found.")

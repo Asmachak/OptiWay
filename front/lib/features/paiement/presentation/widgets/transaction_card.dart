@@ -30,7 +30,7 @@ class TransactionCard extends StatelessWidget {
             children: [
               const Text(
                 'Service:  ',
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 39, 50, 103)),
               ),
@@ -42,9 +42,9 @@ class TransactionCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              Text(
+              const Text(
                 'Montant: ',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Color.fromARGB(255, 39, 50, 103),
                   fontWeight: FontWeight.bold,
                 ),

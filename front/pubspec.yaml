@@ -78,6 +78,7 @@ dependencies:
   flutter_countdown_timer: ^4.1.0
   json_annotation: ^4.9.0
   flutter_stripe: ^10.2.0
+  cart_stepper: ^4.3.0
 
 
 dev_dependencies:

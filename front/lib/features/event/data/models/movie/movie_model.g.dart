@@ -18,6 +18,7 @@ MovieModel _$MovieModelFromJson(Map<String, dynamic> json) => MovieModel(
           (json['directors'] as List<dynamic>).map((e) => e as String).toList(),
       stars: (json['stars'] as List<dynamic>).map((e) => e as String).toList(),
       cinemas: json['cinemas'] as List<dynamic>,
+      additional_info: json['additional_info'] as Map<String, dynamic>,
     );
 
 Map<String, dynamic> _$MovieModelToJson(MovieModel instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$MovieModelToJson(MovieModel instance) =>
       'directors': instance.directors,
       'stars': instance.stars,
       'cinemas': instance.cinemas,
+      'additional_info': instance.additional_info,
     };

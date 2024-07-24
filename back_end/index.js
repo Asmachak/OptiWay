@@ -34,34 +34,6 @@ const {importData} = require('./controllers/car_controller');
 
 
 
-// async function syncDatabase() {
-//   try {
-//     await sequelize.sync({ force: true, models: [Rate] });
-
-//     // Adding and removing columns
-//     await sequelize.getQueryInterface().addColumn('rates', 'parkingRate', {
-//       type: Sequelize.STRING,
-//       allowNull: false,
-//       defaultValue: '',
-//     });
-
-//     await sequelize.getQueryInterface().addColumn('rates', 'eventRate', {
-//       type: Sequelize.STRING,
-//       allowNull: false,
-//       defaultValue: '',
-//     });
-
-//     await sequelize.getQueryInterface().removeColumn('rates', 'userRate');
-//     await sequelize.getQueryInterface().removeColumn('rates', 'reservationRate');
-
-//     console.log('Database synchronized successfully');
-//   } catch (error) {
-//     console.error('Error synchronizing database:', error);
-//   }
-// }
-
-// syncDatabase();
-
 
   
 
@@ -105,15 +77,11 @@ app.use(require('./routes/paiement_routes'));
 
 
 
-// // Call the scrapeWebsite function and log the result
-// scrapeWebsite().then(json => {
-//     console.log(json);
-// });
 
 const { exec } = require('child_process');
 
 // Command to execute Python script
-// const command = 'python scrapping.py';
+const command = 'python python_end_points/scrapping.py';
 
 // exec(command, (error, stdout, stderr) => {
 //   if (error) {
@@ -129,24 +97,7 @@ const { exec } = require('child_process');
 //   console.log(`Python script output: ${stdout}`);
 // });
 
-// // Example using axios (install axios using npm install axios)
-// const axios = require('axios');
 
-// // Function to call Python API
-// async function scrapeData() {
-//   try {
-//     const response = await axios.get('http://localhost:5000/scrape');
-//     console.log('Scraping results:', response.data);
-//     return response.data;
-// } catch (error) {
-//     console.error('Error fetching data:', error.message);
-//     throw error;
-// }
-
-// }
-
-// // Call the function
-// scrapeData();
   
 // Start the server
 app.listen(process.env.PORT, () => {

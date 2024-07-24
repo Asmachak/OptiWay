@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
@@ -7,6 +8,7 @@ import 'package:front/features/event/presentation/widgets/movie_widget.dart';
 import 'package:front/features/event/presentation/widgets/drop_down_widget.dart'
     as drop_down_widget;
 import 'package:front/features/parking/presentation/blocs/parking_provider.dart';
+import 'package:front/routes/app_routes.gr.dart';
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
 
@@ -186,7 +188,12 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final movie = filteredMovies[index];
-                    return MovieWidget(movie: movie, onPress: () {});
+                    return MovieWidget(
+                        movie: movie,
+                        onPress: () {
+                          AutoRouter.of(context)
+                              .push(MovieDetailRoute(movie: movie));
+                        });
                   },
                   childCount: filteredMovies.length,
                 ),
