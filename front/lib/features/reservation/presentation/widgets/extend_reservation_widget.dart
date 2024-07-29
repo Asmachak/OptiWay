@@ -53,9 +53,7 @@ class _ExtendReservationContentState
                 color: Color.fromARGB(255, 110, 110, 110),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             ConstrainedBox(
               constraints:
                   const BoxConstraints.tightFor(height: 52, width: 350),
@@ -81,9 +79,7 @@ class _ExtendReservationContentState
                         Icons.access_time,
                         color: Color.fromARGB(255, 107, 106, 106),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      const SizedBox(width: 10),
                       Text(
                         selectedDate != null && selectedTime != null
                             ? '${selectedDate!.toLocal().toString().split(' ')[0]} ${selectedTime!.format(context)}'
@@ -96,9 +92,7 @@ class _ExtendReservationContentState
                 ),
               ),
             ),
-            const SizedBox(
-              height: 25,
-            ),
+            const SizedBox(height: 25),
             ConstrainedBox(
               constraints:
                   const BoxConstraints.tightFor(height: 52, width: 350),
@@ -119,12 +113,17 @@ class _ExtendReservationContentState
                       "EndedAt": formattedEndTime,
                     };
 
-                    await Future(() {
-                      ref
+                    try {
+                      // Update reservation state
+                      await ref
                           .read(reservationNotifierProvider.notifier)
                           .extendReservation(widget.reservation.id!, body);
-                    }).then((_) {
-                      if (reservationState is Extended) {
+
+                      // Check the new state
+                      final updatedReservationState =
+                          ref.read(reservationNotifierProvider);
+
+                      if (updatedReservationState is Extended) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Container(
@@ -160,11 +159,13 @@ class _ExtendReservationContentState
                         // Reload reservation information after extension
                         ref
                             .read(reservationNotifierProvider.notifier)
-                            .getReservation(GetIt.instance
-                                .get<AuthLocalDataSource>()
-                                .currentUser!
-                                .id!);
-                      } else if (reservationState is Failure) {
+                            .getReservation(
+                              GetIt.instance
+                                  .get<AuthLocalDataSource>()
+                                  .currentUser!
+                                  .id!,
+                            );
+                      } else if (updatedReservationState is Failure) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Container(
@@ -180,12 +181,10 @@ class _ExtendReservationContentState
                                   Text(
                                     "Oops!",
                                     style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                    ),
+                                        fontSize: 18, color: Colors.white),
                                   ),
                                   Text(
-                                    "SomeThing Went Wrong!",
+                                    "Something Went Wrong!",
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ],
@@ -197,7 +196,38 @@ class _ExtendReservationContentState
                           ),
                         );
                       }
-                    });
+                    } catch (e) {
+                      // Handle errors
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Container(
+                            padding: const EdgeInsets.all(16),
+                            height: 90,
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 175, 76, 76),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                            child: const Column(
+                              children: [
+                                Text(
+                                  "Oops!",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                ),
+                                Text(
+                                  "An error occurred!",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                      );
+                    }
                   } else {
                     print('Please select both date and time.');
                   }
@@ -208,11 +238,13 @@ class _ExtendReservationContentState
                     borderRadius: BorderRadius.circular(15),
                   ),
                 ),
-                child: const Text('Extend Parking Time',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white)),
+                child: const Text(
+                  'Extend Parking Time',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white),
+                ),
               ),
             ),
           ],

@@ -144,18 +144,30 @@ async function getReservation(req, res) {
 
 async function extendReservation(req, res) {
   try {
-    const id = req.params.id; 
+    const {id} = req.params; 
     let { EndedAt } = req.body;
-
+    
     // Parse the date and format it to match the database format
     EndedAt = moment(EndedAt).format('YYYY-MM-DD HH:mm:ssZ');
 
     const reservation = await Reservation.findByPk(id);
+    
+    const reservationParking = await ReservationParking.findByPk(reservation.idResParking);
+
+    
+
+
+    console.log("Form Data:", req.body);
+    console.log("Formatted EndedAt:", EndedAt);
+    console.log("Reservation:", reservation);
+    console.log("id:", reservationParking);
+
+    
     if (!reservation) {
       return res.status(404).send("Reservation not found!");
     }
 
-    const parking = await Parking.findByPk(reservation.idparking);
+    const parking = await Parking.findByPk(reservationParking.idparking);
     if (!parking) {
       return res.status(404).send("Parking not found!");
     }
@@ -174,6 +186,10 @@ async function extendReservation(req, res) {
 
       // Reload the updated reservation to get the updated data
       const updatedReservation = await Reservation.findByPk(id);
+
+      //const resPArking = await updatedReservation(id,EndedAt);
+
+      
 
       res.status(200).send(updatedReservation);
     } else {
@@ -202,7 +218,7 @@ async function changeReservationState() {
     for (const reservation of reservations) {
       if (reservation.EndedAt < today) {
         const parking = await Parking.findByPk(
-          reservation.idparking
+          idparking
         );
         await reservation.update({ state: 'ended' }); // Change the state as needed
         await parking.update({ capacity: parking.capacity+1 });

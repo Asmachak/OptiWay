@@ -253,7 +253,7 @@ class _MovieDetailCinemaScreenState extends State<MovieDetailCinemaScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  '$parkingName/n${parkingDistance.toStringAsFixed(2)} km',
+                                  '$parkingName\n${parkingDistance.toStringAsFixed(2)} km',
                                   style: const TextStyle(fontSize: 16.0),
                                   textAlign: TextAlign.center,
                                 ),

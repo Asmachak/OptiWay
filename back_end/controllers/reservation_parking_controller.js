@@ -139,11 +139,8 @@ async function getReservation(req, res) {
   }
 }
 
-async function extendReservation(req, res) {
+async function extendReservation( id, EndedAt ) {
   try {
-    const id = req.params.id; 
-    let { EndedAt } = req.body;
-
     // Parse the date and format it to match the database format
     EndedAt = moment(EndedAt).format('YYYY-MM-DD HH:mm:ssZ');
 

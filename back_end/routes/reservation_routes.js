@@ -1,6 +1,6 @@
 const express = require('express');
 const { handleAddReservationParking} = require("../controllers/reservation_parking_controller");
-const { handleAddReservation, getReservation } = require('../controllers/reservation_controller');
+const { handleAddReservation, getReservation, extendReservation } = require('../controllers/reservation_controller');
 const router = express.Router();
 
 
@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post('/reservationParking/addRes/:iduser/:idparking/:idvehicule',handleAddReservationParking);
 router.post('/reservation/addRes',handleAddReservation);
+router.post('/extendReservation/:id',extendReservation);
 router.get('/reservation/:userid',getReservation);
 
 
