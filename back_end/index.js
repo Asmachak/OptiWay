@@ -81,7 +81,7 @@ app.use(require('./routes/paiement_routes'));
 const { exec } = require('child_process');
 
 // Command to execute Python script
-const command = 'python python_end_points/scrapping.py';
+const command = 'python python_end_points/movies_scrapping.py';
 
 // exec(command, (error, stdout, stderr) => {
 //   if (error) {

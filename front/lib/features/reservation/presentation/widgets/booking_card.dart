@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/rate/presentation/blocs/check_rate_provider.dart';
 import 'package:front/features/rate/presentation/blocs/state/check_rate/check_state.dart';
 import 'package:front/features/rate/presentation/pages/rate_content.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
 class BookingCardWidget extends ConsumerStatefulWidget {
@@ -57,7 +57,9 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    if (widget.reservation.parking?["rate"].toString() !=
+                    if (widget
+                            .reservation.ReservationParking!["parking"]?["rate"]
+                            .toString() !=
                         "null")
                       Positioned(
                         bottom: 0.0,
@@ -81,7 +83,9 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                               ),
                               const SizedBox(width: 4.0),
                               Text(
-                                widget.reservation.parking!["rate"].toString(),
+                                widget.reservation
+                                    .ReservationParking!["parking"]!["rate"]
+                                    .toString(),
                                 style: const TextStyle(
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.bold,
@@ -99,7 +103,9 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.reservation.parking?["parkingName"] ?? '',
+                        widget.reservation.ReservationParking!["parking"]
+                                ?["parkingName"] ??
+                            '',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -107,7 +113,9 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        widget.reservation.parking?["adress"] ?? '',
+                        widget.reservation.ReservationParking!["parking"]
+                                ?["adress"] ??
+                            '',
                         style: const TextStyle(
                           fontSize: 16,
                         ),
@@ -195,7 +203,7 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                     onTap: () {
                       print("widget.reservation");
 
-                      print(widget.reservation.vehicle);
+                      print(widget.reservation.ReservationParking!["vehicule"]);
                       AutoRouter.of(context)
                           .push(TicketRoute(reservation: widget.reservation));
                     },

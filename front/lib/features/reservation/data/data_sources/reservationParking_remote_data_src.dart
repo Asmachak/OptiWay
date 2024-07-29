@@ -1,33 +1,33 @@
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/core/infrastructure/network_service.dart';
-import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation_parking/reservationParking_model.dart';
 
-abstract class ReservationDataSource {
-  Future<Either<AppException, ReservationModel>> addReservation({
+abstract class ReservationParkingDataSource {
+  Future<Either<AppException, ReservationParkingModel>> addReservationParking({
     required Map<String, dynamic> body,
-  });
-  Future<Either<AppException, List<ReservationModel>>> getReservation({
     required String iduser,
-  });
-  Future<Either<AppException, ReservationModel>> extendReservation({
-    required String id,
-    required Map<String, dynamic> body,
+    required String idvehicule,
+    required String idparking,
   });
 }
 
-class ReservationRemoteDataSource implements ReservationDataSource {
+class ReservationParkingRemoteDataSource
+    implements ReservationParkingDataSource {
   final NetworkService networkService;
 
-  ReservationRemoteDataSource(this.networkService);
+  ReservationParkingRemoteDataSource(this.networkService);
 
   @override
-  Future<Either<AppException, ReservationModel>> addReservation({
+  Future<Either<AppException, ReservationParkingModel>> addReservationParking({
     required Map<String, dynamic> body,
+    required String iduser,
+    required String idvehicule,
+    required String idparking,
   }) async {
     try {
       final eitherType = await networkService.post(
-        '/reservation/addRes',
+        '/reservationParking/addRes/$iduser/$idparking/$idvehicule',
         data: body,
       );
       return eitherType.fold(
@@ -35,7 +35,7 @@ class ReservationRemoteDataSource implements ReservationDataSource {
           return Left(exception);
         },
         (response) {
-          final reservation = ReservationModel.fromJson(response.data);
+          final reservation = ReservationParkingModel.fromJson(response.data);
           return Right(reservation);
         },
       );
@@ -46,14 +46,14 @@ class ReservationRemoteDataSource implements ReservationDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier:
-              '${e.toString()}\nReservationRemoteDataSource.AddReservations',
+              '${e.toString()}\nReservationParkingRemoteDataSource.AddReservations',
         ),
       );
     }
   }
 
   @override
-  Future<Either<AppException, List<ReservationModel>>> getReservation({
+  Future<Either<AppException, List<ReservationParkingModel>>> getReservation({
     required String iduser,
   }) async {
     try {
@@ -65,10 +65,10 @@ class ReservationRemoteDataSource implements ReservationDataSource {
           return Left(exception);
         },
         (response) {
-          List<ReservationModel> reservations = [];
+          List<ReservationParkingModel> reservations = [];
           if (response.data is List) {
-            reservations = List<ReservationModel>.from(
-                response.data.map((x) => ReservationModel.fromJson(x)));
+            reservations = List<ReservationParkingModel>.from(
+                response.data.map((x) => ReservationParkingModel.fromJson(x)));
           }
           return Right(reservations);
         },
@@ -80,14 +80,14 @@ class ReservationRemoteDataSource implements ReservationDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier:
-              '${e.toString()}\nRegisterReservationRemoteDataSource.GetReservations',
+              '${e.toString()}\nRegisterReservationParkingRemoteDataSource.GetReservations',
         ),
       );
     }
   }
 
   @override
-  Future<Either<AppException, ReservationModel>> extendReservation({
+  Future<Either<AppException, ReservationParkingModel>> extendReservation({
     required String id,
     required Map<String, dynamic> body,
   }) async {
@@ -99,7 +99,7 @@ class ReservationRemoteDataSource implements ReservationDataSource {
           return Left(exception);
         },
         (response) {
-          return Right(ReservationModel.fromJson(response.data));
+          return Right(ReservationParkingModel.fromJson(response.data));
         },
       );
     } catch (e) {
@@ -109,7 +109,7 @@ class ReservationRemoteDataSource implements ReservationDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier:
-              '${e.toString()}\nReservationRemoteDataSource.ExtendReservations',
+              '${e.toString()}\nReservationParkingRemoteDataSource.ExtendReservations',
         ),
       );
     }

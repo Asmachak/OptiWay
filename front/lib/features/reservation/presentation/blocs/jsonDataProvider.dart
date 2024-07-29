@@ -8,7 +8,7 @@ final jsonDataProvider = Provider<Map<String, dynamic>>((ref) {
     "CreatedAt": null,
     "EndedAt": null,
     "iduser": GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!,
-    "idevent": null,
+    "idResEvent": null,
     "idvehicule": null,
     "parking": null,
     "vehicle": null,
@@ -16,15 +16,14 @@ final jsonDataProvider = Provider<Map<String, dynamic>>((ref) {
   };
 });
 
-final reservationDataProvider = StateProvider<Map<String, dynamic>>((ref) {
+final reservationParkingDataProvider =
+    StateProvider<Map<String, dynamic>>((ref) {
   return {
     "idparking": "", // Initialize with default values
     "CreatedAt": null,
     "EndedAt": null,
     "iduser": GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!,
-    "idevent": null,
     "idvehicule": null,
-    "parking": null,
-    "vehicle": null
+    "tarif": null
   };
 });

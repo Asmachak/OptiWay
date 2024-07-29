@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 import 'package:front/features/reservation/presentation/blocs/timerProvider.dart';
 import 'package:front/features/reservation/presentation/widgets/extend_reservation_widget.dart';
 
@@ -30,7 +30,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
   void initState() {
     super.initState();
     DateTime dateTimeEnd =
-        DateTime.parse(widget.reservation.endedAt!).toLocal();
+        DateTime.parse(widget.reservation.EndedAt!).toLocal();
     DateTime now = DateTime.now();
     Duration difference = dateTimeEnd.difference(now);
     formatedDuration = formatDuration(difference);
@@ -138,8 +138,9 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                                       ),
                                     ),
                                     Text(
-                                      widget
-                                          .reservation.parking?["parkingName"]!,
+                                      widget.reservation
+                                              .ReservationParking!["parking"]
+                                          ?["parkingName"]!,
                                       style: TextStyle(
                                         color: Colors.grey[600],
                                         fontSize: 19,
@@ -216,7 +217,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '${widget.reservation.vehicle?["model"]} ${widget.reservation.vehicle?["matricule"]} ',
+                                      '${widget.reservation.ReservationParking!["vehicule"]?["model"]} ${widget.reservation.ReservationParking!["vehicule"]?["matricule"]} ',
                                       style: TextStyle(
                                         color: Colors.grey[600],
                                         fontSize: 19,
@@ -248,7 +249,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                                     ),
                                     Text(
                                       DateTime.parse(
-                                              widget.reservation.endedAt!)
+                                              widget.reservation.EndedAt!)
                                           .toLocal()
                                           .toString()
                                           .split(" ")[0],
@@ -276,7 +277,7 @@ class _TimerScreenState extends ConsumerState<TimerScreen> {
                                       ),
                                     ),
                                     Text(
-                                      "${widget.reservation.user?["phone"] ?? ''}",
+                                      "${widget.reservation.User?["phone"] ?? ''}",
                                       style: TextStyle(
                                         color: Colors.grey[600],
                                         fontSize: 19,

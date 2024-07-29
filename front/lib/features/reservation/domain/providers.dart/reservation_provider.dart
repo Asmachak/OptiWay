@@ -4,9 +4,9 @@ import 'package:front/core/infrastructure/providers/network_service_provider.dar
 import 'package:front/features/reservation/data/data_sources/reservation_remote_data_source.dart';
 import 'package:front/features/reservation/data/repositories_impl/reservation_repo_impl.dart';
 import 'package:front/features/reservation/domain/repositories/reservation_repo.dart';
-import 'package:front/features/reservation/domain/use_cases/add_reservation_use_case.dart';
-import 'package:front/features/reservation/domain/use_cases/extend_reservation_use_case.dart';
-import 'package:front/features/reservation/domain/use_cases/get_reservation_use_case.dart';
+import 'package:front/features/reservation/domain/use_cases/reservation/add_reservation_use_case.dart';
+import 'package:front/features/reservation/domain/use_cases/reservation/extend_reservation_use_case.dart';
+import 'package:front/features/reservation/domain/use_cases/reservation/get_reservation_use_case.dart';
 
 final reservationdatasourceProvider =
     Provider.family<ReservationDataSource, NetworkService>(

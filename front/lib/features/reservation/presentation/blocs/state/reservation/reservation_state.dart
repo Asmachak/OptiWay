@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 part 'reservation_state.freezed.dart';
 
 @freezed

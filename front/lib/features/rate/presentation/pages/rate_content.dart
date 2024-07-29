@@ -6,7 +6,7 @@ import 'package:front/features/rate/presentation/blocs/state/check_rate/check_st
     as check;
 import 'package:front/features/rate/presentation/blocs/state/rate/rate_state.dart';
 import 'package:front/features/rate/presentation/widgets/ratingBar_widget.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:get_it/get_it.dart';
 
@@ -71,7 +71,7 @@ class _RateContentState extends ConsumerState<RateContent> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-              if (widget.reservation.idparking != null) ...[
+              if (widget.reservation.ReservationParking != null) ...[
                 const Text(
                   "Parking Experience",
                   style: TextStyle(
@@ -86,7 +86,7 @@ class _RateContentState extends ConsumerState<RateContent> {
                   currentRating: widget.parkingRate,
                 ),
               ],
-              if (widget.reservation.idevent != null) ...[
+              if (widget.reservation.ReservationEvent != null) ...[
                 const Text(
                   "Event Experience",
                   style: TextStyle(
@@ -158,9 +158,10 @@ class _RateContentState extends ConsumerState<RateContent> {
                     onPressed: () async {
                       final parkingRating =
                           ref.read(parkingRatingProvider.notifier).state;
-                      final eventRating = widget.reservation.idevent != null
-                          ? ref.read(eventRatingProvider.notifier).state
-                          : null;
+                      final eventRating =
+                          widget.reservation.ReservationEvent != null
+                              ? ref.read(eventRatingProvider.notifier).state
+                              : null;
 
                       Map<String, dynamic> body = {
                         "parkingRate": parkingRating,

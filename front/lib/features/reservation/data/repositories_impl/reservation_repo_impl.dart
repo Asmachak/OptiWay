@@ -1,7 +1,7 @@
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/features/reservation/data/data_sources/reservation_remote_data_source.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 import 'package:front/features/reservation/domain/repositories/reservation_repo.dart';
 
 class ReservationRepositoryImpl implements ReservationRepository {

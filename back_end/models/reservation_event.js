@@ -1,16 +1,16 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
 const User = require('./user');
-const ReservationParking = require('./reservation_parking');
-const ReservationEvent = require('./reservation_event');
+const Event = require('./event');
 
 
-const Reservation = sequelize.define('reservation', {
+const ReservationEvent = sequelize.define('reservationEvent', {
   id: {
       type: DataTypes.STRING,
       primaryKey: true,
       unique: true,
       allowNull: false,
+
   }
   ,    
   CreatedAt: {
@@ -18,29 +18,36 @@ const Reservation = sequelize.define('reservation', {
     allowNull: false,
     defaultValue: DataTypes.NOW
  }, 
-  EndedAt: {
+ EndedAt: {
     type: DataTypes.DATE,
     allowNull: false,
-  
-  },
+    defaultValue: DataTypes.NOW
+ }, 
   state: {
     type: DataTypes.ENUM('ended','in progress','extended'),
     allowNull: false,
   },
-  amount: {
+  Nbreticket: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  tarif: {
     type: DataTypes.DOUBLE,
     allowNull: false,
   },
+  
 
  
 }, {
   timestamps: false 
   
 });
-Reservation.belongsTo(ReservationParking, { foreignKey: 'idResParking', targetKey: 'id' ,allowNull:false});
-Reservation.belongsTo(ReservationEvent, { foreignKey: 'idResEvent', targetKey: 'id' ,allowNull:true});
-Reservation.belongsTo(User, { foreignKey: 'iduser', targetKey: 'id' });
+
+ReservationEvent.belongsTo(Event, { foreignKey: 'idevent', targetKey: 'id' ,allowNull:false});
+ReservationEvent.belongsTo(User, { foreignKey: 'iduser', targetKey: 'id' ,allowNull:false});
 
 
 
-module.exports = Reservation;
+
+
+module.exports = ReservationEvent;

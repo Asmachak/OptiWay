@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import json
 import uuid
 import random
+from datetime import datetime, timedelta
+from closest_place.py import *
 
 def generate_random_timings(num_timings=3):
     timings = []
@@ -11,6 +13,14 @@ def generate_random_timings(num_timings=3):
         version = random.choice(['2D', '3D', 'IMAX'])
         timings.append({'time': timing, 'version': version})
     return timings
+
+def generate_random_dates_with_timings(num_dates=5, num_timings_per_date=5):
+    dates_with_timings = []
+    for i in range(num_dates):
+        date = datetime.now() + timedelta(days=i)
+        timings = generate_random_timings(num_timings=num_timings_per_date)
+        dates_with_timings.append({'date': date.strftime('%Y-%m-%d'), 'timings': timings})
+    return dates_with_timings
 
 def scrape_nested_urls(base_url, urls):
     scraped_data = []
@@ -27,7 +37,6 @@ def scrape_nested_urls(base_url, urls):
             country = soup.select_one("span:contains('Country :')").find_next_sibling().text.strip() if soup.select_one("span:contains('Country :')") else None
             original_language = soup.select_one("span:contains('Original language:')").find_next_sibling().text.strip() if soup.select_one("span:contains('Original language:')") else None
 
-
             additional_info = {
                 'director': director,
                 'release_date': release_date,
@@ -35,7 +44,6 @@ def scrape_nested_urls(base_url, urls):
                 'country': country,
                 'original_language': original_language
             }
-
 
             scraped_data.append(additional_info)
 
@@ -71,13 +79,13 @@ def scrape_website(urls, base_url):
                             place_name = f"cinema {cinema_name} Bruxelle"
 
                             closest_parkings = fetch_parking_info(place_name, "parkingList.csv")
-                            timings = generate_random_timings()
+                            timings = generate_random_dates_with_timings()
                             existing_movie = movie_dict[existing_movie_id]
 
                             if cinema_name not in [cinema['name'] for cinema in existing_movie['cinemas']]:
                                 existing_movie['cinemas'].append({
                                     'name': cinema_name,
-                                    'timings': timings,
+                                    'dates': timings,  # Store dates with timings
                                     'parkings': closest_parkings,
                                 })
                                 existing_movie['parkings'] = list(set(existing_movie['parkings']) | set([parking[0] for parking in closest_parkings]))
@@ -114,12 +122,13 @@ def scrape_website(urls, base_url):
                             place_name = f"cinema {cinema_name} Bruxelle"
 
                             closest_parkings = fetch_parking_info(place_name, "parkingList.csv")
-                            timings = generate_random_timings()
+                            timings = generate_random_dates_with_timings()
 
                             cinema_list.append({
                                 'name': cinema_name,
-                                'timings': timings,
+                                'dates': timings,  # Store dates with timings
                                 'parkings': closest_parkings,
+                                'address': get_coordinates(place_name)
                             })
                             parking_set.update([parking[0] for parking in closest_parkings])
 
@@ -134,8 +143,7 @@ def scrape_website(urls, base_url):
                         'description': description_text,
                         'cinemas': cinema_list,
                         'parkings': list(parking_set),
-                         'additional_info': additional_info[0]
-
+                        'additional_info': additional_info[0]
                     }
 
         return list(movie_dict.values())

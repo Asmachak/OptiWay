@@ -4,11 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/blocs/state/movie/loading_state.dart';
-import 'package:front/features/event/presentation/blocs/state/movie/movie_state.dart';
 
 class LoadingNotifier extends StateNotifier<LoadingMovieState> {
   LoadingNotifier() : super(const LoadingMovieState.initial());
-
 
   Future<void> getEventsByParking(String parkingName) async {
     state = const LoadingMovieState.loading();

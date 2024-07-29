@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,16 +48,17 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
     double widthScr = MediaQuery.of(context).size.width;
     double heightScr = MediaQuery.of(context).size.height;
 
-    // Calculate the duration
-    DateTime createdAt = DateTime.parse(widget.reservation.createdAt ?? '');
-    DateTime endedAt = DateTime.parse(widget.reservation.endedAt ?? '');
-    Duration duration = endedAt.difference(createdAt);
+    DateTime dateTimeEnd =
+        DateTime.parse(widget.reservation.EndedAt!).toLocal();
+    DateTime dateTimeCreate =
+        DateTime.parse(widget.reservation.CreatedAt!).toLocal();
+
+    Duration duration = dateTimeEnd.difference(dateTimeCreate);
 
     String formatDuration(Duration duration) {
       int days = duration.inDays;
       int hours = duration.inHours.remainder(24);
       int minutes = duration.inMinutes.remainder(60);
-
       return '${days}d${hours}h${minutes}min';
     }
 
@@ -68,7 +69,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
         children: [
           Container(
             child: TicketWidget(
-              height: heightScr * 1.05,
+              height: heightScr * 1.1,
               width: widthScr * 0.9,
               isCornerRounded: true,
               color: const Color.fromARGB(255, 241, 241, 246),
@@ -122,7 +123,9 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  widget.reservation.parking?["parkingName"]!,
+                                  widget.reservation
+                                          .ReservationParking!["parking"]
+                                      ?["parkingName"]!,
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,
@@ -199,7 +202,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  '${widget.reservation.vehicle?["model"]} ${widget.reservation.vehicle?["matricule"]} ',
+                                  '${widget.reservation.ReservationParking!["vehicule"]?["model"]} ${widget.reservation.ReservationParking!["vehicule"]?["matricule"]} ',
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,
@@ -253,7 +256,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  DateTime.parse(widget.reservation.endedAt!)
+                                  DateTime.parse(widget.reservation.EndedAt!)
                                       .toLocal()
                                       .toString()
                                       .split(" ")[0],
@@ -287,7 +290,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  "${DateTime.parse(widget.reservation.createdAt!).toLocal().toString().split(" ")[1].substring(0, 5)} - ${DateTime.parse(widget.reservation.endedAt!).toLocal().toString().split(" ")[1].substring(0, 5)}",
+                                  "${DateTime.parse(widget.reservation.CreatedAt!).toLocal().toString().split(" ")[1].substring(0, 5)} - ${DateTime.parse(widget.reservation.EndedAt!).toLocal().toString().split(" ")[1].substring(0, 5)}",
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,
@@ -310,7 +313,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  "${widget.reservation.user?["phone"] ?? ''}",
+                                  "${widget.reservation.User?["phone"] ?? ''}",
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,

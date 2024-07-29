@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 import 'package:front/features/reservation/presentation/blocs/reservation_providers.dart';
-import 'package:front/features/reservation/presentation/blocs/state/reservation_state.dart';
+import 'package:front/features/reservation/presentation/blocs/state/reservation/reservation_state.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';

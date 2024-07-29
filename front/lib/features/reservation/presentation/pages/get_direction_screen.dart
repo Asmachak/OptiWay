@@ -3,7 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:front/core/conts.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -95,8 +95,9 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
   void initState() {
     super.initState();
     requestLocationPermission();
-    _parseLocation(widget.reservation.parking!['location'],
-        widget.reservation.parking!['adress']);
+    _parseLocation(
+        widget.reservation.ReservationParking!["parking"]['location'],
+        widget.reservation.ReservationParking!["parking"]['adress']);
     //setCustomMarkerICon();
   }
 

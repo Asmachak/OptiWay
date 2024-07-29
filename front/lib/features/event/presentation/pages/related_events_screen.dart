@@ -6,8 +6,8 @@ import 'package:front/features/event/presentation/blocs/state/movie/movie_notifi
 import 'package:front/features/event/presentation/widgets/movie_widget.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/blocs/reservation_providers.dart';
-import 'package:front/features/reservation/presentation/blocs/state/reservation_notifier.dart';
-import 'package:front/features/reservation/presentation/blocs/state/reservation_state.dart';
+import 'package:front/features/reservation/presentation/blocs/state/reservation/reservation_notifier.dart';
+import 'package:front/features/reservation/presentation/blocs/state/reservation/reservation_state.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:lottie/lottie.dart';
 

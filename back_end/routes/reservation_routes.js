@@ -1,13 +1,14 @@
 const express = require('express');
-const { handleAddReservation, getReservation,extendReservation } = require("../controllers/reservation_controller");
+const { handleAddReservationParking} = require("../controllers/reservation_parking_controller");
+const { handleAddReservation, getReservation } = require('../controllers/reservation_controller');
 const router = express.Router();
 
 
 /************************************ parking routes *****************************************/
 
 
+router.post('/reservationParking/addRes/:iduser/:idparking/:idvehicule',handleAddReservationParking);
 router.post('/reservation/addRes',handleAddReservation);
-router.post('/extendReservation/:id',extendReservation);
 router.get('/reservation/:userid',getReservation);
 
 

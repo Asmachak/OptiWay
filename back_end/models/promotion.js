@@ -19,11 +19,29 @@ const Promotion = sequelize.define('promotion', {
     allowNull: false,
   
   },
-  price: {
+  ticketNumber : { type: DataTypes.INTEGER,
+    allowNull: false,},
+  percentageEvent: {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
-
+  percentageParking: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  createdAt:{
+    type:DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    allowNull:false
+  },
+  EndedAt:{
+    type:DataTypes.DATE,
+    allowNull:false
+  },
+  state: {
+    type: DataTypes.ENUM('expired','active','pending'),
+    allowNull: false,
+  },
  
 }, {
   timestamps: false 

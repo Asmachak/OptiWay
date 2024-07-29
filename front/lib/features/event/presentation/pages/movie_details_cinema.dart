@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/widgets/button_row.dart';
@@ -6,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:front/features/event/presentation/widgets/cart_stepper.dart'
     as stepper;
 
+@RoutePage()
 class MovieDetailCinemaScreen extends StatefulWidget {
   final MovieModel movie;
   final String cinema;

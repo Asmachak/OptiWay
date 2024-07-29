@@ -50,7 +50,7 @@ def find_closest_parkings(place_name, parkings):
     distances = []
     for parking in parkings:
         distance = haversine(lat, lon, parking["lat"], parking["lon"])
-        distances.append((parking["parkingName"], distance))
+        distances.append((parking["parkingName"], distance,[parking["lat"], parking["lon"]]))
 
     # Sort by distance
     distances.sort(key=lambda x: x[1])
@@ -80,7 +80,7 @@ closest_parkings = fetch_parking_info(place_name, file_path)
 if closest_parkings:
     print(f"The two closest parkings to {place_name} are:")
     print(closest_parkings);
-    for parking, distance in closest_parkings:
-        print(f"{parking} at {distance:.2f} km")
+    #for parking, distance in closest_parkings:
+     #   print(f"{parking} at {distance:.2f} km")
 else:
     print("No parking data found.")

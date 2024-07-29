@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 
 class TransactionCard extends StatelessWidget {
   final ReservationModel reservation;
@@ -20,7 +20,7 @@ class TransactionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "${reservation.createdAt.toString().split("T")[0]} ${reservation.createdAt.toString().split("T")[1].split(".")[0]}",
+            "${reservation.CreatedAt.toString().split("T")[0]} ${reservation.CreatedAt.toString().split("T")[1].split(".")[0]}",
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color.fromARGB(255, 122, 122, 122)),
@@ -34,9 +34,10 @@ class TransactionCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 39, 50, 103)),
               ),
-              Text("Payment Parking ${reservation.parking!["parkingName"]}"),
-              if (reservation.idevent != null)
-                Text("&& Event ${reservation.idevent}")
+              Text(
+                  "Payment Parking ${reservation.ReservationParking!["parking"]["parkingName"]}"),
+              if (reservation.ReservationEvent != null)
+                Text("&& Event ${reservation.ReservationEvent!["id"]}")
             ],
           ),
           const SizedBox(height: 8),

@@ -375,25 +375,14 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        final jsonData = ref.read(jsonDataProvider);
+                        final jsonData = ref.read(reservationParkingDataProvider);
 
-                        var json = {
-                          "idparking": widget.idparking,
-                          "CreatedAt": startDateTime?.toIso8601String(),
-                          "EndedAt": endDateTime?.toIso8601String(),
-                          "iduser": GetIt.instance
-                              .get<AuthLocalDataSource>()
-                              .currentUser!
-                              .id!,
-                          "idevent": null,
-                          "idvehicule": null
-                        };
-
+                       
                         jsonData['idparking'] = widget.idparking;
                         jsonData['CreatedAt'] =
                             startDateTime?.toIso8601String();
                         jsonData['EndedAt'] = endDateTime?.toIso8601String();
-                        jsonData['amount'] =
+                        jsonData['tarif'] =
                             ((duration!.inHours.remainder(24)) * price)
                                 .toDouble();
 

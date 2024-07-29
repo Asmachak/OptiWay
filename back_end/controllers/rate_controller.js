@@ -4,6 +4,7 @@ const Rate = require("../models/rate");
 const Reservation = require("../models/reservation");
 const User = require("../models/user");
 const Parking = require("../models/parking");
+const ReservationParking = require("../models/reservation_parking");
 
 async function giveRate(req, res) {
     try {
@@ -99,10 +100,11 @@ async function checkRate(req, res) {
   async function averageRate(id) {
     try {
       const reservations = await Reservation.findAll({
-        where: {
-          idparking: id
-        }
-      });
+      include: [{
+        model: ReservationParking,
+        where: { idparking: id }
+      }]
+    });
   
       if (reservations.length > 0) {
         let totalRate = 0;

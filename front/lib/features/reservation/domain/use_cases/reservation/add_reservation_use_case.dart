@@ -1,6 +1,6 @@
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 import 'package:front/features/reservation/domain/repositories/reservation_repo.dart';
 import 'package:front/shared/use_case.dart';
 

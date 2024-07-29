@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:front/features/paiement/presentation/blocs/paiement_provider.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
-import 'package:front/features/reservation/presentation/blocs/reservation_providers.dart';
+import 'package:front/features/reservation/presentation/blocs/reservationParking_provider.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/vehicule/data/models/vehicule_model.dart';
 import 'package:front/features/vehicule/presentation/blocs/state/vehicule_list/vehicule_list_state.dart';
@@ -34,11 +34,11 @@ class _VehiculeListReservationScreenState
       ref.read(vehiculeListNotifierProvider.notifier).getVehicules(
           GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
 
-      var jsonData = ref.read(jsonDataProvider);
+      var jsonData = ref.read(reservationParkingDataProvider);
 
       ref
           .read(paiementNotifierProvider.notifier)
-          .initPaymentSheet({"amount": jsonData["amount"], "currency": "eur"});
+          .initPaymentSheet({"amount": jsonData["tarif"], "currency": "eur"});
     });
   }
 
@@ -132,7 +132,8 @@ class _ButtonRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedCarId = ref.watch(selectedCarIdProvider);
     final paiementState = ref.watch(paiementNotifierProvider);
-    final reservationNotifier = ref.read(reservationNotifierProvider.notifier);
+    final reservationParkingNotifier =
+        ref.read(reservationParkingNotifierProvider.notifier);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -144,7 +145,7 @@ class _ButtonRow extends ConsumerWidget {
               child: TextButton(
                 onPressed: () {
                   if (selectedCarId != null) {
-                    final jsonData = ref.read(jsonDataProvider);
+                    final jsonData = ref.read(reservationParkingDataProvider);
                     jsonData["idvehicule"] = selectedCarId;
                     AutoRouter.of(context).push(const RelatedEventRoute());
                     print(jsonData);
@@ -179,7 +180,8 @@ class _ButtonRow extends ConsumerWidget {
                 onPressed: selectedCarId != null
                     ? () async {
                         print("Go to Payment");
-                        final jsonData = ref.read(jsonDataProvider);
+                        final jsonData =
+                            ref.read(reservationParkingDataProvider);
                         jsonData["idvehicule"] =
                             selectedCarId; // Update jsonData with selected car ID
 
@@ -232,8 +234,13 @@ class _ButtonRow extends ConsumerWidget {
 
                               print("Updated jsonData: $jsonData");
 
-                              await reservationNotifier
-                                  .addReservation(jsonData);
+                              await reservationParkingNotifier
+                                  .addReservationParking(
+                                      jsonData,
+                                      jsonData["idparking"],
+                                      jsonData["iduser"],
+                                      jsonData["idvehicule"]);
+                                      
 
                               AutoRouter.of(context)
                                   .replace(ReservationListRoute());

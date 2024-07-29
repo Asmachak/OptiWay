@@ -22,7 +22,7 @@ import 'package:front/features/paiement/presentation/pages/billing_historic_scre
     as _i3;
 import 'package:front/features/parking/presentation/pages/parking_details_screen.dart'
     as _i10;
-import 'package:front/features/reservation/data/models/reservation_model.dart'
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart'
     as _i35;
 import 'package:front/features/reservation/presentation/pages/get_direction_screen.dart'
     as _i5;

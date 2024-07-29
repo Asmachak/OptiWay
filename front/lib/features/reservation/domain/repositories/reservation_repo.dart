@@ -1,6 +1,6 @@
 import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
-import 'package:front/features/reservation/data/models/reservation_model.dart';
+import 'package:front/features/reservation/data/models/reservation/reservation_model.dart';
 
 abstract class ReservationRepository {
   Future<Either<AppException, ReservationModel>> addReservation({

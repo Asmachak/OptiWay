@@ -1,35 +1,35 @@
 const Reservation = require("../models/reservation");
-const {generateID} = require("../middleware/generateID");
 const Parking = require("../models/parking");
 const User = require("../models/user");
-const { where } = require("sequelize");
 const Vehicule = require("../models/vehicule");
 const moment = require('moment'); 
 const { averageRate } = require("./rate_controller");
+const { v4: uuidv4 } = require('uuid');
 const ReservationParking = require("../models/reservation_parking");
-const ReservationEvent = require("../models/reservation_event");
 
 
-async function handleAddReservation(req, res) {
+async function handleAddReservationParking(req, res) {
   try {
+    const params = req.params;
     const formData = req.body;
-    const idReserv = generateID();
+    const idReserv = uuidv4();
+    const idRes = uuidv4();
+
     console.log(formData);
 
-    let capacityCheck = true;
+    var capacityCheck = true;
     let parking;
-    let event;
 
-    if (formData.idparking != null) {
-      parking = await Parking.findByPk(formData.idparking);
+    if (params.idparking != null) {
+      parking = await Parking.findByPk(params.idparking);
       if (!parking) {
         return res.status(404).send("Parking not found");
       }
       capacityCheck = parking.capacity > 0;
       
-      let reservations = await Reservation.findAll({ 
+      let reservations = await ReservationParking.findAll({ 
         where: {
-          idvehicule: formData.idvehicule,
+          idvehicule: params.idvehicule,
           state: ["in progress", "extended"]
         }
       });
@@ -39,36 +39,31 @@ async function handleAddReservation(req, res) {
       }
     }
 
-    if (formData.idevent != null) {
-      event = await Event.findByPk(formData.idevent);
-      if (!event) {
-        return res.status(404).send("Event not found");
-      }
-      capacityCheck = capacityCheck && event.capacity > 0;
-    }
-
-    if (!capacityCheck) {
-      return res.status(400).send("Parking or event is full");
-    }
-
     if (parking) {
       await parking.update({ capacity: parking.capacity - 1 });
     }
 
-    if (event) {
-      await event.update({ capacity: event.capacity - 1 });
-    }
-
-    const reservation = await Reservation.create({
+   
+    const reservation = await ReservationParking.create({
       id: idReserv,
       CreatedAt: new Date(),
       EndedAt: formData.EndedAt,
       state: "in progress",
-      iduser: formData.iduser,
-      idResEvent: formData.idResEvent,
-      idResParking: formData.idResParking,
-      amount: formData.amount,
+      iduser: params.iduser,
+      idparking: params.idparking,
+      idvehicule: params.idvehicule,
+      tarif: formData.tarif,
+    });
 
+    const resss = await Reservation.create({
+      id: idRes,
+      CreatedAt: reservation.CreatedAt,
+      EndedAt: reservation.EndedAt,
+      state: "in progress",
+      iduser: params.iduser,
+      idResParking: idReserv,
+      idResEvent: null,
+      amount: formData.tarif,
     });
 
     return res.status(200).json(reservation);
@@ -79,68 +74,70 @@ async function handleAddReservation(req, res) {
 }
 
 async function getReservation(req, res) {
-    try {
-      const { userid } = req.params;
-  
-      const user = await User.findByPk(userid);
-      if (!user) {
-        return res.status(404).send("User not found!");
-      }
-  
-      let reservations = await Reservation.findAll({
-        where: { iduser: userid },
-        include: [
-          {
-            model: ReservationEvent,
-          },
-          {
-            model: ReservationParking,
-            include: [{ model: Vehicule },{ model: Parking }],
-          },
-          {
-            model: User,
-          },
-        ],
-      });
-  
-      if (!reservations || reservations.length === 0) {
-        return res.status(200).send("No reservations found for the user.");
-      }
-  
-      const reservationsWithRate = await Promise.all(
-        reservations.map(async (reservation) => {
-          const parkingData = reservation.reservationParking.Parking;
-          const vehicleData = reservation.reservationParking.Vehicule;
+  try {
+    const { userid } = req.params;
 
-          console.log(reservation.reservationParking);
-  
-          if (parkingData) {
-            const rate = await averageRate(parkingData.id);
-            parkingData.rate = rate;
-          }
-  
-          return {
-            id: reservation.id,
-            CreatedAt: reservation.CreatedAt,
-            EndedAt: reservation.EndedAt,
-            state: reservation.state,
-            amount: reservation.amount,
-            iduser: reservation.iduser,
-            idResEvent: reservation.idResEvent,
-            idResParking: reservation.idResParking,
-            ReservationEvent: reservation.reservationEvent,
-            ReservationParking:reservation.reservationParking,
-            User: reservation.user,
-          };
-        })
-      );
-  
-      res.status(200).json(reservationsWithRate);
-    } catch (error) {
-      console.error("Error:", error);
-      res.status(500).send("Error occurred when handling get reservation: " + error);
+    const user = await User.findByPk(userid);
+    if (!user) {
+      return res.status(404).send("User not found!");
     }
+
+    let reservations = await Reservation.findAll({
+      where: { iduser: userid },
+      include: [
+        { model: Parking },
+        { model: Vehicule },
+        { model: User }
+      ],
+    });
+
+    console.log(reservations);
+    if (!reservations || reservations.length === 0) {
+      return res.status(200).send("No reservations found for the user.");
+    }
+    var tab=[]
+    // Loop through reservations and add the average rate to each parking
+    for (let i = 0; i < reservations.length; i++) {
+      if (reservations[i]["parking"]) {
+        // Convert reservation["parking"] to a plain JavaScript object
+        var parkingData = reservations[i]["parking"].toJSON();
+
+        // Calculate the rate
+        const rate = await averageRate(parkingData.id);
+
+        // Add the rate to the parking data
+        parkingData.rate = rate;
+
+        // Log the updated parking data with rate
+        console.log("Updated parking data:", parkingData);
+        tab[i]={
+          id: reservations[i].id,
+          CreatedAt: reservations[i].CreatedAt,
+          EndedAt: reservations[i].EndedAt,
+          state: reservations[i].state,
+          iduser: reservations[i].iduser,
+          idevent: reservations[i].idevent,
+          idparking: reservations[i].idparking,
+          idvehicule: reservations[i].idvehicule,
+          parking:parkingData,
+          user:reservations[i].user,
+          vehicle:reservations[i].vehicule,
+          amount:reservations[i].amount,};
+
+
+        reservations[i].parking=parkingData;
+
+      }
+    }
+
+   
+
+    console.log(tab)
+    res.status(200).send(tab);
+  } catch (error) {
+    res.status(500).send("Error occurred when handling get reservation: " + error);
   }
+}
 
 async function extendReservation(req, res) {
   try {
@@ -218,4 +215,4 @@ async function changeReservationState() {
 // Run the function every second
 //setInterval(changeReservationState, 1000);
 
-module.exports = {handleAddReservation,getReservation,extendReservation}
+module.exports = {handleAddReservationParking,getReservation,extendReservation}
