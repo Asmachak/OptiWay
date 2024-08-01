@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
+import 'package:intl/intl.dart';
 
-class TimingList extends StatefulWidget {
+class TimingList extends ConsumerStatefulWidget {
   final String date;
   final List timingList;
   final Map<String, int> selectedTimingIndices;
@@ -16,10 +19,13 @@ class TimingList extends StatefulWidget {
   _TimingListState createState() => _TimingListState();
 }
 
-class _TimingListState extends State<TimingList> {
+class _TimingListState extends ConsumerState<TimingList> {
+  late dynamic json;
+
   @override
   void initState() {
     super.initState();
+    json = ref.read(reservationEventDataProvider);
   }
 
   @override
@@ -52,10 +58,16 @@ class _TimingListState extends State<TimingList> {
                     widget.selectedTimingIndices[widget.date] = index;
                   });
 
-                  print(
-                      "selectedTimingIndices ${widget.selectedTimingIndices}");
-                  print("timing ${widget.timingList[index]}");
-                  print('Timing $time $version tapped');
+                  json["EndedAt"] = DateTime.utc(
+                          int.parse(widget.date.toString().split("-")[0]),
+                          int.parse(widget.date.toString().split("-")[1]),
+                          int.parse(widget.date.toString().split("-")[2]),
+                          int.parse(time.toString().split(":")[0]),
+                          int.parse(time.toString().split(":")[1]),
+                          00)
+                      .toIso8601String();
+
+                  print(json);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),

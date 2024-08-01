@@ -9,7 +9,6 @@ import 'package:front/features/vehicule/presentation/blocs/state/vehicule/vehicu
 import 'package:front/features/vehicule/presentation/blocs/vehicule_list_provider.dart';
 import 'package:front/features/vehicule/presentation/blocs/vehicule_providers.dart';
 import 'package:front/features/vehicule/presentation/widgets/add_vehicle_button.dart';
-import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 
 @RoutePage()

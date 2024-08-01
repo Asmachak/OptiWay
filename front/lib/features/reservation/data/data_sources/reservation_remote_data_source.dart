@@ -80,7 +80,7 @@ class ReservationRemoteDataSource implements ReservationDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier:
-              '${e.toString()}\nRegisterReservationRemoteDataSource.GetReservations',
+              '${e.toString()}\nRervationReservationRemoteDataSource.GetReservations',
         ),
       );
     }

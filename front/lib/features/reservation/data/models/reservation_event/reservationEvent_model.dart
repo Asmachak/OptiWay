@@ -4,26 +4,27 @@ part 'reservationEvent_model.g.dart';
 @JsonSerializable()
 class ReservationEventModel {
   String? id;
-  String? createdAt;
-  String? endedAt;
+  String? CreatedAt;
+  String? EndedAt;
   String? state;
   String? iduser;
   String? idevent;
   double? tarif;
-  int? nbreticket;
+  int? Nbreticket;
 
-
-  ReservationEventModel(
-      {this.id,
-      this.createdAt,
-      this.endedAt,
-      this.state,
-      this.iduser,
-      this.idevent,
-      this.nbreticket,
-      this.tarif});
+  ReservationEventModel({
+    this.id,
+    this.CreatedAt,
+    this.EndedAt,
+    this.state,
+    this.iduser,
+    this.idevent,
+    this.Nbreticket,
+    this.tarif,
+  });
 
   factory ReservationEventModel.fromJson(Map<String, dynamic> json) =>
       _$ReservationEventModelFromJson(json);
+
   Map<String, dynamic> toJson() => _$ReservationEventModelToJson(this);
 }

@@ -1,14 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
-import 'package:front/features/event/presentation/widgets/button_row.dart';
 import 'package:front/features/event/presentation/widgets/timinigs_list.dart';
+import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
+import 'package:front/routes/app_routes.gr.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:front/features/event/presentation/widgets/cart_stepper.dart'
     as stepper;
 
 @RoutePage()
-class MovieDetailCinemaScreen extends StatefulWidget {
+class MovieDetailCinemaScreen extends ConsumerStatefulWidget {
   final MovieModel movie;
   final String cinema;
 
@@ -19,11 +21,12 @@ class MovieDetailCinemaScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MovieDetailCinemaScreen> createState() =>
+  _MovieDetailCinemaScreenState createState() =>
       _MovieDetailCinemaScreenState();
 }
 
-class _MovieDetailCinemaScreenState extends State<MovieDetailCinemaScreen> {
+class _MovieDetailCinemaScreenState
+    extends ConsumerState<MovieDetailCinemaScreen> {
   List<List<dynamic>>? parkings;
   List<Map<String, dynamic>>? timings;
   Future<LatLng>? cinemaLatLngFuture;
@@ -33,10 +36,13 @@ class _MovieDetailCinemaScreenState extends State<MovieDetailCinemaScreen> {
   int? globalSelectedTimingIndex;
   Map<String, int> selectedTimingIndices =
       {}; // Define selectedTimingIndices here
+  late dynamic json;
 
   @override
   void initState() {
     super.initState();
+    json = ref.read(reservationEventDataProvider);
+
     cinemaLatLngFuture = _initializeCinemaLatLng();
   }
 
@@ -236,6 +242,7 @@ class _MovieDetailCinemaScreenState extends State<MovieDetailCinemaScreen> {
                               selectedParkingIndex = index;
                             });
                             print('Parking $parkingName tapped');
+                            json["parking"] = parkingName;
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
@@ -285,6 +292,8 @@ class _MovieDetailCinemaScreenState extends State<MovieDetailCinemaScreen> {
                           onTap: () {
                             setState(() {
                               globalSelectedTimingIndex = index;
+                              print(
+                                  "globalSelectedTimingIndex $globalSelectedTimingIndex");
                             });
                           },
                           child: Container(
@@ -334,14 +343,48 @@ class _MovieDetailCinemaScreenState extends State<MovieDetailCinemaScreen> {
                       minValue: 1,
                       maxValue: 10,
                       onChanged: (value) {
-                        print('Selected value: $value');
+                        json["Nbreticket"] = value;
                       },
                     ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  ButtonRow()
+                  //ButtonRow()
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: TextButton(
+                        onPressed: () {
+                          AutoRouter.of(context)
+                              .push(VehiculeListReservationEventRoute());
+                        },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.indigo),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              side: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "Select a car",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.indigo.shade50,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             );

@@ -1,6 +1,3 @@
-import 'package:front/features/reservation/data/models/reservation_event/reservationEvent_model.dart';
-import 'package:front/features/reservation/data/models/reservation_parking/reservationParking_model.dart';
-import 'package:front/features/user/data/models/user_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'reservation_model.g.dart';
 

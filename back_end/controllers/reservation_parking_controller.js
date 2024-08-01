@@ -180,36 +180,6 @@ async function extendReservation( id, EndedAt ) {
 }
 
 
-async function changeReservationState() {
-  try {
-    // Define the current date
-    const today = new Date();
 
-    // Find all reservations with state "in progress"
-    const reservations = await Reservation.findAll({
-      where: {
-        state: ['in progress', 'extended'],
-      },
-    });
-    
-    // Iterate through the reservations and update their state if EndedAt < today
-    for (const reservation of reservations) {
-      if (reservation.EndedAt < today) {
-        const parking = await Parking.findByPk(
-          reservation.idparking
-        );
-        await reservation.update({ state: 'ended' }); // Change the state as needed
-        await parking.update({ capacity: parking.capacity+1 });
-      }
-    }
-    
-    console.log('Reservations updated successfully');
-  } catch (error) {
-    console.error('Error occurred when handling changing reservation:', error);
-  }
-}
-
-// Run the function every second
-//setInterval(changeReservationState, 1000);
 
 module.exports = {handleAddReservationParking,getReservation,extendReservation}

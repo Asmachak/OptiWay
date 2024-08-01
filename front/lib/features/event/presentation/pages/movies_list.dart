@@ -8,30 +8,33 @@ import 'package:front/features/event/presentation/widgets/movie_widget.dart';
 import 'package:front/features/event/presentation/widgets/drop_down_widget.dart'
     as drop_down_widget;
 import 'package:front/features/parking/presentation/blocs/parking_provider.dart';
+import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
 
-class MyWidget extends ConsumerStatefulWidget {
-  const MyWidget({super.key});
+class EventList extends ConsumerStatefulWidget {
+  const EventList({super.key});
 
   @override
-  _MyWidgetState createState() => _MyWidgetState();
+  _EventListState createState() => _EventListState();
 }
 
-class _MyWidgetState extends ConsumerState<MyWidget> {
+class _EventListState extends ConsumerState<EventList> {
   late ScrollController scrollController;
   bool _showFab = false;
+  late dynamic json;
 
   @override
   void initState() {
     super.initState();
-    // Fetch the items when the widget is first created
+    json = ref.read(reservationEventDataProvider);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(MovieNotifierProvider.notifier).fetchItems();
       ref.read(parkingNotifierProvider.notifier).getParkings();
     });
-    // Initialize the scrollController here
+
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
   }
@@ -44,19 +47,9 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
   }
 
   void _scrollListener() {
-    if (scrollController.offset > 200) {
-      if (!_showFab) {
-        setState(() {
-          _showFab = true;
-        });
-      }
-    } else {
-      if (_showFab) {
-        setState(() {
-          _showFab = false;
-        });
-      }
-    }
+    setState(() {
+      _showFab = scrollController.offset > 200;
+    });
   }
 
   @override
@@ -155,7 +148,7 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -191,8 +184,14 @@ class _MyWidgetState extends ConsumerState<MyWidget> {
                     return MovieWidget(
                         movie: movie,
                         onPress: () {
-                          AutoRouter.of(context)
-                              .push(MovieDetailRoute(movie: movie));
+                          if (json != null) {
+                            json["idevent"] = movie.id;
+                            print("json $json");
+                            AutoRouter.of(context)
+                                .push(MovieDetailRoute(movie: movie));
+                          } else {
+                            print("json is null");
+                          }
                         });
                   },
                   childCount: filteredMovies.length,

@@ -36,9 +36,9 @@ class _VehiculeListReservationScreenState
 
       var jsonData = ref.read(reservationParkingDataProvider);
 
-      ref
-          .read(paiementNotifierProvider.notifier)
-          .initPaymentSheet({"amount": jsonData["tarif"], "currency": "eur"});
+        ref
+            .read(paiementNotifierProvider.notifier)
+            .initPaymentSheet({"amount": jsonData["tarif"], "currency": "eur"});
     });
   }
 
@@ -86,7 +86,7 @@ class _VehiculeListReservationScreenState
               mainAxisSize: MainAxisSize.min,
               children: [
                 const AddVehicleButton(),
-                _ButtonRow(),
+                _ButtonRow(), 
               ],
             ),
           ),
@@ -240,7 +240,7 @@ class _ButtonRow extends ConsumerWidget {
                                       jsonData["idparking"],
                                       jsonData["iduser"],
                                       jsonData["idvehicule"]);
-                                      
+
 
                               AutoRouter.of(context)
                                   .replace(ReservationListRoute());

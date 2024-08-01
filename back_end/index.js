@@ -16,6 +16,8 @@ const Manufacturer = require('./models/carManufacturer');
 const CarModel = require('./models/carModel');
 const Rate = require('./models/rate');
 const {importData} = require('./controllers/car_controller');
+const { exec } = require('child_process');
+const { insertDataFromJsonToDb } = require('./controllers/event_controller');
 
 
 
@@ -75,10 +77,8 @@ app.use(require('./routes/paiement_routes'));
 
 
 
+//insertDataFromJsonToDb();
 
-
-
-const { exec } = require('child_process');
 
 // Command to execute Python script
 const command = 'python python_end_points/movies_scrapping.py';

@@ -109,10 +109,15 @@ async function getReservation(req, res) {
   
       const reservationsWithRate = await Promise.all(
         reservations.map(async (reservation) => {
-          const parkingData = reservation.reservationParking.Parking;
-          const vehicleData = reservation.reservationParking.Vehicule;
+        const reservationParking = reservation.reservationParking;
+        const parkingData = reservationParking ? reservationParking.parking : null;
+        const vehicleData = reservationParking ? reservationParking.vehicule : null;
 
-          console.log(reservation.reservationParking);
+          console.log('oyyy');
+
+          console.log(reservationParking);
+
+          console.log(parkingData);
   
           if (parkingData) {
             const rate = await averageRate(parkingData.id);
@@ -153,9 +158,6 @@ async function extendReservation(req, res) {
     const reservation = await Reservation.findByPk(id);
     
     const reservationParking = await ReservationParking.findByPk(reservation.idResParking);
-
-    
-
 
     console.log("Form Data:", req.body);
     console.log("Formatted EndedAt:", EndedAt);
@@ -203,35 +205,87 @@ async function extendReservation(req, res) {
 
 
 async function changeReservationState() {
-  try {
-    // Define the current date
-    const today = new Date();
+    try {
+      // Define the current date
+      const today = new Date();
+  
+      // Find all reservations with state "in progress" or "extended"
+      const reservations = await Reservation.findAll({
+        where: {
+          state: ['in progress', 'extended'],
+        },
+      });
+  
+      // Iterate through the reservations and update their state if EndedAt < today
+      for (const reservation of reservations) {
+        let reservationParking = await ReservationParking.findByPk(reservation.idResParking);
+        let reservationevent = await ReservationEvent.findByPk(reservation.idResEvent);
 
-    // Find all reservations with state "in progress"
-    const reservations = await Reservation.findAll({
-      where: {
-        state: ['in progress', 'extended'],
-      },
-    });
-    
-    // Iterate through the reservations and update their state if EndedAt < today
-    for (const reservation of reservations) {
-      if (reservation.EndedAt < today) {
-        const parking = await Parking.findByPk(
-          idparking
-        );
-        await reservation.update({ state: 'ended' }); // Change the state as needed
-        await parking.update({ capacity: parking.capacity+1 });
+        if (!reservationParking) {
+          console.error(`ReservationParking not found for id: ${reservation.idResParking}`);
+          continue;
+        }
+  
+        if (reservation.EndedAt < today) {
+          const parking = await Parking.findByPk(reservationParking.idparking);
+          if (!parking) {
+            console.error(`Parking not found for id: ${reservationParking.idparking}`);
+            continue;
+          }
+          await reservationevent.update({ state: 'ended' });
+          await reservationParking.update({ state: 'ended' });
+          await reservation.update({ state: 'ended' }); // Change the state as needed
+          await parking.update({ capacity: parking.capacity + 1 });
+        }
       }
+  
+      console.log('Reservations updated successfully');
+    } catch (error) {
+      console.error('Error occurred when handling changing reservation:', error);
     }
-    
-    console.log('Reservations updated successfully');
-  } catch (error) {
-    console.error('Error occurred when handling changing reservation:', error);
   }
-}
 
+
+  async function deleteReservation(req, res) {
+    try {
+      const { id } = req.params;
+  
+      // Find the reservation by its ID
+      const reservation = await Reservation.findByPk(id);
+  
+      // If reservation not found, return a 404 response
+      if (!reservation) {
+        return res.status(404).send("Reservation not found!");
+      }
+  
+      // Check and delete associated ReservationParking if it exists
+      if (reservation.idResParking) {
+        const reservationParking = await ReservationParking.findByPk(reservation.idResParking);
+        if (reservationParking) {
+          await reservationParking.destroy();
+        }
+      }
+  
+      // Check and delete associated ReservationEvent if it exists
+      if (reservation.idResEvent) {
+        const reservationEvent = await ReservationEvent.findByPk(reservation.idResEvent); // Fix model lookup here
+        if (reservationEvent) {
+          await reservationEvent.destroy();
+        }
+      }
+  
+      // Delete the reservation
+      await reservation.destroy();
+  
+      // Send a success response
+      res.status(200).send("Reservation deleted successfully.");
+    } catch (error) {
+      console.error("Error occurred when deleting reservation:", error);
+      res.status(500).send("Error occurred when deleting reservation: " + error.message);
+    }
+  }
+  
 // Run the function every second
-//setInterval(changeReservationState, 1000);
+setInterval(changeReservationState, 1000);
 
-module.exports = {handleAddReservation,getReservation,extendReservation}
+module.exports = {handleAddReservation,getReservation,extendReservation,deleteReservation}
