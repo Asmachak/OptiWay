@@ -33,6 +33,11 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
   Widget build(BuildContext context) {
     checkRateState = ref.watch(checkRateNotifierProvider);
 
+    String image = "assets/parking.jpg"; // Default image
+    if (widget.reservation.ReservationEvent != null) {
+      image = widget.reservation.ReservationEvent!["event"]["image_url"];
+    }
+
     return Card(
       elevation: 2.0,
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -50,12 +55,19 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
-                        "assets/parking.jpg",
-                        width: 110,
-                        height: 110,
-                        fit: BoxFit.cover,
-                      ),
+                      child: image.startsWith('http')
+                          ? Image.network(
+                              image,
+                              width: 110,
+                              height: 110,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              image,
+                              width: 110,
+                              height: 110,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     if (widget
                             .reservation.ReservationParking!["parking"]?["rate"]

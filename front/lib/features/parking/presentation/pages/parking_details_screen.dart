@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart' as flutter_html;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/loading.dart';
+import 'package:front/features/parking/data/models/parking_model.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,23 +15,25 @@ import 'package:url_launcher/url_launcher.dart';
 class ParkingDetailsScreen extends ConsumerWidget {
   const ParkingDetailsScreen({
     Key? key,
-    required this.id,
-    required this.parkingName,
-    required this.capacity,
-    required this.description,
-    required this.location,
-    required this.phoneContact,
-    required this.mailContact,
-    required this.adress,
+    required this.parking
+    // required this.id,
+    // required this.parkingName,
+    // required this.capacity,
+    // required this.description,
+    // required this.location,
+    // required this.phoneContact,
+    // required this.mailContact,
+    // required this.adress,
   }) : super(key: key);
-  final String id;
-  final String parkingName;
-  final String location;
-  final String description;
-  final String capacity;
-  final String phoneContact;
-  final String mailContact;
-  final String adress;
+  // final String id;
+  // final String parkingName;
+  // final String location;
+  // final String description;
+  // final String capacity;
+  // final String phoneContact;
+  // final String mailContact;
+  // final String adress;
+  final ParkingModel parking;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -123,7 +126,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
 
     // Use a `FutureBuilder` to handle the asynchronous `_parseLocation` method
     return FutureBuilder<LatLng>(
-      future: _parseLocation(location, adress),
+      future: _parseLocation(parking.location!, parking.adress!),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return loadingWidget();
@@ -137,7 +140,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
               ),
-              title: Text(parkingName),
+              title: Text(parking.parkingName!),
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -158,7 +161,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                             Marker(
                               markerId: const MarkerId('parkingLocation'),
                               position: parkingLatLng,
-                              infoWindow: InfoWindow(title: parkingName),
+                              infoWindow: InfoWindow(title: parking.parkingName),
                             ),
                           },
                         ),
@@ -170,7 +173,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(25.0, 0, 0, 0),
                       child: Text(
-                        parkingName,
+                        parking.parkingName!,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -183,7 +186,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(25.0, 0, 0, 0),
                       child: Text(
-                        adress,
+                        parking.adress!,
                         style: const TextStyle(
                             fontSize: 15,
                             fontFamily: "Poppins",
@@ -306,7 +309,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                                   color: Colors.indigo,
                                 ),
                                 Text(
-                                  '$capacity vehicule',
+                                  '${parking.capacity} vehicule',
                                   style: const TextStyle(
                                     fontSize: 13,
                                     color: Colors.indigo,
@@ -323,7 +326,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                           height: 35,
                           child: OutlinedButton(
                             onPressed: () {
-                              _launchCall(phoneContact);
+                              _launchCall(parking.phoneContact!);
                             },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white10,
@@ -342,7 +345,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                                   color: Colors.indigo,
                                 ),
                                 Text(
-                                  '$phoneContact',
+                                  '${parking.phoneContact}',
                                   style: const TextStyle(
                                     fontSize: 13,
                                     color: Colors.indigo,
@@ -359,7 +362,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                           height: 35,
                           child: OutlinedButton(
                             onPressed: () {
-                              _launchEmail(mailContact);
+                              _launchEmail(parking.mailContact!);
                             },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.white10,
@@ -378,7 +381,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                                   color: Colors.indigo,
                                 ),
                                 Text(
-                                  '$mailContact',
+                                  '${parking.mailContact}',
                                   style: const TextStyle(
                                     fontSize: 13,
                                     color: Colors.indigo,
@@ -415,7 +418,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(25.0, 0, 0, 0),
                           child: flutter_html.Html(
-                            data: description,
+                            data: parking.description,
                           ),
                         ),
                       ),
@@ -426,7 +429,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                     child: TextButton(
                       onPressed: () {
                         AutoRouter.of(context)
-                            .push(ReservationRoute(idparking: id));
+                            .push(ReservationRoute(idparking: parking.id!));
                       },
                       style: ButtonStyle(
                         backgroundColor:

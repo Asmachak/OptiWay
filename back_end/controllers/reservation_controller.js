@@ -8,6 +8,8 @@ const moment = require('moment');
 const { averageRate } = require("./rate_controller");
 const ReservationParking = require("../models/reservation_parking");
 const ReservationEvent = require("../models/reservation_event");
+const Event = require("../models/event");
+
 
 
 async function handleAddReservation(req, res) {
@@ -79,73 +81,67 @@ async function handleAddReservation(req, res) {
 }
 
 async function getReservation(req, res) {
-    try {
-      const { userid } = req.params;
-  
-      const user = await User.findByPk(userid);
-      if (!user) {
-        return res.status(404).send("User not found!");
-      }
-  
-      let reservations = await Reservation.findAll({
-        where: { iduser: userid },
-        include: [
-          {
-            model: ReservationEvent,
-          },
-          {
-            model: ReservationParking,
-            include: [{ model: Vehicule },{ model: Parking }],
-          },
-          {
-            model: User,
-          },
-        ],
-      });
-  
-      if (!reservations || reservations.length === 0) {
-        return res.status(200).send("No reservations found for the user.");
-      }
-  
-      const reservationsWithRate = await Promise.all(
-        reservations.map(async (reservation) => {
+  try {
+    const { userid } = req.params;
+
+    const user = await User.findByPk(userid);
+    if (!user) {
+      return res.status(404).send("User not found!");
+    }
+
+    const reservations = await Reservation.findAll({
+      where: { iduser: userid },
+      include: [
+        {
+          model: ReservationEvent,
+          include: [{ model: Event }],
+        },
+        {
+          model: ReservationParking,
+          include: [{ model: Vehicule }, { model: Parking }],
+        },
+        {
+          model: User,
+        },
+      ],
+    });
+
+    if (!reservations || reservations.length === 0) {
+      return res.status(200).send("No reservations found for the user.");
+    }
+
+    const reservationsWithRate = await Promise.all(
+      reservations.map(async (reservation) => {
         const reservationParking = reservation.reservationParking;
         const parkingData = reservationParking ? reservationParking.parking : null;
-        const vehicleData = reservationParking ? reservationParking.vehicule : null;
 
-          console.log('oyyy');
+        if (parkingData) {
+          const rate = await averageRate(parkingData.id);
+          parkingData.rate = rate;
+        }
 
-          console.log(reservationParking);
+        return {
+          id: reservation.id,
+          CreatedAt: reservation.CreatedAt,
+          EndedAt: reservation.EndedAt,
+          state: reservation.state,
+          amount: reservation.amount,
+          iduser: reservation.iduser,
+          idResEvent: reservation.idResEvent,
+          idResParking: reservation.idResParking,
+          ReservationEvent: reservation.reservationEvent,
+          ReservationParking: reservation.reservationParking,
+          User: reservation.user,
+        };
+      })
+    );
 
-          console.log(parkingData);
-  
-          if (parkingData) {
-            const rate = await averageRate(parkingData.id);
-            parkingData.rate = rate;
-          }
-  
-          return {
-            id: reservation.id,
-            CreatedAt: reservation.CreatedAt,
-            EndedAt: reservation.EndedAt,
-            state: reservation.state,
-            amount: reservation.amount,
-            iduser: reservation.iduser,
-            idResEvent: reservation.idResEvent,
-            idResParking: reservation.idResParking,
-            ReservationEvent: reservation.reservationEvent,
-            ReservationParking:reservation.reservationParking,
-            User: reservation.user,
-          };
-        })
-      );
-  
-      res.status(200).json(reservationsWithRate);
-    } catch (error) {
-      console.error("Error:", error);
-      res.status(500).send("Error occurred when handling get reservation: " + error);
-    }
+    res.status(200).json(reservationsWithRate);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Error occurred when handling get reservation: " + error.message);
   }
+}
 
 async function extendReservation(req, res) {
   try {

@@ -53,7 +53,12 @@ async function insertDataFromJsonToDb() {
           capacity: eventData.capacity || 100,
           EndedAt: eventData.EndedAt || new Date(),
           price:eventData.price || 20,
-          adress:eventData.adress || ''
+          rating:eventData.rating || '',
+          image_url:eventData.image_url || '',
+          genres:eventData.genres || '',
+
+
+
           // Add other fields as necessary
         });
         console.log(`Event ${eventData.title} inserted successfully.`);

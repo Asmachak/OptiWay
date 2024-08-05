@@ -34,13 +34,11 @@ class ButtonRow extends ConsumerWidget {
               onPressed: selectedCarId != null
                   ? () async {
                       final jsonData = ref.read(reservationEventDataProvider);
-                      jsonData["idvehicule"] =
-                          selectedCarId; // Update jsonData with selected car ID
+                      jsonData["idvehicule"] = selectedCarId;
                       print(" tout $jsonData");
+
                       paiementState.when(
-                        initial: () {
-                          const SizedBox();
-                        },
+                        initial: () {},
                         loading: () => const CircularProgressIndicator(),
                         success: (paymentModel) async {
                           Stripe.publishableKey = paymentModel.publishableKey;
@@ -86,8 +84,7 @@ class ButtonRow extends ConsumerWidget {
                             );
 
                             print("Updated jsonData: $jsonData");
-                            final reservationEventState =
-                                ref.watch(reservationEventNotifierProvider);
+
                             await reservationEventNotifier.addReservationEvent(
                               jsonData,
                               jsonData["iduser"],
@@ -95,7 +92,8 @@ class ButtonRow extends ConsumerWidget {
                               jsonData["idevent"],
                             );
 
-                            if (reservationEventState is Success) {
+                            if (ref.read(reservationEventNotifierProvider)
+                                is Success) {
                               AutoRouter.of(context)
                                   .replace(const ReservationListRoute());
                             }

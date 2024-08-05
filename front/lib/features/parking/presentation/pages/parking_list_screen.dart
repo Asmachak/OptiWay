@@ -98,19 +98,9 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
                           title: parking.parkingName ?? '',
                           adress: parking.adress ?? '',
                           onPress: () {
-                            print("taay $json");
                             json["parking"] = parking;
-                            print("siiiii ${json["parking"]}");
                             AutoRouter.of(context).push(
-                              ParkingDetailsRoute(
-                                  id: parking.id!,
-                                  capacity: parking.capacity!,
-                                  parkingName: parking.parkingName!,
-                                  description: parking.description!,
-                                  location: parking.location ?? "",
-                                  mailContact: parking.mailContact!,
-                                  phoneContact: parking.phoneContact!,
-                                  adress: parking.adress!),
+                              ParkingDetailsRoute(parking: parking),
                             );
                           },
                         ))
@@ -133,10 +123,10 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
               },
               shape: const CircleBorder(),
               backgroundColor:
-                  Color.fromARGB(255, 166, 173, 211).withOpacity(0.5),
+                  const Color.fromARGB(255, 166, 173, 211).withOpacity(0.5),
               foregroundColor: Colors.white,
-              child: const Icon(Icons.arrow_upward),
               elevation: 0,
+              child: const Icon(Icons.arrow_upward),
             )
           : null,
     );

@@ -1,16 +1,11 @@
 const Reservation = require("../models/reservation");
 const Parking = require("../models/parking");
-const User = require("../models/user");
-const Vehicule = require("../models/vehicule");
 const moment = require('moment');
-const { averageRate } = require("./rate_controller");
 const { v4: uuidv4 } = require('uuid');
 const Event = require('../models/event');
 const ReservationEvent = require('../models/reservation_event');
 const ReservationParking = require('../models/reservation_parking');
-const fs = require('fs');
-const path = require('path');
-const { where } = require("sequelize");
+
 
 async function handleAddReservationEvent(req, res) {
   try {

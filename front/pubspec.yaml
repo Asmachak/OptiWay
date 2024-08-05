@@ -79,6 +79,9 @@ dependencies:
   json_annotation: ^4.9.0
   flutter_stripe: ^10.2.0
   cart_stepper: ^4.3.0
+  google_fonts: ^6.2.1
+  carousel_slider: ^4.2.1
+
 
 
 dev_dependencies:

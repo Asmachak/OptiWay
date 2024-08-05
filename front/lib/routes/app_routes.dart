@@ -14,6 +14,7 @@ class AppRouter extends $AppRouter {
           AutoRoute(page: HomeRoute.page, maintainState: true),
           AutoRoute(page: ParkingsRoute.page, maintainState: true),
           AutoRoute(page: EventRoute.page, maintainState: true),
+          AutoRoute(page: ReservationListRoute.page, maintainState: true),
           AutoRoute(
             page: AccountRoute.page,
             maintainState: true,

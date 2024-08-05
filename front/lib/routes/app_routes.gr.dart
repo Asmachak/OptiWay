@@ -20,6 +20,7 @@ import 'package:front/features/event/presentation/pages/related_events_screen.da
     as _i12;
 import 'package:front/features/paiement/presentation/pages/billing_historic_screen.dart'
     as _i3;
+import 'package:front/features/parking/data/models/parking_model.dart' as _i38;
 import 'package:front/features/parking/presentation/pages/parking_details_screen.dart'
     as _i10;
 import 'package:front/features/reservation/data/models/reservation/reservation_model.dart'
@@ -161,14 +162,7 @@ abstract class $AppRouter extends _i33.RootStackRouter {
         routeData: routeData,
         child: _i10.ParkingDetailsScreen(
           key: args.key,
-          id: args.id,
-          parkingName: args.parkingName,
-          capacity: args.capacity,
-          description: args.description,
-          location: args.location,
-          phoneContact: args.phoneContact,
-          mailContact: args.mailContact,
-          adress: args.adress,
+          parking: args.parking,
         ),
       );
     },
@@ -567,27 +561,13 @@ class PaiementMethodeRoute extends _i33.PageRouteInfo<void> {
 class ParkingDetailsRoute extends _i33.PageRouteInfo<ParkingDetailsRouteArgs> {
   ParkingDetailsRoute({
     _i34.Key? key,
-    required String id,
-    required String parkingName,
-    required String capacity,
-    required String description,
-    required String location,
-    required String phoneContact,
-    required String mailContact,
-    required String adress,
+    required _i38.ParkingModel parking,
     List<_i33.PageRouteInfo>? children,
   }) : super(
           ParkingDetailsRoute.name,
           args: ParkingDetailsRouteArgs(
             key: key,
-            id: id,
-            parkingName: parkingName,
-            capacity: capacity,
-            description: description,
-            location: location,
-            phoneContact: phoneContact,
-            mailContact: mailContact,
-            adress: adress,
+            parking: parking,
           ),
           initialChildren: children,
         );
@@ -601,37 +581,16 @@ class ParkingDetailsRoute extends _i33.PageRouteInfo<ParkingDetailsRouteArgs> {
 class ParkingDetailsRouteArgs {
   const ParkingDetailsRouteArgs({
     this.key,
-    required this.id,
-    required this.parkingName,
-    required this.capacity,
-    required this.description,
-    required this.location,
-    required this.phoneContact,
-    required this.mailContact,
-    required this.adress,
+    required this.parking,
   });
 
   final _i34.Key? key;
 
-  final String id;
-
-  final String parkingName;
-
-  final String capacity;
-
-  final String description;
-
-  final String location;
-
-  final String phoneContact;
-
-  final String mailContact;
-
-  final String adress;
+  final _i38.ParkingModel parking;
 
   @override
   String toString() {
-    return 'ParkingDetailsRouteArgs{key: $key, id: $id, parkingName: $parkingName, capacity: $capacity, description: $description, location: $location, phoneContact: $phoneContact, mailContact: $mailContact, adress: $adress}';
+    return 'ParkingDetailsRouteArgs{key: $key, parking: $parking}';
   }
 }
 

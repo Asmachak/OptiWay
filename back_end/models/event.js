@@ -16,7 +16,7 @@ const Event = sequelize.define('event', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  adress: {
+  image_url: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -35,6 +35,14 @@ const Event = sequelize.define('event', {
   },
   capacity:{
     type:DataTypes.INTEGER, 
+    allowNull:false
+  },
+  genres: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  rating:{
+    type:DataTypes.FLOAT, 
     allowNull:false
   },
   

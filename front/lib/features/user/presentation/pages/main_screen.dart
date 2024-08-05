@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:front/features/reservation/presentation/pages/reservation_list_screen.dart';
 import 'package:front/features/user/presentation/pages/account_screen.dart';
 import 'package:front/features/user/presentation/pages/events_screen.dart';
 import 'package:front/features/user/presentation/pages/home_screen.dart';
@@ -24,47 +25,155 @@ class _mainScreenState extends State<mainScreen> {
         ParkingsRoute(),
         EventRoute(),
         AccountRoute(),
+        ReservationListRoute()
       ],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
-          bottomNavigationBar: Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(18), topLeft: Radius.circular(18)),
+          floatingActionButtonLocation:
+          FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              tabsRouter.setActiveIndex(0); // Navigate to Home tab
+            },
+            backgroundColor: Colors.indigo,
+            child: const Icon(Icons.home, color: Colors.white),
+          ),
+          bottomNavigationBar: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18),
             ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(18),
-                topRight: Radius.circular(18),
-              ),
-              child: BottomNavigationBar(
-                currentIndex: tabsRouter.activeIndex,
-                selectedItemColor: Colors.indigo,
-                unselectedItemColor: Colors.grey,
-                iconSize: 30,
-                onTap: (index) {
-                  // here we switch between tabs
-                  tabsRouter.setActiveIndex(index);
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                      label: "home",
-                      icon: Icon(Icons.home),
-                      backgroundColor: Color.fromARGB(255, 229, 237, 243)),
-                  BottomNavigationBarItem(
-                      label: "Parkings",
-                      icon: Icon(Icons.directions_car),
-                      backgroundColor: Color.fromARGB(255, 229, 237, 243)),
-                  BottomNavigationBarItem(
-                      label: "Events",
-                      icon: Icon(Icons.event_available_outlined),
-                      backgroundColor: Color.fromARGB(255, 229, 237, 243)),
-                  BottomNavigationBarItem(
-                      label: "Account",
-                      icon: Icon(Icons.account_circle),
-                      backgroundColor: Color.fromARGB(255, 229, 237, 243)),
-                ],
+            child: BottomAppBar(
+              shape: const CircularNotchedRectangle(),
+              notchMargin: 6.0,
+              child: Container(
+                height: 60,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(18),
+                    topLeft: Radius.circular(18),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MaterialButton(
+                          minWidth: 40,
+                          onPressed: () {
+                            tabsRouter
+                                .setActiveIndex(1); // Navigate to Parkings tab
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.directions_car,
+                                color: tabsRouter.activeIndex == 1
+                                    ? Colors.indigo
+                                    : Colors.grey,
+                              ),
+                              Text(
+                                'Parkings',
+                                style: TextStyle(
+                                  color: tabsRouter.activeIndex == 1
+                                      ? Colors.indigo
+                                      : Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        MaterialButton(
+                          minWidth: 40,
+                          onPressed: () {
+                            tabsRouter
+                                .setActiveIndex(2); // Navigate to Events tab
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.event_available_outlined,
+                                color: tabsRouter.activeIndex == 2
+                                    ? Colors.indigo
+                                    : Colors.grey,
+                              ),
+                              Text(
+                                'Events',
+                                style: TextStyle(
+                                  color: tabsRouter.activeIndex == 2
+                                      ? Colors.indigo
+                                      : Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MaterialButton(
+                          minWidth: 40,
+                          onPressed: () {
+                            tabsRouter.setActiveIndex(
+                                3); // Navigate to Reservations tab
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.list_alt,
+                                color: tabsRouter.activeIndex == 3
+                                    ? Colors.indigo
+                                    : Colors.grey,
+                              ),
+                              Text(
+                                'Reservations',
+                                style: TextStyle(
+                                  color: tabsRouter.activeIndex == 3
+                                      ? Colors.indigo
+                                      : Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        MaterialButton(
+                          minWidth: 40,
+                          onPressed: () {
+                            tabsRouter
+                                .setActiveIndex(4); // Navigate to Account tab
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.account_circle,
+                                color: tabsRouter.activeIndex == 4
+                                    ? Colors.indigo
+                                    : Colors.grey,
+                              ),
+                              Text(
+                                'Account',
+                                style: TextStyle(
+                                  color: tabsRouter.activeIndex == 4
+                                      ? Colors.indigo
+                                      : Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -74,6 +183,7 @@ class _mainScreenState extends State<mainScreen> {
               homeScreen(),
               parkingsScreen(),
               eventScreen(),
+              ReservationListScreen(),
               accountScreen(),
             ],
           ),

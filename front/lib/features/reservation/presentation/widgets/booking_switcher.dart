@@ -25,6 +25,8 @@ class BookingSwitcherNotifier extends StateNotifier<bool> {
 }
 
 class BookingSwitcher extends ConsumerStatefulWidget {
+  const BookingSwitcher({super.key});
+
   @override
   _BookingSwitcherState createState() => _BookingSwitcherState();
 }
@@ -35,117 +37,111 @@ class _BookingSwitcherState extends ConsumerState<BookingSwitcher> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(reservationNotifierProvider.notifier).getReservation(
+          GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final reservationNotifier = ref.read(reservationNotifierProvider.notifier);
 
-    // Trigger the getReservation call
-    reservationNotifier.getReservation(
-        GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
-
-    return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isOnGoingSelected = true;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: isOnGoingSelected
-                              ? Colors.indigo
-                              : Colors.transparent,
-                          width: 2.0,
-                        ),
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isOnGoingSelected = true;
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: isOnGoingSelected
+                            ? Colors.indigo
+                            : Colors.transparent,
+                        width: 2.0,
                       ),
                     ),
-                    child: Center(
-                      child: Text(
-                        "On Going Booking",
-                        style: TextStyle(
-                          color:
-                              isOnGoingSelected ? Colors.indigo : Colors.grey,
-                          fontWeight: isOnGoingSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                          fontSize: isOnGoingSelected ? 18 : 17,
-                        ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "On Going Booking",
+                      style: TextStyle(
+                        color: isOnGoingSelected ? Colors.indigo : Colors.grey,
+                        fontWeight: isOnGoingSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        fontSize: isOnGoingSelected ? 18 : 17,
                       ),
                     ),
                   ),
                 ),
               ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isOnGoingSelected = false;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: !isOnGoingSelected
-                              ? Colors.indigo
-                              : Colors.transparent,
-                          width: 2.0,
-                        ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isOnGoingSelected = false;
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: !isOnGoingSelected
+                            ? Colors.indigo
+                            : Colors.transparent,
+                        width: 2.0,
                       ),
                     ),
-                    child: Center(
-                      child: Text(
-                        "Booking History",
-                        style: TextStyle(
-                          color:
-                              !isOnGoingSelected ? Colors.indigo : Colors.grey,
-                          fontWeight: !isOnGoingSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                          fontSize: !isOnGoingSelected ? 18 : 17,
-                        ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Booking History",
+                      style: TextStyle(
+                        color: !isOnGoingSelected ? Colors.indigo : Colors.grey,
+                        fontWeight: !isOnGoingSelected
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        fontSize: !isOnGoingSelected ? 18 : 17,
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-          Expanded(
-            child: isOnGoingSelected ? OnGoingContainer() : historyContainer(),
-          ),
-        ],
-      ),
+            ),
+          ],
+        ),
+        Expanded(
+          child: isOnGoingSelected
+              ? const OnGoingContainer()
+              : const HistoryContainer(),
+        ),
+      ],
     );
   }
 }
 
 class OnGoingContainer extends ConsumerWidget {
+  const OnGoingContainer({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final reservationState = ref.watch(reservationNotifierProvider);
-    final reservationNotifier = ref.read(reservationNotifierProvider.notifier);
-
-    // Trigger the getReservation call
-    reservationNotifier.getReservation(
-        GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
 
     return reservationState.when(
       initial: () => const SizedBox.shrink(),
       loading: () => loadingWidget(),
       loaded: (reservations) {
-        // Filter reservations to exclude those with state "ended"
         final onGoingReservations = reservations
             .where((reservation) => reservation.state != "ended")
             .toList();
@@ -174,22 +170,17 @@ class OnGoingContainer extends ConsumerWidget {
       },
       success: (car) => const SizedBox.shrink(),
       failure: (exception) => Center(child: Text("$exception")),
-      extended: (reservation) {
-        return const SizedBox.shrink();
-      },
+      extended: (reservation) => const SizedBox.shrink(),
     );
   }
 }
 
-class historyContainer extends ConsumerWidget {
+class HistoryContainer extends ConsumerWidget {
+  const HistoryContainer({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final reservationState = ref.watch(reservationNotifierProvider);
-    final reservationNotifier = ref.read(reservationNotifierProvider.notifier);
-
-    // Trigger the getReservation call
-    reservationNotifier.getReservation(
-        GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
 
     return reservationState.when(
       initial: () => const SizedBox.shrink(),
@@ -221,9 +212,7 @@ class historyContainer extends ConsumerWidget {
       },
       success: (car) => const SizedBox.shrink(),
       failure: (exception) => Center(child: Text("$exception")),
-      extended: (reservation) {
-        return const SizedBox.shrink();
-      },
+      extended: (reservation) => const SizedBox.shrink(),
     );
   }
 }
