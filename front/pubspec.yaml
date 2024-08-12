@@ -81,6 +81,7 @@ dependencies:
   cart_stepper: ^4.3.0
   google_fonts: ^6.2.1
   carousel_slider: ^4.2.1
+  socket_io_client: ^2.0.3+1
 
 
 

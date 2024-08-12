@@ -90,7 +90,7 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
                     ),
                   ),
                   child: const Text(
-                    "Continue",
+                    "Next",
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.indigo,

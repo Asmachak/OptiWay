@@ -10,16 +10,29 @@
             "type": "dart"
         },
         {
-            "name": "front (profile mode)",
+            "name": "Android1",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "deviceId": "emulator-5554"
         },
         {
-            "name": "front (release mode)",
+            "name": "Android2",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "deviceId": "emulator-5556"
+        },
+        {
+            "name": "Windows",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "windows"
+        },
+        
+    ],
+    "compounds": [
+        {
+            "name": "All Devices",
+            "configurations": ["Android1","Android2"]
         }
     ]
 }

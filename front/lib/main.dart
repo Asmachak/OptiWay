@@ -11,10 +11,11 @@ import 'package:front/routes/app_routes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:get_it/get_it.dart';
- 
+
 void main() async {
-  // Initialize Hive
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Hive
   final appStorageDir = Platform.isAndroid
       ? await getExternalStorageDirectory()
       : await getApplicationSupportDirectory();
@@ -39,14 +40,32 @@ void main() async {
 }
 
 class MyApp extends ConsumerWidget {
-  final AppRouter appRouter = AppRouter(); // Create the AppRouter instance
+  final AppRouter appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Configurer la connexion Socket.IO
+    // Map<String, dynamic> options = {
+    //   'transports': ['websocket'],
+    //   'autoConnect': false,
+    // };
+
+    // IO.Socket socket = IO.io("http://10.0.2.2:8000",
+    //     options); // Assurez-vous que le port est correct
+    // socket.connect();
+    // socket.onConnect((_) {
+    //   print("socket connected");
+    //   socket.emit("msg", {"msg": "hello world"});
+    // });
+    // socket.on("res", (data) => print(data));
+
+    // socket.on("event", (data) => print(data));
+    // socket.onDisconnect((_) => print("disconnected"));
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerDelegate: AutoRouterDelegate(
-        appRouter, // Your generated router instance
+        appRouter,
         navigatorObservers: () => [AutoRouteObserver()],
       ),
       routeInformationParser: appRouter.defaultRouteParser(),

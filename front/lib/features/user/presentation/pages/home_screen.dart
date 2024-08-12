@@ -10,12 +10,14 @@ import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.d
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/user/presentation/widgets/movie_carousel.dart';
 import 'package:front/features/user/presentation/widgets/parking_carousel.dart';
+import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:permission_handler/permission_handler.dart';
 
 @RoutePage()
 class homeScreen extends ConsumerStatefulWidget {
@@ -42,6 +44,7 @@ class _homeScreenState extends ConsumerState<homeScreen> {
       ref.read(MovieNotifierProvider.notifier).fetchItems();
       _getCurrentLocation();
       _loadCustomMarker();
+      requestLocationPermission();
     });
   }
 
@@ -151,6 +154,15 @@ class _homeScreenState extends ConsumerState<homeScreen> {
     return markers;
   }
 
+  Future<void> requestLocationPermission() async {
+    var status = await Permission.location.request();
+    if (status.isDenied) {
+      // L'utilisateur a refusé les autorisations
+      // Gérez cette situation selon vos besoins
+      print('User denied location permissions');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authLocalDataSource = GetIt.instance.get<AuthLocalDataSource>();
@@ -171,15 +183,37 @@ class _homeScreenState extends ConsumerState<homeScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      "Hello $userName",
-                      style: GoogleFonts.aBeeZee(
-                        textStyle: const TextStyle(
-                          fontSize: 25,
-                          color: Colors.indigo,
-                          fontWeight: FontWeight.bold,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Hello $userName",
+                            style: GoogleFonts.aBeeZee(
+                              textStyle: const TextStyle(
+                                fontSize: 25,
+                                color: Colors.indigo,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        IconButton(
+                          icon: const Icon(Icons.notifications_none),
+                          color: Colors.indigo,
+                          iconSize: 30,
+                          onPressed: () {
+                            // Handle notification icon press
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.message_outlined),
+                          color: Colors.indigo,
+                          iconSize: 30,
+                          onPressed: () {
+                            AutoRouter.of(context).push(const ChatRoute());
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   Padding(

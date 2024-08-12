@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
 const User = require('./user');
+const Room = require('./room');
 
 const Message = sequelize.define('message', {
   id: {
@@ -16,11 +17,11 @@ const Message = sequelize.define('message', {
       key: 'id',
     },
   },
-  receiver: {
+  roomId: {
     type: DataTypes.STRING, 
     allowNull: false,
     references: {
-      model: User,
+      model: Room,
       key: 'id',
     },
   }
@@ -29,6 +30,6 @@ const Message = sequelize.define('message', {
 });
 
 Message.belongsTo(User, { foreignKey: 'sender', as: 'Sender' });
-Message.belongsTo(User, { foreignKey: 'receiver', as: 'Receiver' });
+Message.belongsTo(Room, { foreignKey: 'roomId', as: 'RoomId' });
 
 module.exports = Message;

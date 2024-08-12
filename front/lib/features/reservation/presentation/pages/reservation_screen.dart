@@ -375,9 +375,9 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        final jsonData = ref.read(reservationParkingDataProvider);
+                        final jsonData =
+                            ref.read(reservationParkingDataProvider);
 
-                       
                         jsonData['idparking'] = widget.idparking;
                         jsonData['CreatedAt'] =
                             startDateTime?.toIso8601String();
@@ -445,7 +445,7 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                         ),
                       ),
                       child: const Text(
-                        "Continu",
+                        "Next",
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.indigo,

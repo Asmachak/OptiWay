@@ -22,7 +22,7 @@ class MovieWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           child: Container(
             width: double.maxFinite,
-            height: 160,
+            height: 180,
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 149, 160, 214).withOpacity(0.1),
             ),

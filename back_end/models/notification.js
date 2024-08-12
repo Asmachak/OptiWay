@@ -16,9 +16,8 @@ const Notification = sequelize.define('notification', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  
 }, {
-  timestamps: false
+  timestamps: true
 });
 
 Notification.belongsTo(User, { foreignKey: 'iduser', targetKey: 'id' });
