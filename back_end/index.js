@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const chatController = require('./controllers/chat_controller');
 const notificationController = require('./controllers/notification_controller');
+const { credential } = require('firebase-admin');
+const { initializeApp } = require('firebase-admin/app');
 
 const { Server } = require('socket.io');
 
@@ -88,7 +90,26 @@ const command = 'python python_end_points/movies_scrapping.py';
 //   console.log(`Python script output: ${stdout}`);
 // });
 
+
+
+global.io = io;
+
+(async () => {
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    credential: credential.cert('./obti_way_config.json'),
+    // credential: credential.cert('./test-notification-f0ac1-710f7208755f.json'),
+  };
+
+  // Initialize Firebase
+  const firebaseApp = initializeApp(firebaseConfig);
+
+  global.firebaseApp = firebaseApp;
+})();
+
+
 // Démarrer le serveur
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

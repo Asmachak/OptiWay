@@ -43,6 +43,10 @@ const User = sequelize.define('user', {
   country: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  deviceid: {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 }, {
   timestamps: false
