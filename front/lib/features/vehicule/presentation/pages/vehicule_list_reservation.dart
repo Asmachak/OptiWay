@@ -36,9 +36,9 @@ class _VehiculeListReservationScreenState
 
       var jsonData = ref.read(reservationParkingDataProvider);
 
-        ref
-            .read(paiementNotifierProvider.notifier)
-            .initPaymentSheet({"amount": jsonData["tarif"], "currency": "eur"});
+      ref
+          .read(paiementNotifierProvider.notifier)
+          .initPaymentSheet({"amount": jsonData["tarif"], "currency": "eur"});
     });
   }
 
@@ -86,7 +86,7 @@ class _VehiculeListReservationScreenState
               mainAxisSize: MainAxisSize.min,
               children: [
                 const AddVehicleButton(),
-                _ButtonRow(), 
+                _ButtonRow(),
               ],
             ),
           ),
@@ -146,9 +146,11 @@ class _ButtonRow extends ConsumerWidget {
                 onPressed: () {
                   if (selectedCarId != null) {
                     final jsonData = ref.read(reservationParkingDataProvider);
+                    final json = ref.read(reservationEventDataProvider);
+                    json["idvehicule"] = selectedCarId;
                     jsonData["idvehicule"] = selectedCarId;
                     AutoRouter.of(context).push(const RelatedEventRoute());
-                    print(jsonData);
+                    print("salem $json");
                   } else {
                     print("Select a car");
                   }
@@ -240,7 +242,6 @@ class _ButtonRow extends ConsumerWidget {
                                       jsonData["idparking"],
                                       jsonData["iduser"],
                                       jsonData["idvehicule"]);
-
 
                               AutoRouter.of(context)
                                   .replace(ReservationListRoute());

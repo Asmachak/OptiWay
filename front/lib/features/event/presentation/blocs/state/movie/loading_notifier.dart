@@ -18,23 +18,26 @@ class LoadingNotifier extends StateNotifier<LoadingMovieState> {
           jsonList.map((json) => MovieModel.fromJson(json)).toList();
 
       List<MovieModel> matchesParking = items.where((movie) {
-        // Check direct parkings
-        bool matchesDirectParking = movie.parkings.any((parking) {
-          return parking[0]
-              .toString()
-              .toLowerCase()
-              .contains(parkingName.toLowerCase());
-        });
+        // Check direct parkings, ensuring movie.parkings is not null
+        bool matchesDirectParking = movie.parkings != null &&
+            movie.parkings.any((parking) {
+              return parking
+                  .toString()
+                  .toLowerCase()
+                  .contains(parkingName.toLowerCase());
+            });
 
-        // Check cinemas' parkings
-        bool matchesCinemaParking = movie.cinemas.any((cinema) {
-          return cinema["parking"].any((parking) {
-            return parking[0]
-                .toString()
-                .toLowerCase()
-                .contains(parkingName.toLowerCase());
-          });
-        });
+        // Check cinemas' parkings, ensuring cinema["parking"] is not null
+        bool matchesCinemaParking = movie.cinemas != null &&
+            movie.cinemas.any((cinema) {
+              return cinema["parkings"] != null &&
+                  cinema["parkings"].any((parking) {
+                    return parking[0]
+                        .toString()
+                        .toLowerCase()
+                        .contains(parkingName.toLowerCase());
+                  });
+            });
 
         return matchesDirectParking || matchesCinemaParking;
       }).toList();

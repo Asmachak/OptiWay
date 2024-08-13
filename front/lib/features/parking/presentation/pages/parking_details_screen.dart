@@ -429,7 +429,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                     child: TextButton(
                       onPressed: () {
                         AutoRouter.of(context)
-                            .push(ReservationRoute(idparking: parking.id!));
+                            .push(ReservationRoute(idparking: parking.id!,parking:parking));
                       },
                       style: ButtonStyle(
                         backgroundColor:

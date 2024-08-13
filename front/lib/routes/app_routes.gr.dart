@@ -202,6 +202,7 @@ abstract class $AppRouter extends _i34.RootStackRouter {
         child: _i15.ReservationScreen(
           key: args.key,
           idparking: args.idparking,
+          parking: args.parking,
         ),
       );
     },
@@ -687,12 +688,14 @@ class ReservationRoute extends _i34.PageRouteInfo<ReservationRouteArgs> {
   ReservationRoute({
     _i35.Key? key,
     required String idparking,
+    required _i39.ParkingModel parking,
     List<_i34.PageRouteInfo>? children,
   }) : super(
           ReservationRoute.name,
           args: ReservationRouteArgs(
             key: key,
             idparking: idparking,
+            parking: parking,
           ),
           initialChildren: children,
         );
@@ -707,15 +710,18 @@ class ReservationRouteArgs {
   const ReservationRouteArgs({
     this.key,
     required this.idparking,
+    required this.parking,
   });
 
   final _i35.Key? key;
 
   final String idparking;
 
+  final _i39.ParkingModel parking;
+
   @override
   String toString() {
-    return 'ReservationRouteArgs{key: $key, idparking: $idparking}';
+    return 'ReservationRouteArgs{key: $key, idparking: $idparking, parking: $parking}';
   }
 }
 

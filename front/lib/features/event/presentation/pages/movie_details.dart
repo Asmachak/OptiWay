@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/widgets/rating_bar_widget.dart';
+import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
 @RoutePage()
@@ -17,6 +18,8 @@ class MovieDetailScreen extends ConsumerStatefulWidget {
 class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    final jsonData = ref.read(reservationParkingDataProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Movie Details'),
@@ -201,70 +204,73 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                 ],
               ),
             ),
-            // Available Parking
-            const Padding(
-              padding: EdgeInsets.fromLTRB(13, 8, 8, 8),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.directions_car,
-                    color: Color.fromARGB(255, 60, 107, 145),
-                    size: 30,
-                  ),
-                  SizedBox(width: 8),
-                  Text(
-                    'Available Parkings :',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+            if (jsonData["idparking"] == "") ...[
+              // Available Parking
+              const Padding(
+                padding: EdgeInsets.fromLTRB(13, 8, 8, 8),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.directions_car,
+                      color: Color.fromARGB(255, 60, 107, 145),
+                      size: 30,
                     ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Grid of Parkings
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 8.0,
-                  childAspectRatio: 3.0, // Adjust as needed
+                    SizedBox(width: 8),
+                    Text(
+                      'Available Parkings :',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: widget.movie.parkings.length,
-                itemBuilder: (context, index) {
-                  final parking = widget.movie.parkings[index];
-                  return GestureDetector(
-                    onTap: () {
-                      // Handle onTap action here
-                      print('Parking $index tapped');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200], // Grey background
-                          border: Border.all(
-                              color: Colors.transparent), // Transparent border
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            parking,
-                            style: const TextStyle(fontSize: 16.0),
+              ),
+
+              // Grid of Parkings
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                    childAspectRatio: 3.0, // Adjust as needed
+                  ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: widget.movie.parkings.length,
+                  itemBuilder: (context, index) {
+                    final parking = widget.movie.parkings[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // Handle onTap action here
+                        print('Parking $index tapped');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200], // Grey background
+                            border: Border.all(
+                                color:
+                                    Colors.transparent), // Transparent border
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              parking,
+                              style: const TextStyle(fontSize: 16.0),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-            // Available Parking
+            ],
+            // Available Theaters
             const Padding(
               padding: EdgeInsets.fromLTRB(13, 8, 8, 8),
               child: Row(
@@ -301,31 +307,41 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                 itemCount: widget.movie.cinemas.length,
                 itemBuilder: (context, index) {
                   final cinema = widget.movie.cinemas[index];
-                  return GestureDetector(
-                    onTap: () {
-                      print('movie $index tapped');
+                  final List parkings = cinema['parkings'];
+                  bool containsDesiredParking = true;
+                  // Vérification si le parking existe dans la liste des parkings
+                  if (jsonData["parking"] != null) {
+                    containsDesiredParking = parkings.any((parking) =>
+                        parking[0] == jsonData["parking"].parkingName);
+                  }
+                  if (containsDesiredParking) {
+                    return GestureDetector(
+                      onTap: () {
+                        print('movie $index tapped');
 
-                      AutoRouter.of(context).push(MovieDetailCinemaRoute(
-                          cinema: cinema['name'], movie: widget.movie));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200], // Grey background
-                          border: Border.all(
-                              color: Colors.transparent), // Transparent border
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            cinema["name"],
-                            style: const TextStyle(fontSize: 16.0),
+                        AutoRouter.of(context).push(MovieDetailCinemaRoute(
+                            cinema: cinema['name'], movie: widget.movie));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200], // Grey background
+                            border: Border.all(
+                                color:
+                                    Colors.transparent), // Transparent border
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              cinema["name"],
+                              style: const TextStyle(fontSize: 16.0),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 },
               ),
             ),

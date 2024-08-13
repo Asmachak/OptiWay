@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:front/features/parking/data/models/parking_model.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/widgets/seperator.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
@@ -38,8 +41,10 @@ DateTime convertToDateTime(TimeOfDay time) {
 @RoutePage()
 class ReservationScreen extends ConsumerStatefulWidget {
   final String idparking;
+  final ParkingModel parking;
 
-  ReservationScreen({Key? key, required this.idparking}) : super(key: key);
+  ReservationScreen({Key? key, required this.idparking, required this.parking})
+      : super(key: key);
 
   @override
   _ReservationScreenState createState() => _ReservationScreenState();
@@ -377,17 +382,18 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                       onPressed: () {
                         final jsonData =
                             ref.read(reservationParkingDataProvider);
+                        final json = ref.read(reservationEventDataProvider);
 
                         jsonData['idparking'] = widget.idparking;
+                        jsonData['parking'] = widget.parking;
                         jsonData['CreatedAt'] =
                             startDateTime?.toIso8601String();
                         jsonData['EndedAt'] = endDateTime?.toIso8601String();
                         jsonData['tarif'] =
                             ((duration!.inHours.remainder(24)) * price)
                                 .toDouble();
-
-                        print('jsonData');
-                        print(jsonData.values);
+                        json['idparking'] = widget.idparking;
+                        json['parking'] = widget.parking;
 
                         if (startDateTime != null && endDateTime != null) {
                           AutoRouter.of(context)

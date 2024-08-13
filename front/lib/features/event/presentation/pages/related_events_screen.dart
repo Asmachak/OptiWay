@@ -117,7 +117,12 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           final movie = moviesList[index];
-                          return MovieWidget(movie: movie, onPress: () {});
+                          return MovieWidget(
+                              movie: movie,
+                              onPress: () {
+                                AutoRouter.of(context)
+                                    .push(MovieDetailRoute(movie: movie));
+                              });
                         },
                         childCount: moviesList.length,
                       ),
@@ -158,7 +163,13 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
                             final movie = filteredMovies[index];
-                            return MovieWidget(movie: movie, onPress: () {});
+                            return MovieWidget(
+                              movie: movie,
+                              onPress: () {
+                                AutoRouter.of(context)
+                                    .push(MovieDetailRoute(movie: movie));
+                              },
+                            );
                           },
                           childCount: filteredMovies.length,
                         ),
