@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/loading.dart';
 import 'package:front/features/parking/data/models/parking_model.dart';
 import 'package:front/routes/app_routes.gr.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -13,125 +13,108 @@ import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
 class ParkingDetailsScreen extends ConsumerWidget {
-  const ParkingDetailsScreen({
-    Key? key,
-    required this.parking
-    // required this.id,
-    // required this.parkingName,
-    // required this.capacity,
-    // required this.description,
-    // required this.location,
-    // required this.phoneContact,
-    // required this.mailContact,
-    // required this.adress,
-  }) : super(key: key);
-  // final String id;
-  // final String parkingName;
-  // final String location;
-  // final String description;
-  // final String capacity;
-  // final String phoneContact;
-  // final String mailContact;
-  // final String adress;
+  const ParkingDetailsScreen({Key? key, required this.parking})
+      : super(key: key);
+
   final ParkingModel parking;
+
+  Future<void> requestLocationPermission() async {
+    var status = await Permission.location.request();
+    if (status.isDenied) {
+      // Handle denied permission
+      print('User denied location permissions');
+    }
+  }
+
+  Future<LatLng> parseLocation(String? location, String? address) async {
+    try {
+      await requestLocationPermission();
+
+      if (location == null || location.isEmpty) {
+        if (address == null || address.isEmpty) {
+          // Return a default location if both location and address are unavailable
+          return const LatLng(0, 0);
+        }
+        List<geocoding.Location> locations =
+            await geocoding.locationFromAddress(address);
+        double latitude = locations[0].latitude;
+        double longitude = locations[0].longitude;
+
+        return LatLng(latitude, longitude);
+      } else {
+        List<String> locationParts = location.split(', ');
+        double latitude = double.parse(locationParts[0]);
+        double longitude = double.parse(locationParts[1]);
+
+        return LatLng(latitude, longitude);
+      }
+    } catch (e) {
+      debugPrint('Error parsing location: $e');
+      return const LatLng(0, 0); // Return default location on error
+    }
+  }
+
+  Future<double> calculateDistance(
+      double destLatitude, double destLongitude) async {
+    Position currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    double distance = Geolocator.distanceBetween(
+      currentPosition.latitude,
+      currentPosition.longitude,
+      destLatitude,
+      destLongitude,
+    );
+    return distance / 1000; // Convert to kilometers
+  }
+
+  void launchCall(String phoneNumber, BuildContext context) async {
+    String url = 'tel:$phoneNumber';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not launch phone dialer'),
+        ),
+      );
+    }
+  }
+
+  void launchEmail(String email, BuildContext context) async {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+
+    if (await canLaunchUrl(emailLaunchUri)) {
+      await launchUrl(emailLaunchUri);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not open email client'),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var latitude;
-    var longitude;
-
-    Future<void> requestLocationPermission() async {
-      var status = await Permission.location.request();
-      if (status.isDenied) {
-        // L'utilisateur a refusé les autorisations
-        // Gérez cette situation selon vos besoins
-        print('User denied location permissions');
-      }
-    }
-
-    Future<LatLng> _parseLocation(String location, String adress) async {
-      //print("adress $adress");
-      print("loc");
-      print("location $location");
-
-      try {
-        await requestLocationPermission();
-
-        if (location.isEmpty) {
-          List<Location> locations = await locationFromAddress(adress);
-          latitude = locations[0].latitude;
-          longitude = locations[0].longitude;
-
-          LatLng position =
-              LatLng(locations[0].latitude, locations[0].longitude);
-          return position; // Default location if empty
-        }
-        List<String> locationParts = location.split(', ');
-        latitude = double.parse(locationParts[0]);
-        longitude = double.parse(locationParts[1]);
-
-        return LatLng(latitude, longitude);
-      } catch (e) {
-        debugPrint('Error parsing location: $e');
-        return const LatLng(0, 0); // Return default location on error
-      }
-    }
-
-    Future<String> calculateDistance() async {
-      Position currentPosition = await Geolocator.getCurrentPosition();
-      double distance = await Geolocator.distanceBetween(
-        currentPosition.latitude,
-        currentPosition.longitude,
-        latitude,
-        longitude,
-      );
-      distance = distance / 1000;
-      return distance.toStringAsFixed(2);
-    }
-
-    calculateDistance();
-
     double heightScr = MediaQuery.of(context).size.height;
 
-    void _launchCall(String phoneNumber) async {
-      String url = 'tel:$phoneNumber';
-      if (await canLaunch(url)) {
-        await launch(url);
-      } else {
-        // Handle exception gracefully, e.g., show a snackbar
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Could not launch $url'),
-          ),
-        );
-      }
-    }
-
-    void _launchEmail(String email) async {
-      final Uri emailLaunchUri = Uri(
-        scheme: 'mailto',
-        path: email,
-      );
-
-      if (await canLaunch(emailLaunchUri.toString())) {
-        await launch(emailLaunchUri.toString());
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Could not Open Mail Box '),
-          ),
-        );
-      }
-    }
-
-    // Use a `FutureBuilder` to handle the asynchronous `_parseLocation` method
     return FutureBuilder<LatLng>(
-      future: _parseLocation(parking.location!, parking.adress!),
+      future: parseLocation(parking.location, parking.adress),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return loadingWidget();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Parking Details'),
+            ),
+            body: Center(
+              child: Text('Error: ${snapshot.error}'),
+            ),
+          );
         } else {
           LatLng parkingLatLng = snapshot.data!;
           return Scaffold(
@@ -140,7 +123,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
               ),
-              title: Text(parking.parkingName!),
+              title: Text(parking.parkingName ?? 'Parking Details'),
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -161,275 +144,121 @@ class ParkingDetailsScreen extends ConsumerWidget {
                             Marker(
                               markerId: const MarkerId('parkingLocation'),
                               position: parkingLatLng,
-                              infoWindow: InfoWindow(title: parking.parkingName),
+                              infoWindow:
+                                  InfoWindow(title: parking.parkingName),
                             ),
                           },
                         ),
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(25.0, 0, 0, 0),
-                      child: Text(
-                        parking.parkingName!,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            fontFamily: "Poppins"),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(25.0, 0, 0, 0),
-                      child: Text(
-                        parking.adress!,
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontFamily: "Poppins",
-                            color: Colors.grey),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(25.0, 0, 0, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          width: 10,
+                        Text(
+                          parking.parkingName ?? 'Unnamed Parking',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              fontFamily: "Poppins"),
                         ),
-                        SizedBox(
-                          height: 35,
-                          child: FutureBuilder<String>(
-                            future: calculateDistance(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const SizedBox(); // Return an empty widget while waiting
-                              } else if (snapshot.hasError) {
-                                return Text(
-                                    'Error: ${snapshot.error}'); // Display error message
-                              } else {
-                                // Handle nullable String by providing a default value ('N/A' in this case)
-                                String distanceText = snapshot.data ?? 'N/A';
-
-                                return OutlinedButton(
-                                  onPressed: () {},
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.white10,
-                                    side: const BorderSide(
-                                      color: Colors.indigo,
-                                      width: 2.0,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.room,
-                                        color: Colors.indigo,
-                                      ),
-                                      Text(
-                                        "$distanceText km",
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.indigo,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          height: 35,
-                          child: OutlinedButton(
-                            onPressed: () {},
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: Colors.white10,
-                              side: const BorderSide(
-                                color: Colors.indigo,
-                                width: 2.0,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            child: const Row(
-                              children: [
-                                Icon(
-                                  Icons.access_time_filled,
-                                  color: Colors.indigo,
-                                ),
-                                Text(
-                                  "24h/24 , 7/7",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.indigo,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          height: 35,
-                          child: OutlinedButton(
-                            onPressed: () {},
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: Colors.white10,
-                              side: const BorderSide(
-                                color: Colors.indigo,
-                                width: 2.0,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.directions_car,
-                                  color: Colors.indigo,
-                                ),
-                                Text(
-                                  '${parking.capacity} vehicule',
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.indigo,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          height: 35,
-                          child: OutlinedButton(
-                            onPressed: () {
-                              _launchCall(parking.phoneContact!);
-                            },
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: Colors.white10,
-                              side: const BorderSide(
-                                color: Colors.indigo,
-                                width: 2.0,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.phone,
-                                  color: Colors.indigo,
-                                ),
-                                Text(
-                                  '${parking.phoneContact}',
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.indigo,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          height: 35,
-                          child: OutlinedButton(
-                            onPressed: () {
-                              _launchEmail(parking.mailContact!);
-                            },
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: Colors.white10,
-                              side: const BorderSide(
-                                color: Colors.indigo,
-                                width: 2.0,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.mail,
-                                  color: Colors.indigo,
-                                ),
-                                Text(
-                                  '${parking.mailContact}',
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.indigo,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        Text(
+                          parking.adress ?? 'No Address Provided',
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontFamily: "Poppins",
+                              color: Colors.grey),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  const SizedBox(height: 10),
+                  FutureBuilder<double>(
+                    future: calculateDistance(
+                        parkingLatLng.latitude, parkingLatLng.longitude),
+                    builder: (context, distanceSnapshot) {
+                      String distanceText = 'Calculating...';
+                      if (distanceSnapshot.connectionState ==
+                          ConnectionState.done) {
+                        if (distanceSnapshot.hasError) {
+                          distanceText = 'Error';
+                        } else {
+                          distanceText =
+                              '${distanceSnapshot.data!.toStringAsFixed(2)} km';
+                        }
+                      }
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 10),
+                            InfoButton(
+                              icon: Icons.room,
+                              text: distanceText,
+                            ),
+                            const SizedBox(width: 10),
+                            InfoButton(
+                              icon: Icons.access_time_filled,
+                              text: "24h/24 , 7/7",
+                            ),
+                            const SizedBox(width: 10),
+                            InfoButton(
+                              icon: Icons.directions_car,
+                              text: '${parking.capacity} vehicles',
+                            ),
+                            const SizedBox(width: 10),
+                            if (parking.phoneContact != null)
+                              GestureDetector(
+                                onTap: () =>
+                                    launchCall(parking.phoneContact!, context),
+                                child: InfoButton(
+                                  icon: Icons.phone,
+                                  text: parking.phoneContact!,
+                                ),
+                              ),
+                            const SizedBox(width: 10),
+                            if (parking.mailContact != null)
+                              GestureDetector(
+                                onTap: () =>
+                                    launchEmail(parking.mailContact!, context),
+                                child: InfoButton(
+                                  icon: Icons.mail,
+                                  text: parking.mailContact!,
+                                ),
+                              ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(25.0, 0, 0, 0),
-                          child: Text(
+                  const SizedBox(height: 20),
+                  if (parking.description != null)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
                             "Description",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                                 fontFamily: "Poppins"),
                           ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(25.0, 0, 0, 0),
-                          child: flutter_html.Html(
-                            data: parking.description,
+                          flutter_html.Html(
+                            data: parking.description!,
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextButton(
                       onPressed: () {
-                        AutoRouter.of(context)
-                            .push(ReservationRoute(idparking: parking.id!,parking:parking));
+                        AutoRouter.of(context).push(ReservationRoute(
+                            idparking: parking.id!, parking: parking));
                       },
                       style: ButtonStyle(
                         backgroundColor:
@@ -443,7 +272,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                         ),
                       ),
                       child: const Text(
-                        "make a reservation",
+                        "Make a Reservation",
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.indigo,
@@ -458,6 +287,50 @@ class ParkingDetailsScreen extends ConsumerWidget {
           );
         }
       },
+    );
+  }
+}
+
+class InfoButton extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  const InfoButton({Key? key, required this.icon, required this.text})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 35,
+      child: OutlinedButton(
+        onPressed: () {},
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.white10,
+          side: const BorderSide(
+            color: Colors.indigo,
+            width: 2.0,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: Colors.indigo,
+            ),
+            const SizedBox(width: 5),
+            Text(
+              text,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Colors.indigo,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -12,6 +12,7 @@ class UserEntity {
   final String city;
   final String country;
   late String token;
+  late String deviceId;
 
   UserEntity(
       {required this.token,
@@ -24,7 +25,8 @@ class UserEntity {
       required this.photo,
       required this.address,
       required this.city,
-      required this.country});
+      required this.country,
+      required this.deviceId});
 
   factory UserEntity.fromJson(Map<String, dynamic> json) {
     return UserEntity(
@@ -39,6 +41,7 @@ class UserEntity {
       password: json['password'],
       city: json['city'],
       country: json['country'],
+      deviceId: json['deviceId'],
     );
   }
 
@@ -55,6 +58,7 @@ class UserEntity {
       'address': address,
       'city': city,
       'country': country,
+      'deviceId': deviceId,
     };
   }
 
@@ -71,6 +75,7 @@ class UserEntity {
       address: userEntity.address,
       city: userEntity.city,
       country: userEntity.country,
+      deviceId: userEntity.deviceId,
     );
   }
 }

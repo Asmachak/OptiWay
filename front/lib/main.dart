@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/observers.dart';
@@ -9,8 +10,10 @@ import 'package:front/features/vehicule/data/data_sources/vehicule_local_data_so
 import 'package:front/features/vehicule/data/models/vehicule_model.dart';
 import 'package:front/routes/app_routes.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:get_it/get_it.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +34,14 @@ void main() async {
   getIt.registerSingleton<VehiculeLocalDataSource>(
       VehiculeLocalDataSource()..initialize());
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  OneSignal.initialize("5d68e5d3-7e31-4a0d-934a-2c9af0f3ce3b");
+  OneSignal.Notifications.requestPermission(true);
+
   runApp(
     ProviderScope(
       observers: [Observers()],
@@ -44,24 +55,6 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Configurer la connexion Socket.IO
-    // Map<String, dynamic> options = {
-    //   'transports': ['websocket'],
-    //   'autoConnect': false,
-    // };
-
-    // IO.Socket socket = IO.io("http://10.0.2.2:8000",
-    //     options); // Assurez-vous que le port est correct
-    // socket.connect();
-    // socket.onConnect((_) {
-    //   print("socket connected");
-    //   socket.emit("msg", {"msg": "hello world"});
-    // });
-    // socket.on("res", (data) => print(data));
-
-    // socket.on("event", (data) => print(data));
-    // socket.onDisconnect((_) => print("disconnected"));
-
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerDelegate: AutoRouterDelegate(

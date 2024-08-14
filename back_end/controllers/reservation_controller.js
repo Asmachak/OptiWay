@@ -200,6 +200,7 @@ async function extendReservation(req, res) {
 }
 
 async function changeReservationState() {
+  
   try {
     // Define the current date
     const today = new Date();
@@ -287,6 +288,6 @@ async function changeReservationState() {
   }
   
 // Run the function every second
-//setInterval(changeReservationState, 1000);
+setInterval(changeReservationState, 60000);
 
 module.exports = {handleAddReservation,getReservation,extendReservation,deleteReservation}

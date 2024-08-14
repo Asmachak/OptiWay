@@ -24,6 +24,7 @@ const Rate = require('./models/rate');
 const { importData } = require('./controllers/car_controller');
 const { insertDataFromJsonToDb } = require('./controllers/event_controller');
 const { exec } = require('child_process');
+const {scheduleReservationNotifications} = require('./controllers/notification_controller');
 
 /****************************************End-Declarations****************************************/ 
 
@@ -59,17 +60,24 @@ app.use(require('./routes/event_routes'));
 app.use(require('./routes/vehicule_routes')); 
 app.use(require('./routes/rate_routes')); 
 app.use(require('./routes/paiement_routes')); 
+app.use(require('./routes/notification_routes')); 
+
+
 
 /****************************************End-Routes****************************************/ 
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: '*',
-  },
-});
+const { initializeSocket } = require('./middleware/socketio_middleware');
 
-chatController(io);
-notificationController(io);
+const server = http.createServer(app);
+
+// Initialize Socket.io with middleware
+const io = initializeSocket(server);
+
+// Start the cron job for notifications
+scheduleReservationNotifications(io);
+
+// Express middleware setup (e.g., for parsing JSON)
+app.use(express.json());
+
 
 //importData();
 //insertDataFromJsonToDb();

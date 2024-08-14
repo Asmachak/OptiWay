@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "198205233971",
+    "project_id": "optiway-bf8ee",
+    "storage_bucket": "optiway-bf8ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198205233971:android:449ec8e2ef1f04212dbc46",
+        "android_client_info": {
+          "package_name": "com.OptiWay.Testing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUm9GrGCdYyXiQC0dI6FPO0d9OXcXpD00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198205233971:android:dbb2835c8f6f07272dbc46",
+        "android_client_info": {
+          "package_name": "com.example.front"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUm9GrGCdYyXiQC0dI6FPO0d9OXcXpD00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

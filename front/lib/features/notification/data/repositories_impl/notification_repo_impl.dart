@@ -1,16 +1,21 @@
+import 'package:front/core/infrastructure/either.dart';
+import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/features/notification/data/data_sources/notification_remote_data_src.dart';
 import 'package:front/features/notification/data/models/notification_model.dart';
 import 'package:front/features/notification/domain/repositories/notification_repo.dart';
 
 class NotificationRepositoryImpl implements NotificationRepository {
-  final NotificationRemoteDataSource remoteDataSource;
+  final NotificationDataSource remoteDataSource;
+  // final AuthLocalDataSource localDataSource;
 
-  NotificationRepositoryImpl({
-    required this.remoteDataSource,
-  });
+  NotificationRepositoryImpl(
+    this.remoteDataSource,
+  );
 
   @override
-  Future<void> sendNotification(NotificationModel notification) async {
-    await remoteDataSource.sendNotification(notification);
+  Future<Either<AppException, List<NotificationModel>>> getNotifications({
+    required String iduser,
+  }) {
+    return remoteDataSource.getNotifications(userid: iduser);
   }
 }

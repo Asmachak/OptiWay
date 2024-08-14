@@ -8,7 +8,6 @@ abstract class EventDataSource {
       {required Map<String, dynamic> body,
       required String userid,
       required String resid});
-
 }
 
 class RateRemoteDataSource implements EventDataSource {
@@ -41,11 +40,9 @@ class RateRemoteDataSource implements EventDataSource {
           e.toString(),
           message: e.toString(),
           statusCode: 1,
-          identifier: '${e.toString()}\nRateRateRemoteDataSource.GiveRate',
+          identifier: '${e.toString()}\nEventRemoteDataSource.GiveRate',
         ),
       );
     }
   }
-
-
 }

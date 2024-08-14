@@ -38,6 +38,9 @@ class UserModel {
   @HiveField(10)
   final String? country;
 
+  @HiveField(11)
+  final String? deviceId;
+
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
@@ -51,6 +54,7 @@ class UserModel {
       password: json['password'],
       city: json['city'],
       country: json['country'],
+      deviceId: json['deviceId'],
     );
   }
 
@@ -65,7 +69,8 @@ class UserModel {
       this.lastName,
       this.address,
       this.city,
-      this.country});
+      this.country,
+      this.deviceId});
 
   Map<String, dynamic> toJson() {
     return {
@@ -80,23 +85,26 @@ class UserModel {
       'address': address,
       'city': city,
       'country': country,
+      'deviceId': deviceId,
     };
   }
 }
 
 UserEntity userModelToEntity(UserModel userModel) {
   return UserEntity(
-      id: userModel.id!,
-      name: userModel.name!,
-      email: userModel.email!,
-      lastName: userModel.lastName!,
-      phone: userModel.phone!,
-      photo: userModel.photo!,
-      password: userModel.password!,
-      address: userModel.address!,
-      token: userModel.token!,
-      city: userModel.city!,
-      country: userModel.country!);
+    id: userModel.id!,
+    name: userModel.name!,
+    email: userModel.email!,
+    lastName: userModel.lastName!,
+    phone: userModel.phone!,
+    photo: userModel.photo!,
+    password: userModel.password!,
+    address: userModel.address!,
+    token: userModel.token!,
+    city: userModel.city!,
+    country: userModel.country!,
+    deviceId: userModel.deviceId!,
+  );
 }
 
 UserModel userEntityToModel(UserEntity userEntity) {
@@ -112,5 +120,6 @@ UserModel userEntityToModel(UserEntity userEntity) {
     address: userEntity.address,
     city: userEntity.city,
     country: userEntity.country,
+    deviceId: userEntity.deviceId,
   );
 }

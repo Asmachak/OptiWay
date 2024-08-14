@@ -1,23 +1,50 @@
+import 'package:front/core/infrastructure/either.dart';
+import 'package:front/core/infrastructure/exceptions/http_exception.dart';
+import 'package:front/core/infrastructure/network_service.dart';
 import 'package:front/features/notification/data/models/notification_model.dart';
-import 'package:socket_io_client/socket_io_client.dart';
+import 'package:front/features/rate/data/models/rate_model.dart';
 
-abstract class NotificationRemoteDataSource {
-  Future<void> sendNotification(NotificationModel notification);
+abstract class NotificationDataSource {
+  Future<Either<AppException, List<NotificationModel>>> getNotifications({
+    required String userid,
+  });
 }
 
-class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
-  final Socket socket;
+class NotificationRemoteDataSource implements NotificationDataSource {
+  final NetworkService networkService;
 
-  NotificationRemoteDataSourceImpl(this.socket);
+  NotificationRemoteDataSource(this.networkService);
 
   @override
-  Future<void> sendNotification(NotificationModel notification) async {
-    socket.emit('notification', {
-      'title': notification.title,
-      'message': notification.description,
-      'time': notification.createdAt,
-    });
+  Future<Either<AppException, List<NotificationModel>>> getNotifications({
+    required String userid,
+  }) async {
+    try {
+      final eitherType = await networkService.get(
+        '/notification/$userid',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          List<NotificationModel> notifications = [];
+          if (response.data != null) {
+            notifications = List<NotificationModel>.from(
+                response.data.map((x) => NotificationModel.fromJson(x)));
+          }
+          return Right(notifications);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nnotificationRemoteDataSource.GiveRate',
+        ),
+      );
+    }
   }
 }
-
-

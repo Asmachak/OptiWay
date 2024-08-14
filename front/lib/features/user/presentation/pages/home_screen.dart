@@ -202,7 +202,7 @@ class _homeScreenState extends ConsumerState<homeScreen> {
                           color: Colors.indigo,
                           iconSize: 30,
                           onPressed: () {
-                            // Handle notification icon press
+                            AutoRouter.of(context).push(NotificationRoute());
                           },
                         ),
                         IconButton(

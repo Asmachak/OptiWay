@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:front/features/parking/data/models/parking_model.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/widgets/seperator.dart';
-import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/routes/app_routes.gr.dart';
-import 'package:get_it/get_it.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 DateTime? startDateTime;
@@ -51,7 +47,7 @@ class ReservationScreen extends ConsumerStatefulWidget {
 }
 
 class _ReservationScreenState extends ConsumerState<ReservationScreen> {
-  var price = 50.0;
+  var price = 5.0;
 
   @override
   Widget build(BuildContext context) {
@@ -356,7 +352,7 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                     child: Row(
                       children: [
                         Text(
-                          '${(duration.inHours.remainder(24)) * price}Euro/',
+                          '${((duration!.inMinutes * (price / 60))).toInt()}Euro/',
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -390,8 +386,7 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                             startDateTime?.toIso8601String();
                         jsonData['EndedAt'] = endDateTime?.toIso8601String();
                         jsonData['tarif'] =
-                            ((duration!.inHours.remainder(24)) * price)
-                                .toDouble();
+                            ((duration!.inMinutes * (price / 60))).toInt();
                         json['idparking'] = widget.idparking;
                         json['parking'] = widget.parking;
 

@@ -12,47 +12,67 @@ module.exports = function authMiddleware() {
       console.log("formData", formData);
 
       if (!token) {
+        // User is not authenticated, check the credentials
         const existingUser = await User.findOne({
-          where: {
-            email: formData.email
-          }
+          where: { email: formData.email }
         });
 
-        if (existingUser) {
-          bcrypt.compare(formData.password, existingUser.password, (err, result) => {
-            if (err) {
-              console.log("error");
-              return res.status(400).json({ msg: "Error verifying password" });
-            }
-            if (result) {
-              console.log("password match");
-              const newToken = generateToken(existingUser.toJSON());
-              return res.status(200).json({ token: newToken, id : existingUser.id , email : existingUser.email , name : existingUser.name , last_name : existingUser.last_name , phone : existingUser.phone , photo : existingUser.photo , password : existingUser.password , address : existingUser.address,city : existingUser.city,country : existingUser.country});
-            } else {
-              console.log("password don't match");
-              return res.status(400).json({ msg: "Verifier vos données" });
-            }
-          });
-        } else {
-          console.log("user does not exist");
+        if (!existingUser) {
+          console.log("User does not exist");
           return res.status(400).json({ msg: "User does not exist" });
         }
+
+        const passwordMatch = await bcrypt.compare(formData.password, existingUser.password);
+        if (!passwordMatch) {
+          console.log("Password doesn't match");
+          return res.status(400).json({ msg: "Verifier vos données" });
+        }
+
+        console.log("Password match");
+
+        // Update the user's deviceId
+        await existingUser.update({ deviceId: formData.playerId });
+
+        // Generate a new token
+        const newToken = generateToken(existingUser.toJSON());
+
+        // Respond with the user's details and the new token
+        const { id, email, name, last_name, phone, photo, address, city, country ,password} = existingUser;
+        return res.status(200).json({
+          token: newToken,
+          id,
+          email,
+          name,
+          last_name,
+          phone,
+          photo,
+          address,
+          city,
+          country,
+          password,
+          deviceId: existingUser.deviceId
+        });
+
       } else {
-        const jwtSecret = 'my secret jwt';
+        // User is authenticated, verify the token
+        const jwtSecret = process.env.JWT_SECRET || 'my secret jwt'; // Use environment variable
         const decoded = jwt.verify(token, jwtSecret);
 
         if (!decoded) {
           return res.status(400).json({ msg: "Invalid token" });
         }
+
+        req.user = decoded; // Attach decoded token data to the request object
         next();
       }
     } catch (error) {
+      console.error('Authentication error:', error);
       if (error.name === 'JsonWebTokenError') {
-        return res.status(400).json({ msg: 'Invalid Token:' + error.message });
+        return res.status(400).json({ msg: 'Invalid Token: ' + error.message });
       } else if (error.name === 'TokenExpiredError') {
-        return res.status(400).json({ msg: 'Token has expired:' + error.message });
+        return res.status(400).json({ msg: 'Token has expired: ' + error.message });
       } else {
-        return res.status(400).json({ msg: 'Token verification failed:' + error.message });
+        return res.status(500).json({ msg: 'Token verification failed: ' + error.message });
       }
     }
   };
