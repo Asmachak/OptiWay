@@ -26,8 +26,9 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
         title: const Text('Movie Details'),
         leading: IconButton(
           onPressed: () {
+            resetReservationProviders(ref);
+
             Navigator.of(context).pop();
-            ref.read(reservationEventDataProvider.notifier).state = {};
           },
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
@@ -245,31 +246,46 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: widget.movie.parkings.length,
                   itemBuilder: (context, index) {
-                    final parking = widget.movie.parkings[index];
-                    return GestureDetector(
-                      onTap: () {
-                        // Handle onTap action here
-                        print('Parking $index tapped');
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200], // Grey background
-                            border: Border.all(
-                                color:
-                                    Colors.transparent), // Transparent border
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: Center(
-                            child: Text(
-                              parking,
-                              style: const TextStyle(fontSize: 16.0),
+                    final cinema = widget.movie.cinemas[index];
+                    final List parkings = cinema['parkings'];
+                    bool containsDesiredParking = true;
+
+                    // Vérification si le parking existe dans la liste des parkings
+                    if (json["parking"] != "" && json["parking"] != null) {
+                      containsDesiredParking =
+                          parkings.any((parking) => parking == json["parking"]);
+                    }
+
+                    if (containsDesiredParking) {
+                      return GestureDetector(
+                        onTap: () {
+                          print('movie $index tapped');
+                          AutoRouter.of(context).push(MovieDetailCinemaRoute(
+                              cinema: cinema['name'], movie: widget.movie));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200], // Grey background
+                              border: Border.all(
+                                  color:
+                                      Colors.transparent), // Transparent border
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                cinema["name"],
+                                style: const TextStyle(fontSize: 16.0),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      // Return an empty widget if the parking is not desired
+                      return SizedBox.shrink();
+                    }
                   },
                 ),
               ),
@@ -314,7 +330,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                   final List parkings = cinema['parkings'];
                   bool containsDesiredParking = true;
                   // Vérification si le parking existe dans la liste des parkings
-                  if (json["parking"] != null) {
+                  if (json["parking"] != "") {
                     containsDesiredParking = parkings
                         .any((parking) => parking[0] == json["parking"]);
                   }

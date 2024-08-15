@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:front/features/reservation/presentation/blocs/state/reservationEvent/reservationEvent_state.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/widgets/timinigs_list.dart';
@@ -99,7 +100,7 @@ class _MovieDetailCinemaScreenState
   void _createParkingMarkers() {
     final List<LatLng> allParkingLatLngs = [];
 
-    if (json["parking"] == null && jsonData["idparking"] == "") {
+    if (json["parking"] == "" && jsonData["idparking"] == "") {
       for (var parking in parkings!) {
         _addParkingMarker(parking, allParkingLatLngs);
       }
@@ -205,7 +206,8 @@ class _MovieDetailCinemaScreenState
                       selectedTimingIndices: selectedTimingIndices,
                     ),
                   _buildTicketsSelection(),
-                  if (jsonData["idparking"] == "" && json["idevent"] != "") ...[
+                  if (jsonData["idparking"] == "" &&
+                      json["idevent"] != null) ...[
                     _buildSelectCarButton(context),
                   ] else ...[
                     _buildPaymentButton(context, paiementState),
@@ -392,7 +394,7 @@ class _MovieDetailCinemaScreenState
         ),
         Center(
           child: stepper.CartStepperInt(
-            initialValue: 1,
+            initialValue: 0,
             minValue: 0,
             maxValue: 50,
             onChanged: (value) {
@@ -536,12 +538,8 @@ class _MovieDetailCinemaScreenState
         SnackBar(content: Text('Payment Successful')),
       );
       final lastjson;
-      print("Updated jsonData: $json");
-      print(jsonData["idparking"] == "" && json["parking"] != null);
-      print(jsonData["idparking"] == "");
-      print(json["parking"] != null);
 
-      if (jsonData["idparking"] == "" && json["parking"] != null) {
+      if (jsonData["idparking"] == "null" && json["parking"] != "null") {
         lastjson = json;
         //print(lastjson);
       } else {
@@ -567,10 +565,11 @@ class _MovieDetailCinemaScreenState
             lastjson["idevent"],
           );
 
-      ref.read(reservationParkingDataProvider.notifier).state = {};
-      ref.read(reservationEventDataProvider.notifier).state = {};
+      if (ref.watch(reservationEventNotifierProvider) is Success) {
+        resetReservationProviders(ref);
 
-      AutoRouter.of(context).replace(ReservationListRoute());
+        AutoRouter.of(context).replace(ReservationListRoute());
+      }
     } catch (e) {
       print("Error presenting payment sheet: $e");
       if (e is StripeException) {

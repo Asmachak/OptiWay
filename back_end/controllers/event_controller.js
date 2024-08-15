@@ -46,7 +46,7 @@ async function insertDataFromJsonToDb() {
       if (!existingEvent) {
         // Create a new event record
         await Event.create({
-          id: eventData.id || uuidv4(),
+          id: eventData.id ,
           title: eventData.title,
           createdAt : eventData.createdAt,
           description: eventData.description || " ",

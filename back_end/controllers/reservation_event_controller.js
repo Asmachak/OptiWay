@@ -33,6 +33,7 @@ async function handleAddReservationEvent(req, res) {
 
       event = await Event.findByPk(params.idevent);
 
+      console.log("event ",event);
       if (!event) {
           return res.status(404).send("Event not found");
       }

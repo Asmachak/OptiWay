@@ -169,14 +169,18 @@ class _EventListState extends ConsumerState<EventList> {
                     .toLowerCase()
                     .contains(searchQuery.toLowerCase());
 
-                final matchesParking = movie.parkings.any((parking) {
-                  return parking[0].contains(parkingProv);
-                });
+                // Assuming `movie.parkings` is a list of parking names
+                final matchesParking = parkingProv.isEmpty ||
+                    movie.parkings.any((parking) {
+                      return parking.contains(parkingProv);
+                    });
+
                 final matchesRating =
                     rating.isEmpty || movie.rating.toString() == rating;
 
                 return matchesTitle && matchesParking && matchesRating;
               }).toList();
+
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {

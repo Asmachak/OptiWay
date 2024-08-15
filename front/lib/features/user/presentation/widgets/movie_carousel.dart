@@ -1,18 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
+import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
-class MovieCarousel extends StatelessWidget {
+class MovieCarousel extends ConsumerWidget {
   final List<MovieModel> moviesList;
-  final dynamic json;
 
-  const MovieCarousel({Key? key, required this.moviesList, required this.json})
-      : super(key: key);
+  const MovieCarousel({Key? key, required this.moviesList}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final json = ref.read(reservationEventDataProvider);
     return CarouselSlider(
       options: CarouselOptions(
         height: 200.0,
@@ -30,6 +31,7 @@ class MovieCarousel extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 json["idevent"] = movie.id;
+                print(json);
                 AutoRouter.of(context).push(MovieDetailRoute(movie: movie));
               },
               child: Container(

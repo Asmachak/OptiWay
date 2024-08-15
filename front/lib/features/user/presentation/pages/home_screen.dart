@@ -317,7 +317,7 @@ class _homeScreenState extends ConsumerState<homeScreen> {
                 initial: () => const Center(child: Text("Initializing...")),
                 loading: () => const Center(child: CircularProgressIndicator()),
                 loaded: (moviesList) {
-                  return MovieCarousel(moviesList: moviesList, json: json);
+                  return MovieCarousel(moviesList: moviesList);
                 },
                 failure: (error) =>
                     Center(child: Text("Error: ${error.message}")),
