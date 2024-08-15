@@ -7,7 +7,6 @@ import 'package:front/features/event/presentation/widgets/movie_widget.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/blocs/reservation_providers.dart';
 import 'package:front/features/reservation/presentation/blocs/state/reservation/reservation_notifier.dart';
-import 'package:front/features/reservation/presentation/blocs/state/reservation/reservation_state.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:lottie/lottie.dart';
 
@@ -29,16 +28,17 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
   @override
   void initState() {
     super.initState();
-    reservationNotifier = ref.read(reservationNotifierProvider.notifier);
-    eventNotifier = ref.read(MovieNotifierProvider.notifier);
-    json = ref.read(jsonDataProvider);
-
+    // Defer the initialization of providers to after the first build
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      reservationNotifier = ref.read(reservationNotifierProvider.notifier);
+      eventNotifier = ref.read(MovieNotifierProvider.notifier);
+      json = ref.read(reservationParkingDataProvider);
+
       if (json != null && json["parking"] != null) {
-        print(json["parking"].parkingName);
+        print("Parking Name: ${json["parking"]}");
         ref
             .read(loadingMovieNotifierProvider.notifier)
-            .getEventsByParking(json["parking"].parkingName);
+            .getEventsByParking(json["parking"]);
       } else {
         print("json or json['parking'] is null");
       }
@@ -47,7 +47,6 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final reservationState = ref.watch(reservationNotifierProvider);
     final loadingState = ref.watch(loadingMovieNotifierProvider);
     final searchQuery = ref.watch(searchQueryProvider);
 
@@ -67,39 +66,6 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TextButton(
-                  onPressed: () async {
-                    print("json $json");
-                    await reservationNotifier.addReservation(json);
-                    print("terminated");
-
-                    if (reservationState is Success)
-                      AutoRouter.of(context).replace(ReservationListRoute());
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.indigo[50]),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        side: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                  child: const Text(
-                    "Next",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.indigo,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-              ],
-            ),
             Expanded(
               child: CustomScrollView(
                 slivers: [
@@ -120,6 +86,9 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
                           return MovieWidget(
                               movie: movie,
                               onPress: () {
+                                json["idevent"] = movie.id;
+                                print(
+                                    "Updated JSON: $json"); // Ensure this is printed
                                 AutoRouter.of(context)
                                     .push(MovieDetailRoute(movie: movie));
                               });
@@ -132,7 +101,6 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
                         final matchesTitle = movie.title
                             .toLowerCase()
                             .contains(searchQuery.toLowerCase());
-
                         return matchesTitle;
                       }).toList();
 
@@ -166,6 +134,9 @@ class _RelatedEventScreenState extends ConsumerState<RelatedEventScreen> {
                             return MovieWidget(
                               movie: movie,
                               onPress: () {
+                                json["idevent"] = movie.id;
+                                print(
+                                    "Updated JSON: $json"); // Ensure this is printed
                                 AutoRouter.of(context)
                                     .push(MovieDetailRoute(movie: movie));
                               },

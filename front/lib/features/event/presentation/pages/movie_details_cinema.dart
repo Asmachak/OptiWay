@@ -1,11 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:front/core/conts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/widgets/timinigs_list.dart';
 import 'package:front/features/paiement/presentation/blocs/paiement_provider.dart';
@@ -44,11 +41,14 @@ class _MovieDetailCinemaScreenState
   int? globalSelectedTimingIndex;
   Map<String, int> selectedTimingIndices = {};
   late dynamic json;
+  late dynamic jsonData;
 
   @override
   void initState() {
     super.initState();
     json = ref.read(reservationEventDataProvider);
+    jsonData = ref.read(reservationParkingDataProvider);
+
     cinemaLatLngFuture = _initializeCinemaLatLng();
   }
 
@@ -99,13 +99,13 @@ class _MovieDetailCinemaScreenState
   void _createParkingMarkers() {
     final List<LatLng> allParkingLatLngs = [];
 
-    if (json["parking"] == null) {
+    if (json["parking"] == null && jsonData["idparking"] == "") {
       for (var parking in parkings!) {
         _addParkingMarker(parking, allParkingLatLngs);
       }
     } else {
       for (var parking in parkings!) {
-        if (parking[0] == json["parking"].parkingName) {
+        if (parking[0] == jsonData["parking"]) {
           _addParkingMarker(parking, allParkingLatLngs);
           break;
         }
@@ -163,7 +163,7 @@ class _MovieDetailCinemaScreenState
   @override
   Widget build(BuildContext context) {
     double heightScr = MediaQuery.of(context).size.height;
-    final json = ref.read(reservationParkingDataProvider);
+
     final paiementState = ref.watch(paiementNotifierProvider);
 
     return Scaffold(
@@ -191,7 +191,8 @@ class _MovieDetailCinemaScreenState
               child: Column(
                 children: [
                   _buildGoogleMap(heightScr, cinemaLatLng),
-                  if (json["idparking"] == null || json["idparking"] == "") ...[
+                  if (jsonData["idparking"] == "" &&
+                      json["idparking"] == "") ...[
                     _buildParkingSelection(),
                   ],
                   _buildEventTimeSelection(),
@@ -204,7 +205,7 @@ class _MovieDetailCinemaScreenState
                       selectedTimingIndices: selectedTimingIndices,
                     ),
                   _buildTicketsSelection(),
-                  if (json["idparking"] == null || json["idparking"] == "") ...[
+                  if (jsonData["idparking"] == "" && json["idevent"] != "") ...[
                     _buildSelectCarButton(context),
                   ] else ...[
                     _buildPaymentButton(context, paiementState),
@@ -292,7 +293,7 @@ class _MovieDetailCinemaScreenState
                     selectedParkingIndex = index;
                   });
                   print('Parking $parkingName tapped');
-                  json["parking"] = parking;
+                  json["parking"] = parkingName;
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
@@ -346,7 +347,6 @@ class _MovieDetailCinemaScreenState
 
               return GestureDetector(
                 onTap: () {
-                  print(json["parking"].parkingName);
                   setState(() {
                     globalSelectedTimingIndex = index;
                     print(
@@ -393,10 +393,16 @@ class _MovieDetailCinemaScreenState
         Center(
           child: stepper.CartStepperInt(
             initialValue: 1,
-            minValue: 1,
-            maxValue: 10,
+            minValue: 0,
+            maxValue: 50,
             onChanged: (value) {
-              json["Nbreticket"] = value;
+              if (jsonData['idparking'] == "") {
+                json["Nbreticket"] = value;
+                print("json from tik $json");
+              } else {
+                jsonData["Nbreticket"] = value;
+                print("jsonData from tik $jsonData");
+              }
             },
           ),
         ),
@@ -444,9 +450,22 @@ class _MovieDetailCinemaScreenState
       child: TextButton(
         onPressed: () async {
           print("Go to Payment");
+          final numberOfTickets;
+          // Ensure json["Nbreticket"] is not null before performing multiplication
+          if (jsonData["idparking"] == "") {
+            numberOfTickets = json["Nbreticket"];
+          } else {
+            numberOfTickets = jsonData["Nbreticket"];
+          }
+          if (numberOfTickets == 0) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please select the number of tickets')),
+            );
+            return;
+          }
 
           ref.read(paiementNotifierProvider.notifier).initPaymentSheet(
-              {"amount": json["Nbreticket"] * 20, "currency": "eur"});
+              {"amount": numberOfTickets * 20, "currency": "eur"});
 
           paiementState.when(
             initial: () {
@@ -516,17 +535,40 @@ class _MovieDetailCinemaScreenState
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Payment Successful')),
       );
-
+      final lastjson;
       print("Updated jsonData: $json");
+      print(jsonData["idparking"] == "" && json["parking"] != null);
+      print(jsonData["idparking"] == "");
+      print(json["parking"] != null);
+
+      if (jsonData["idparking"] == "" && json["parking"] != null) {
+        lastjson = json;
+        //print(lastjson);
+      } else {
+        lastjson = jsonData;
+        //print(lastjson);
+      }
+
+      lastjson["iduser"] =
+          GetIt.instance.get<AuthLocalDataSource>().currentUser?.id;
+      print(lastjson);
+      print(lastjson["iduser"]);
+
+      print(lastjson["idvehicule"]);
+
+      print(lastjson["idevent"]);
 
       await ref
           .read(reservationEventNotifierProvider.notifier)
           .addReservationEvent(
-            json,
-            json["iduser"],
-            json["idvehicule"],
-            json["idevent"],
+            lastjson,
+            lastjson["iduser"],
+            lastjson["idvehicule"],
+            lastjson["idevent"],
           );
+
+      ref.read(reservationParkingDataProvider.notifier).state = {};
+      ref.read(reservationEventDataProvider.notifier).state = {};
 
       AutoRouter.of(context).replace(ReservationListRoute());
     } catch (e) {

@@ -12,73 +12,73 @@ const Event = require("../models/event");
 
 
 
-async function handleAddReservation(req, res) {
-  try {
-    const formData = req.body;
-    const idReserv = generateID();
-    console.log(formData);
+// async function handleAddReservation(req, res) {
+//   try {
+//     const formData = req.body;
+//     const idReserv = generateID();
+//     console.log(formData);
 
-    let capacityCheck = true;
-    let parking;
-    let event;
+//     let capacityCheck = true;
+//     let parking;
+//     let event;
 
-    if (formData.idparking != null) {
-      parking = await Parking.findByPk(formData.idparking);
-      if (!parking) {
-        return res.status(404).send("Parking not found");
-      }
-      capacityCheck = parking.capacity > 0;
+//     if (formData.idparking != null) {
+//       parking = await Parking.findByPk(formData.idparking);
+//       if (!parking) {
+//         return res.status(404).send("Parking not found");
+//       }
+//       capacityCheck = parking.capacity > 0;
       
-      let reservations = await Reservation.findAll({ 
-        where: {
-          idvehicule: formData.idvehicule,
-          state: ["in progress", "extended"]
-        }
-      });
+//       let reservations = await Reservation.findAll({ 
+//         where: {
+//           idvehicule: formData.idvehicule,
+//           state: ["in progress", "extended"]
+//         }
+//       });
 
-      if (reservations.length > 0) {
-        return res.status(400).send("The car is already taken!");
-      }
-    }
+//       if (reservations.length > 0) {
+//         return res.status(400).send("The car is already taken!");
+//       }
+//     }
 
-    if (formData.idevent != null) {
-      event = await Event.findByPk(formData.idevent);
-      if (!event) {
-        return res.status(404).send("Event not found");
-      }
-      capacityCheck = capacityCheck && event.capacity > 0;
-    }
+//     if (formData.idevent != null) {
+//       event = await Event.findByPk(formData.idevent);
+//       if (!event) {
+//         return res.status(404).send("Event not found");
+//       }
+//       capacityCheck = capacityCheck && event.capacity > 0;
+//     }
 
-    if (!capacityCheck) {
-      return res.status(400).send("Parking or event is full");
-    }
+//     if (!capacityCheck) {
+//       return res.status(400).send("Parking or event is full");
+//     }
 
-    if (parking) {
-      await parking.update({ capacity: parking.capacity - 1 });
-    }
+//     if (parking) {
+//       await parking.update({ capacity: parking.capacity - 1 });
+//     }
 
-    if (event) {
-      await event.update({ capacity: event.capacity - 1 });
-    }
+//     if (event) {
+//       await event.update({ capacity: event.capacity - 1 });
+//     }
 
-    const reservation = await Reservation.create({
-      id: idReserv,
-      CreatedAt: new Date(),
-      EndedAt: formData.EndedAt,
-      state: "in progress",
-      iduser: formData.iduser,
-      idResEvent: formData.idResEvent,
-      idResParking: formData.idResParking,
-      amount: formData.amount,
+//     const reservation = await Reservation.create({
+//       id: idReserv,
+//       CreatedAt: new Date(),
+//       EndedAt: formData.EndedAt,
+//       state: "in progress",
+//       iduser: formData.iduser,
+//       idResEvent: formData.idResEvent,
+//       idResParking: formData.idResParking,
+//       amount: formData.amount,
 
-    });
+//     });
 
-    return res.status(200).json(reservation);
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("Error occurred when handling add reservation");
-  }
-}
+//     return res.status(200).json(reservation);
+//   } catch (error) {
+//     console.error("Error:", error);
+//     res.status(500).send("Error occurred when handling add reservation");
+//   }
+// }
 
 async function getReservation(req, res) {
   try {
@@ -289,5 +289,4 @@ async function changeReservationState() {
   
 // Run the function every second
 setInterval(changeReservationState, 60000);
-
-module.exports = {handleAddReservation,getReservation,extendReservation,deleteReservation}
+module.exports = {getReservation,extendReservation,deleteReservation}

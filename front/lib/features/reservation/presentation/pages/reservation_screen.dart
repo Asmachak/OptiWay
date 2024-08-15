@@ -1,6 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:front/features/parking/data/models/parking_model.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/widgets/seperator.dart';
@@ -77,17 +77,15 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
         initialTime: TimeOfDay.now(),
       );
 
-      final selectedStartTime = ref.read(selectedStartTimeProvider);
-
       if (pickedTime != null) {
         ref.read(selectedEndTimeProvider.notifier).state = pickedTime;
 
-        if (selectedStartTime != null) {
-          final startDateTime = convertToDateTime(selectedStartTime);
-          print("start $startDateTime");
-          final endDateTime = convertToDateTime(pickedTime);
-          print("end $endDateTime");
+        final startDateTime = selectedStartTime != null
+            ? convertToDateTime(selectedStartTime)
+            : null;
 
+        if (startDateTime != null) {
+          final endDateTime = convertToDateTime(pickedTime);
           if (endDateTime.isBefore(startDateTime)) {
             // Show error message dialog
             showDialog(
@@ -106,13 +104,11 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                   actions: [
                     TextButton(
                       onPressed: () {
-                        // Handle picking another time
-                        Navigator.of(context).pop(); // Close the dialog
+                        Navigator.of(context).pop();
                         ref.read(selectedEndTimeProvider.notifier).state = null;
                       },
                       style: TextButton.styleFrom(
-                        side: const BorderSide(
-                            color: Colors.white), // Border color
+                        side: const BorderSide(color: Colors.white),
                       ),
                       child: const Text(
                         'Pick another time',
@@ -130,6 +126,10 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
 
     final firstDay = DateTime.now();
     final lastDay = firstDay.add(const Duration(days: 30));
+    final validFocusedDay =
+        selectedDate != null && selectedDate.isAfter(firstDay)
+            ? selectedDate
+            : firstDay;
 
     return Scaffold(
       appBar: AppBar(
@@ -156,9 +156,8 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
               padding: const EdgeInsets.all(20.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[200], // Couleur de fond du calendrier
-                  borderRadius: BorderRadius.circular(
-                      16.0), // Border radius du calendrier
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(16.0),
                 ),
                 child: TableCalendar(
                   locale: "en_US",
@@ -174,7 +173,7 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                   availableGestures: AvailableGestures.all,
                   selectedDayPredicate: (day) => isSameDay(day, selectedDate),
                   firstDay: firstDay,
-                  focusedDay: selectedDate ?? DateTime.now(),
+                  focusedDay: validFocusedDay,
                   lastDay: lastDay,
                   onDaySelected: _onDaySelected,
                 ),
@@ -203,11 +202,9 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                         onPressed: () => _selectStartTime(context, ref),
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(8), // Bord arrondi
+                            borderRadius: BorderRadius.circular(8),
                             side: const BorderSide(
-                                color: Color.fromARGB(
-                                    255, 130, 130, 130)), // Bordure noire
+                                color: Color.fromARGB(255, 130, 130, 130)),
                           ),
                         ),
                         child: Padding(
@@ -217,18 +214,14 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Icon(Icons.access_time,
-                                  color: Color.fromARGB(255, 107, 106,
-                                      106)), // Icône à côté du texte
-                              const SizedBox(
-                                  width:
-                                      8), // Espacement entre l'icône et le texte
+                                  color: Color.fromARGB(255, 107, 106, 106)),
+                              const SizedBox(width: 8),
                               Text(
                                 selectedStartTime != null
                                     ? selectedStartTime.format(context)
                                     : "Start time",
                                 style: const TextStyle(
-                                  color: Color.fromARGB(
-                                      255, 82, 82, 82), // Couleur du texte
+                                  color: Color.fromARGB(255, 82, 82, 82),
                                   fontSize: 16,
                                 ),
                               ),
@@ -253,11 +246,9 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                         onPressed: () => _selectEndTime(context, ref),
                         style: TextButton.styleFrom(
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(8), // Bord arrondi
+                            borderRadius: BorderRadius.circular(8),
                             side: const BorderSide(
-                                color: Color.fromARGB(
-                                    255, 130, 130, 130)), // Bordure noire
+                                color: Color.fromARGB(255, 130, 130, 130)),
                           ),
                         ),
                         child: Padding(
@@ -267,18 +258,14 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Icon(Icons.access_time,
-                                  color: Color.fromARGB(255, 107, 106,
-                                      106)), // Icône à côté du texte
-                              const SizedBox(
-                                  width:
-                                      8), // Espacement entre l'icône et le texte
+                                  color: Color.fromARGB(255, 107, 106, 106)),
+                              const SizedBox(width: 8),
                               Text(
                                 selectedEndTime != null
                                     ? selectedEndTime.format(context)
                                     : "End time",
                                 style: const TextStyle(
-                                  color: Color.fromARGB(
-                                      255, 82, 82, 82), // Couleur du texte
+                                  color: Color.fromARGB(255, 82, 82, 82),
                                   fontSize: 16,
                                 ),
                               ),
@@ -352,7 +339,7 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                     child: Row(
                       children: [
                         Text(
-                          '${((duration!.inMinutes * (price / 60))).toInt()}Euro/',
+                          '${((duration.inMinutes * (price / 60))).toInt()}Euro/',
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -378,17 +365,14 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                       onPressed: () {
                         final jsonData =
                             ref.read(reservationParkingDataProvider);
-                        final json = ref.read(reservationEventDataProvider);
 
                         jsonData['idparking'] = widget.idparking;
-                        jsonData['parking'] = widget.parking;
+                        jsonData['parking'] = widget.parking.parkingName;
                         jsonData['CreatedAt'] =
                             startDateTime?.toIso8601String();
                         jsonData['EndedAt'] = endDateTime?.toIso8601String();
                         jsonData['tarif'] =
                             ((duration!.inMinutes * (price / 60))).toInt();
-                        json['idparking'] = widget.idparking;
-                        json['parking'] = widget.parking;
 
                         if (startDateTime != null && endDateTime != null) {
                           AutoRouter.of(context)
@@ -411,17 +395,15 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      // Handle picking another time
-                                      Navigator.of(context)
-                                          .pop(); // Close the dialog
+                                      Navigator.of(context).pop();
                                       ref
                                           .read(
                                               selectedEndTimeProvider.notifier)
                                           .state = null;
                                     },
                                     style: TextButton.styleFrom(
-                                      side: const BorderSide(
-                                          color: Colors.white), // Border color
+                                      side:
+                                          const BorderSide(color: Colors.white),
                                     ),
                                     child: const Text(
                                       'Return',

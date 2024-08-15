@@ -21,11 +21,13 @@ class TimingList extends ConsumerStatefulWidget {
 
 class _TimingListState extends ConsumerState<TimingList> {
   late dynamic json;
+  late dynamic jsonData;
 
   @override
   void initState() {
     super.initState();
     json = ref.read(reservationEventDataProvider);
+    jsonData = ref.read(reservationParkingDataProvider);
   }
 
   @override
@@ -57,17 +59,28 @@ class _TimingListState extends ConsumerState<TimingList> {
                     // Update selected timing index for the current date
                     widget.selectedTimingIndices[widget.date] = index;
                   });
-
-                  json["EndedAt"] = DateTime.utc(
-                          int.parse(widget.date.toString().split("-")[0]),
-                          int.parse(widget.date.toString().split("-")[1]),
-                          int.parse(widget.date.toString().split("-")[2]),
-                          int.parse(time.toString().split(":")[0]),
-                          int.parse(time.toString().split(":")[1]),
-                          00)
-                      .toIso8601String();
+                  if (jsonData["idparking"] == "") {
+                    json["EndedAt"] = DateTime.utc(
+                            int.parse(widget.date.toString().split("-")[0]),
+                            int.parse(widget.date.toString().split("-")[1]),
+                            int.parse(widget.date.toString().split("-")[2]),
+                            int.parse(time.toString().split(":")[0]),
+                            int.parse(time.toString().split(":")[1]),
+                            00)
+                        .toIso8601String();
+                  } else {
+                    jsonData["EndedAt"] = DateTime.utc(
+                            int.parse(widget.date.toString().split("-")[0]),
+                            int.parse(widget.date.toString().split("-")[1]),
+                            int.parse(widget.date.toString().split("-")[2]),
+                            int.parse(time.toString().split(":")[0]),
+                            int.parse(time.toString().split(":")[1]),
+                            00)
+                        .toIso8601String();
+                  }
 
                   print(json);
+                  print(jsonData);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),

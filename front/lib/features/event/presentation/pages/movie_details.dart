@@ -18,13 +18,17 @@ class MovieDetailScreen extends ConsumerStatefulWidget {
 class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    final json = ref.read(reservationEventDataProvider);
     final jsonData = ref.read(reservationParkingDataProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Movie Details'),
         leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Navigator.of(context).pop();
+            ref.read(reservationEventDataProvider.notifier).state = {};
+          },
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
       ),
@@ -204,7 +208,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                 ],
               ),
             ),
-            if (jsonData["idparking"] == "") ...[
+            if (json["idparking"] == "" && jsonData["idparking"] == "") ...[
               // Available Parking
               const Padding(
                 padding: EdgeInsets.fromLTRB(13, 8, 8, 8),
@@ -310,9 +314,9 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                   final List parkings = cinema['parkings'];
                   bool containsDesiredParking = true;
                   // Vérification si le parking existe dans la liste des parkings
-                  if (jsonData["parking"] != null) {
-                    containsDesiredParking = parkings.any((parking) =>
-                        parking[0] == jsonData["parking"].parkingName);
+                  if (json["parking"] != null) {
+                    containsDesiredParking = parkings
+                        .any((parking) => parking[0] == json["parking"]);
                   }
                   if (containsDesiredParking) {
                     return GestureDetector(

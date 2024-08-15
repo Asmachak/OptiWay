@@ -27,7 +27,7 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      json = ref.read(jsonDataProvider);
+      json = ref.read(reservationParkingDataProvider);
     });
   }
 
@@ -99,6 +99,7 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
                           adress: parking.adress ?? '',
                           onPress: () {
                             json["parking"] = parking;
+                            json["idparking"] = parking.id;
                             AutoRouter.of(context).push(
                               ParkingDetailsRoute(parking: parking),
                             );

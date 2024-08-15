@@ -123,6 +123,18 @@ class _BookingCardWidgetState extends ConsumerState<BookingCardWidget> {
                           fontSize: 18,
                         ),
                       ),
+                      if (widget.reservation.ReservationEvent != null)
+                        Text(
+                          " && " +
+                                  widget.reservation.ReservationEvent!["event"]
+                                      ?["title"] +
+                                  " movie" ??
+                              '',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
                       const SizedBox(height: 4),
                       Text(
                         widget.reservation.ReservationParking!["parking"]

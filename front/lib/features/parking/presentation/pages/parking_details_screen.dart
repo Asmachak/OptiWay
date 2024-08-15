@@ -4,6 +4,7 @@ import 'package:flutter_html/flutter_html.dart' as flutter_html;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/loading.dart';
 import 'package:front/features/parking/data/models/parking_model.dart';
+import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:geolocator/geolocator.dart';
@@ -120,7 +121,10 @@ class ParkingDetailsScreen extends ConsumerWidget {
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () {
+                  ref.read(reservationParkingDataProvider.notifier).state = {};
+                  Navigator.of(context).pop();
+                },
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
               ),
               title: Text(parking.parkingName ?? 'Parking Details'),
