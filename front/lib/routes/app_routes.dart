@@ -43,7 +43,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: MovieDetailRoute.page),
         AutoRoute(page: MovieDetailCinemaRoute.page),
         AutoRoute(page: VehiculeListReservationEventRoute.page),
-        AutoRoute(page: ChatRoute.page),
         AutoRoute(page: NotificationRoute.page),
       ];
 }

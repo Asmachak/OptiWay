@@ -9,7 +9,7 @@ class TransactionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 22),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -19,28 +19,42 @@ class TransactionCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Date and Time
           Text(
             "${reservation.CreatedAt.toString().split("T")[0]} ${reservation.CreatedAt.toString().split("T")[1].split(".")[0]}",
             style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 122, 122, 122)),
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 122, 122, 122),
+            ),
           ),
           const SizedBox(height: 8),
+          // Service Row
           Row(
             children: [
               const Text(
                 'Service:  ',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 39, 50, 103)),
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 39, 50, 103),
+                ),
               ),
-              Text(
-                  "Payment Parking ${reservation.ReservationParking!["parking"]["parkingName"]}"),
-              if (reservation.ReservationEvent != null)
-                Text("&& Event ${reservation.ReservationEvent!["id"]}")
+              Expanded(
+                child: Text(
+                  "Payment Parking ${reservation.ReservationParking!["parking"]["parkingName"]}" +
+                      (reservation.ReservationEvent != null
+                          ? " && Event ${reservation.ReservationEvent!["id"]}"
+                          : ""),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
+          // Amount Row
           Row(
             children: [
               const Text(
@@ -50,11 +64,13 @@ class TransactionCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                ' -${reservation.amount} Euro',
-                style: const TextStyle(
-                  color: Colors.orange,
-                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Text(
+                  ' -${reservation.amount} Euro',
+                  style: const TextStyle(
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],

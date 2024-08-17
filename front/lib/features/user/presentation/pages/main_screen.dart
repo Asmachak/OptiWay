@@ -8,30 +8,30 @@ import 'package:front/features/user/presentation/pages/parkings_screen.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
 @RoutePage()
-class mainScreen extends StatefulWidget {
-  const mainScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<mainScreen> createState() => _mainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _mainScreenState extends State<mainScreen> {
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
-      homeIndex: 0,
+      homeIndex: 0, // Ensure this matches your intended home tab
       routes: const [
         HomeRoute(),
         ParkingsRoute(),
         EventRoute(),
-        AccountRoute(),
-        ReservationListRoute()
+        ReservationListRoute(),
+        AccountRoute()
       ],
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
           floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
+              FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               tabsRouter.setActiveIndex(0); // Navigate to Home tab

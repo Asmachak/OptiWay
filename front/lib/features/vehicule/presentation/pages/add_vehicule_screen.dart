@@ -226,7 +226,6 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
   }
 
   Widget build(BuildContext context) {
-   
     final vehiculeListNotifier =
         ref.read(vehiculeListNotifierProvider.notifier);
 

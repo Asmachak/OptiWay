@@ -21,13 +21,15 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
     final json = ref.read(reservationEventDataProvider);
     final jsonData = ref.read(reservationParkingDataProvider);
 
+    json['idevent'] = widget.movie.id;
+    jsonData['idevent'] = widget.movie.id;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Movie Details'),
         leading: IconButton(
           onPressed: () {
             resetReservationProviders(ref);
-
             Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -47,10 +49,18 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
-                      widget.movie.image_url,
+                      widget.movie.image_url ?? '',
                       width: 180,
                       height: 200,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 180,
+                          height: 200,
+                          color: Colors.grey,
+                          child: const Icon(Icons.error, color: Colors.white),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -61,7 +71,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       children: [
                         // Movie Title
                         Text(
-                          widget.movie.title,
+                          widget.movie.title ?? '',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 26,
@@ -70,7 +80,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                         const SizedBox(height: 8),
                         // Director
                         Text(
-                          'Director: ${widget.movie.directors.join(", ")}',
+                          'Director: ${widget.movie.directors.join(", ") ?? ''}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 18,
@@ -79,7 +89,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                         ),
                         const SizedBox(height: 5),
                         // Rating
-                        RatingBarWidget(rate: widget.movie.rating!),
+                        RatingBarWidget(rate: widget.movie.rating ?? 0.0),
                       ],
                     ),
                   ),
@@ -87,11 +97,11 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
               ),
             ),
             // Movie Description
-            if (widget.movie.description.isNotEmpty)
+            if ((widget.movie.description ?? '').isNotEmpty)
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  widget.movie.description,
+                  widget.movie.description ?? '',
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
@@ -114,7 +124,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     ),
                   ),
                   Text(
-                    widget.movie.additional_info['release_date'],
+                    widget.movie.additional_info['release_date'] ?? '',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -142,7 +152,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     ),
                   ),
                   Text(
-                    widget.movie.genres,
+                    widget.movie.genres ?? '',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -152,7 +162,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                 ],
               ),
             ),
-            if (widget.movie.additional_info['original_language'] != null)
+            if ((widget.movie.additional_info['original_language'] ?? '') != '')
               Padding(
                 padding: const EdgeInsets.fromLTRB(13, 8, 8, 8),
                 child: Row(
@@ -171,7 +181,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                       ),
                     ),
                     Text(
-                      widget.movie.additional_info['original_language'],
+                      widget.movie.additional_info['original_language'] ?? '',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -199,7 +209,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     ),
                   ),
                   Text(
-                    widget.movie.additional_info['country'],
+                    widget.movie.additional_info['country'] ?? '',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -209,7 +219,8 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                 ],
               ),
             ),
-            if (json["idparking"] == "" && jsonData["idparking"] == "") ...[
+            if ((json["idparking"] ?? '') == '' &&
+                (jsonData["idparking"] ?? '') == '') ...[
               // Available Parking
               const Padding(
                 padding: EdgeInsets.fromLTRB(13, 8, 8, 8),
@@ -244,48 +255,37 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                   ),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.movie.parkings.length,
+                  itemCount: widget.movie.parkings.length, // Number of parkings
                   itemBuilder: (context, index) {
-                    final cinema = widget.movie.cinemas[index];
-                    final List parkings = cinema['parkings'];
-                    bool containsDesiredParking = true;
+                    final parking = widget
+                        .movie.parkings[index]; // Access the parking object
 
-                    // Vérification si le parking existe dans la liste des parkings
-                    if (json["parking"] != "" && json["parking"] != null) {
-                      containsDesiredParking =
-                          parkings.any((parking) => parking == json["parking"]);
-                    }
-
-                    if (containsDesiredParking) {
-                      return GestureDetector(
-                        onTap: () {
-                          print('movie $index tapped');
-                          AutoRouter.of(context).push(MovieDetailCinemaRoute(
-                              cinema: cinema['name'], movie: widget.movie));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200], // Grey background
-                              border: Border.all(
-                                  color:
-                                      Colors.transparent), // Transparent border
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: Center(
-                              child: Text(
-                                cinema["name"],
-                                style: const TextStyle(fontSize: 16.0),
-                              ),
+                    return GestureDetector(
+                      onTap: () {
+                        print('Parking $index tapped');
+                        // Handle the parking tap logic, possibly navigate to a parking detail page
+                        // Example:
+                        // AutoRouter.of(context).push(ParkingDetailRoute(parking: parking));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200], // Grey background
+                            border: Border.all(
+                                color:
+                                    Colors.transparent), // Transparent border
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              parking ?? 'Unknown', // Display parking name
+                              style: const TextStyle(fontSize: 16.0),
                             ),
                           ),
                         ),
-                      );
-                    } else {
-                      // Return an empty widget if the parking is not desired
-                      return SizedBox.shrink();
-                    }
+                      ),
+                    );
                   },
                 ),
               ),
@@ -327,10 +327,10 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                 itemCount: widget.movie.cinemas.length,
                 itemBuilder: (context, index) {
                   final cinema = widget.movie.cinemas[index];
-                  final List parkings = cinema['parkings'];
+                  final List parkings = cinema['parkings'] ?? [];
                   bool containsDesiredParking = true;
                   // Vérification si le parking existe dans la liste des parkings
-                  if (json["parking"] != "") {
+                  if ((json["parking"] ?? '') != '') {
                     containsDesiredParking = parkings
                         .any((parking) => parking[0] == json["parking"]);
                   }
@@ -338,9 +338,8 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                     return GestureDetector(
                       onTap: () {
                         print('movie $index tapped');
-
                         AutoRouter.of(context).push(MovieDetailCinemaRoute(
-                            cinema: cinema['name'], movie: widget.movie));
+                            cinema: cinema['name'] ?? '', movie: widget.movie));
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
@@ -354,13 +353,16 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              cinema["name"],
+                              cinema["name"] ?? '',
                               style: const TextStyle(fontSize: 16.0),
                             ),
                           ),
                         ),
                       ),
                     );
+                  } else {
+                    // Return an empty widget if the parking is not desired
+                    return const SizedBox.shrink();
                   }
                 },
               ),

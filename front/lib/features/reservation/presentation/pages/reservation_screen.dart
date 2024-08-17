@@ -285,9 +285,9 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
             const SizedBox(
               height: 10,
             ),
-            const Row(
+            Row(
               children: [
-                Expanded(
+                const Expanded(
                     child: Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: Text(
@@ -299,17 +299,17 @@ class _ReservationScreenState extends ConsumerState<ReservationScreen> {
                   ),
                 )),
                 Padding(
-                  padding: EdgeInsets.only(right: 20.0),
+                  padding: const EdgeInsets.only(right: 20.0),
                   child: Row(
                     children: [
                       Text(
-                        '50Euro/',
-                        style: TextStyle(
+                        '$price Euro/',
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
+                      const Text(
                         '1hour',
                         style: TextStyle(
                             fontSize: 15,

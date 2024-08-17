@@ -18,6 +18,7 @@ class ParkingListScreen extends ConsumerStatefulWidget {
 
 class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
   late ScrollController scrollController;
+  late TextEditingController searchController;
   bool _showFab = false;
   late dynamic json;
 
@@ -25,6 +26,7 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
   void initState() {
     super.initState();
     scrollController = ScrollController();
+    searchController = TextEditingController();
     scrollController.addListener(_scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       json = ref.read(reservationParkingDataProvider);
@@ -48,6 +50,13 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
   }
 
   @override
+  void dispose() {
+    scrollController.dispose();
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final searchQuery = ref.watch(searchQueryProvider);
     final state = ref.watch(parkingNotifierProvider);
@@ -60,6 +69,7 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextField(
+                controller: searchController,
                 style: const TextStyle(
                   color: Color.fromARGB(255, 51, 64, 133),
                   fontWeight: FontWeight.bold,
@@ -100,6 +110,11 @@ class _ParkingListScreenState extends ConsumerState<ParkingListScreen> {
                           onPress: () {
                             json["parking"] = parking;
                             json["idparking"] = parking.id;
+
+                            // Clear the search bar and the search query provider
+                            searchController.clear();
+                            ref.read(searchQueryProvider.notifier).state = '';
+
                             AutoRouter.of(context).push(
                               ParkingDetailsRoute(parking: parking),
                             );

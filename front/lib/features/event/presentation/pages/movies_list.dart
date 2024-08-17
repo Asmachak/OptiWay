@@ -12,6 +12,9 @@ import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.d
 import 'package:front/routes/app_routes.gr.dart';
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
+final typeProvider = StateProvider<String>((ref) => '');
+final parkingProvider = StateProvider<String>((ref) => '');
+final ratingProvider = StateProvider<String>((ref) => '');
 
 class EventList extends ConsumerStatefulWidget {
   const EventList({super.key});
@@ -24,11 +27,13 @@ class _EventListState extends ConsumerState<EventList> {
   late ScrollController scrollController;
   bool _showFab = false;
   late dynamic json;
+  late TextEditingController searchController;
 
   @override
   void initState() {
     super.initState();
     json = ref.read(reservationEventDataProvider);
+    searchController = TextEditingController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(MovieNotifierProvider.notifier).fetchItems();
@@ -43,6 +48,7 @@ class _EventListState extends ConsumerState<EventList> {
   void dispose() {
     scrollController.removeListener(_scrollListener);
     scrollController.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
@@ -50,6 +56,14 @@ class _EventListState extends ConsumerState<EventList> {
     setState(() {
       _showFab = scrollController.offset > 200;
     });
+  }
+
+  void _resetFilters() {
+    searchController.clear();
+    ref.read(searchQueryProvider.notifier).state = '';
+    ref.read(typeProvider.notifier).state = '';
+    ref.read(parkingProvider.notifier).state = '';
+    ref.read(ratingProvider.notifier).state = '';
   }
 
   @override
@@ -80,6 +94,7 @@ class _EventListState extends ConsumerState<EventList> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextField(
+                      controller: searchController,
                       style: const TextStyle(
                         color: Color.fromARGB(255, 51, 64, 133),
                         fontWeight: FontWeight.bold,
@@ -191,6 +206,10 @@ class _EventListState extends ConsumerState<EventList> {
                           if (json != null) {
                             json["idevent"] = movie.id;
                             print("json $json");
+
+                            // Reset search and filters
+                            _resetFilters();
+
                             AutoRouter.of(context)
                                 .push(MovieDetailRoute(movie: movie));
                           } else {

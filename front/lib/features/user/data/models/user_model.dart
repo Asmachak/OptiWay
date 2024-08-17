@@ -92,18 +92,18 @@ class UserModel {
 
 UserEntity userModelToEntity(UserModel userModel) {
   return UserEntity(
-    id: userModel.id!,
-    name: userModel.name!,
-    email: userModel.email!,
-    lastName: userModel.lastName!,
-    phone: userModel.phone!,
-    photo: userModel.photo!,
-    password: userModel.password!,
-    address: userModel.address!,
-    token: userModel.token!,
-    city: userModel.city!,
-    country: userModel.country!,
-    deviceId: userModel.deviceId!,
+    id: userModel.id ?? "",
+    name: userModel.name! ?? "",
+    email: userModel.email! ?? "",
+    lastName: userModel.lastName! ?? "",
+    phone: userModel.phone! ?? "",
+    photo: userModel.photo! ?? "",
+    password: userModel.password! ?? "",
+    address: userModel.address! ?? "",
+    token: userModel.token! ?? "",
+    city: userModel.city! ?? "",
+    country: userModel.country! ?? "",
+    deviceId: userModel.deviceId! ?? "",
   );
 }
 

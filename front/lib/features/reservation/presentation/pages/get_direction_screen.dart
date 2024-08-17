@@ -113,7 +113,7 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
               initialCameraPosition: CameraPosition(
                   target: LatLng(
                       currentLocation!.latitude, currentLocation!.longitude),
-                  zoom: 9.3),
+                  zoom: 15),
               polylines: {
                 Polyline(
                     polylineId: const PolylineId("route"),

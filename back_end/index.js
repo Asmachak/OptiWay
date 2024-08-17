@@ -4,7 +4,6 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
 const http = require('http');
-const chatController = require('./controllers/chat_controller');
 const notificationController = require('./controllers/notification_controller');
 
 const { Server } = require('socket.io');
@@ -61,6 +60,8 @@ app.use(require('./routes/vehicule_routes'));
 app.use(require('./routes/rate_routes')); 
 app.use(require('./routes/paiement_routes')); 
 app.use(require('./routes/notification_routes')); 
+app.use(require('./routes/promo_routes')); 
+
 
 
 

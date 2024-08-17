@@ -81,7 +81,7 @@ async function updateUser (req, res) {
     const user = await User.findByPk(userId);
     const myNewToken=generateToken(user.toJSON());
     console.log(myNewToken)
-    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address, city : user.city, country : user.country});
+    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address, city : user.city, country : user.country,deviceId:user.deviceId});
 
   } catch (error) {
     // Handle errors

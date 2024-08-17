@@ -6,14 +6,26 @@ import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
-class MovieCarousel extends ConsumerWidget {
+class MovieCarousel extends ConsumerStatefulWidget {
   final List<MovieModel> moviesList;
 
   const MovieCarousel({Key? key, required this.moviesList}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final json = ref.read(reservationEventDataProvider);
+  _MovieCarouselState createState() => _MovieCarouselState();
+}
+
+class _MovieCarouselState extends ConsumerState<MovieCarousel> {
+  late Map<String, dynamic> json;
+
+  @override
+  void initState() {
+    super.initState();
+    json = ref.read(reservationEventDataProvider);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
         height: 200.0,
@@ -25,12 +37,14 @@ class MovieCarousel extends ConsumerWidget {
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
         viewportFraction: 0.8,
       ),
-      items: moviesList.take(6).map((movie) {
+      items: widget.moviesList.take(6).map((movie) {
         return Builder(
           builder: (BuildContext context) {
             return GestureDetector(
               onTap: () {
-                json["idevent"] = movie.id;
+                setState(() {
+                  json["idevent"] = movie.id;
+                });
                 print(json);
                 AutoRouter.of(context).push(MovieDetailRoute(movie: movie));
               },
@@ -94,9 +108,9 @@ class MovieCarousel extends ConsumerWidget {
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Free parking spot',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,

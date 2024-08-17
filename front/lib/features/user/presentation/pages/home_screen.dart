@@ -1,11 +1,16 @@
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:auto_route/auto_route.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart'
+    as flutter_carousel_widget;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/presentation/blocs/movie_provider.dart';
 import 'package:front/features/parking/data/models/parking_model.dart';
 import 'package:front/features/parking/presentation/blocs/parking_provider.dart';
+import 'package:front/features/promo/presentation/blocs/promo_provider.dart';
+import 'package:front/features/promo/presentation/widgets/promo_widget.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/user/presentation/widgets/movie_carousel.dart';
@@ -42,6 +47,7 @@ class _homeScreenState extends ConsumerState<homeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(parkingNotifierProvider.notifier).getParkings();
       ref.read(MovieNotifierProvider.notifier).fetchItems();
+      ref.read(promoNotifierProvider.notifier).getPromoList();
       _getCurrentLocation();
       _loadCustomMarker();
       requestLocationPermission();
@@ -171,6 +177,7 @@ class _homeScreenState extends ConsumerState<homeScreen> {
         currentUser.name![0].toUpperCase() + currentUser.name!.substring(1);
     final parkingState = ref.watch(parkingNotifierProvider);
     final movieState = ref.watch(MovieNotifierProvider);
+    final promoState = ref.watch(promoNotifierProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -205,15 +212,35 @@ class _homeScreenState extends ConsumerState<homeScreen> {
                             AutoRouter.of(context).push(NotificationRoute());
                           },
                         ),
-                        IconButton(
-                          icon: const Icon(Icons.message_outlined),
-                          color: Colors.indigo,
-                          iconSize: 30,
-                          onPressed: () {
-                            AutoRouter.of(context).push(const ChatRoute());
-                          },
-                        ),
                       ],
+                    ),
+                  ),
+                  promoState.when(
+                    initial: () =>
+                        const Center(child: Text("No promotions available.")),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    failure: (error) => Center(child: Text('Error: $error')),
+                    loaded: (promos) => SizedBox(
+                      height: 140, // Reduced height for the carousel
+                      width: MediaQuery.of(context).size.width *
+                          200, // Full screen width
+                      child: flutter_carousel_widget.FlutterCarousel.builder(
+                        itemCount: promos.length,
+                        itemBuilder: (context, index, realIndex) {
+                          return PromoWidget(promo: promos[index]);
+                        },
+                        options: flutter_carousel_widget.CarouselOptions(
+                          enlargeCenterPage: true,
+                          autoPlay: true,
+                          aspectRatio: 16 / 9,
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enableInfiniteScroll: false,
+                          autoPlayAnimationDuration:
+                              const Duration(milliseconds: 800),
+                          viewportFraction: 0.99,
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
