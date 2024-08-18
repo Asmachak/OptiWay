@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
+import 'package:front/features/promo/presentation/blocs/check_promo_provider.dart';
 
-class MovieWidget extends StatelessWidget {
+class MovieWidget extends ConsumerStatefulWidget {
   const MovieWidget({
     Key? key,
     required this.movie,
@@ -12,10 +14,22 @@ class MovieWidget extends StatelessWidget {
   final void Function()? onPress;
 
   @override
+  _MovieWidgetState createState() => _MovieWidgetState();
+}
+
+class _MovieWidgetState extends ConsumerState<MovieWidget> {
+  @override
+  void initState() {
+    super.initState();
+    
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String formattedDirectors = movie.directors.join(', ');
+    String formattedDirectors = widget.movie.directors.join(', ');
+
     return GestureDetector(
-      onTap: onPress,
+      onTap: widget.onPress,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 10, 20, 0),
         child: ClipRRect(
@@ -35,7 +49,7 @@ class MovieWidget extends StatelessWidget {
                     child: Stack(
                       children: [
                         Container(
-                          width: 120, // Adjust the width of the photo container
+                          width: 120,
                           height: double.maxFinite,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
@@ -43,9 +57,9 @@ class MovieWidget extends StatelessWidget {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: movie.image_url.isNotEmpty
+                            child: widget.movie.image_url.isNotEmpty
                                 ? Image.network(
-                                    movie.image_url,
+                                    widget.movie.image_url,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Container(
@@ -68,7 +82,7 @@ class MovieWidget extends StatelessWidget {
                                   ),
                           ),
                         ),
-                        if (movie.rating != "null")
+                        if (widget.movie.rating != "null")
                           Positioned(
                             bottom: 0.0,
                             right: 0.0,
@@ -91,7 +105,7 @@ class MovieWidget extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 4.0),
                                   Text(
-                                    movie.rating.toString(),
+                                    widget.movie.rating.toString(),
                                     style: const TextStyle(
                                       fontSize: 15.0,
                                       fontWeight: FontWeight.bold,
@@ -112,7 +126,7 @@ class MovieWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            movie.title,
+                            widget.movie.title,
                             style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -122,12 +136,12 @@ class MovieWidget extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            movie.genres,
+                            widget.movie.genres,
                             style: const TextStyle(fontSize: 14),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                           ),
-                          if (movie.directors.isNotEmpty) ...[
+                          if (widget.movie.directors.isNotEmpty) ...[
                             Text(
                               "Directed by : $formattedDirectors",
                               style: const TextStyle(
@@ -137,7 +151,8 @@ class MovieWidget extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
                             ),
-                          ]
+                          ],
+                          const SizedBox(height: 8),
                         ],
                       ),
                     ),

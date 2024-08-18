@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/widgets/rating_bar_widget.dart';
+import 'package:front/features/promo/presentation/blocs/check_promo_provider.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/routes/app_routes.gr.dart';
 
@@ -17,9 +18,19 @@ class MovieDetailScreen extends ConsumerStatefulWidget {
 
 class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
   @override
+  void initState() {
+    super.initState();
+    // Trigger the provider logic here
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(checkpromoNotifierProvider.notifier).checkPromo(widget.movie.id);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final json = ref.read(reservationEventDataProvider);
     final jsonData = ref.read(reservationParkingDataProvider);
+    final promoState = ref.watch(checkpromoNotifierProvider);
 
     json['idevent'] = widget.movie.id;
     jsonData['idevent'] = widget.movie.id;
@@ -90,6 +101,61 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                         const SizedBox(height: 5),
                         // Rating
                         RatingBarWidget(rate: widget.movie.rating ?? 0.0),
+                        const SizedBox(height: 8),
+                        // Promo Section
+                        promoState.when(
+                          loading: () => const CircularProgressIndicator(),
+                          failure: (error) => Text('Error: $error'),
+                          success: (promo) {
+                            final int eventPromo =
+                                promo?.percentageEvent?.toInt() ?? 0;
+                            final int parkingPromo =
+                                promo?.percentageParking?.toInt() ?? 0;
+
+                            if (eventPromo > 0 || parkingPromo > 0) {
+                              return Container(
+                                margin: const EdgeInsets.only(top: 8.0),
+                                padding: const EdgeInsets.all(10.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.red.shade100,
+                                  border:
+                                      Border.all(color: Colors.red.shade300),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Promo Available!",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red.shade900,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    if (eventPromo > 0)
+                                      Text(
+                                        "$eventPromo% off on Events",
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                    if (parkingPromo > 0)
+                                      Text(
+                                        "$parkingPromo% off on Parking",
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return const SizedBox
+                                  .shrink(); // No promo to display
+                            }
+                          },
+                          initial: () {
+                            return const SizedBox.shrink();
+                          },
+                        ),
                       ],
                     ),
                   ),

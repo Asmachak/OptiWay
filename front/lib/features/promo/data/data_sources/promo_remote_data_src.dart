@@ -5,6 +5,8 @@ import 'package:front/features/promo/data/models/promo_model.dart';
 
 abstract class PromoDataSource {
   Future<Either<AppException, List<PromoModel>>> getPromoList();
+  Future<Either<AppException, PromoModel>> checkPromo(
+      {required String idevent});
 }
 
 class PromoRemoteDataSource implements PromoDataSource {
@@ -38,6 +40,34 @@ class PromoRemoteDataSource implements PromoDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nPromoRemoteDataSource.getAllPromos',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, PromoModel>> checkPromo(
+      {required String idevent}) async {
+    try {
+      final eitherType = await networkService.get(
+        '/promo/getPromo/$idevent',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          final promo = PromoModel.fromJson(response.data);
+          return Right(promo);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nPromoRemoteDataSource.checkPromos',
         ),
       );
     }

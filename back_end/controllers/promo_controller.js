@@ -13,6 +13,17 @@ async function handleAddPromo(req, res) {
 
         const idPromo = uuidv4();
 
+        const check = await Promotion.findAll({
+            where:{
+                idevent:params.idevent,
+                state: "active",
+            }
+        });
+
+        if(check) {
+            return res.status(404).send("Cant't add promo to an existing promo");
+        }
+
         // Create a new promotion
         const promo = await Promotion.create({
             id: idPromo,
@@ -94,7 +105,7 @@ async function getPromoByEventId(req, res) {
     try {
         const params = req.params;
 
-        const promo = await Promotion.findAll({
+        const promo = await Promotion.findOne({
             where : {
                 idevent : params.idevent,
                 state:'active'
@@ -103,7 +114,10 @@ async function getPromoByEventId(req, res) {
 
         console.log(promo);
 
-        res.status(200).send(promo);
+        if(promo) res.status(200).send(promo);
+        else res.status(200).send({});
+
+        
 
 
     } catch (error) {

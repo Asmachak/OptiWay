@@ -31,7 +31,7 @@ class PromoWidget extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 7, 11, 71), // Text color
                     ),
-                  ),
+                    ),
                   const SizedBox(height: 8),
                   Text(
                     "Event discount ${promo.percentageEvent!.toInt()}%",

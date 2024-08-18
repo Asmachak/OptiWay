@@ -273,9 +273,13 @@ abstract class $AppRouter extends _i34.RootStackRouter {
       );
     },
     VehiculeListReservationEventRoute.name: (routeData) {
+      final args = routeData.argsAs<VehiculeListReservationEventRouteArgs>();
       return _i34.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i25.VehiculeListReservationEventScreen(),
+        child: _i25.VehiculeListReservationEventScreen(
+          key: args.key,
+          finalPrice: args.finalPrice,
+        ),
       );
     },
     VehiculeListReservationRoute.name: (routeData) {
@@ -925,16 +929,41 @@ class UserManagementRoute extends _i34.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i25.VehiculeListReservationEventScreen]
-class VehiculeListReservationEventRoute extends _i34.PageRouteInfo<void> {
-  const VehiculeListReservationEventRoute({List<_i34.PageRouteInfo>? children})
-      : super(
+class VehiculeListReservationEventRoute
+    extends _i34.PageRouteInfo<VehiculeListReservationEventRouteArgs> {
+  VehiculeListReservationEventRoute({
+    _i35.Key? key,
+    required double finalPrice,
+    List<_i34.PageRouteInfo>? children,
+  }) : super(
           VehiculeListReservationEventRoute.name,
+          args: VehiculeListReservationEventRouteArgs(
+            key: key,
+            finalPrice: finalPrice,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'VehiculeListReservationEventRoute';
 
-  static const _i34.PageInfo<void> page = _i34.PageInfo<void>(name);
+  static const _i34.PageInfo<VehiculeListReservationEventRouteArgs> page =
+      _i34.PageInfo<VehiculeListReservationEventRouteArgs>(name);
+}
+
+class VehiculeListReservationEventRouteArgs {
+  const VehiculeListReservationEventRouteArgs({
+    this.key,
+    required this.finalPrice,
+  });
+
+  final _i35.Key? key;
+
+  final double finalPrice;
+
+  @override
+  String toString() {
+    return 'VehiculeListReservationEventRouteArgs{key: $key, finalPrice: $finalPrice}';
+  }
 }
 
 /// generated route for

@@ -85,7 +85,7 @@ dependencies:
   onesignal_flutter: ^5.2.2
   firebase_core: ^3.3.0
   flutter_carousel_widget: ^2.3.0
-
+  auto_size_text: ^3.0.0
 
 
 dev_dependencies:

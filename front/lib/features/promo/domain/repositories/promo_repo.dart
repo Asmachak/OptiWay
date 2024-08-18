@@ -4,4 +4,6 @@ import 'package:front/features/promo/data/models/promo_model.dart';
 
 abstract class PromoRepository {
   Future<Either<AppException, List<PromoModel>>> getPromoList();
+  Future<Either<AppException, PromoModel>> checkPromo(
+      {required String idevent});
 }

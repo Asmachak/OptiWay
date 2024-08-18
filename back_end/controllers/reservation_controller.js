@@ -288,5 +288,5 @@ async function changeReservationState() {
   }
   
 // Run the function every second
-setInterval(changeReservationState, 60000);
+setInterval(changeReservationState, 6000);
 module.exports = {getReservation,extendReservation,deleteReservation}

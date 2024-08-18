@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/promo/domain/use_cases/promo_use_cases.dart';
-import 'package:front/features/promo/presentation/blocs/state/promo_state.dart';
+import 'package:front/features/promo/presentation/blocs/state/promo_state/promo_state.dart';
 import 'package:front/shared/use_case.dart';
 
 class PromoNotifier extends StateNotifier<PromoState> {

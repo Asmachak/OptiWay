@@ -15,7 +15,10 @@ final selectedCarEventIdProvider = StateProvider<String?>((ref) => null);
 
 @RoutePage()
 class VehiculeListReservationEventScreen extends ConsumerStatefulWidget {
-  const VehiculeListReservationEventScreen({Key? key}) : super(key: key);
+  final double finalPrice;
+
+  const VehiculeListReservationEventScreen({Key? key, required this.finalPrice})
+      : super(key: key);
 
   @override
   _VehiculeListReservationEventScreenState createState() =>
@@ -31,10 +34,12 @@ class _VehiculeListReservationEventScreenState
       ref.read(vehiculeListNotifierProvider.notifier).getVehicules(
           GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
 
-      var jsonData = ref.read(reservationEventDataProvider);
+      // Convert final price to an integer value in cents
+      int amountInCents = (widget.finalPrice).round();
 
-      ref.read(paiementNotifierProvider.notifier).initPaymentSheet(
-          {"amount": jsonData["Nbreticket"] * 20, "currency": "eur"});
+      ref
+          .read(paiementNotifierProvider.notifier)
+          .initPaymentSheet({"amount": amountInCents, "currency": "eur"});
     });
   }
 

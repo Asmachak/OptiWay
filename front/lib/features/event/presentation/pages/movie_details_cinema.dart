@@ -2,11 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:front/features/reservation/presentation/blocs/state/reservationEvent/reservationEvent_state.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/widgets/timinigs_list.dart';
 import 'package:front/features/paiement/presentation/blocs/paiement_provider.dart';
+import 'package:front/features/promo/presentation/blocs/check_promo_provider.dart';
+import 'package:front/features/promo/presentation/blocs/state/check_promo_state/check_promo_state.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/blocs/reservationEvent_provider.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
@@ -14,6 +14,7 @@ import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 import 'package:front/features/event/presentation/widgets/cart_stepper.dart'
     as stepper;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 @RoutePage()
 class MovieDetailCinemaScreen extends ConsumerStatefulWidget {
@@ -50,7 +51,15 @@ class _MovieDetailCinemaScreenState
     json = ref.read(reservationEventDataProvider);
     jsonData = ref.read(reservationParkingDataProvider);
 
+    json["idevent"] = widget.movie.id;
+    jsonData["idevent"] = widget.movie.id;
+
     cinemaLatLngFuture = _initializeCinemaLatLng();
+
+    // Fetch promo details
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(checkpromoNotifierProvider.notifier).checkPromo(widget.movie.id);
+    });
   }
 
   Future<LatLng> _initializeCinemaLatLng() async {
@@ -161,11 +170,33 @@ class _MovieDetailCinemaScreenState
     });
   }
 
+  double _calculateFinalPrice(CheckPromoState promoState) {
+    int numberOfTickets = jsonData['idparking'] == ""
+        ? (json["Nbreticket"] ?? 0)
+        : (jsonData["Nbreticket"] ?? 0);
+    double ticketPrice = 6.0; // Assuming each ticket costs 6
+    double totalPrice = numberOfTickets * ticketPrice;
+    double discountedPrice = totalPrice;
+
+    if (promoState is Success) {
+      final promo = promoState.promo;
+      if (promo.percentageEvent != null) {
+        double discount = promo.percentageEvent! / 100;
+        discountedPrice = totalPrice * (1 - discount);
+      }
+    }
+
+    return discountedPrice;
+  }
+
   @override
   Widget build(BuildContext context) {
     double heightScr = MediaQuery.of(context).size.height;
 
     final paiementState = ref.watch(paiementNotifierProvider);
+    final promoState = ref.watch(checkpromoNotifierProvider);
+
+    double finalPrice = _calculateFinalPrice(promoState);
 
     return Scaffold(
       appBar: AppBar(
@@ -205,10 +236,10 @@ class _MovieDetailCinemaScreenState
                           ['timings'],
                       selectedTimingIndices: selectedTimingIndices,
                     ),
-                  _buildTicketsSelection(),
+                  _buildTicketsSelection(promoState),
                   if (jsonData["idparking"] == "" &&
                       json["idevent"] != null) ...[
-                    _buildSelectCarButton(context),
+                    _buildSelectCarButton(context, finalPrice),
                   ] else ...[
                     _buildPaymentButton(context, paiementState),
                   ],
@@ -268,17 +299,17 @@ class _MovieDetailCinemaScreenState
           padding: EdgeInsets.all(20),
           child: Text(
             "Choose where you want to park your car",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
-              childAspectRatio: 3.0,
+              childAspectRatio: 2.5, // Adjusted to make the container taller
             ),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -294,7 +325,6 @@ class _MovieDetailCinemaScreenState
                   setState(() {
                     selectedParkingIndex = index;
                   });
-                  print('Parking $parkingName tapped');
                   json["parking"] = parkingName;
                 },
                 child: Padding(
@@ -312,10 +342,26 @@ class _MovieDetailCinemaScreenState
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Center(
-                      child: Text(
-                        '$parkingName\n${parkingDistance.toStringAsFixed(2)} km',
-                        style: const TextStyle(fontSize: 16.0),
-                        textAlign: TextAlign.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            parkingName,
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            '${parkingDistance.toStringAsFixed(2)} km',
+                            style: const TextStyle(
+                              fontSize: 14.0,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -351,8 +397,6 @@ class _MovieDetailCinemaScreenState
                 onTap: () {
                   setState(() {
                     globalSelectedTimingIndex = index;
-                    print(
-                        "globalSelectedTimingIndex $globalSelectedTimingIndex");
                   });
                 },
                 child: Container(
@@ -382,7 +426,7 @@ class _MovieDetailCinemaScreenState
     );
   }
 
-  Widget _buildTicketsSelection() {
+  Widget _buildTicketsSelection(CheckPromoState promoState) {
     return Column(
       children: [
         const Padding(
@@ -400,27 +444,115 @@ class _MovieDetailCinemaScreenState
             onChanged: (value) {
               if (jsonData['idparking'] == "") {
                 json["Nbreticket"] = value;
-                print("json from tik $json");
               } else {
                 jsonData["Nbreticket"] = value;
-                print("jsonData from tik $jsonData");
               }
+              setState(() {}); // Trigger UI update to reflect the new price
             },
           ),
         ),
         const SizedBox(height: 10),
+        _buildPromoAndPrice(promoState), // Display promo and ticket price
       ],
     );
   }
 
-  Widget _buildSelectCarButton(BuildContext context) {
+  Widget _buildPromoAndPrice(CheckPromoState promoState) {
+    int numberOfTickets = jsonData['idparking'] == ""
+        ? (json["Nbreticket"] ?? 0)
+        : (jsonData["Nbreticket"] ?? 0);
+    double ticketPrice = 6.0; // Assuming each ticket costs 6
+    double totalPrice = numberOfTickets * ticketPrice;
+    double discountedPrice = totalPrice;
+
+    if (promoState is Success) {
+      final promo = promoState.promo;
+      if (promo.percentageEvent != null) {
+        double discount = promo.percentageEvent! / 100;
+        discountedPrice = totalPrice * (1 - discount);
+      }
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Container(
+        padding: const EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Colors.indigo.shade50,
+          borderRadius: BorderRadius.circular(10.0),
+          border: Border.all(color: Colors.indigo.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (promoState is Success &&
+                promoState.promo.percentageEvent != null)
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                margin: const EdgeInsets.only(bottom: 10.0),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade100,
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(color: Colors.red.shade200),
+                ),
+                child: Text(
+                  "Promo Applied: ${promoState.promo.percentageEvent?.toInt()}% off",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.red.shade900,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Ticket Price",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.indigo.shade900,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      "$ticketPrice € per ticket",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.indigo.shade700,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  "${discountedPrice.toStringAsFixed(2)} €",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.indigo.shade900,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSelectCarButton(BuildContext context, double finalPrice) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: SizedBox(
         width: double.infinity,
         child: TextButton(
           onPressed: () {
-            AutoRouter.of(context).push(VehiculeListReservationEventRoute());
+            AutoRouter.of(context).push(
+                VehiculeListReservationEventRoute(finalPrice: finalPrice));
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.indigo),
@@ -467,7 +599,7 @@ class _MovieDetailCinemaScreenState
           }
 
           ref.read(paiementNotifierProvider.notifier).initPaymentSheet(
-              {"amount": numberOfTickets * 20, "currency": "eur"});
+              {"amount": numberOfTickets * 6, "currency": "eur"});
 
           paiementState.when(
             initial: () {
@@ -541,20 +673,13 @@ class _MovieDetailCinemaScreenState
 
       if (jsonData["idparking"] == "null" && json["parking"] != "null") {
         lastjson = json;
-        //print(lastjson);
       } else {
         lastjson = jsonData;
-        //print(lastjson);
       }
 
       lastjson["iduser"] =
           GetIt.instance.get<AuthLocalDataSource>().currentUser?.id;
       print(lastjson);
-      print(lastjson["iduser"]);
-
-      print(lastjson["idvehicule"]);
-
-      print(lastjson["idevent"]);
 
       await ref
           .read(reservationEventNotifierProvider.notifier)
