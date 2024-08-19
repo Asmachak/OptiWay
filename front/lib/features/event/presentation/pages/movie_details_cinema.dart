@@ -9,6 +9,8 @@ import 'package:front/features/promo/presentation/blocs/check_promo_provider.dar
 import 'package:front/features/promo/presentation/blocs/state/check_promo_state/check_promo_state.dart';
 import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/reservation/presentation/blocs/reservationEvent_provider.dart';
+import 'package:front/features/reservation/presentation/blocs/state/reservationEvent/reservationEvent_state.dart'
+    as reservationEvent_state;
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
@@ -197,6 +199,18 @@ class _MovieDetailCinemaScreenState
     final promoState = ref.watch(checkpromoNotifierProvider);
 
     double finalPrice = _calculateFinalPrice(promoState);
+
+    // Listening to the ReservationEventState
+    ref.listen<reservationEvent_state.ReservationEventState>(
+      reservationEventNotifierProvider,
+      (previous, next) {
+        if (next is reservationEvent_state.Success) {
+          // Navigate to the reservations list on success
+          AutoRouter.of(context).replace(ReservationListRoute());
+          resetReservationProviders(ref);
+        }
+      },
+    );
 
     return Scaffold(
       appBar: AppBar(

@@ -57,6 +57,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
   }
 
   void initializeNotifiers() {
+    // Use `ref.read` without modifying the state
     vehiculeNotifier = ref.read(vehiculeNotifierProvider.notifier);
     carModelNotifier = ref.read(carsModelNotifierProvider.notifier);
 
@@ -65,7 +66,6 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
     selectedColor = "";
   }
 
-  @override
   void _showModalBottomSheet(BuildContext context, String state) {
     final stateBrand = ref.watch(carsBrandNotifierProvider);
     final stateModel = ref.watch(carsModelNotifierProvider);
@@ -143,12 +143,9 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                 SizedBox(
                   height: 600,
                   child: stateBrand.when(
-                    initial: () {
-                      return const Text("initial");
-                    },
-                    loading: () {
-                      return const Center(child: CircularProgressIndicator());
-                    },
+                    initial: () => const Text("initial"),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
                     loaded: (cars) {
                       final carsToShow = searchQuery.isEmpty
                           ? cars
@@ -173,21 +170,16 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                         },
                       );
                     },
-                    failure: (exception) {
-                      return Text("$exception");
-                    },
+                    failure: (exception) => Text("$exception"),
                   ),
                 ),
               ] else ...[
                 SizedBox(
                   height: 600,
                   child: stateModel.when(
-                    initial: () {
-                      return const Text("initial");
-                    },
-                    loading: () {
-                      return const Center(child: CircularProgressIndicator());
-                    },
+                    initial: () => const Text("initial"),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
                     loaded: (cars) {
                       final carsToShow = searchQuery.isEmpty
                           ? cars
@@ -212,9 +204,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                         },
                       );
                     },
-                    failure: (exception) {
-                      return Text("$exception");
-                    },
+                    failure: (exception) => Text("$exception"),
                   ),
                 ),
               ]
@@ -225,6 +215,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     final vehiculeListNotifier =
         ref.read(vehiculeListNotifierProvider.notifier);
@@ -258,7 +249,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
               TextButton(
                 onPressed: () async {
                   carBrandNotifier =
-                      await ref.read(carsBrandNotifierProvider.notifier);
+                      ref.read(carsBrandNotifierProvider.notifier);
 
                   await carBrandNotifier.getManufacturer();
                   _showModalBottomSheet(context, "brand");
@@ -314,8 +305,8 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                     _showModalBottomSheet(context, "model");
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('woooy'),
+                      const SnackBar(
+                        content: Text('Please select a car brand first.'),
                       ),
                     );
                   }
@@ -356,7 +347,7 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
               ),
               const SizedBox(height: 10),
               const Text(
-                'Tap Your Car registration Number',
+                'Enter Your Car Registration Number',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -375,13 +366,13 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                       borderRadius: BorderRadius.circular(10),
                       borderSide: const BorderSide(color: Colors.grey),
                     ),
-                    hintText: 'Enter Your Car registration Number',
+                    hintText: 'Enter Your Car Registration Number',
                   ),
                 ),
               ),
               const SizedBox(height: 15),
               const Text(
-                'Tap Your Car color',
+                'Select Your Car Color',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -509,16 +500,15 @@ class _AddVehiculeScreenState extends ConsumerState<AddVehiculeScreen> {
                   ),
                 ),
               ),
-              // SnackBar for feedback
-
               Consumer(
-                builder: (context, watch, child) {
+                builder: (context, ref, child) {
                   final vehicleState = ref.watch(vehiculeNotifierProvider);
 
                   vehiculeListNotifier.getVehicules(GetIt.instance
                       .get<AuthLocalDataSource>()
                       .currentUser!
                       .id!);
+
                   return vehicleState.when(
                     initial: () => const SizedBox.shrink(),
                     loading: () =>

@@ -5,23 +5,34 @@ const Event = require("../models/event"); // Import the Event model
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
 const { where } = require("sequelize");
+const { Op } = require('sequelize');
 
 async function handleAddPromo(req, res) {
     try {
-        const formData = req.body;
-        const params = req.params;
+        const { body: formData, params } = req;
+        const { idevent } = params;
 
         const idPromo = uuidv4();
 
-        const check = await Promotion.findAll({
-            where:{
-                idevent:params.idevent,
+        // Check if an active promotion already exists for the event
+        const existingPromo = await Promotion.findOne({
+            where: {
+                idevent,
                 state: "active",
             }
         });
 
-        if(check) {
-            return res.status(404).send("Cant't add promo to an existing promo");
+        // If an existing active promo is found, return an error response
+        if (existingPromo) {
+            return res.status(409).send("Can't add a promo to an existing active promo.");
+        }
+
+        // Fetch the event details
+        const event = await Event.findByPk(idevent);
+
+        // If event not found, return an error response
+        if (!event) {
+            return res.status(404).send("Event not found.");
         }
 
         // Create a new promotion
@@ -36,30 +47,22 @@ async function handleAddPromo(req, res) {
             createdAt: new Date(),
             EndedAt: formData.EndedAt || new Date(),
             state: "active",
-            idevent: params.idevent  
+            idevent
         });
-
-        // Fetch the event details
-        const event = await Event.findByPk(params.idevent);
-
-        // If event not found, return an error response
-        if (!event) {
-            return res.status(404).send("Event not found");
-        }
 
         // Notification details
         const title = "New Promotion Added!";
         const message = `Promotion: ${promo.title} - ${promo.description}`;
         const iconImage = "https://st.depositphotos.com/1186248/4216/i/950/depositphotos_42167223-stock-photo-promo.jpg"; // Replace with your actual image URL
 
-        // Fetch all users
-        const users = await User.findAll();
-        const playerIds = users.map(user => user.deviceId).filter(id => !!id); // Get all playerIds that are not null
+        // Fetch all users with a deviceId
+        const users = await User.findAll({ where: { deviceId: { [Op.ne]: null } } });
+        const playerIds = users.map(user => user.deviceId);
 
         // Send notifications to all users using OneSignal
         if (playerIds.length > 0) {
             await axios.post('https://onesignal.com/api/v1/notifications', {
-                app_id:  "5d68e5d3-7e31-4a0d-934a-2c9af0f3ce3b", // Replace with your OneSignal App ID
+                app_id: "5d68e5d3-7e31-4a0d-934a-2c9af0f3ce3b", // Replace with your OneSignal App ID
                 contents: { "en": message },
                 headings: { "en": title },
                 include_player_ids: playerIds,
@@ -72,31 +75,25 @@ async function handleAddPromo(req, res) {
             });
         }
 
-        // Store notification in Notification table for each user
-        for (const user of users) {
-            if (user.deviceId) {
-                await Notification.create({
-                    id: uuidv4(),
-                    iduser: user.id,
-                    title: title,
-                    description: message,
-                });
-            }
-        }
-
-        const promotion = await Promotion.findOne({
-            where: { id: promo.id },
-            include: {
-                model: Event
-            }
-        });
-        
+        // Store notification in the Notification table for each user
+        const notifications = users.map(user => ({
+            id: uuidv4(),
+            iduser: user.id,
+            title,
+            description: message,
+        }));
+        await Notification.bulkCreate(notifications);
 
         // Include the event details in the response
-        return res.status(200).send(promotion);
+        const promotion = await Promotion.findOne({
+            where: { id: promo.id },
+            include: { model: Event }
+        });
+
+        return res.status(200).json(promotion);
     } catch (error) {
         console.error("Error:", error);
-        res.status(500).send("Error occurred when handling Add promo");
+        return res.status(500).send("An error occurred while handling Add Promo.");
     }
 }
 

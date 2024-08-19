@@ -26,6 +26,7 @@ class Debouncer {
 
 class SignupForm extends ConsumerStatefulWidget {
   const SignupForm({Key? key}) : super(key: key);
+
   @override
   ConsumerState<SignupForm> createState() => _SignupFormState();
 }
@@ -33,12 +34,13 @@ class SignupForm extends ConsumerStatefulWidget {
 class _SignupFormState extends ConsumerState<SignupForm>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  // Text editing controllers for user input
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final _controllerConfirmPassword = TextEditingController();
+  final TextEditingController _controllerConfirmPassword =
+      TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   Debouncer locationDebouncer = Debouncer(delay: Duration(milliseconds: 500));
 
@@ -54,8 +56,6 @@ class _SignupFormState extends ConsumerState<SignupForm>
   Future<void> requestLocationPermission() async {
     var status = await Permission.location.request();
     if (status.isDenied) {
-      // L'utilisateur a refusé les autorisations
-      // Gérez cette situation selon vos besoins
       print('User denied location permissions');
     }
   }
@@ -63,7 +63,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
   Future<void> _getLocation() async {
     if (!isLoading) {
       setState(() {
-        isLoading = true; // Show loading indicator
+        isLoading = true;
       });
 
       locationDebouncer.debounce(() async {
@@ -74,17 +74,15 @@ class _SignupFormState extends ConsumerState<SignupForm>
 
           setState(() {
             _locationMessage = '${position.latitude} ${position.longitude}';
-            print(_locationMessage);
           });
           await getLocationInfo();
         } catch (e) {
           setState(() {
             _locationMessage = 'Error getting location: $e';
-            print(_locationMessage);
           });
         } finally {
           setState(() {
-            isLoading = false; // Hide loading indicator
+            isLoading = false;
           });
         }
       });
@@ -104,19 +102,15 @@ class _SignupFormState extends ConsumerState<SignupForm>
           locationInfo = '${placemark.country} ${placemark.locality}';
           city = placemark.locality;
           country = placemark.country;
-          isLoading = false;
-          print(locationInfo);
         });
       } else {
         setState(() {
           locationInfo = 'No location information available';
-          print(locationInfo);
         });
       }
     } catch (e) {
       setState(() {
         locationInfo = 'Error getting location information: $e';
-        print(locationInfo);
       });
     }
   }
@@ -144,9 +138,9 @@ class _SignupFormState extends ConsumerState<SignupForm>
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return "please set e-mail address.";
+      return "Please set e-mail address.";
     } else if (!EmailValidator.validate(value)) {
-      return "please enter a valide email address";
+      return "Please enter a valid email address";
     }
     return null;
   }
@@ -193,9 +187,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               TextFormField(
                 enabled: !isLoading,
                 controller: _lastNameController,
@@ -212,16 +204,14 @@ class _SignupFormState extends ConsumerState<SignupForm>
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               TextFormField(
                 enabled: !isLoading,
                 controller: _emailController,
                 validator: _validateEmail,
                 maxLines: 1,
                 decoration: InputDecoration(
-                  labelText: 'Email aadress',
+                  labelText: 'Email address',
                   hintText: 'Set your Email',
                   prefixIcon: const Icon(Icons.email),
                   border: OutlineInputBorder(
@@ -231,9 +221,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               IntlPhoneField(
                 enabled: !isLoading,
                 controller: _phoneController,
@@ -248,16 +236,14 @@ class _SignupFormState extends ConsumerState<SignupForm>
                 ),
                 initialCountryCode: 'BE',
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
                     child: AbsorbPointer(
                       absorbing: isLoading,
                       child: Container(
-                        height: 48, // Adjust the height as needed
+                        height: 48,
                         child: TextFormField(
                           enabled: !isLoading,
                           controller: TextEditingController(text: locationInfo),
@@ -278,7 +264,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                     ),
                   ),
                   Container(
-                    height: 48, // Match the height of the TextFormField
+                    height: 48,
                     child: TextButton.icon(
                       onPressed: () {
                         _getLocation();
@@ -312,9 +298,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                     ),
                 ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               TextFormField(
                 enabled: !isLoading,
                 controller: _passwordController,
@@ -339,13 +323,19 @@ class _SignupFormState extends ConsumerState<SignupForm>
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               TextFormField(
                 enabled: !isLoading,
-                controller: _passwordController,
-                validator: _validatePassword,
+                controller: _controllerConfirmPassword,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Please confirm your password";
+                  }
+                  if (value != _passwordController.text) {
+                    return "Passwords do not match";
+                  }
+                  return null;
+                },
                 maxLines: 1,
                 obscureText: !_showPasswordConf,
                 decoration: InputDecoration(
@@ -358,7 +348,9 @@ class _SignupFormState extends ConsumerState<SignupForm>
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _showPassword ? Icons.visibility : Icons.visibility_off,
+                      _showPasswordConf
+                          ? Icons.visibility
+                          : Icons.visibility_off,
                     ),
                     onPressed: () {
                       showPasswordConfirm();
@@ -366,11 +358,9 @@ class _SignupFormState extends ConsumerState<SignupForm>
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Consumer(
-                builder: (context, watch, child) {
+                builder: (context, ref, child) {
                   return ConstrainedBox(
                     constraints: const BoxConstraints.tightFor(
                       height: 40,
@@ -412,9 +402,7 @@ class _SignupFormState extends ConsumerState<SignupForm>
                   );
                 },
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               RichText(
                 text: TextSpan(
                   text: 'Already have an account? ',
