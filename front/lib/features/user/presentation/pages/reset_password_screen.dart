@@ -56,7 +56,7 @@ class ResetPasswordScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  "Please set your email to have the OTP Code",
+                  "Please set your new password",
                   style: TextStyle(
                     fontSize: 15,
                     color: Color.fromARGB(255, 44, 55, 121),
@@ -106,12 +106,8 @@ class ResetPasswordScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 20),
                       Visibility(
-                        visible: editState is Success,
-                        child: Text("Success"),
-                      ),
-                      Visibility(
                         visible: editState is Loading,
-                        child: Text("loading"),
+                        child: const Text("Loading..."),
                       ),
                       SizedBox(
                         width: double.infinity,
@@ -137,6 +133,67 @@ class ResetPasswordScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
+                      if (editState is Success)
+                        FutureBuilder(
+                          future: Future.delayed(Duration.zero, () async {
+                            await showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        Icons.check_circle_outline,
+                                        size: 80,
+                                        color: Colors.blue,
+                                      ),
+                                      const SizedBox(height: 20),
+                                      const Text(
+                                        'Password reset successfully, go to login page',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          AutoRouter.of(context)
+                                              .push(LoginRoute());
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.blue,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5.0),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          "OK",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                            // Reset the provider state after dialog is dismissed
+                            editNotifier.resetState();
+                          }),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<void> snapshot) {
+                            return Container();
+                          },
+                        ),
                     ],
                   ),
                 ),

@@ -9,20 +9,20 @@ class WelcomeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen's width
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return SizedBox(
-      width: 170,
-      height: 30,
+      width: screenWidth * 0.7, // 80% of the screen's width
+      height: screenWidth *
+          0.10, // Height relative to the width (to keep a good aspect ratio)
       child: OutlinedButton(
         onPressed: () {
-          if (buttonText.toLowerCase() == "login") {
-            AutoRouter.of(context).navigate(const LoginRoute());
-          } else if (buttonText.toLowerCase() == "signup") {
-            AutoRouter.of(context).navigate(const SignupRoute());
-          }
+          _handleButtonPress(context);
         },
         style: OutlinedButton.styleFrom(
           backgroundColor: const Color.fromARGB(255, 67, 70, 225),
-          foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+          foregroundColor: Colors.white,
           side: const BorderSide(color: Color.fromARGB(255, 67, 70, 225)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -30,11 +30,32 @@ class WelcomeButton extends StatelessWidget {
         ),
         child: Text(
           buttonText,
-          style: const TextStyle(
-            fontSize: 18,
+          style: TextStyle(
+            fontSize: screenWidth * 0.045, // Font size relative to screen width
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
     );
+  }
+
+  void _handleButtonPress(BuildContext context) {
+    switch (buttonText.toLowerCase()) {
+      case 'login':
+        AutoRouter.of(context).navigate(const LoginRoute());
+        break;
+      case 'signup':
+        AutoRouter.of(context).navigate(const SignupRoute());
+        break;
+      case 'login as organiser':
+        AutoRouter.of(context).navigate(const OrganiserLoginRoute());
+        break;
+      case 'signup as organiser':
+        AutoRouter.of(context).navigate(const OrganiserSignupRoute());
+        break;
+      default:
+        // Handle other cases or show a default action
+        break;
+    }
   }
 }

@@ -1,33 +1,75 @@
 const Event = require("../models/event");
-const { generateID } = require("../middleware/generateID");
 const fs = require('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const { Op } = require('sequelize'); // Import Sequelize operators if needed
+const { Op } = require('sequelize'); 
+const {handleImageUploadAsync} = require('../middleware/cloudinary');
+
 
 async function handleAddEvent(req, res) {
   try {
-    const formData = req.body;
+    const imageUrl = await handleImageUploadAsync(req, res);
+    console.log("Image URL:", imageUrl);
 
-    const idEvent = generateID();
+    const {
+      title = "",
+      description = "",
+      endedAt,
+      unit_price = "0.0",
+      capacity = "0",
+      genres = null,
+      rating = "0.0",
+      type = null,
+      place = null,
+      additional_info = "{}",
+    } = req.body;
+    const idOrganiser = req.params.idOrganiser;
 
-    // Create a new event
+    // Parse numeric values safely
+    const parsedUnitPrice = parseFloat(unit_price);
+    const parsedCapacity = parseInt(capacity);
+    const parsedRating = parseFloat(rating);
+
     const event = await Event.create({
-      id: idEvent,
+      id: uuidv4(),
+      title,
+      description,
+      image_url: imageUrl,
       createdAt: new Date(),
-      EndedAt: formData.EndedAt ||new Date(),
-      title: formData.title ||"",
-      description: formData.description ||"",
-      address: formData.address ||"",
-      price: formData.price ||""
+      endedAt: endedAt ? new Date(endedAt) : new Date(),
+      unit_price: isNaN(parsedUnitPrice) ? 0.0 : parsedUnitPrice,
+      capacity: isNaN(parsedCapacity) ? 0 : parsedCapacity,
+      genres,
+      rating: isNaN(parsedRating) ? 0.0 : parsedRating,
+      type,
+      place,
+      additional_info: JSON.parse(additional_info),
+      idOrganiser,
     });
 
-    return res.status(200).json({ event });
+    return res.status(200).send({
+      id: event.id,
+      title: event.title,
+      description: event.description,
+      image_url: event.image_url,
+      createdAt: event.createdAt,
+      endedAt: event.endedAt,
+      unit_price: event.unit_price,
+      capacity: event.capacity,
+      genres: event.genres,
+      rating: event.rating,
+      type: event.type,
+      place: event.place,
+      additional_info: event.additional_info,
+      idOrganiser: event.idOrganiser,
+      parkings: [],
+    });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).send("Error occurred when handling Add event");
+    return res.status(500).send({ error: "Error occurred while handling Add Event", details: error.message });
   }
 }
+
 
 async function insertDataFromJsonToDb() {
   try {
@@ -51,15 +93,12 @@ async function insertDataFromJsonToDb() {
           createdAt : eventData.createdAt,
           description: eventData.description || " ",
           capacity: eventData.capacity || 100,
-          EndedAt: eventData.EndedAt || new Date(),
-          price:eventData.price || 20,
+          endedAt: eventData.EndedAt || new Date(),
+          unit_price:eventData.price || 6,
           rating:eventData.rating || '',
           image_url:eventData.image_url || '',
           genres:eventData.genres || '',
-
-
-
-          // Add other fields as necessary
+          type:"movie"
         });
         console.log(`Event ${eventData.title} inserted successfully.`);
       } else {

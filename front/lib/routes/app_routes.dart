@@ -10,6 +10,8 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: WelcomeRoute.page),
         AutoRoute(page: LoginRoute.page),
         AutoRoute(page: SignupRoute.page),
+        AutoRoute(page: OrganiserLoginRoute.page),
+        AutoRoute(page: OrganiserSignupRoute.page),
         AutoRoute(page: MainRoute.page, children: [
           AutoRoute(page: HomeRoute.page, maintainState: true),
           AutoRoute(page: ParkingsRoute.page, maintainState: true),
@@ -25,6 +27,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: UserManagementRoute.page),
         AutoRoute(page: UpdateProfileRoute.page),
         AutoRoute(page: VerifyOtpRoute.page),
+        AutoRoute(page: OrganiserVerifyOtpRoute.page),
         AutoRoute(page: PasswordOtpRoute.page),
         AutoRoute(page: ForgetPasswordMailRoute.page),
         AutoRoute(page: ResetPasswordRoute.page),
@@ -44,5 +47,16 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: MovieDetailCinemaRoute.page),
         AutoRoute(page: VehiculeListReservationEventRoute.page),
         AutoRoute(page: NotificationRoute.page),
+        AutoRoute(page: MainOrganiserRoute.page, children: [
+          AutoRoute(page: OrganiserHomeRoute.page, maintainState: true),
+          AutoRoute(page: OrganiserStatistqueRoute.page, maintainState: true),
+          AutoRoute(page: OrganiserEventRoute.page, maintainState: true),
+          AutoRoute(page: OrganiserReservationRoute.page, maintainState: true),
+          AutoRoute(
+            page: OrganiserAccountRoute.page,
+            maintainState: true,
+          ),
+        ]),
+        AutoRoute(page: AddEventRoute.page),
       ];
 }

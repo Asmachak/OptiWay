@@ -117,7 +117,7 @@ async function uploadImage(req,res){
     const user = await User.findByPk(userId);
     const myNewToken=generateToken(user.toJSON());
     console.log(myNewToken)
-    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address, city : user.city, country : user.country});
+    return res.status(200).json({ token: myNewToken, id : user.id , email : user.email , name : user.name , last_name : user.last_name , phone : user.phone , photo : user.photo , password : user.password , address : user.address, city : user.city, country : user.country,deviceId:user.deviceId});
 
   } catch (error) {
         // Handle errors
@@ -190,6 +190,7 @@ async function editPassword(req, res) {
       address: existingUser.address,
       city: existingUser.city,
       country: existingUser.country,
+      deviceId:existingUser.deviceId
     });
   } catch (error) {
     console.log("Error:", error);
@@ -230,6 +231,7 @@ async function forgetPassword(req, res) {
       address: existingUser.address,
       city: existingUser.city,
       country: existingUser.country,
+      deviceId:existingUser.deviceId
     });
   } catch (error) {
     console.log("Error:", error);

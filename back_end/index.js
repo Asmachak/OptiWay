@@ -53,6 +53,7 @@ app.use((req, res, next) => {
 
 // Importer les routes
 app.use(require('./routes/user_routes')); 
+app.use(require('./routes/organiser_routes')); 
 app.use(require('./routes/parking_routes')); 
 app.use(require('./routes/reservation_routes')); 
 app.use(require('./routes/event_routes')); 

@@ -9,6 +9,8 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     TextStyle titleStyle = const TextStyle(
       fontStyle: FontStyle.italic,
       fontSize: 26,
@@ -43,6 +45,12 @@ class LoginScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 20),
+                Image.asset(
+                  "assets/optiway.png",
+                  width: screenWidth * 0.5,
+                ),
+                const SizedBox(height: 20),
                 LoginForm(),
               ],
             ),

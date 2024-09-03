@@ -1,13 +1,13 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
+const Organiser = require('./organiser');
 
 const Event = sequelize.define('event', {
   id: {
       type: DataTypes.STRING,
       primaryKey: true,
       unique: true,
-  }
-  ,    
+  },    
   title: {
     type: DataTypes.STRING,
     allowNull: false
@@ -25,11 +25,11 @@ const Event = sequelize.define('event', {
     defaultValue: DataTypes.NOW,
     allowNull:false
   },
-  EndedAt:{
+  endedAt:{
     type:DataTypes.DATE,
     allowNull:false
   },
-  price:{
+  unit_price:{
     type:DataTypes.FLOAT, 
     allowNull:false
   },
@@ -39,16 +39,29 @@ const Event = sequelize.define('event', {
   },
   genres: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   rating:{
     type:DataTypes.FLOAT, 
     allowNull:false
   },
-  
+  type: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  place: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  additional_info: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  },
 }, {
   timestamps: false 
   
 });
+Event.belongsTo(Organiser, { foreignKey: 'idOrganiser', targetKey: 'id' ,allowNull:true});
+
 
 module.exports = Event;

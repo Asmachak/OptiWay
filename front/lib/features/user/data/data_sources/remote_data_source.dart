@@ -305,7 +305,7 @@ class UserRemoteDataSource implements UserDataSource {
       FormData formData = FormData.fromMap({
         'image': await MultipartFile.fromFile(
           imageFile.path,
-          filename: 'image.jpg', // Provide a filename for the uploaded file
+          filename: 'image.jpg', 
         ),
       });
       final eitherType = await networkService.put(

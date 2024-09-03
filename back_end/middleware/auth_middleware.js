@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../middleware/jwt');
+const User = require('../models/user');
+
 
 module.exports = function authMiddleware() {
   return async (req, res, next) => {
@@ -77,3 +78,4 @@ module.exports = function authMiddleware() {
     }
   };
 };
+

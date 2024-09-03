@@ -6,7 +6,7 @@ const router = express.Router();
 /************************************ parking routes *****************************************/
 
 
-router.post('/event/addEvent',handleAddEvent);
+router.put('/event/addEvent/:idOrganiser',handleAddEvent);
 
 
 module.exports = router;

@@ -8,28 +8,41 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the screen's height
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Container(
-            color: const Color.fromARGB(255, 229, 237, 243),
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 18.0),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "Create your Account!",
-                  style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 1, 4, 175),
+          child: SizedBox(
+            height:
+                screenHeight, // Ensures the container height matches the screen height
+            child: Container(
+              color: const Color.fromARGB(255, 229, 237, 243),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 18.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Create your Account!",
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 1, 4, 175),
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                SignupForm(),
-              ],
+                  const SizedBox(height: 20),
+                  Image.asset(
+                    "assets/optiway.png",
+                    width: screenWidth * 0.5,
+                  ),
+                  const SizedBox(height: 20),
+                  const SignupForm(),
+                ],
+              ),
             ),
           ),
         ),

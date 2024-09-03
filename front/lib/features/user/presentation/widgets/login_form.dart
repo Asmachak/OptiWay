@@ -130,7 +130,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 67, 70, 225),
+                  backgroundColor: Colors.indigo,
                   side: const BorderSide(
                     color: Color.fromARGB(255, 67, 70, 225),
                     width: 1,

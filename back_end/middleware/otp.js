@@ -1,69 +1,41 @@
 const otpGenerator = require("otp-generator");
 const crypto = require("crypto");
-const key = "test123";
 const emailService = require("../middleware/email_service");
-const { error } = require("console");
-const exp = require("constants");
-const User = require("../models/user");
 
-let otpMap = new Map();
+const key = "test123";  // For HMAC hashing
+let otpMap = new Map();  // To store OTPs temporarily
 
+async function sendOTP(params, callback) {
+    const otp = otpGenerator.generate(4, {
+        digits: true,
+        upperCaseAlphabets: false,
+        specialChars: false,
+        lowerCaseAlphabets: false
+    });
 
-
-async function sendOTP(params,callback) {
-    const otp = otpGenerator.generate(
-        4 , {
-            digits : true,
-            upperCaseAlphabets:false,
-            specialChars:false,
-            lowerCaseAlphabets:false
-        }
-    );
-
-    const ttl = 5*60*1000; // 5min expiry
-    const expires = Date.now() + ttl ;
+    const ttl = 5 * 60 * 1000; // 5 minutes expiry
+    const expires = Date.now() + ttl;
     const data = `${params.email}.${otp}.${expires}`;
-    const hash = crypto.createHmac("sha256",key).update(data).digest("hex");
+    const hash = crypto.createHmac("sha256", key).update(data).digest("hex");
     const fullHash = `${hash}.${expires}`;
 
-    var otpMessage = `Dear Custumer , ${otp} is the one time email verification `;
+    const otpMessage = `Dear Customer, ${otp} is your one-time email verification code.`;
 
-    var model = {
-        email : params.email,
-        subject : "Registration OTP",
-        body : otpMessage
+    const model = {
+        email: params.email,
+        subject: "Registration OTP",
+        body: otpMessage
     };
 
     // Store OTP in the map with the email address as the key
     otpMap.set(params.email, otp);
 
-    emailService.sendEmail(model,(error,result)=>{
-        if(error) return callback(error);
-        else return callback(null,fullHash);
-    })
-
-
-
+    // Send the OTP via email
+    emailService.sendEmail(model, (error, result) => {
+        if (error) return callback(error);
+        else return callback(null, fullHash);
+    });
 }
-
-
-// async function verifyOTP(params,callback){
-//     let [hashValue,expires] = params.hash.split('.');
-
-//     let now = Date.now();
-
-//     if(now > parseInt(expires)) return callback("OTP Expired");
-
-//     let data = `${params.email}.${params.otp}.${params.expires}`;
-
-//     let newCalcuatedHash = crypto.createHmac("sha256",key).update(data).digest("hex");
-
-//     if(newCalcuatedHash === hashValue ) return callback(null,"success");
-//     return callback("invalid OTP"); 
-
-
-// }
-
 
 async function verifyOTP(params) {
     const { email, otp } = params;
@@ -76,13 +48,12 @@ async function verifyOTP(params) {
     }
 
     if (storedOtp === otp) {
-        // OTP is valid, perform authentication or grant access
-        otpMap.delete(email); // Remove OTP from the map after successful verification
+        // OTP is valid, remove it from the map
+        otpMap.delete(email);
         return 'success';
     } else {
         throw new Error('Invalid OTP');
     }
 }
 
-
-module.exports={sendOTP,verifyOTP}
+module.exports = { sendOTP, verifyOTP };
