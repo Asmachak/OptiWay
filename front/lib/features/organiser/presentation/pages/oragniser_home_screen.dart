@@ -279,8 +279,7 @@ class _OrganiserHomeScreenState extends ConsumerState<OrganiserHomeScreen> {
                                 icon: Icons.add,
                                 label: 'Add an Event',
                                 onTap: () {
-                                  AutoRouter.of(context)
-                                      .replace(AddEventRoute());
+                                  AutoRouter.of(context).push(AddEventRoute());
                                 },
                               ),
                             ),

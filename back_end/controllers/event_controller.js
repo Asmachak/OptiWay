@@ -112,4 +112,88 @@ async function insertDataFromJsonToDb() {
   }
 }
 
-module.exports = { handleAddEvent, insertDataFromJsonToDb };
+async function deleteEvent(req, res) {
+  try {
+    const eventId = req.params.eventId;
+  
+    // Check if the event exists
+    const existingEvent = await Event.findOne({ where: { id: eventId } });
+  
+    if (!existingEvent) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+  
+    // Delete the event
+    await Event.destroy({
+      where: { id: eventId }
+    });
+  
+    // Return success response
+    return res.status(200).json({ message: "Event deleted successfully" });
+    
+  } catch (error) {
+    console.error("Error:", error);
+    return res.status(500).send("Error occurred while deleting the event.");
+  }
+};
+
+async function getEvents(req, res) {
+  try {
+    const { idOrganiser } = req.params;
+
+    // Find the reservation by its ID
+    const events = await Event.findAll({
+      where: {
+        idOrganiser:idOrganiser
+      }
+    });
+    // Send a success response
+    console.log(typeof events);
+    res.status(200).send(events);
+  } catch (error) {
+    console.error("Error occurred when geting events:", error);
+    res.status(500).send("Error occurred when geting events: " + error.message);
+  }
+}
+
+async function updateEvent (req, res) {
+  try {
+    const eventId = req.params.eventId;
+
+    const existingEvent = await Event.findByPk(eventId);
+
+    if (!existingEvent) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    const updatedEventData = req.body;
+
+    console.log(updatedEventData);
+
+    console.log("exist ",existingEvent);
+
+   await existingEvent.update({
+      title: updatedEventData.title || existingEvent.title,
+      description: updatedEventData.description || existingEvent.description,
+      capacity: updatedEventData.capacity || existingEvent.capacity,
+      place: updatedEventData.place || existingEvent.place,
+      image_url: updatedEventData.image_url || existingEvent.image_url,
+      createdAt: updatedEventData.createdAt || existingEvent.createdAt,
+      endedAt: updatedEventData.endedAt || existingEvent.endedAt,
+      unit_price: updatedEventData.unit_price || existingEvent.unit_price,
+      genres: updatedEventData.genres || existingEvent.genres,
+      type: updatedEventData.type || existingEvent.type,
+      additional_info: updatedEventData.additional_info || existingEvent.additional_info,
+    });
+
+    const event = await Event.findByPk(eventId);
+    return res.status(200).send(event);
+
+  } catch (error) {
+    // Handle errors
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Something went wrong in updateEvent' });
+  }
+};
+
+module.exports = { handleAddEvent, insertDataFromJsonToDb,deleteEvent,getEvents,updateEvent };

@@ -2,7 +2,6 @@ import 'package:front/core/infrastructure/either.dart';
 import 'package:front/core/infrastructure/exceptions/http_exception.dart';
 import 'package:front/core/infrastructure/network_service.dart';
 import 'package:front/features/notification/data/models/notification_model.dart';
-import 'package:front/features/rate/data/models/rate_model.dart';
 
 abstract class NotificationDataSource {
   Future<Either<AppException, List<NotificationModel>>> getNotifications({

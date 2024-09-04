@@ -1,13 +1,16 @@
 import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class AddImageWidget extends ConsumerStatefulWidget {
   final Function(File?) onImageSelected;
+  final bool isRequired;
 
-  const AddImageWidget({Key? key, required this.onImageSelected})
+  const AddImageWidget(
+      {Key? key, required this.onImageSelected, this.isRequired = false})
       : super(key: key);
 
   @override
@@ -45,8 +48,14 @@ class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
             ),
           )
         else
-          SizedBox(
+          Container(
             width: 220,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: widget.isRequired
+                  ? Border.all(color: Colors.red)
+                  : Border.all(color: Colors.transparent),
+            ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: CachedNetworkImage(
@@ -54,7 +63,7 @@ class _AddImageWidgetState extends ConsumerState<AddImageWidget> {
                 placeholder: (context, url) =>
                     Image.asset('assets/placeholder.webp'),
                 errorWidget: (context, url, error) =>
-                    Image.asset('assets/error.png'),
+                    Image.asset('assets/event.png'),
               ),
             ),
           ),

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/presentation/blocs/event_provider.dart';
 import 'package:front/features/event/presentation/blocs/state/event_organiser/event_organiser_notifier.dart';
+import 'package:front/features/event/presentation/blocs/state/event_organiser/event_state.dart';
 import 'package:front/features/event/presentation/widgets/add_image.dart';
 import 'package:front/features/organiser/data/data_sources/organiser_local_data_src.dart';
+import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 
 @RoutePage()
@@ -120,6 +122,14 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
 
   void _submitForm() {
     if (_formKey.currentState?.validate() ?? false) {
+      if (_selectedImageFile == null) {
+        // Show an error if the image is not selected
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select an image')),
+        );
+        return; // Stop submission
+      }
+
       // Gather custom field values
       Map<String, String> customFieldValues = {};
       for (var map in _customFieldControllers) {
@@ -239,6 +249,10 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Event'),
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+        ),
       ),
       body: SafeArea(
         child: Column(
@@ -249,6 +263,9 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                   _selectedImageFile = imageFile;
                 });
               },
+            ),
+            SizedBox(
+              height: 10,
             ),
             Expanded(
               child: Padding(
@@ -437,7 +454,45 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                       SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                              onPressed: _submitForm,
+                              onPressed: () {
+                                _submitForm();
+                                if (ref.watch(eventNotifierProvider)
+                                    is Success) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Container(
+                                        padding: const EdgeInsets.all(16),
+                                        height: 90,
+                                        decoration: const BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                        ),
+                                        child: const Column(
+                                          children: [
+                                            Text(
+                                              "Congrats!",
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.white),
+                                            ),
+                                            Text(
+                                              " Your Event is added successfully!",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      elevation: 0,
+                                    ),
+                                  );
+                                  AutoRouter.of(context)
+                                      .push(const OrganiserEventRoute());
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5.0),

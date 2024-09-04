@@ -1,5 +1,5 @@
 const express = require('express');
-const { handleAddEvent } = require('../controllers/event_controller');
+const { handleAddEvent, deleteEvent, getEvents, updateEvent } = require('../controllers/event_controller');
 const router = express.Router();
 
 
@@ -7,6 +7,12 @@ const router = express.Router();
 
 
 router.put('/event/addEvent/:idOrganiser',handleAddEvent);
+router.delete('/event/deleteEvent/:eventId',deleteEvent);
+router.get('/event/getEvent/:idOrganiser',getEvents);
+router.post('/event/updateEvent/:eventId',updateEvent);
+
+
+
 
 
 module.exports = router;

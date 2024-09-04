@@ -10,4 +10,7 @@ abstract class OrganiserEventRepository {
     required String idOrganiser,
     required File imageFile,
   });
+  Future<Either<AppException, List<EventOrganiserModel>>> getEventOrganiser({
+    required String idOrganiser,
+  });
 }

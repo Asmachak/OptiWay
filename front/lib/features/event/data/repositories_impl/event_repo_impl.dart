@@ -22,4 +22,10 @@ class OrganiserEventRepositoryImpl implements OrganiserEventRepository {
     return remoteDataSource.addEventOrganiser(
         body: body, idOrganiser: idOrganiser, imageFile: imageFile);
   }
+
+  @override
+  Future<Either<AppException, List<EventOrganiserModel>>> getEventOrganiser(
+      {required String idOrganiser}) async {
+    return remoteDataSource.getEventOrganiser(idOrganiser: idOrganiser);
+  }
 }

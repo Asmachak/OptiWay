@@ -38,8 +38,23 @@ class EventOrganiserModel extends EventModel {
           parkings: parkings,
         );
 
-  factory EventOrganiserModel.fromJson(Map<String, dynamic> json) =>
-      _$EventOrganiserModelFromJson(json);
+  factory EventOrganiserModel.fromJson(Map<String, dynamic> json) {
+    return EventOrganiserModel(
+        id: json['id'],
+        title: json['title'],
+        description: json['description'],
+        image_url: json['image_url'],
+        createdAt: DateTime.parse(json['createdAt']),
+        endedAt: DateTime.parse(json['endedAt']),
+        unit_price: (json['unit_price'] as num).toDouble(),
+        capacity: json['capacity'],
+        //genres: json['genres'],
+        rating: (json['rating'] as num).toDouble(),
+        type: json['type'],
+        place: json['place'],
+        parkings: json['parkings'] ?? [], // Default to empty list if null
+        additional_info: json["additional_info"] ?? {});
+  }
 
   @override
   Map<String, dynamic> toJson() => _$EventOrganiserModelToJson(this);

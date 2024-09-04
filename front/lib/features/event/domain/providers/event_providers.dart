@@ -5,6 +5,7 @@ import 'package:front/features/event/data/data_sources/event_remote_data_src.dar
 import 'package:front/features/event/data/repositories_impl/event_repo_impl.dart';
 import 'package:front/features/event/domain/repositories/event_repo.dart';
 import 'package:front/features/event/domain/use_cases/add_event_use_case.dart';
+import 'package:front/features/event/domain/use_cases/get_event_organiser_use_case.dart';
 
 final eventOrganiserdatasourceProvider =
     Provider.family<EventRemoteDataSource, NetworkService>(
@@ -25,4 +26,8 @@ final eventOrganiserRepositoryProvider =
 
 final addEventOrganiserUseCaseProvider = Provider<AddEventUsecases>((ref) {
   return AddEventUsecases(ref.read(eventOrganiserRepositoryProvider));
+});
+
+final getEventOrganiserUseCaseProvider = Provider<GetEventUsecases>((ref) {
+  return GetEventUsecases(ref.read(eventOrganiserRepositoryProvider));
 });

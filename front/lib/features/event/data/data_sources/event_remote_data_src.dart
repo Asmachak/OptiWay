@@ -11,6 +11,9 @@ abstract class EventDataSource {
     required String idOrganiser,
     required File imageFile,
   });
+  Future<Either<AppException, List<EventOrganiserModel>>> getEventOrganiser({
+    required String idOrganiser,
+  });
 }
 
 class EventRemoteDataSource implements EventDataSource {
@@ -65,6 +68,39 @@ class EventRemoteDataSource implements EventDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nEventRemoteDataSource.addEvent',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<EventOrganiserModel>>> getEventOrganiser({
+    required String idOrganiser,
+  }) async {
+    try {
+      final eitherType =
+          await networkService.get('/event/getEvent/$idOrganiser');
+
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          List<EventOrganiserModel> events = [];
+          if (response.data != null) {
+            events = List<EventOrganiserModel>.from(
+                response.data.map((x) => EventOrganiserModel.fromJson(x)));
+          }
+          return Right(events);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nEventRemoteDataSource.getEvent',
         ),
       );
     }
