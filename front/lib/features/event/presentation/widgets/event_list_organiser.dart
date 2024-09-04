@@ -16,40 +16,55 @@ class _EventListWidgetState extends ConsumerState<EventListWidget> {
   @override
   void initState() {
     super.initState();
-    // Fetching the event list in initState using ref.read
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(eventListNotifierProvider.notifier).getEvent(GetIt.instance
-          .get<OrganiserLocalDataSource>()
-          .currentOrganiser!
-          .id!); // Adjust this method name based on your provider logic
+      _fetchEvents();
     });
+  }
+
+  void _fetchEvents() {
+    final organiserId =
+        GetIt.instance.get<OrganiserLocalDataSource>().currentOrganiser!.id!;
+    ref.read(eventListNotifierProvider.notifier).getEvent(organiserId);
   }
 
   @override
   Widget build(BuildContext context) {
-    // Watching the eventListNotifierProvider to react to state changes
     final eventlistState = ref.watch(eventListNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event List'),
+        title: const Text('Event List'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: eventlistState.when(
-          initial: () {},
-          loaded: (events) => ListView.builder(
-            itemCount: events.length,
-            itemBuilder: (context, index) {
-              final event = events[index];
-              return EventCard(
-                event: event,
-              );
-            },
-          ),
-          loading: () => Center(child: CircularProgressIndicator()),
+          initial: () => const Center(child: Text('No events found')),
+          loaded: (events) {
+            // Create a modifiable copy of the events list
+            final sortedEvents = List.from(events)
+              ..sort((a, b) {
+                final now = DateTime.now();
+                final aExpired = now.isAfter(a.endedAt);
+                final bExpired = now.isAfter(b.endedAt);
+                return aExpired == bExpired ? 0 : (aExpired ? 1 : -1);
+              });
+
+            return ListView.builder(
+              itemCount: sortedEvents.length,
+              itemBuilder: (context, index) {
+                final event = sortedEvents[index];
+                return EventCard(event: event);
+              },
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
           failure: (error) => Center(child: Text('Error: $error')),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _fetchEvents, // Reload the event list on button press
+        child: const Icon(Icons.refresh),
+        tooltip: 'Reload Events',
       ),
     );
   }

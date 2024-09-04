@@ -12,29 +12,48 @@ async function handleAddEvent(req, res) {
     console.log("Image URL:", imageUrl);
 
     const {
-      title = "",
-      description = "",
+      image_url, // Provided by client but overwritten by uploaded image URL
+      title,
+      description,
       endedAt,
-      unit_price = "0.0",
-      capacity = "0",
-      genres = null,
-      rating = "0.0",
-      type = null,
-      place = null,
-      additional_info = "{}",
+      unit_price,
+      capacity,
+      genres,
+      rating,
+      type,
+      place,
+      additional_info,
     } = req.body;
+
     const idOrganiser = req.params.idOrganiser;
 
-    // Parse numeric values safely
+    // Safely parse numeric values
     const parsedUnitPrice = parseFloat(unit_price);
     const parsedCapacity = parseInt(capacity);
     const parsedRating = parseFloat(rating);
 
+    // Log the raw value of additional_info to check its format
+    console.log("Raw additional_info:", additional_info);
+
+    // Ensure additional_info is a valid JSON object or null
+    let parsedAdditionalInfo = null;
+    if (typeof additional_info === 'string') {
+      try {
+        parsedAdditionalInfo = JSON.parse(additional_info); // Parse if it's a valid JSON string
+      } catch (error) {
+        console.warn('Invalid JSON format for additional_info, storing as null:', error);
+        parsedAdditionalInfo = null; // Set to null if parsing fails
+      }
+    } else if (typeof additional_info === 'object' && additional_info !== null) {
+      parsedAdditionalInfo = additional_info; // If already an object, store as is
+    }
+
+    // Create the event object in the database
     const event = await Event.create({
       id: uuidv4(),
       title,
       description,
-      image_url: imageUrl,
+      image_url: imageUrl, // Use the uploaded image URL
       createdAt: new Date(),
       endedAt: endedAt ? new Date(endedAt) : new Date(),
       unit_price: isNaN(parsedUnitPrice) ? 0.0 : parsedUnitPrice,
@@ -43,10 +62,11 @@ async function handleAddEvent(req, res) {
       rating: isNaN(parsedRating) ? 0.0 : parsedRating,
       type,
       place,
-      additional_info: JSON.parse(additional_info),
+      additional_info: parsedAdditionalInfo, // Store the parsed info here
       idOrganiser,
     });
 
+    // Return a successful response with the event data
     return res.status(200).send({
       id: event.id,
       title: event.title,
@@ -62,11 +82,14 @@ async function handleAddEvent(req, res) {
       place: event.place,
       additional_info: event.additional_info,
       idOrganiser: event.idOrganiser,
-      parkings: [],
+      parkings: [], // Static or additional data as per the previous example
     });
   } catch (error) {
     console.error("Error:", error);
-    return res.status(500).send({ error: "Error occurred while handling Add Event", details: error.message });
+    return res.status(500).send({
+      error: "Error occurred while handling Add Event",
+      details: error.message,
+    });
   }
 }
 
@@ -115,6 +138,13 @@ async function insertDataFromJsonToDb() {
 async function deleteEvent(req, res) {
   try {
     const eventId = req.params.eventId;
+    
+    // Log the received params to ensure eventId is being passed correctly
+    console.log('Received eventId:', eventId);
+    
+    if (!eventId) {
+      return res.status(400).json({ error: 'Event ID is required' });
+    }
   
     // Check if the event exists
     const existingEvent = await Event.findOne({ where: { id: eventId } });
@@ -124,18 +154,17 @@ async function deleteEvent(req, res) {
     }
   
     // Delete the event
-    await Event.destroy({
-      where: { id: eventId }
-    });
+    await Event.destroy({ where: { id: eventId } });
   
     // Return success response
-    return res.status(200).json({ message: "Event deleted successfully" });
+    return res.status(200).send("Event deleted successfully");
     
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).send("Error occurred while deleting the event.");
   }
-};
+}
+
 
 async function getEvents(req, res) {
   try {

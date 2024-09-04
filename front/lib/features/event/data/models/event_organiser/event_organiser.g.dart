@@ -13,7 +13,7 @@ EventOrganiserModel _$EventOrganiserModelFromJson(Map<String, dynamic> json) =>
       image_url: json['image_url'] as String,
       description: json['description'] as String,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      parkings: json['parkings'] as List<dynamic> ,
+      parkings: json['parkings'] as List<dynamic>,
       type: json['type'] as String,
       place: json['place'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),

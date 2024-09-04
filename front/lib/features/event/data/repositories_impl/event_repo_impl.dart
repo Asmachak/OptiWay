@@ -28,4 +28,10 @@ class OrganiserEventRepositoryImpl implements OrganiserEventRepository {
       {required String idOrganiser}) async {
     return remoteDataSource.getEventOrganiser(idOrganiser: idOrganiser);
   }
+
+  @override
+  Future<Either<AppException, String>> deleteEventOrganiser(
+      {required String idevent}) async {
+    return remoteDataSource.deleteEventOrganiser(idEvent: idevent);
+  }
 }

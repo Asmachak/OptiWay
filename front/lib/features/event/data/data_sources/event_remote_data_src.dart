@@ -14,6 +14,9 @@ abstract class EventDataSource {
   Future<Either<AppException, List<EventOrganiserModel>>> getEventOrganiser({
     required String idOrganiser,
   });
+  Future<Either<AppException, String>> deleteEventOrganiser({
+    required String idEvent,
+  });
 }
 
 class EventRemoteDataSource implements EventDataSource {
@@ -101,6 +104,34 @@ class EventRemoteDataSource implements EventDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nEventRemoteDataSource.getEvent',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, String>> deleteEventOrganiser({
+    required String idEvent,
+  }) async {
+    try {
+      final eitherType =
+          await networkService.delete('/event/deleteEvent/$idEvent');
+
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          return Right(response.data);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nEventRemoteDataSource.deleteEvent',
         ),
       );
     }

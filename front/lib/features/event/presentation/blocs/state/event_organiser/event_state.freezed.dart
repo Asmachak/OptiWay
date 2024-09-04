@@ -22,6 +22,7 @@ mixin _$EventState {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(EventOrganiserModel event) success,
+    required TResult Function() deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$EventState {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(EventOrganiserModel event)? success,
+    TResult? Function()? deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$EventState {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(EventOrganiserModel event)? success,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +50,7 @@ mixin _$EventState {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +59,7 @@ mixin _$EventState {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +68,7 @@ mixin _$EventState {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -128,6 +134,7 @@ class _$InitialImpl implements Initial {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(EventOrganiserModel event) success,
+    required TResult Function() deleted,
   }) {
     return initial();
   }
@@ -139,6 +146,7 @@ class _$InitialImpl implements Initial {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(EventOrganiserModel event)? success,
+    TResult? Function()? deleted,
   }) {
     return initial?.call();
   }
@@ -150,6 +158,7 @@ class _$InitialImpl implements Initial {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(EventOrganiserModel event)? success,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -165,6 +174,7 @@ class _$InitialImpl implements Initial {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) {
     return initial(this);
   }
@@ -176,6 +186,7 @@ class _$InitialImpl implements Initial {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) {
     return initial?.call(this);
   }
@@ -187,6 +198,7 @@ class _$InitialImpl implements Initial {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -242,6 +254,7 @@ class _$LoadingImpl implements Loading {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(EventOrganiserModel event) success,
+    required TResult Function() deleted,
   }) {
     return loading();
   }
@@ -253,6 +266,7 @@ class _$LoadingImpl implements Loading {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(EventOrganiserModel event)? success,
+    TResult? Function()? deleted,
   }) {
     return loading?.call();
   }
@@ -264,6 +278,7 @@ class _$LoadingImpl implements Loading {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(EventOrganiserModel event)? success,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -279,6 +294,7 @@ class _$LoadingImpl implements Loading {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) {
     return loading(this);
   }
@@ -290,6 +306,7 @@ class _$LoadingImpl implements Loading {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) {
     return loading?.call(this);
   }
@@ -301,6 +318,7 @@ class _$LoadingImpl implements Loading {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -383,6 +401,7 @@ class _$FailureImpl implements Failure {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(EventOrganiserModel event) success,
+    required TResult Function() deleted,
   }) {
     return failure(exception);
   }
@@ -394,6 +413,7 @@ class _$FailureImpl implements Failure {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(EventOrganiserModel event)? success,
+    TResult? Function()? deleted,
   }) {
     return failure?.call(exception);
   }
@@ -405,6 +425,7 @@ class _$FailureImpl implements Failure {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(EventOrganiserModel event)? success,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -420,6 +441,7 @@ class _$FailureImpl implements Failure {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) {
     return failure(this);
   }
@@ -431,6 +453,7 @@ class _$FailureImpl implements Failure {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) {
     return failure?.call(this);
   }
@@ -442,6 +465,7 @@ class _$FailureImpl implements Failure {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -528,6 +552,7 @@ class _$SuccessImpl implements Success {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(EventOrganiserModel event) success,
+    required TResult Function() deleted,
   }) {
     return success(event);
   }
@@ -539,6 +564,7 @@ class _$SuccessImpl implements Success {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(EventOrganiserModel event)? success,
+    TResult? Function()? deleted,
   }) {
     return success?.call(event);
   }
@@ -550,6 +576,7 @@ class _$SuccessImpl implements Success {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(EventOrganiserModel event)? success,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -565,6 +592,7 @@ class _$SuccessImpl implements Success {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) {
     return success(this);
   }
@@ -576,6 +604,7 @@ class _$SuccessImpl implements Success {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) {
     return success?.call(this);
   }
@@ -587,6 +616,7 @@ class _$SuccessImpl implements Success {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -604,4 +634,124 @@ abstract class Success implements EventState {
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DeletedImplCopyWith<$Res> {
+  factory _$$DeletedImplCopyWith(
+          _$DeletedImpl value, $Res Function(_$DeletedImpl) then) =
+      __$$DeletedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$DeletedImplCopyWithImpl<$Res>
+    extends _$EventStateCopyWithImpl<$Res, _$DeletedImpl>
+    implements _$$DeletedImplCopyWith<$Res> {
+  __$$DeletedImplCopyWithImpl(
+      _$DeletedImpl _value, $Res Function(_$DeletedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$DeletedImpl implements Deleted {
+  const _$DeletedImpl();
+
+  @override
+  String toString() {
+    return 'EventState.deleted()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$DeletedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(AppException exception) failure,
+    required TResult Function(EventOrganiserModel event) success,
+    required TResult Function() deleted,
+  }) {
+    return deleted();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(AppException exception)? failure,
+    TResult? Function(EventOrganiserModel event)? success,
+    TResult? Function()? deleted,
+  }) {
+    return deleted?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(AppException exception)? failure,
+    TResult Function(EventOrganiserModel event)? success,
+    TResult Function()? deleted,
+    required TResult orElse(),
+  }) {
+    if (deleted != null) {
+      return deleted();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Failure value) failure,
+    required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
+  }) {
+    return deleted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Failure value)? failure,
+    TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
+  }) {
+    return deleted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Failure value)? failure,
+    TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
+    required TResult orElse(),
+  }) {
+    if (deleted != null) {
+      return deleted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Deleted implements EventState {
+  const factory Deleted() = _$DeletedImpl;
 }

@@ -7,8 +7,10 @@ import 'package:front/features/event/presentation/blocs/state/event_organiser/ev
 final eventNotifierProvider =
     StateNotifierProvider<EventOrganiserNotifier, EventState>((ref) {
   final addEventUseCases = ref.read(addEventOrganiserUseCaseProvider);
+  final deleteEventUseCases = ref.read(deleteEventOrganiserUseCaseProvider);
 
-  final eventUseCases =
-      EventtOrganiserUseCases(addEventUsecases: addEventUseCases);
+  final eventUseCases = EventtOrganiserUseCases(
+      addEventUsecases: addEventUseCases,
+      deleteEventUsecases: deleteEventUseCases);
   return EventOrganiserNotifier(eventUseCases);
 });

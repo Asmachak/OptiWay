@@ -11,4 +11,5 @@ abstract class EventState with _$EventState {
   const factory EventState.failure(AppException exception) = Failure;
   const factory EventState.success({required EventOrganiserModel event}) =
       Success;
+  const factory EventState.deleted() = Deleted;
 }

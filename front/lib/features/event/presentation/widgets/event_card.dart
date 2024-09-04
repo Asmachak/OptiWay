@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/features/event/presentation/blocs/event_list_provider.dart';
+import 'package:front/features/event/presentation/blocs/event_provider.dart';
+import 'package:front/features/event/presentation/blocs/state/event_organiser/event_state.dart';
+import 'package:front/features/organiser/data/data_sources/organiser_local_data_src.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:front/features/event/data/models/event_organiser/event_organiser.dart';
 
-class EventCard extends StatefulWidget {
+class EventCard extends ConsumerStatefulWidget {
   final EventOrganiserModel event;
 
   EventCard({required this.event});
@@ -11,7 +18,7 @@ class EventCard extends StatefulWidget {
   _EventCardState createState() => _EventCardState();
 }
 
-class _EventCardState extends State<EventCard> {
+class _EventCardState extends ConsumerState<EventCard> {
   bool isExpanded = false;
 
   // Computed property to check if the event is expired
@@ -123,29 +130,100 @@ class _EventCardState extends State<EventCard> {
           ],
         ),
         const SizedBox(height: 16),
-        Align(
-          alignment: Alignment.centerRight,
-          child: ElevatedButton(
-            onPressed: () {
-              // Add delete functionality here
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-            ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min, // To keep the button small
-              children: [
-                Icon(Icons.delete, color: Colors.white), // Basket icon
-                SizedBox(width: 8),
-                Text(
-                  'Delete Reservation',
-                  style: TextStyle(color: Colors.white),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Add Promo Button
+            if (!isExpired)
+              ElevatedButton(
+                onPressed: () {
+                  // Handle Add Promo logic here
+                  _addPromo(widget.event.id); // Define _addPromo
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
                 ),
-              ],
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.local_offer, color: Colors.white), // Promo icon
+                    SizedBox(width: 8),
+                    Text(
+                      'Add Promo',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            // Delete Button
+            ElevatedButton(
+              onPressed: () async {
+                await ref
+                    .read(eventNotifierProvider.notifier)
+                    .deleteEvent(widget.event.id);
+
+                var eventState = ref.watch(eventNotifierProvider);
+
+                if (eventState is Deleted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Container(
+                        padding: const EdgeInsets.all(16),
+                        height: 90,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 175, 76, 76),
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: const Column(
+                          children: [
+                            Text(
+                              "The Event is deleted Successfully!",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                    ),
+                  );
+                  // Reload the event list
+                  ref.read(eventListNotifierProvider.notifier).getEvent(GetIt
+                      .instance
+                      .get<OrganiserLocalDataSource>()
+                      .currentOrganiser!
+                      .id!);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.delete, color: Colors.white),
+                  SizedBox(width: 8),
+                  Text(
+                    'Delete Reservation',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ],
+    );
+  }
+
+  // Placeholder method to handle adding a promo to the event
+  void _addPromo(String eventId) {
+    // Implement your logic here for adding a promo
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Promo added successfully!'),
+      ),
     );
   }
 }

@@ -13,4 +13,7 @@ abstract class OrganiserEventRepository {
   Future<Either<AppException, List<EventOrganiserModel>>> getEventOrganiser({
     required String idOrganiser,
   });
+  Future<Either<AppException, String>> deleteEventOrganiser({
+    required String idevent,
+  });
 }
