@@ -58,5 +58,6 @@ class AppRouter extends $AppRouter {
           ),
         ]),
         AutoRoute(page: AddEventRoute.page),
+        AutoRoute(page: AddParkingEventRoute.page),
       ];
 }

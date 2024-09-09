@@ -89,7 +89,10 @@ async function handleAddPromo(req, res) {
             where: { id: promo.id },
             include: { model: Event }
         });
-
+        // const eventPromo = await Event.findOne({
+        //     where: { id: idevent },
+        //     include: { model: Promotion }
+        // });
         return res.status(200).json(promotion);
     } catch (error) {
         console.error("Error:", error);

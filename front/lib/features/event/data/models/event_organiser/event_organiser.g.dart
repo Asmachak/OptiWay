@@ -13,14 +13,15 @@ EventOrganiserModel _$EventOrganiserModelFromJson(Map<String, dynamic> json) =>
       image_url: json['image_url'] as String,
       description: json['description'] as String,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      parkings: json['parkings'] as List<dynamic>,
       type: json['type'] as String,
       place: json['place'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       endedAt: DateTime.parse(json['endedAt'] as String),
       unit_price: (json['unit_price'] as num).toDouble(),
       capacity: (json['capacity'] as num).toInt(),
-      additional_info: json['additional_info'] as Map<String, dynamic>,
+      parkings: json['parkings'] as List<dynamic>,
+      promotion: json['promotion'] as Map<String, dynamic>?,
+      additional_info: json['additional_info'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$EventOrganiserModelToJson(
@@ -31,7 +32,6 @@ Map<String, dynamic> _$EventOrganiserModelToJson(
       'image_url': instance.image_url,
       'description': instance.description,
       'rating': instance.rating,
-      'parkings': instance.parkings,
       'type': instance.type,
       'place': instance.place,
       'createdAt': instance.createdAt.toIso8601String(),
@@ -39,4 +39,6 @@ Map<String, dynamic> _$EventOrganiserModelToJson(
       'unit_price': instance.unit_price,
       'capacity': instance.capacity,
       'additional_info': instance.additional_info,
+      'promotion': instance.promotion,
+      'parkings': instance.parkings,
     };

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/presentation/blocs/event_list_provider.dart';
 import 'package:front/features/event/presentation/blocs/event_provider.dart';
 import 'package:front/features/event/presentation/blocs/state/event_organiser/event_state.dart';
+import 'package:front/features/promo/presentation/widgets/promo_form.dart';
 import 'package:front/features/organiser/data/data_sources/organiser_local_data_src.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
@@ -137,8 +138,11 @@ class _EventCardState extends ConsumerState<EventCard> {
             if (!isExpired)
               ElevatedButton(
                 onPressed: () {
-                  // Handle Add Promo logic here
-                  _addPromo(widget.event.id); // Define _addPromo
+                  showDialog(
+                    context: context,
+                    builder: (context) =>
+                        PromoFormModal(idevent: widget.event.id),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,

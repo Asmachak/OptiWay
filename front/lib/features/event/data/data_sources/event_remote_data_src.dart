@@ -42,8 +42,8 @@ class EventRemoteDataSource implements EventDataSource {
       // Add the fields from the body map to FormData
       body.forEach((key, value) {
         if (value != null) {
-          formData.fields
-              .add(MapEntry(key, value.toString())); // Ensure value is not null
+          formData.fields.add(MapEntry(
+              key.toString(), value.toString())); // Ensure value is not null
         }
       });
 

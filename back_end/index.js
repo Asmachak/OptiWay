@@ -20,6 +20,9 @@ const Notification = require('./models/notification');
 const Manufacturer = require('./models/carManufacturer');
 const CarModel = require('./models/carModel');
 const Rate = require('./models/rate');
+const ReservationEventParking = require('./models/reservation_event_parking');
+
+
 const { importData } = require('./controllers/car_controller');
 const { insertDataFromJsonToDb } = require('./controllers/event_controller');
 const { exec } = require('child_process');
@@ -30,12 +33,22 @@ const {scheduleReservationNotifications} = require('./controllers/notification_c
 // Synchroniser la base de données avec les modèles
 /*(async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ alter: true }); // Avoid dropping tables
     console.log('Database synchronized successfully');
   } catch (error) {
     console.error('Error synchronizing database:', error);
-  } 
-})(); 
+  }
+})();
+*/
+/*(async () => {
+  try {
+    // Sync only the ReservationEventParking model
+    await ReservationEventParking.sync({ alter: true }); // Use 'alter' to update the table structure without dropping it
+    console.log('ReservationEventParking table synchronized successfully');
+  } catch (error) {
+    console.error('Error synchronizing ReservationEventParking table:', error);
+  }
+})();
 
 /****************************************Middlewares****************************************/
 app.use(express.urlencoded({ extended: false }));
@@ -75,7 +88,7 @@ const server = http.createServer(app);
 const io = initializeSocket(server);
 
 // Start the cron job for notifications
-scheduleReservationNotifications(io);
+//scheduleReservationNotifications(io);
 
 // Express middleware setup (e.g., for parsing JSON)
 app.use(express.json());

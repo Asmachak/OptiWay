@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/presentation/blocs/event_provider.dart';
 import 'package:front/features/event/presentation/blocs/state/event_organiser/event_organiser_notifier.dart';
-import 'package:front/features/event/presentation/blocs/state/event_organiser/event_state.dart';
 import 'package:front/features/event/presentation/widgets/add_image.dart';
 import 'package:front/features/organiser/data/data_sources/organiser_local_data_src.dart';
 import 'package:get_it/get_it.dart';
@@ -302,7 +301,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                             'Unit Price', Icons.attach_money),
                         validator: (value) => value == null || value.isEmpty
                             ? 'Please enter a unit price'
-                            : double.tryParse(value!) == null
+                            : double.tryParse(value) == null
                                 ? 'Please enter a valid number'
                                 : null,
                       ),
@@ -406,13 +405,50 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: _submitForm,
+                        onPressed: () {
+                          Map<String, String> customFieldValues = {};
+                          for (var map in _customFieldControllers) {
+                            String key = map['key']?.text ?? '';
+                            String value = map['value']?.text ?? '';
+                            if (key.isNotEmpty && value.isNotEmpty) {
+                              customFieldValues[key] = value;
+                            }
+                          }
+                          // Gather event data to pass
+                          final eventData = {
+                            'title': _titleController.text,
+                            'description': _descriptionController.text,
+                            'unit_price':
+                                double.tryParse(_unitPriceController.text) ?? 0,
+                            'capacity':
+                                int.tryParse(_capacityController.text) ?? 0,
+                            'place': _placeController.text,
+                            'endedAt':
+                                _selectedEndDateTime?.toIso8601String() ?? '',
+                            'type': _selectedType == 'Other'
+                                ? _customTypeController.text
+                                : _selectedType,
+                            'genres': _selectedGenre == 'Other'
+                                ? _customGenreController.text
+                                : _selectedGenre,
+                            'additional_info': customFieldValues.isNotEmpty
+                                ? jsonEncode(customFieldValues)
+                                : null,
+                          };
+
+                          // Navigate to parking screen and pass eventData
+                          AutoRouter.of(context).push(
+                            AddParkingEventRoute(
+                                eventData: eventData,
+                                image: _selectedImageFile!),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0)),
                           backgroundColor: Colors.indigo,
                         ),
-                        child: const Text("Add Event",
+                        child: const Text("Next",
                             style: TextStyle(color: Colors.white)),
                       ),
                     ],

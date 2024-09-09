@@ -4,12 +4,25 @@ const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const { Op } = require('sequelize'); 
 const {handleImageUploadAsync} = require('../middleware/cloudinary');
+const ReservationEventParking = require("../models/reservation_event_parking");
+const Parking = require("../models/parking");
+const Promotion = require("../models/promotion");
+
+function fixInvalidJsonString(invalidJsonString) {
+  // Add double quotes around keys and string values
+  const fixedJsonString = invalidJsonString
+    .replace(/([{,])\s*([^{}\[\],:]+)\s*:/g, '$1"$2":') // Add quotes around keys
+    .replace(/:\s*([^{}\[\],:]+)\s*([,}])/g, ': "$1"$2'); // Add quotes around string values
+
+  return fixedJsonString;
+}
 
 
 async function handleAddEvent(req, res) {
   try {
     const imageUrl = await handleImageUploadAsync(req, res);
     console.log("Image URL:", imageUrl);
+    const parkingList = [];
 
     const {
       image_url, // Provided by client but overwritten by uploaded image URL
@@ -23,6 +36,7 @@ async function handleAddEvent(req, res) {
       type,
       place,
       additional_info,
+      parkings // Array of parking objects (or stringified JSON)
     } = req.body;
 
     const idOrganiser = req.params.idOrganiser;
@@ -34,6 +48,8 @@ async function handleAddEvent(req, res) {
 
     // Log the raw value of additional_info to check its format
     console.log("Raw additional_info:", additional_info);
+    console.log("Parkings (before parsing):", typeof parkings, parkings);
+
 
     // Ensure additional_info is a valid JSON object or null
     let parsedAdditionalInfo = null;
@@ -47,6 +63,25 @@ async function handleAddEvent(req, res) {
     } else if (typeof additional_info === 'object' && additional_info !== null) {
       parsedAdditionalInfo = additional_info; // If already an object, store as is
     }
+
+    // Parse parkings - it could be either a stringified JSON or a direct array
+    let parsedParkings = [];
+
+    const fixedParkings = fixInvalidJsonString(parkings);
+    if (typeof parkings === 'string') {
+      try {
+        parsedParkings = JSON.parse(fixedParkings); // Attempt to parse stringified JSON
+      } catch (error) {
+        console.warn('Invalid JSON format for parkings, treating as empty array:', error);
+        parsedParkings = [];
+      }
+    } else if (Array.isArray(parkings)) {
+      parsedParkings = parkings; // Already an array, no need to parse
+    } else {
+      console.warn('Invalid format for parkings, expected string or array.');
+    }
+
+    console.log("Parkings (after parsing):", parsedParkings);
 
     // Create the event object in the database
     const event = await Event.create({
@@ -66,7 +101,46 @@ async function handleAddEvent(req, res) {
       idOrganiser,
     });
 
-    // Return a successful response with the event data
+    // Loop through the parsedParkings array and create ReservationEventParking for each parking entry
+    for (const parkingData of parsedParkings) {
+      console.log("Processing parking data:", parkingData);
+
+      // Ensure that parkingData contains valid fields
+      if (parkingData && parkingData.idparking && parkingData.nbre_place && parkingData.tarif) {
+        const { idparking, nbre_place, tarif } = parkingData;
+
+        // Fetch parking by primary key
+        const parking = await Parking.findByPk(idparking);
+
+        if (parking) {
+          await ReservationEventParking.create({
+            id: uuidv4(),
+            idevent: event.id,
+            idparking,
+            nbre_place: parseInt(nbre_place),
+            tarif: parseFloat(tarif),
+            state: 'in progress'
+          });
+
+          parkingList.push({
+            idparking,
+            nbre_place,
+            tarif,
+            parking: {
+              id: parking.id,
+              name: parking.name, // Assuming parking has a 'name' field
+              location: parking.location // Assuming parking has a 'location' field
+            }
+          });
+        } else {
+          console.warn(`Parking with id ${idparking} not found`);
+        }
+      } else {
+        console.warn("Invalid or missing fields in parking data:", parkingData);
+      }
+    }
+
+    // Return a successful response with the event data and parking list
     return res.status(200).send({
       id: event.id,
       title: event.title,
@@ -82,8 +156,9 @@ async function handleAddEvent(req, res) {
       place: event.place,
       additional_info: event.additional_info,
       idOrganiser: event.idOrganiser,
-      parkings: [], // Static or additional data as per the previous example
+      parkings: parkingList // Return the list of parkings
     });
+
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).send({
@@ -92,6 +167,7 @@ async function handleAddEvent(req, res) {
     });
   }
 }
+
 
 
 async function insertDataFromJsonToDb() {
@@ -170,20 +246,80 @@ async function getEvents(req, res) {
   try {
     const { idOrganiser } = req.params;
 
-    // Find the reservation by its ID
+    // Find all events by organiser ID
     const events = await Event.findAll({
       where: {
-        idOrganiser:idOrganiser
+        idOrganiser: idOrganiser
       }
     });
-    // Send a success response
-    console.log(typeof events);
-    res.status(200).send(events);
+
+    // Check if no events found
+    if (!events || events.length === 0) {
+      return res.status(404).send({ message: "No events found for this organiser" });
+    }
+
+    // Array to hold the final result
+    const result = [];
+
+    // Loop through each event and fetch associated parking and promotions
+    for (const event of events) {
+      // Get all parking reservations for the event
+      const reservations = await ReservationEventParking.findAll({
+        where: { idevent: event.id }
+      });
+
+      // Fetch parking details for each reservation
+      const parkings = [];
+      for (const reservation of reservations) {
+        const parking = await Parking.findByPk(reservation.idparking);
+        if (parking) {
+          parkings.push({
+            id: parking.id,
+            nbre_place: reservation.nbre_place,
+            tarif: reservation.tarif,
+            state: reservation.state,
+          });
+        }
+      }
+
+      // Fetch the active promotion for the event
+      const promotion = await Promotion.findOne({
+        where: {
+          idevent: event.id,
+          state: "active"
+        }
+      });
+
+      // Add event details to the result array
+      result.push({
+        id: event.id,
+        title: event.title,
+        description: event.description,
+        image_url: event.image_url,
+        createdAt: event.createdAt,
+        endedAt: event.endedAt,
+        unit_price: event.unit_price,
+        capacity: event.capacity,
+        genres: event.genres,
+        rating: event.rating,
+        type: event.type,
+        place: event.place,
+        additional_info: event.additional_info,
+        parkings: parkings, // Add list of parkings
+        promotion: promotion ? 
+         promotion
+         : null // Add promotion if available, else null
+      });
+    }
+
+    // Send the result
+    res.status(200).json(result);
   } catch (error) {
-    console.error("Error occurred when geting events:", error);
-    res.status(500).send("Error occurred when geting events: " + error.message);
+    console.error("Error occurred when getting events:", error);
+    res.status(500).send("Error occurred when getting events: " + error.message);
   }
 }
+
 
 async function updateEvent (req, res) {
   try {

@@ -7,6 +7,8 @@ abstract class PromoDataSource {
   Future<Either<AppException, List<PromoModel>>> getPromoList();
   Future<Either<AppException, PromoModel>> checkPromo(
       {required String idevent});
+  Future<Either<AppException, PromoModel>> addPromo(
+      {required String idevent, required Map<String, dynamic> body});
 }
 
 class PromoRemoteDataSource implements PromoDataSource {
@@ -52,6 +54,33 @@ class PromoRemoteDataSource implements PromoDataSource {
       final eitherType = await networkService.get(
         '/promo/getPromo/$idevent',
       );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          final promo = PromoModel.fromJson(response.data);
+          return Right(promo);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nPromoRemoteDataSource.checkPromos',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, PromoModel>> addPromo(
+      {required String idevent, required Map<String, dynamic> body}) async {
+    try {
+      final eitherType =
+          await networkService.post('/promo/addPromo/$idevent', data: body);
       return eitherType.fold(
         (exception) {
           return Left(exception);

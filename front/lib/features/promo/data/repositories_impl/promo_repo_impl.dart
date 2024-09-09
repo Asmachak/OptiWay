@@ -20,4 +20,10 @@ class PromoRepositoryImpl implements PromoRepository {
   Future<Either<AppException, PromoModel>> checkPromo({required idevent}) {
     return remoteDataSource.checkPromo(idevent: idevent);
   }
+
+  @override
+  Future<Either<AppException, PromoModel>> addPromo(
+      {required idevent, required body}) {
+    return remoteDataSource.addPromo(idevent: idevent, body: body);
+  }
 }

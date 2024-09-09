@@ -189,9 +189,9 @@ class _ButtonRow extends ConsumerWidget {
 
                         paiementState.when(
                           initial: () {
-                            SizedBox();
+                            const SizedBox();
                           },
-                          loading: () => CircularProgressIndicator(),
+                          loading: () => const CircularProgressIndicator(),
                           success: (paymentModel) async {
                             Stripe.publishableKey = paymentModel.publishableKey;
                             BillingDetails billingDetails = BillingDetails(
@@ -231,7 +231,7 @@ class _ButtonRow extends ConsumerWidget {
 
                               await Stripe.instance.presentPaymentSheet();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Payment Successful')),
+                                const SnackBar(content: Text('Payment Successful')),
                               );
 
                               print("Updated jsonData: $jsonData");
@@ -244,7 +244,7 @@ class _ButtonRow extends ConsumerWidget {
                                       jsonData["idvehicule"]);
 
                               AutoRouter.of(context)
-                                  .replace(ReservationListRoute());
+                                  .replace(const ReservationListRoute());
                             } catch (e) {
                               print("Error presenting payment sheet: $e");
                               if (e is StripeException) {
