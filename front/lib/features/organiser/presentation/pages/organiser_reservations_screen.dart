@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:front/features/reservation/presentation/pages/reservationOrganiser_screen.dart';
 
 @RoutePage()
 class OrganiserReservationScreen extends StatefulWidget {
@@ -15,8 +15,6 @@ class _OrganiserReservationScreenState
     extends State<OrganiserReservationScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Text("reservations"),
-    );
+    return const Scaffold(body: SafeArea(child: ReservationOrganiserScreen()));
   }
 }

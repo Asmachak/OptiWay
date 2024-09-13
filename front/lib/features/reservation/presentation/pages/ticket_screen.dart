@@ -69,7 +69,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
         children: [
           Container(
             child: TicketWidget(
-              height: heightScr * 1.1,
+              height: heightScr * 0.85,
               width: widthScr * 0.9,
               isCornerRounded: true,
               color: const Color.fromARGB(255, 241, 241, 246),

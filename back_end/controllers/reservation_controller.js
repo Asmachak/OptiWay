@@ -9,6 +9,8 @@ const { averageRate } = require("./rate_controller");
 const ReservationParking = require("../models/reservation_parking");
 const ReservationEvent = require("../models/reservation_event");
 const Event = require("../models/event");
+const Rate = require("../models/rate");
+const ReservationEventParking = require("../models/reservation_event_parking");
 
 
 
@@ -143,6 +145,65 @@ async function getReservation(req, res) {
   }
 }
 
+async function getEventReservationOrganiser(req, res) {
+  try {
+    const { organiserid } = req.params;
+
+    // Fetch all events for the organiser
+    const events = await Event.findAll({
+      where: {
+        idOrganiser: organiserid
+      }
+    });
+
+    // Check if no events were found
+    if (!events || events.length === 0) {
+      return res.status(404).send({ message: "No events found for this organiser" });
+    }
+
+    // Array to collect all event reservations
+    const result = [];
+
+    // Fetch reservations and user details for each event
+    for (const event of events) {
+      const reservations = await ReservationEvent.findAll({
+        where: {
+          idevent: event.id
+        }
+      });
+
+      // Fetch user data for each reservation asynchronously
+      const reservationsWithUser = await Promise.all(
+        reservations.map(async (reservation) => {
+          const user = await User.findByPk(reservation.iduser);  // Fetch all user attributes
+
+          return {
+            reservation: reservation,
+            userId: reservation.iduser,
+            user: user ? user.toJSON() : null,  // Include all user attributes as JSON
+            tickets: reservation.Nbreticket,
+            state: reservation.state,
+            createdAt: reservation.CreatedAt,
+            endedAt: reservation.EndedAt
+          };
+        })
+      );
+
+      result.push({
+        event: event,
+        reservations: reservationsWithUser
+      });
+    }
+
+    // Send the result as JSON
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error("Error occurred when getting events:", error);
+    return res.status(500).send("Error occurred when getting events: " + error.message);
+  }
+}
+
+
 async function extendReservation(req, res) {
   try {
     const {id} = req.params; 
@@ -248,45 +309,43 @@ async function changeReservationState() {
 }
 
 
-  async function deleteReservation(req, res) {
-    try {
-      const { id } = req.params;
-  
-      // Find the reservation by its ID
-      const reservation = await Reservation.findByPk(id);
-  
-      // If reservation not found, return a 404 response
-      if (!reservation) {
-        return res.status(404).send("Reservation not found!");
-      }
-  
-      // Check and delete associated ReservationParking if it exists
-      if (reservation.idResParking) {
-        const reservationParking = await ReservationParking.findByPk(reservation.idResParking);
-        if (reservationParking) {
-          await reservationParking.destroy();
-        }
-      }
-  
-      // Check and delete associated ReservationEvent if it exists
-      if (reservation.idResEvent) {
-        const reservationEvent = await ReservationEvent.findByPk(reservation.idResEvent); // Fix model lookup here
-        if (reservationEvent) {
-          await reservationEvent.destroy();
-        }
-      }
-  
-      // Delete the reservation
-      await reservation.destroy();
-  
-      // Send a success response
-      res.status(200).send("Reservation deleted successfully.");
-    } catch (error) {
-      console.error("Error occurred when deleting reservation:", error);
-      res.status(500).send("Error occurred when deleting reservation: " + error.message);
+async function deleteReservation(req, res) {
+  try {
+    const { id } = req.params;
+
+    // Find the reservation by its ID
+    const reservation = await Reservation.findByPk(id);
+
+    // If reservation not found, return a 404 response
+    if (!reservation) {
+      return res.status(404).send("Reservation not found!");
     }
+
+    // Delete associated ReservationParking if it exists
+    if (reservation.idResParking) {
+      await ReservationParking.destroy({ where: { id: reservation.idResParking } });
+    }
+
+    // Delete associated ReservationEvent if it exists
+    if (reservation.idResEvent) {
+      await ReservationEvent.destroy({ where: { id: reservation.idResEvent } });
+    }
+
+    // Delete associated Rates if they reference the reservation
+    await Rate.destroy({ where: { reservation: id } });
+
+    // Delete the reservation
+    await reservation.destroy();
+
+    // Send a success response
+    res.status(200).send("Reservation deleted successfully.");
+  } catch (error) {
+    console.error("Error occurred when deleting reservation:", error);
+    res.status(500).send("Error occurred when deleting reservation: " + error.message);
   }
+}
+
   
 // Run the function every second
-//setInterval(changeReservationState, 1000);
-module.exports = {getReservation,extendReservation,deleteReservation}
+setInterval(changeReservationState, 1000);
+module.exports = {getReservation,extendReservation,deleteReservation,getEventReservationOrganiser}

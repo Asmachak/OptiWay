@@ -78,7 +78,7 @@ async function handleAddReservationEvent(req, res) {
               Nbreticket: formData.Nbreticket,
               iduser: params.iduser,
               idevent: params.idevent,
-              tarif: event.price * formData.Nbreticket,
+              tarif: event.unit_price * formData.Nbreticket,
           });
       }
 
