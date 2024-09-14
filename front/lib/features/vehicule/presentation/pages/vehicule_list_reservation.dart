@@ -231,7 +231,8 @@ class _ButtonRow extends ConsumerWidget {
 
                               await Stripe.instance.presentPaymentSheet();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Payment Successful')),
+                                const SnackBar(
+                                    content: Text('Payment Successful')),
                               );
 
                               print("Updated jsonData: $jsonData");

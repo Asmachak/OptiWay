@@ -1,3 +1,4 @@
+import 'package:front/features/rate/domain/use_cases/avg_rate_use_case.dart';
 import 'package:front/features/rate/domain/use_cases/check_rate_use_case.dart';
 import 'package:front/features/rate/domain/use_cases/give_reservation_rate_use_case.dart';
 import 'package:front/features/rate/domain/use_cases/update_rate_use_case.dart';
@@ -17,5 +18,13 @@ class CheckRateUseCases {
 
   CheckRateUseCases({
     required this.checkRateUseCase,
+  });
+}
+
+class AvgRateUseCases {
+  final AvgRateUsecase avgRateUseCase;
+
+  AvgRateUseCases({
+    required this.avgRateUseCase,
   });
 }

@@ -6,6 +6,7 @@ import 'package:front/features/rate/data/repositories_impl/rate_repo_impl.dart';
 import 'package:front/features/rate/domain/repositories/rate_repo.dart';
 import 'package:front/features/rate/domain/use_cases/check_rate_use_case.dart';
 import 'package:front/features/rate/domain/use_cases/give_reservation_rate_use_case.dart';
+import 'package:front/features/rate/domain/use_cases/rate_use_cases.dart';
 import 'package:front/features/rate/domain/use_cases/update_rate_use_case.dart';
 
 final ratedatasourceProvider = Provider.family<RateDataSource, NetworkService>(
@@ -32,4 +33,3 @@ final checkRateUsecaseProvider = Provider<CheckRateUsecase>((ref) {
 final updateRateUsecaseProvider = Provider<UpdateRateUsecases>((ref) {
   return UpdateRateUsecases(ref.read(rateRepositoryProvider));
 });
-

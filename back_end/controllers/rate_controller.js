@@ -5,11 +5,12 @@ const Reservation = require("../models/reservation");
 const User = require("../models/user");
 const Parking = require("../models/parking");
 const ReservationParking = require("../models/reservation_parking");
+const ReservationEvent = require("../models/reservation_event");
 
 async function giveRate(req, res) {
     try {
     formaData = req.body;
-    params=req.params;
+    params =req.params;
 
     const ExistingUser = User.findByPk(params.userid);
     const ExistingRes = Reservation.findByPk(params.resid);
@@ -138,7 +139,50 @@ async function checkRate(req, res) {
     }
   }
   
+  async function averageRateEvent(req, res) {
+    try {
+      const id = req.params.id; // Use const or let for variable declaration
+  
+      // Fetch reservations with the event id
+      const reservations = await Reservation.findAll({
+        include: [{
+          model: ReservationEvent,
+          where: { idevent: id }
+        }]
+      });
+  
+      // Check if there are any reservations for the event
+      if (reservations.length === 0) {
+        return res.status(200).json({ message: 'No reservations found for this event' });
+      }
+  
+      // Collect all reservation IDs to fetch rates in bulk
+      const reservationIds = reservations.map(reservation => reservation.id);
+  
+      // Fetch all rates for the collected reservation IDs
+      const rates = await Rate.findAll({
+        where: {
+          reservation: reservationIds
+        }
+      });
+  
+      // Calculate the average rate
+      if (rates.length > 0) {
+        const totalRate = rates.reduce((sum, rate) => sum + rate.eventRate, 0);
+        const avgRate = totalRate / rates.length;
+  
+        return res.status(200).json({ averageRate: avgRate });
+      } else {
+        return res.status(200).json({ message: 'No rates found for this event' });
+      }
+  
+    } catch (error) {
+      console.error('Error calculating average rate:', error);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+  
   
   
 
-module.exports = {giveRate,checkRate,updateRate,averageRate}
+module.exports = {giveRate,checkRate,updateRate,averageRate,averageRateEvent}

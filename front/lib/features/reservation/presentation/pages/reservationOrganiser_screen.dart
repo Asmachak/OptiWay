@@ -29,6 +29,43 @@ class _ReservationOrganiserScreenState
     });
   }
 
+  void _showReportModal(BuildContext context, String reservationId) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          height: 270,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Report User $reservationId',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Divider(),
+              const ListTile(
+                leading: Icon(Icons.flag),
+                title: Text('Report Fraudulent Activity'),
+              ),
+              const ListTile(
+                leading: Icon(Icons.error_outline),
+                title: Text('Report Incorrect Information'),
+              ),
+              const ListTile(
+                leading: Icon(Icons.cancel),
+                title: Text('Cancel Reservation'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final reservationOrganiserState =
@@ -46,7 +83,6 @@ class _ReservationOrganiserScreenState
           child: CircularProgressIndicator(),
         ),
         loaded: (reservations) {
-          // Filter events that have reservations
           final eventsWithReservations = reservations
               .where((reservation) => reservation.reservations!.isNotEmpty)
               .toList();
@@ -68,7 +104,6 @@ class _ReservationOrganiserScreenState
                 child: ExpansionTile(
                   title: Row(
                     children: [
-                      // Display event icon as a small, round thumbnail
                       if (event != null && event["image_url"] != null)
                         ClipOval(
                           child: Image.network(
@@ -82,37 +117,28 @@ class _ReservationOrganiserScreenState
                         const ClipOval(
                           child: Icon(Icons.image, size: 40),
                         ),
-
-                      const SizedBox(
-                          width:
-                              10), // Add some spacing between image and title
-
-                      // Event title
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Text(
                           event?["title"] ?? "Untitled Event",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
-                          overflow: TextOverflow
-                              .ellipsis, // Ensure long titles are truncated
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
                   ),
                   children: [
-                    // Limit display to show only 3 reservations, scrollable if necessary
                     SizedBox(
-                      height:
-                          150, // Set height to allow scrolling within a fixed space
+                      height: 150,
                       child: ListView.separated(
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
                         itemCount: reservation.reservations!.length > 3
                             ? 3
                             : reservation.reservations!.length,
-                        separatorBuilder: (context, index) =>
-                            const Divider(), // Add a divider between each reservation
+                        separatorBuilder: (context, index) => const Divider(),
                         itemBuilder: (context, resIndex) {
                           final res = reservation.reservations![resIndex];
                           final nbreticket = res["reservation"]["Nbreticket"];
@@ -124,11 +150,17 @@ class _ReservationOrganiserScreenState
                               'User: ${res["user"]["name"]} ${res["user"]["last_name"]}\n'
                               'Ticket number: ${nbreticket ?? "Not available"}',
                             ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.flag),
+                              onPressed: () {
+                                _showReportModal(
+                                    context, res["user"]["name"].toString());
+                              },
+                            ),
                           );
                         },
                       ),
                     ),
-                    // Show button to view all reservations if there are more than 3
                     if (reservation.reservations!.length > 3)
                       TextButton(
                         onPressed: () {
@@ -144,7 +176,7 @@ class _ReservationOrganiserScreenState
                                   child: ListView.separated(
                                     itemCount: reservation.reservations!.length,
                                     separatorBuilder: (context, index) =>
-                                        const Divider(), // Divider in the full list
+                                        const Divider(),
                                     itemBuilder: (context, resIndex) {
                                       final res =
                                           reservation.reservations![resIndex];
@@ -157,6 +189,15 @@ class _ReservationOrganiserScreenState
                                         subtitle: Text(
                                           'User: ${res["user"]["name"]} ${res["user"]["last_name"]}\n'
                                           'Ticket number: ${nbreticket ?? "Not available"}',
+                                        ),
+                                        trailing: IconButton(
+                                          icon: const Icon(Icons.flag),
+                                          onPressed: () {
+                                            _showReportModal(
+                                                context,
+                                                res["reservation"]["id"]
+                                                    .toString());
+                                          },
                                         ),
                                       );
                                     },
