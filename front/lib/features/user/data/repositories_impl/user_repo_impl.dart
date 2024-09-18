@@ -8,11 +8,9 @@ import 'package:front/features/user/domain/repositories/user_repo.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserDataSource remoteDataSource;
-  // final AuthLocalDataSource localDataSource;
 
   UserRepositoryImpl(
     this.remoteDataSource,
-    /* this.localDataSource*/
   );
 
   @override
@@ -63,5 +61,10 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<AppException, UserModel>> uploadImage(
       {required File imageFile, required String id}) async {
     return remoteDataSource.uploadImage(imageFile: imageFile, id: id);
+  }
+
+  @override
+  Future<Either<AppException, List<UserModel>>> getUsers() async {
+    return remoteDataSource.getUsers();
   }
 }

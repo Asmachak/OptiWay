@@ -7,12 +7,12 @@ import 'package:front/features/organiser/domain/repositories/organiser_repo.dart
 import 'package:front/features/organiser/domain/use_cases/edit_password_use_case.dart';
 import 'package:front/features/organiser/domain/use_cases/edit_profile.dart';
 import 'package:front/features/organiser/domain/use_cases/forget_password_use_case.dart';
+import 'package:front/features/organiser/domain/use_cases/get_organisers_use_case.dart';
 import 'package:front/features/organiser/domain/use_cases/login_otp_use_case.dart';
 import 'package:front/features/organiser/domain/use_cases/login_use_case.dart';
 import 'package:front/features/organiser/domain/use_cases/signup_use_case.dart';
 import 'package:front/features/organiser/domain/use_cases/upload_image_use_case.dart';
 import 'package:front/features/organiser/domain/use_cases/verify_otp_use_case.dart';
-
 
 final organiserdatasourceProvider =
     Provider.family<OrganiserRemoteDataSource, NetworkService>(
@@ -66,4 +66,8 @@ final editPasswordOrganiserUseCaseProvider =
 final forgetPasswordOrganiserUseCaseProvider =
     Provider<ForgetPasswordOrganiserUseCase>((ref) {
   return ForgetPasswordOrganiserUseCase(ref.read(organiserRepositoryProvider));
+});
+
+final getOrganisersUseCaseProvider = Provider<GetAllOrganisersUseCase>((ref) {
+  return GetAllOrganisersUseCase(ref.read(organiserRepositoryProvider));
 });

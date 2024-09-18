@@ -27,6 +27,7 @@ abstract class OrganiserDataSource {
       {required Map<String, dynamic> body});
   Future<Either<AppException, OrganiserModel>> uploadImage(
       {required File imageFile, required String id});
+  Future<Either<AppException, List<OrganiserModel>>> getOrganisers();
 }
 
 class OrganiserRemoteDataSource implements OrganiserDataSource {
@@ -351,6 +352,37 @@ class OrganiserRemoteDataSource implements OrganiserDataSource {
           statusCode: 1,
           identifier:
               '${e.toString()}\nUpdateOrganiserRemoteDataSource.UploadImage',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<OrganiserModel>>> getOrganisers() async {
+    try {
+      final eitherType = await networkService.get(
+        '/admin/organisers',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) async {
+          List<OrganiserModel> users = [];
+          if (response.data != null) {
+            users = List<OrganiserModel>.from(
+                response.data.map((x) => OrganiserModel.fromJson(x)));
+          }
+          return Right(users);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nUserRemoteDataSource.getUsers',
         ),
       );
     }

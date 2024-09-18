@@ -74,3 +74,6 @@ exports.getAllParkings = async (req, res) => {
       res.status(500).send("Error occurred when getting parking by ID : " + error); 
   }
   }
+
+
+  

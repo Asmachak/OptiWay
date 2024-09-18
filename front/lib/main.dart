@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/core/observers.dart';
+import 'package:front/features/admin/data/data_sources/admin_local_data_src.dart';
+import 'package:front/features/admin/data/models/admin_model.dart';
 import 'package:front/features/organiser/data/data_sources/organiser_local_data_src.dart';
 import 'package:front/features/organiser/data/models/organiser_model.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
@@ -28,9 +30,11 @@ void main() async {
   Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(OrganiserModelAdapter());
   Hive.registerAdapter(VehiculeModelAdapter());
+  Hive.registerAdapter(AdminModelAdapter());
 
   await Hive.openBox('currentUser');
   await Hive.openBox('currentOrganiser');
+  await Hive.openBox('currentAdmin');
 
   final getIt = GetIt.instance;
   getIt.registerSingleton<AuthLocalDataSource>(
@@ -39,6 +43,8 @@ void main() async {
       OrganiserLocalDataSource()..initialize());
   getIt.registerSingleton<VehiculeLocalDataSource>(
       VehiculeLocalDataSource()..initialize());
+  getIt.registerSingleton<AdminLocalDataSource>(
+      AdminLocalDataSource()..initialize());
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

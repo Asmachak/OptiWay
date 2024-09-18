@@ -59,5 +59,15 @@ class AppRouter extends $AppRouter {
         ]),
         AutoRoute(page: AddEventRoute.page),
         AutoRoute(page: AddParkingEventRoute.page),
+        AutoRoute(page: AdminMainRoute.page, children: [
+          AutoRoute(page: AdminHomeRoute.page, maintainState: true),
+          AutoRoute(page: AdminStatRoute.page, maintainState: true),
+          AutoRoute(page: AdminTableRoute.page, maintainState: true),
+          AutoRoute(page: AdminAccountRoute.page, maintainState: true),
+          AutoRoute(
+            page: OrganiserAccountRoute.page,
+            maintainState: true,
+          ),
+        ]),
       ];
 }

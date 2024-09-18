@@ -62,4 +62,9 @@ class OrganiserRepositoryImpl implements OrganiserRepository {
       {required File imageFile, required String id}) async {
     return remoteDataSource.uploadImage(imageFile: imageFile, id: id);
   }
+
+  @override
+  Future<Either<AppException, List<OrganiserModel>>> getOrganisers() async {
+    return remoteDataSource.getOrganisers();
+  }
 }

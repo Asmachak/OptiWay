@@ -27,6 +27,7 @@ abstract class UserDataSource {
       {required Map<String, dynamic> body});
   Future<Either<AppException, UserModel>> uploadImage(
       {required File imageFile, required String id});
+  Future<Either<AppException, List<UserModel>>> getUsers();
 }
 
 class UserRemoteDataSource implements UserDataSource {
@@ -305,7 +306,7 @@ class UserRemoteDataSource implements UserDataSource {
       FormData formData = FormData.fromMap({
         'image': await MultipartFile.fromFile(
           imageFile.path,
-          filename: 'image.jpg', 
+          filename: 'image.jpg',
         ),
       });
       final eitherType = await networkService.put(
@@ -339,6 +340,37 @@ class UserRemoteDataSource implements UserDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nUpdateUserRemoteDataSource.UploadImage',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<UserModel>>> getUsers() async {
+    try {
+      final eitherType = await networkService.get(
+        '/admin/users',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) async {
+          List<UserModel> users = [];
+          if (response.data != null) {
+            users = List<UserModel>.from(
+                response.data.map((x) => UserModel.fromJson(x)));
+          }
+          return Right(users);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nUserRemoteDataSource.getUsers',
         ),
       );
     }

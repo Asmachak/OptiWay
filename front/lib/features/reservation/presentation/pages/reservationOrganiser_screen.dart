@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/organiser/data/data_sources/organiser_local_data_src.dart';
+import 'package:front/features/reclamation/presentation/blocs/reclamation_provider.dart';
+import 'package:front/features/reclamation/presentation/blocs/state/reclamation_state.dart';
 import 'package:front/features/reservation/presentation/blocs/reservationOrganiser_provider.dart';
 import 'package:get_it/get_it.dart';
 
@@ -17,6 +19,8 @@ class _ReservationOrganiserScreenState
   @override
   void initState() {
     super.initState();
+
+    // Fetch reservations when screen is loaded
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref
           .read(reservationOrganiserNotifierProvider.notifier)
@@ -29,7 +33,20 @@ class _ReservationOrganiserScreenState
     });
   }
 
-  void _showReportModal(BuildContext context, String reservationId) {
+  // Trigger function when reclamation is selected
+  void _onReclamationSelected(String title, String userId) {
+    final body = {"title": title, "targetType": "user"};
+
+    ref.read(reclamationNotifierProvider.notifier).addReclamation(
+        GetIt.instance.get<OrganiserLocalDataSource>().currentOrganiser!.id!,
+        userId,
+        body);
+
+    // No need to listen to state here since it's handled in the build method
+  }
+
+  // Show the modal to report or act on a reservation
+  void _showReportModal(BuildContext context, String userName, String userId) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -40,24 +57,30 @@ class _ReservationOrganiserScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Report User $reservationId',
+                'Report User $userName',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const Divider(),
-              const ListTile(
-                leading: Icon(Icons.flag),
-                title: Text('Report Fraudulent Activity'),
+              _buildModalOption(
+                icon: Icons.flag,
+                text: 'Report Fraudulent Activity',
+                onTap: () => _onReclamationSelected(
+                    "Report Fraudulent Activity", userId),
               ),
-              const ListTile(
-                leading: Icon(Icons.error_outline),
-                title: Text('Report Incorrect Information'),
+              _buildModalOption(
+                icon: Icons.error_outline,
+                text: 'Report Incorrect Information',
+                onTap: () => _onReclamationSelected(
+                    "Report Incorrect Information", userId),
               ),
-              const ListTile(
-                leading: Icon(Icons.cancel),
-                title: Text('Cancel Reservation'),
+              _buildModalOption(
+                icon: Icons.cancel,
+                text: 'Cancel Reservation',
+                onTap: () =>
+                    _onReclamationSelected("Cancel Reservation", userId),
               ),
             ],
           ),
@@ -66,8 +89,59 @@ class _ReservationOrganiserScreenState
     );
   }
 
+  // Helper method to build modal options
+  Widget _buildModalOption(
+      {required IconData icon,
+      required String text,
+      required VoidCallback onTap}) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(text),
+      onTap: onTap,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Listen to the reclamation state and handle success or failure
+    ref.listen<ReclamationState>(reclamationNotifierProvider, (previous, next) {
+      if (next is Success) {
+        // Close the modal only after success
+        Navigator.pop(context);
+
+        // Show the success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Container(
+              padding: const EdgeInsets.all(16),
+              height: 90,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 73, 82, 73),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: const Column(
+                children: [
+                  Text("Your reclamation has been successfully reported!",
+                      style: TextStyle(color: Colors.white)),
+                ],
+              ),
+            ),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+          ),
+        );
+      } else if (next is Failure) {
+        // Show the failure message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to report reclamation: ${next.exception}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    });
+
     final reservationOrganiserState =
         ref.watch(reservationOrganiserNotifierProvider);
 
@@ -154,7 +228,9 @@ class _ReservationOrganiserScreenState
                               icon: const Icon(Icons.flag),
                               onPressed: () {
                                 _showReportModal(
-                                    context, res["user"]["name"].toString());
+                                    context,
+                                    res["user"]["name"].toString(),
+                                    res["user"]["id"].toString());
                               },
                             ),
                           );
@@ -195,8 +271,8 @@ class _ReservationOrganiserScreenState
                                           onPressed: () {
                                             _showReportModal(
                                                 context,
-                                                res["reservation"]["id"]
-                                                    .toString());
+                                                res["reservation"]["id"],
+                                                res["user"]["id"]);
                                           },
                                         ),
                                       );

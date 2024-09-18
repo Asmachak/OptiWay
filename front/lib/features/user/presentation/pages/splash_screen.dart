@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/features/admin/presentation/blocs/splash_provider.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:lottie/lottie.dart';
 import 'package:front/features/organiser/presentation/blocs/splash_provider.dart';
@@ -14,9 +15,19 @@ final initializationProvider = FutureProvider<void>((ref) async {
   final isOrganiserLoggedIn =
       await ref.read(organiserLoginCheckProvider.future);
 
+  // Check if the admin is logged in
+  final isAdminLoggedIn = await ref.read(adminLoginCheckProvider.future);
+
   // Save the login status in the provider
-  ref.read(userOrOrganiserLoginProvider.notifier).state =
-      isUserLoggedIn ? 'user' : (isOrganiserLoggedIn ? 'organiser' : null);
+  if (isAdminLoggedIn) {
+    ref.read(userOrOrganiserLoginProvider.notifier).state = 'admin';
+  } else if (isOrganiserLoggedIn) {
+    ref.read(userOrOrganiserLoginProvider.notifier).state = 'organiser';
+  } else if (isUserLoggedIn) {
+    ref.read(userOrOrganiserLoginProvider.notifier).state = 'user';
+  } else {
+    ref.read(userOrOrganiserLoginProvider.notifier).state = null;
+  }
 });
 
 final userOrOrganiserLoginProvider = StateProvider<String?>((ref) => null);
@@ -40,6 +51,8 @@ class SplashScreen extends ConsumerWidget {
               AutoRouter.of(context).replace(const MainRoute());
             } else if (loginType == 'organiser') {
               AutoRouter.of(context).replace(const MainOrganiserRoute());
+            } else if (loginType == 'admin') {
+              AutoRouter.of(context).replace(const AdminMainRoute());
             } else {
               AutoRouter.of(context).replace(const WelcomeRoute());
             }

@@ -28,4 +28,5 @@ abstract class UserRepository {
       {required Map<String, dynamic> body});
   Future<Either<AppException, UserModel>> uploadImage(
       {required File imageFile, required String id});
+  Future<Either<AppException, List<UserModel>>> getUsers();
 }

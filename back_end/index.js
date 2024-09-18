@@ -21,6 +21,9 @@ const Manufacturer = require('./models/carManufacturer');
 const CarModel = require('./models/carModel');
 const Rate = require('./models/rate');
 const ReservationEventParking = require('./models/reservation_event_parking');
+const Admin = require('./models/admin');
+const Reclamation = require('./models/reclamation');
+
 
 
 const { importData } = require('./controllers/car_controller');
@@ -43,7 +46,7 @@ const {scheduleReservationNotifications} = require('./controllers/notification_c
 /*(async () => {
   try {
     // Sync only the ReservationEventParking model
-    await ReservationEventParking.sync({ alter: true }); // Use 'alter' to update the table structure without dropping it
+    await Reclamation.sync({ alter: true }); // Use 'alter' to update the table structure without dropping it
     console.log('ReservationEventParking table synchronized successfully');
   } catch (error) {
     console.error('Error synchronizing ReservationEventParking table:', error);
@@ -75,20 +78,23 @@ app.use(require('./routes/rate_routes'));
 app.use(require('./routes/paiement_routes')); 
 app.use(require('./routes/notification_routes')); 
 app.use(require('./routes/promo_routes')); 
+app.use(require('./routes/réclamation_routes')); 
+app.use(require('./routes/admin_routes')); 
+
+
 
 
 
 
 /****************************************End-Routes****************************************/ 
 const { initializeSocket } = require('./middleware/socketio_middleware');
-
 const server = http.createServer(app);
 
 // Initialize Socket.io with middleware
 const io = initializeSocket(server);
 
 // Start the cron job for notifications
-//scheduleReservationNotifications(io);
+scheduleReservationNotifications(io);
 
 // Express middleware setup (e.g., for parsing JSON)
 app.use(express.json());

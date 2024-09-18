@@ -27,4 +27,5 @@ abstract class OrganiserRepository {
       {required Map<String, dynamic> body});
   Future<Either<AppException, OrganiserModel>> uploadImage(
       {required File imageFile, required String id});
+  Future<Either<AppException, List<OrganiserModel>>> getOrganisers();
 }

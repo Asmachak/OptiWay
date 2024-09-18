@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/blocs/movie_provider.dart';
-import 'package:front/features/event/presentation/widgets/drop_down_widget.dart';
 import 'package:front/features/event/presentation/widgets/movie_widget.dart';
 import 'package:front/features/event/presentation/widgets/drop_down_widget.dart'
     as drop_down_widget;

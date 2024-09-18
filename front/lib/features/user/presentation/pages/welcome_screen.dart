@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:front/features/admin/presentation/pages/login_admin.dart';
 import 'package:front/features/user/presentation/widgets/welcome_button.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -73,11 +75,6 @@ class WelcomeScreen extends StatelessWidget {
                 const WelcomeButton(buttonText: "Signup"),
                 const SizedBox(height: 10),
 
-                // Social Media Section
-                // const Divider(
-                //     thickness: 1,
-                //     color: Colors.grey), // Divider to separate sections
-                //const SizedBox(height: 16),
                 const Text(
                   "Or via Social Media",
                   style: TextStyle(
@@ -121,11 +118,36 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Column(
+                Column(
                   children: [
-                    WelcomeButton(buttonText: "Login as Organiser"),
+                    const WelcomeButton(buttonText: "Login as Organiser"),
                     const SizedBox(height: 16),
-                    WelcomeButton(buttonText: "signup as Organiser"),
+                    const WelcomeButton(buttonText: "signup as Organiser"),
+                    const SizedBox(height: 16),
+                    RichText(
+                      text: TextSpan(
+                        text: 'I am an administrator .. ',
+                        style: const TextStyle(color: Colors.black),
+                        children: [
+                          TextSpan(
+                            text: 'Login',
+                            style: const TextStyle(
+                              color: Colors.indigo,
+                              decoration: TextDecoration.underline,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AdminLoginScreen()),
+                                );
+                              },
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
                 const SizedBox(height: 16),

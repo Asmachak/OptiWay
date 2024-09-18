@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const authMiddleware  = require('../middleware/auth_middleware')
+const authAdminMiddleware  = require('../middleware/admin_auth_middleware');
+const { handleAddAdmin } = require('../controllers/admin_controller');
 
 
 
 /************************************ user routes *****************************************/
 
-router.post('/admin/login',authMiddleware(),(req,res)=>{
+router.post('/admin/signup',handleAddAdmin);
+router.post('/admin/login',authAdminMiddleware(),(req,res)=>{
   return res.status(200).json({msg : "admin authentificated"})
 });
 

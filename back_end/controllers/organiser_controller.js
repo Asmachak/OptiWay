@@ -236,5 +236,23 @@ async function forgetPassword(req, res) {
   }
 }
 
+async function getAllOrganisers(req, res) {
+  try {
+    const organisers = await Organiser.findAll();
+    
+    // Return organisers as part of an object, in case you want to add more info later
+    res.status(200).send(organisers);
+    
+  } catch (error) {
+    console.error("Error retrieving organisers:", error);
+    
+    // More detailed error response
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching organisers",
+      error: error.message, // Optionally expose error details
+    });
+  }
+}
 
-module.exports={handleAddOrganiser,updateOrganiser,deleteOrganiser,uploadImage,editPassword,forgetPassword}
+module.exports={handleAddOrganiser,updateOrganiser,deleteOrganiser,uploadImage,editPassword,forgetPassword,getAllOrganisers}

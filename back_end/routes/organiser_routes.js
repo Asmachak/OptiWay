@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const otpController = require("../controllers/otp_controller");
-const { handleAddOrganiser, updateOrganiser,deleteOrganiser,editPassword,forgetPassword,uploadImage } = require('../controllers/organiser_controller');
+const { handleAddOrganiser, updateOrganiser,deleteOrganiser,editPassword,forgetPassword,uploadImage, getAllOrganisers } = require('../controllers/organiser_controller');
 const authOrganiserMiddleware = require("../middleware/organiser_auth_middleware");
 
 /************************************ user routes *****************************************/
@@ -20,6 +20,8 @@ router.delete('/organiser/delete/:organiserId', deleteOrganiser);
 
 router.post('/organiser/otp-login',otpController.otpLogin);
 router.post('/organiser/otp-verify',otpController.verifyOTP);
+router.get('/admin/organisers',getAllOrganisers);
+
 
 
 

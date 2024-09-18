@@ -239,5 +239,25 @@ async function forgetPassword(req, res) {
   }
 }
 
+async function getAllUsers(req, res) {
+  try {
+    const users = await User.findAll();
+    
+    // Return users as part of an object, in case you want to add more info later
+    res.status(200).send(users);
+    
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    
+    // More detailed error response
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching users",
+      error: error.message, // Optionally expose error details
+    });
+  }
+}
 
-module.exports={handleAddUser,updateUser,deleteUser,uploadImage,editPassword,forgetPassword}
+
+
+module.exports={handleAddUser,updateUser,deleteUser,uploadImage,editPassword,forgetPassword,getAllUsers}

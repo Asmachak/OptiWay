@@ -93,17 +93,17 @@ class OrganiserModel {
 OrganiserEntity organiserModelToEntity(OrganiserModel organiserModel) {
   return OrganiserEntity(
     id: organiserModel.id ?? "",
-    name: organiserModel.name! ?? "",
-    email: organiserModel.email! ?? "",
-    lastName: organiserModel.lastName! ?? "",
-    phone: organiserModel.phone! ?? "",
-    photo: organiserModel.photo! ?? "",
-    password: organiserModel.password! ?? "",
-    address: organiserModel.address! ?? "",
-    token: organiserModel.token! ?? "",
-    city: organiserModel.city! ?? "",
-    country: organiserModel.country! ?? "",
-    deviceId: organiserModel.deviceId! ?? "",
+    name: organiserModel.name ?? "",
+    email: organiserModel.email ?? "",
+    lastName: organiserModel.lastName ?? "",
+    phone: organiserModel.phone ?? "",
+    photo: organiserModel.photo ?? "",
+    password: organiserModel.password ?? "",
+    address: organiserModel.address ?? "",
+    token: organiserModel.token ?? "",
+    city: organiserModel.city ?? "",
+    country: organiserModel.country ?? "",
+    deviceId: organiserModel.deviceId ?? "",
   );
 }
 
