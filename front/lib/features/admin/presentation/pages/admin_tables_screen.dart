@@ -7,6 +7,8 @@ import 'package:front/features/organiser/domain/entities/organiser_entity.dart';
 import 'package:front/features/organiser/presentation/blocs/get_organisers_providers.dart';
 import 'package:front/features/parking/data/models/parking_model.dart';
 import 'package:front/features/parking/presentation/blocs/parking_provider.dart';
+import 'package:front/features/reclamation/data/models/reclamation_model.dart';
+import 'package:front/features/reclamation/presentation/blocs/reclamation_provider.dart';
 import 'package:front/features/user/presentation/blocs/get_users_providers.dart';
 import 'package:front/features/user/domain/entities/user_entity.dart';
 
@@ -34,6 +36,7 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
       ref.read(getAllOrganisersNotifierProvider.notifier).getOrganisers();
       ref.read(parkingNotifierProvider.notifier).getParkings();
       ref.read(MovieNotifierProvider.notifier).fetchItems();
+      ref.read(reclamationNotifierProvider.notifier).getReclamations();
     });
   }
 
@@ -49,6 +52,7 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
     final getOrganiserState = ref.watch(getAllOrganisersNotifierProvider);
     final getParkingState = ref.watch(parkingNotifierProvider);
     final getMovieState = ref.watch(MovieNotifierProvider);
+    final getReclamationState = ref.watch(reclamationNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -69,7 +73,13 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
                       value: selectedModel.isEmpty ? null : selectedModel,
                       isExpanded: true, // Make sure the dropdown expands to fit
                       hint: const Text('Select Model'),
-                      items: ['Users', 'Organizers', 'Parkings', 'Events']
+                      items: [
+                        'Users',
+                        'Organizers',
+                        'Parkings',
+                        'Events',
+                        "Reclamations"
+                      ]
                           .map((model) => DropdownMenuItem<String>(
                                 value: model,
                                 child: Text(model),
@@ -211,6 +221,28 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
                 eventLoaded: (List<MovieModel> moviesList) =>
                     const Center(child: Text('Select a model')),
               ),
+
+            // Handling the reclamation state using Riverpod
+            if (selectedModel == 'Reclamations')
+              getReclamationState.when(
+                initial: () => const Center(child: Text('Select a model')),
+                loading: () => const CircularProgressIndicator(),
+                failure: (error) => Center(child: Text('Error: $error')),
+                loaded: (Reclamations) {
+                  // Apply filter and sort using search term and sort order
+                  final filteredReclamations = Reclamations.where(
+                      (reclamation) => reclamation.title!
+                          .toLowerCase()
+                          .contains(searchTerm)).toList()
+                    ..sort((a, b) => sortOrder
+                        ? a.title!.compareTo(b.title!)
+                        : b.title!.compareTo(a.title!));
+                  final movieData =
+                      convertReclamationsToMap(filteredReclamations);
+                  return _buildDataTable(selectedModel, movieData);
+                },
+                success: (rec) => const Center(child: Text('Select a model')),
+              ),
           ],
         ),
       ),
@@ -266,6 +298,21 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
         'Title': movie.title,
         'Genre': movie.genres,
         'Rating': movie.rating.toString()
+      };
+    }).toList();
+  }
+
+// Convert MovieEntity to Map<String, String> for DataTable
+  List<Map<String, String>> convertReclamationsToMap(
+      List<ReclamationModel> reclamations) {
+    return reclamations.map((reclamation) {
+      return {
+        'Title': reclamation.title ?? "",
+        'Target Type': reclamation.targetType ?? "",
+        'UserName': reclamation.userName ?? "",
+        'OrganiserName': reclamation.organiserName ?? "",
+        'eventName': reclamation.eventName ?? "",
+        'ParkingName': reclamation.parkingName ?? "",
       };
     }).toList();
   }

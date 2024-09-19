@@ -11,4 +11,6 @@ abstract class ReclamationState with _$ReclamationState {
   const factory ReclamationState.failure(AppException exception) = Failure;
   const factory ReclamationState.success(
       {required ReclamationModel reclamation}) = Success;
+  const factory ReclamationState.loaded(
+      {required List<ReclamationModel> reclamations}) = Loaded;
 }

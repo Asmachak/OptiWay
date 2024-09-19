@@ -122,7 +122,8 @@ async function getReservation(req, res) {
           parking:parkingData,
           user:reservations[i].user,
           vehicle:reservations[i].vehicule,
-          amount:reservations[i].amount,};
+          amount:reservations[i].amount,
+          parkingName:parkingData.parkingName};
 
 
         reservations[i].parking=parkingData;
@@ -179,7 +180,36 @@ async function extendReservation( id, EndedAt ) {
   }
 }
 
+async function getAllReservations(req, res) {
+  try {
+    // Assuming 'Parking' is the model related to the Reservation
+    let reservations = await ReservationParking.findAll({
+      include: [{
+        model: Parking, // Assuming Parking is the related model
+      }]
+    });
+
+
+    // Mapping the result to extract necessary information
+    const result = reservations.map(reservation => ({
+      id: reservation.id,
+      parkingName: reservation.parking.parkingName, // Extract the parkingName
+      CreatedAt: reservation.CreatedAt,
+      EndedAt: reservation.EndedAt,
+      tarif:reservation.tarif,
+      state:reservation.state,
+      idparking:reservation.idparking,
+      iduser:reservation.iduser,
+      idvehicule:reservation.idvehicule
+    }));
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send("Error occurred when handling get reservation: " + error);
+  }
+}
 
 
 
-module.exports = {handleAddReservationParking,getReservation,extendReservation}
+
+module.exports = {handleAddReservationParking,getReservation,extendReservation,getAllReservations}

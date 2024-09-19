@@ -87,6 +87,8 @@ dependencies:
   flutter_carousel_widget: ^2.3.0
   auto_size_text: ^3.0.0
   fl_chart: ^0.69.0
+  pie_chart: ^5.4.0
+
 
 
 

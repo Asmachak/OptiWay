@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/reservation/domain/use_cases/reservationParking/add_reservationParking_use_case.dart';
 import 'package:front/features/reservation/domain/use_cases/reservationParking/reservationParking_uses_cases.dart';
 import 'package:front/features/reservation/presentation/blocs/state/reservationParking/reservationParking_state.dart';
+import 'package:front/shared/use_case.dart';
 
 class ReservationParkingNotifier
     extends StateNotifier<ReservationParkingState> {
@@ -24,6 +25,18 @@ class ReservationParkingNotifier
       (failure) => state = ReservationParkingState.failure(failure),
       (reservation) {
         state = ReservationParkingState.success(reservation: reservation);
+      },
+    );
+  }
+
+  Future<void> getAllReservationParking() async {
+    state = const ReservationParkingState.loading();
+    final result =
+        await _reservationUseCases.getAllReservationUseCases.call(NoParams());
+    result.fold(
+      (failure) => state = ReservationParkingState.failure(failure),
+      (reservation) {
+        state = ReservationParkingState.loaded(reservations: reservation);
       },
     );
   }

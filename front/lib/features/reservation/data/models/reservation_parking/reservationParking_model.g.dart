@@ -17,6 +17,7 @@ ReservationParkingModel _$ReservationParkingModelFromJson(
       idparking: json['idparking'] as String?,
       idvehicule: json['idvehicule'] as String?,
       amount: (json['amount'] as num?)?.toDouble(),
+      parkingName: json['parkingName'] as String?,
     );
 
 Map<String, dynamic> _$ReservationParkingModelToJson(
@@ -30,4 +31,5 @@ Map<String, dynamic> _$ReservationParkingModelToJson(
       'idparking': instance.idparking,
       'idvehicule': instance.idvehicule,
       'amount': instance.amount,
+      'parkingName': instance.parkingName,
     };

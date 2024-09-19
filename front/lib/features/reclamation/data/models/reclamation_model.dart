@@ -24,14 +24,33 @@ class ReclamationModel {
   @HiveField(5)
   final String? idevent; // Nullable
 
-  ReclamationModel({
-    this.id, // Optional and nullable
-    this.title, // Optional and nullable
-    this.targetType, // Optional and nullable
-    this.iduser, // Nullable
-    this.idorganiser, // Nullable
-    this.idevent, // Nullable
-  });
+  @HiveField(6)
+  final String? idparking; // Nullable
+
+  @HiveField(7)
+  final String? parkingName; // Nullable
+
+  @HiveField(8)
+  final String? eventName; // Nullable
+
+  @HiveField(9)
+  final String? userName; // Nullable
+
+  @HiveField(10)
+  final String? organiserName; // Nullable
+
+  ReclamationModel(
+      {this.id, // Optional and nullable
+      this.title, // Optional and nullable
+      this.targetType, // Optional and nullable
+      this.iduser, // Nullable
+      this.idorganiser, // Nullable
+      this.idevent, // Nullable
+      this.idparking,
+      this.parkingName,
+      this.eventName,
+      this.userName,
+      this.organiserName});
 
   // Factory constructor for creating a new instance from a map
   factory ReclamationModel.fromJson(Map<String, dynamic> json) =>

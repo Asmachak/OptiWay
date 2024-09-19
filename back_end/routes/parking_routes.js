@@ -9,4 +9,5 @@ const router = express.Router();
 router.get('/parking',getAllParkings);
 router.get('/parking/:parkingid',getParkingByID);
 
+
 module.exports = router;

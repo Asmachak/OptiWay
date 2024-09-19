@@ -5,6 +5,7 @@ import 'package:front/features/reservation/data/data_sources/reservationParking_
 import 'package:front/features/reservation/data/repositories_impl/reservationParking_repo_impl.dart';
 import 'package:front/features/reservation/domain/repositories/reservationParking_repo.dart';
 import 'package:front/features/reservation/domain/use_cases/reservationParking/add_reservationParking_use_case.dart';
+import 'package:front/features/reservation/domain/use_cases/reservationParking/get_all_reservationParking_use_case.dart';
 
 final reservationParkingdatasourceProvider =
     Provider.family<ReservationParkingDataSource, NetworkService>(
@@ -26,5 +27,11 @@ final reservationParkingRepositoryProvider =
 final addReservationParkingUseCaseProvider =
     Provider<AddReservationParkingUsecases>((ref) {
   return AddReservationParkingUsecases(
+      ref.read(reservationParkingRepositoryProvider));
+});
+
+final getAllReservationParkingUseCaseProvider =
+    Provider<GetAllReservationParkingUsecases>((ref) {
+  return GetAllReservationParkingUsecases(
       ref.read(reservationParkingRepositoryProvider));
 });

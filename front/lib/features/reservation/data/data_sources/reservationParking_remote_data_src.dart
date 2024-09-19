@@ -10,6 +10,8 @@ abstract class ReservationParkingDataSource {
     required String idvehicule,
     required String idparking,
   });
+  Future<Either<AppException, List<ReservationParkingModel>>>
+      getAllReservationParking();
 }
 
 class ReservationParkingRemoteDataSource
@@ -110,6 +112,39 @@ class ReservationParkingRemoteDataSource
           statusCode: 1,
           identifier:
               '${e.toString()}\nReservationParkingRemoteDataSource.ExtendReservations',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<ReservationParkingModel>>>
+      getAllReservationParking() async {
+    try {
+      final eitherType = await networkService.get(
+        '/admin/resParking',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          List<ReservationParkingModel> reservations = [];
+          if (response.data is List) {
+            reservations = List<ReservationParkingModel>.from(
+                response.data.map((x) => ReservationParkingModel.fromJson(x)));
+          }
+          return Right(reservations);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier:
+              '${e.toString()}\nReservationParkingRemoteDataSource.AddReservations',
         ),
       );
     }

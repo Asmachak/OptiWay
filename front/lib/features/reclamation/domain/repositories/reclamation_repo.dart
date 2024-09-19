@@ -7,4 +7,5 @@ abstract class ReclamationRepository {
       {required String targetId,
       required String reclaimerId,
       required Map<String, dynamic> body});
+  Future<Either<AppException, List<ReclamationModel>>> getReclamations();
 }

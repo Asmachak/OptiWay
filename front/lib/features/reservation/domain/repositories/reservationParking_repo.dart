@@ -9,4 +9,6 @@ abstract class ReservationParkingRepository {
     required String idvehicule,
     required String idparking,
   });
+  Future<Either<AppException, List<ReservationParkingModel>>>
+      getAllReservationParking();
 }

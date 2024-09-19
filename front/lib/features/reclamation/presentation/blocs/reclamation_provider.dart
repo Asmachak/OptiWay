@@ -7,8 +7,10 @@ import 'package:front/features/reclamation/presentation/blocs/state/reclamation_
 final reclamationNotifierProvider =
     StateNotifierProvider<ReclamationNotifier, ReclamationState>((ref) {
   final addReclamationUseCases = ref.read(addReclamationUseCaseProvider);
+  final getReclamationUseCases = ref.read(getReclamationUseCaseProvider);
 
-  final reservationUseCases =
-      ReclamationUseCases(addReclamationUseCases: addReclamationUseCases);
+  final reservationUseCases = ReclamationUseCases(
+      addReclamationUseCases: addReclamationUseCases,
+      getReclamationUseCases: getReclamationUseCases);
   return ReclamationNotifier(reservationUseCases);
 });

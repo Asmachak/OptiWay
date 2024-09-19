@@ -5,13 +5,16 @@ import 'package:front/features/reservation/presentation/blocs/state/reservationP
 import 'package:front/features/reservation/presentation/blocs/state/reservationParking/reservationParking_state.dart';
 
 final reservationParkingNotifierProvider =
-    StateNotifierProvider<ReservationParkingNotifier, ReservationParkingState>((ref) {
-  final addReservationParkingUseCases = ref.read(addReservationParkingUseCaseProvider);
-
+    StateNotifierProvider<ReservationParkingNotifier, ReservationParkingState>(
+        (ref) {
+  final addReservationParkingUseCases =
+      ref.read(addReservationParkingUseCaseProvider);
+  final getAllReservationParkingUseCases =
+      ref.read(getAllReservationParkingUseCaseProvider);
 
   final reservationUseCases = ReservationParkingUseCases(
     addReservationUseCases: addReservationParkingUseCases,
-  
+    getAllReservationUseCases: getAllReservationParkingUseCases,
   );
   return ReservationParkingNotifier(reservationUseCases);
 });

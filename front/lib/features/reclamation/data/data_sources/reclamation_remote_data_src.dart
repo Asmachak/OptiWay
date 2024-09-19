@@ -8,6 +8,7 @@ abstract class ReclamationDataSource {
       {required String targetId,
       required String reclaimerId,
       required Map<String, dynamic> body});
+  Future<Either<AppException, List<ReclamationModel>>> getReclamations();
 }
 
 class ReclamationRemoteDataSource implements ReclamationDataSource {
@@ -43,6 +44,37 @@ class ReclamationRemoteDataSource implements ReclamationDataSource {
           statusCode: 1,
           identifier:
               '${e.toString()}\nReclamationRemoteDataSource.addReclamation',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, List<ReclamationModel>>> getReclamations() async {
+    try {
+      final eitherType = await networkService.get(
+        '/admin/reclamations',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) async {
+          List<ReclamationModel> reclamations = [];
+          if (response.data != null) {
+            reclamations = List<ReclamationModel>.from(
+                response.data.map((x) => ReclamationModel.fromJson(x)));
+          }
+          return Right(reclamations);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nUserRemoteDataSource.getUsers',
         ),
       );
     }

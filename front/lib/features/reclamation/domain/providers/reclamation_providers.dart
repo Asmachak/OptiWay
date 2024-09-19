@@ -5,6 +5,7 @@ import 'package:front/features/reclamation/data/data_sources/reclamation_remote_
 import 'package:front/features/reclamation/data/repositories_impl/reclamation_repo_impl.dart';
 import 'package:front/features/reclamation/domain/repositories/reclamation_repo.dart';
 import 'package:front/features/reclamation/domain/use_cases/add_reclamation_use_case.dart';
+import 'package:front/features/reclamation/domain/use_cases/get_reclamation_use_case.dart';
 
 final reclamationdatasourceProvider =
     Provider.family<ReclamationRemoteDataSource, NetworkService>(
@@ -24,4 +25,8 @@ final reclamationRepositoryProvider = Provider<ReclamationRepository>((ref) {
 
 final addReclamationUseCaseProvider = Provider<AddReclamationUsecases>((ref) {
   return AddReclamationUsecases(ref.read(reclamationRepositoryProvider));
+});
+
+final getReclamationUseCaseProvider = Provider<GetReclamationUsecases>((ref) {
+  return GetReclamationUsecases(ref.read(reclamationRepositoryProvider));
 });

@@ -22,6 +22,7 @@ mixin _$ReclamationState {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReclamationModel reclamation) success,
+    required TResult Function(List<ReclamationModel> reclamations) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$ReclamationState {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReclamationModel reclamation)? success,
+    TResult? Function(List<ReclamationModel> reclamations)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$ReclamationState {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(ReclamationModel reclamation)? success,
+    TResult Function(List<ReclamationModel> reclamations)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -47,6 +50,7 @@ mixin _$ReclamationState {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Loaded value) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -55,6 +59,7 @@ mixin _$ReclamationState {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Loaded value)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +68,7 @@ mixin _$ReclamationState {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Loaded value)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -128,6 +134,7 @@ class _$InitialImpl implements Initial {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReclamationModel reclamation) success,
+    required TResult Function(List<ReclamationModel> reclamations) loaded,
   }) {
     return initial();
   }
@@ -139,6 +146,7 @@ class _$InitialImpl implements Initial {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReclamationModel reclamation)? success,
+    TResult? Function(List<ReclamationModel> reclamations)? loaded,
   }) {
     return initial?.call();
   }
@@ -150,6 +158,7 @@ class _$InitialImpl implements Initial {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(ReclamationModel reclamation)? success,
+    TResult Function(List<ReclamationModel> reclamations)? loaded,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -165,6 +174,7 @@ class _$InitialImpl implements Initial {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Loaded value) loaded,
   }) {
     return initial(this);
   }
@@ -176,6 +186,7 @@ class _$InitialImpl implements Initial {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Loaded value)? loaded,
   }) {
     return initial?.call(this);
   }
@@ -187,6 +198,7 @@ class _$InitialImpl implements Initial {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Loaded value)? loaded,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -242,6 +254,7 @@ class _$LoadingImpl implements Loading {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReclamationModel reclamation) success,
+    required TResult Function(List<ReclamationModel> reclamations) loaded,
   }) {
     return loading();
   }
@@ -253,6 +266,7 @@ class _$LoadingImpl implements Loading {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReclamationModel reclamation)? success,
+    TResult? Function(List<ReclamationModel> reclamations)? loaded,
   }) {
     return loading?.call();
   }
@@ -264,6 +278,7 @@ class _$LoadingImpl implements Loading {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(ReclamationModel reclamation)? success,
+    TResult Function(List<ReclamationModel> reclamations)? loaded,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -279,6 +294,7 @@ class _$LoadingImpl implements Loading {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Loaded value) loaded,
   }) {
     return loading(this);
   }
@@ -290,6 +306,7 @@ class _$LoadingImpl implements Loading {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Loaded value)? loaded,
   }) {
     return loading?.call(this);
   }
@@ -301,6 +318,7 @@ class _$LoadingImpl implements Loading {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Loaded value)? loaded,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -383,6 +401,7 @@ class _$FailureImpl implements Failure {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReclamationModel reclamation) success,
+    required TResult Function(List<ReclamationModel> reclamations) loaded,
   }) {
     return failure(exception);
   }
@@ -394,6 +413,7 @@ class _$FailureImpl implements Failure {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReclamationModel reclamation)? success,
+    TResult? Function(List<ReclamationModel> reclamations)? loaded,
   }) {
     return failure?.call(exception);
   }
@@ -405,6 +425,7 @@ class _$FailureImpl implements Failure {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(ReclamationModel reclamation)? success,
+    TResult Function(List<ReclamationModel> reclamations)? loaded,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -420,6 +441,7 @@ class _$FailureImpl implements Failure {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Loaded value) loaded,
   }) {
     return failure(this);
   }
@@ -431,6 +453,7 @@ class _$FailureImpl implements Failure {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Loaded value)? loaded,
   }) {
     return failure?.call(this);
   }
@@ -442,6 +465,7 @@ class _$FailureImpl implements Failure {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Loaded value)? loaded,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -529,6 +553,7 @@ class _$SuccessImpl implements Success {
     required TResult Function() loading,
     required TResult Function(AppException exception) failure,
     required TResult Function(ReclamationModel reclamation) success,
+    required TResult Function(List<ReclamationModel> reclamations) loaded,
   }) {
     return success(reclamation);
   }
@@ -540,6 +565,7 @@ class _$SuccessImpl implements Success {
     TResult? Function()? loading,
     TResult? Function(AppException exception)? failure,
     TResult? Function(ReclamationModel reclamation)? success,
+    TResult? Function(List<ReclamationModel> reclamations)? loaded,
   }) {
     return success?.call(reclamation);
   }
@@ -551,6 +577,7 @@ class _$SuccessImpl implements Success {
     TResult Function()? loading,
     TResult Function(AppException exception)? failure,
     TResult Function(ReclamationModel reclamation)? success,
+    TResult Function(List<ReclamationModel> reclamations)? loaded,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -566,6 +593,7 @@ class _$SuccessImpl implements Success {
     required TResult Function(Loading value) loading,
     required TResult Function(Failure value) failure,
     required TResult Function(Success value) success,
+    required TResult Function(Loaded value) loaded,
   }) {
     return success(this);
   }
@@ -577,6 +605,7 @@ class _$SuccessImpl implements Success {
     TResult? Function(Loading value)? loading,
     TResult? Function(Failure value)? failure,
     TResult? Function(Success value)? success,
+    TResult? Function(Loaded value)? loaded,
   }) {
     return success?.call(this);
   }
@@ -588,6 +617,7 @@ class _$SuccessImpl implements Success {
     TResult Function(Loading value)? loading,
     TResult Function(Failure value)? failure,
     TResult Function(Success value)? success,
+    TResult Function(Loaded value)? loaded,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -604,5 +634,165 @@ abstract class Success implements ReclamationState {
   ReclamationModel get reclamation;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$LoadedImplCopyWith<$Res> {
+  factory _$$LoadedImplCopyWith(
+          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
+      __$$LoadedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<ReclamationModel> reclamations});
+}
+
+/// @nodoc
+class __$$LoadedImplCopyWithImpl<$Res>
+    extends _$ReclamationStateCopyWithImpl<$Res, _$LoadedImpl>
+    implements _$$LoadedImplCopyWith<$Res> {
+  __$$LoadedImplCopyWithImpl(
+      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reclamations = null,
+  }) {
+    return _then(_$LoadedImpl(
+      reclamations: null == reclamations
+          ? _value._reclamations
+          : reclamations // ignore: cast_nullable_to_non_nullable
+              as List<ReclamationModel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoadedImpl implements Loaded {
+  const _$LoadedImpl({required final List<ReclamationModel> reclamations})
+      : _reclamations = reclamations;
+
+  final List<ReclamationModel> _reclamations;
+  @override
+  List<ReclamationModel> get reclamations {
+    if (_reclamations is EqualUnmodifiableListView) return _reclamations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reclamations);
+  }
+
+  @override
+  String toString() {
+    return 'ReclamationState.loaded(reclamations: $reclamations)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoadedImpl &&
+            const DeepCollectionEquality()
+                .equals(other._reclamations, _reclamations));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_reclamations));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(AppException exception) failure,
+    required TResult Function(ReclamationModel reclamation) success,
+    required TResult Function(List<ReclamationModel> reclamations) loaded,
+  }) {
+    return loaded(reclamations);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(AppException exception)? failure,
+    TResult? Function(ReclamationModel reclamation)? success,
+    TResult? Function(List<ReclamationModel> reclamations)? loaded,
+  }) {
+    return loaded?.call(reclamations);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(AppException exception)? failure,
+    TResult Function(ReclamationModel reclamation)? success,
+    TResult Function(List<ReclamationModel> reclamations)? loaded,
+    required TResult orElse(),
+  }) {
+    if (loaded != null) {
+      return loaded(reclamations);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) initial,
+    required TResult Function(Loading value) loading,
+    required TResult Function(Failure value) failure,
+    required TResult Function(Success value) success,
+    required TResult Function(Loaded value) loaded,
+  }) {
+    return loaded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Initial value)? initial,
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Failure value)? failure,
+    TResult? Function(Success value)? success,
+    TResult? Function(Loaded value)? loaded,
+  }) {
+    return loaded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? initial,
+    TResult Function(Loading value)? loading,
+    TResult Function(Failure value)? failure,
+    TResult Function(Success value)? success,
+    TResult Function(Loaded value)? loaded,
+    required TResult orElse(),
+  }) {
+    if (loaded != null) {
+      return loaded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Loaded implements ReclamationState {
+  const factory Loaded({required final List<ReclamationModel> reclamations}) =
+      _$LoadedImpl;
+
+  List<ReclamationModel> get reclamations;
+  @JsonKey(ignore: true)
+  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

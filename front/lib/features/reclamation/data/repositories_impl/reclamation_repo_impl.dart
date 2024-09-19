@@ -20,4 +20,9 @@ class ReclamationRepositoryImpl implements ReclamationRepository {
     return remoteDataSource.addReclamation(
         body: body, reclaimerId: reclaimerId, targetId: targetId);
   }
+
+  @override
+  Future<Either<AppException, List<ReclamationModel>>> getReclamations() async {
+    return remoteDataSource.getReclamations();
+  }
 }

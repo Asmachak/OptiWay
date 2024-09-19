@@ -4,6 +4,7 @@ const Event = require('../models/event');
 const Parking = require('../models/parking');
 const Reclamation = require('../models/reclamation');
 const User = require('../models/user');
+const Organiser = require('../models/organiser');
 
 async function addReclamation(req, res) {
   try {
@@ -76,21 +77,77 @@ async function addReclamation(req, res) {
 
 async function getAllReclamations(req, res) {
   try {
-    const reclamations = await Reclamation.findAll();
-    
-    // Return reclamations as part of an object, in case you want to add more info later
-    res.status(200).send(reclamations);
-    
+    // Step 1: Fetch all reclamations without associations
+    const reclamations = await Reclamation.findAll({
+      attributes: ['id', 'title', 'targetType', 'idevent', 'idparking', 'idorganiser', 'iduser'],
+    });
+
+    // Step 2: Loop over each reclamation and fetch associated data manually
+    const result = await Promise.all(
+      reclamations.map(async (reclamation) => {
+        // Fetch username by user ID
+        let userName = null;
+        if (reclamation.iduser) {
+          const user = await User.findByPk(reclamation.iduser, {
+            attributes: ['name'],
+          });
+          userName = user ? user.name : null;
+        }
+
+        // Fetch parking name by parking ID
+        let parkingName = null;
+        if (reclamation.idparking) {
+          const parking = await Parking.findByPk(reclamation.idparking, {
+            attributes: ['parkingName'],
+          });
+          parkingName = parking ? parking.parkingName : null;
+        }
+
+        // Fetch organiser name by organiser ID
+        let organiserName = null;
+        if (reclamation.idorganiser) {
+          const organiser = await Organiser.findByPk(reclamation.idorganiser, {
+            attributes: ['name'],
+          });
+          organiserName = organiser ? organiser.name : null;
+        }
+
+        // Fetch event name by event ID
+        let eventName = null;
+        if (reclamation.idevent) {
+          const event = await Event.findByPk(reclamation.idevent, {
+            attributes: ['name'],
+          });
+          eventName = event ? event.name : null;
+        }
+
+        // Step 3: Attach the fetched names to the reclamation object
+        return {
+          id: reclamation.id,
+          title: reclamation.title,
+          targetType: reclamation.targetType,
+          parkingName,
+          userName,
+          organiserName,
+          eventName,
+        };
+      })
+    );
+
+    // Step 4: Send the final response
+    res.status(200).send(
+      result
+    );
   } catch (error) {
     console.error("Error retrieving reclamations:", error);
-    
-    // More detailed error response
+
     res.status(500).json({
       success: false,
       message: "An error occurred while fetching reclamations",
-      error: error.message, // Optionally expose error details
+      error: error.message,
     });
   }
 }
+
 
 module.exports = { addReclamation,getAllReclamations };

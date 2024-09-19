@@ -25,4 +25,10 @@ class ReservationParkingRepositoryImpl implements ReservationParkingRepository {
         iduser: iduser,
         idvehicule: idvehicule);
   }
+
+  @override
+  Future<Either<AppException, List<ReservationParkingModel>>>
+      getAllReservationParking() {
+    return remoteDataSource.getAllReservationParking();
+  }
 }

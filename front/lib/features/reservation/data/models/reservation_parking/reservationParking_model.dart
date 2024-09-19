@@ -11,6 +11,7 @@ class ReservationParkingModel {
   String? idparking;
   String? idvehicule;
   double? amount;
+  String? parkingName;
 
   ReservationParkingModel(
       {this.id,
@@ -20,10 +21,10 @@ class ReservationParkingModel {
       this.iduser,
       this.idparking,
       this.idvehicule,
-      this.amount});
+      this.amount,
+      this.parkingName});
 
- factory ReservationParkingModel.fromJson(Map<String, dynamic> json) => _$ReservationParkingModelFromJson(json);
+  factory ReservationParkingModel.fromJson(Map<String, dynamic> json) =>
+      _$ReservationParkingModelFromJson(json);
   Map<String, dynamic> toJson() => _$ReservationParkingModelToJson(this);
-
-
 }
