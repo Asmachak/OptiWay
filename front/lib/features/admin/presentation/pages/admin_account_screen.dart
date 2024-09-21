@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/admin/data/data_sources/admin_local_data_src.dart';
+import 'package:front/features/admin/presentation/blocs/auth_providers.dart';
 import 'package:front/features/admin/presentation/widgets/admin_profil_top_widget.dart';
 import 'package:front/features/user/presentation/widgets/menu_profile_widget.dart';
 import 'package:front/features/organiser/presentation/blocs/auth_providers.dart';
@@ -116,8 +117,7 @@ class AdminAccountScreen extends ConsumerWidget {
                               ElevatedButton(
                                 onPressed: () {
                                   ref
-                                      .read(authOrganiserNotifierProvider
-                                          .notifier)
+                                      .read(authAdminNotifierProvider.notifier)
                                       .logout();
                                   AutoRouter.of(context)
                                       .navigate(const WelcomeRoute());
