@@ -32,15 +32,17 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
     final jsonData = ref.read(reservationParkingDataProvider);
     final promoState = ref.watch(checkpromoNotifierProvider);
 
-    json['idevent'] = widget.movie.id;
-    jsonData['idevent'] = widget.movie.id;
+    // json['idevent'] = widget.movie.id;
+    // jsonData['idevent'] = widget.movie.id;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Movie Details'),
         leading: IconButton(
           onPressed: () {
-            resetReservationProviders(ref);
+            //resetReservationProviders(ref);
+            json["idevent"] = "";
+            jsonData["idevent"] = "";
             Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back_ios_new_rounded),

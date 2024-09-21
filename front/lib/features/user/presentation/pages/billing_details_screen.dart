@@ -39,7 +39,7 @@ class BillingDetailsScreen extends ConsumerWidget {
                             .push(const PaiementMethodeRoute());
                       }),
                   ProfileMenuWidget(
-                      title: "Billing Historic",
+                      title: "Billing History",
                       icon: Icons.monetization_on_sharp,
                       onPress: () {
                         AutoRouter.of(context)

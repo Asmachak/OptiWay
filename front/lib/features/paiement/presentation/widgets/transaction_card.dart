@@ -42,7 +42,7 @@ class TransactionCard extends StatelessWidget {
                 child: Text(
                   "Payment Parking ${reservation.ReservationParking!["parking"]["parkingName"]}" +
                       (reservation.ReservationEvent != null
-                          ? " && Event ${reservation.ReservationEvent!["id"]}"
+                          ? " && Event ${reservation.ReservationEvent!["event"]["title"]}"
                           : ""),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -58,7 +58,7 @@ class TransactionCard extends StatelessWidget {
           Row(
             children: [
               const Text(
-                'Montant: ',
+                'Amount: ',
                 style: TextStyle(
                   color: Color.fromARGB(255, 39, 50, 103),
                   fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class TransactionCard extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  ' -${reservation.amount} Euro',
+                  ' ${reservation.amount} Euro',
                   style: const TextStyle(
                     color: Colors.orange,
                     fontWeight: FontWeight.bold,

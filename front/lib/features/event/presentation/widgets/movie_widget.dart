@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
-import 'package:front/features/promo/presentation/blocs/check_promo_provider.dart';
 
 class MovieWidget extends ConsumerStatefulWidget {
   const MovieWidget({
@@ -21,7 +20,6 @@ class _MovieWidgetState extends ConsumerState<MovieWidget> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override

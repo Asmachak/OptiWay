@@ -201,13 +201,25 @@ class _EventListState extends ConsumerState<EventList> {
                     final movie = filteredMovies[index];
                     return MovieWidget(
                         movie: movie,
-                        onPress: () {
+                        onPress: () async {
+                          print("MovieWidget tapped");
                           if (json != null) {
-                            json["idevent"] = movie.id;
-                            print("json $json");
+                            ref
+                                .read(reservationEventDataProvider.notifier)
+                                .update((state) {
+                              return {
+                                ...state,
+                                "idevent": movie.id,
+                              };
+                            });
+
+                            print("json updated with idevent: $json");
 
                             // Reset search and filters
                             _resetFilters();
+
+                            // Delay navigation by a second to allow print statements to show
+                            await Future.delayed(const Duration(seconds: 1));
 
                             AutoRouter.of(context)
                                 .push(MovieDetailRoute(movie: movie));
