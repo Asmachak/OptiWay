@@ -1,11 +1,12 @@
 
 const {generateToken} = require('../middleware/jwt')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const defaultImageBuffer = 'https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg';
 const {handleImageUploadAsync} = require('../middleware/cloudinary')
 const multer = require('multer');
 const {generateID} = require("../middleware/generateID");
 const User = require('../models/user');
+const emailService = require("../middleware/email_service");
 
 
 
@@ -126,31 +127,58 @@ async function uploadImage(req,res){
   }
 };
 
-async function deleteUser(req,res){
-try {
-  const userId = req.params.userId;
+async function deleteUser(req, res) {
+  try {
+    const userId = req.params.userId;
 
-  const existingUser = await User.findByPk(userId);
+    const existingUser = await User.findByPk(userId);
 
-  if (!existingUser) {
-    return res.status(404).json({ error: 'User not found' });
-  }
-
-  await User.destroy({
-    where: {
-      id: userId
+    if (!existingUser) {
+      return res.status(404).json({ error: 'User not found' });
     }
-  });
 
-  res.status(200).json("user deleted");
+    await User.destroy({
+      where: {
+        id: userId
+      }
+    });
 
-  
-} catch (error) {
-  console.error("Error:", error);
-  res.status(500).send("Error is occured when deleting user !!");
-  
+    // Prepare the email message
+    const message = `
+      Dear ${existingUser.name},
+
+      We regret to inform you that your account associated with the email address ${existingUser.email} has been deleted due to multiple complaints regarding your activity on our platform. This action was taken in accordance with our community guidelines to ensure a safe and positive environment for all users.
+
+      If you believe this decision was made in error, or if you have any questions about your account status, please reach out to our support team at support@example.com. We are committed to ensuring fair treatment and are open to reviewing your case.
+
+      Thank you for your understanding.
+
+      Best regards,
+      OptiWay
+    `;
+
+    const emailModel = {
+      email: existingUser.email, // Use the existing user's email
+      subject: "Account Deletion",
+      body: message
+    };
+
+    // Send the email
+    emailService.sendEmail(emailModel, (error, result) => {
+      if (error) {
+        console.error("Error sending email:", error);
+      } else {
+        console.log("Email sent successfully:", result);
+      }
+    });
+
+    res.status(200).json("User deleted and notification email sent.");
+    
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("An error occurred while deleting the user.");
+  }
 }
-};
 
 async function editPassword(req, res) {
   try {

@@ -17,6 +17,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
     with WidgetsBindingObserver {
   final SocketService _socketService = SocketService();
   var iduser = GetIt.instance.get<AuthLocalDataSource>().currentUser?.id;
+  bool _notificationsEnabled = true; // Add this to track notifications state
 
   @override
   void initState() {
@@ -32,7 +33,9 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
 
   void _handleNewNotification(Map<String, String> notification) {
     // Refresh the notifications list from the database
-    ref.read(notificationNotifierProvider.notifier).getNotifications(iduser!);
+    if (_notificationsEnabled) {
+      ref.read(notificationNotifierProvider.notifier).getNotifications(iduser!);
+    }
   }
 
   @override
@@ -51,6 +54,13 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
     }
   }
 
+  // Add function to delete notifications
+  void _deleteNotification(String notificationId) {
+    // ref
+    //     .read(notificationNotifierProvider.notifier)
+    //     .deleteNotification(notificationId, iduser!);
+  }
+
   @override
   Widget build(BuildContext context) {
     final notificationState = ref.watch(notificationNotifierProvider);
@@ -58,15 +68,34 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),
+        actions: [
+          Switch(
+            activeColor: Colors.green,
+            value: _notificationsEnabled,
+            onChanged: (value) {
+              setState(() {
+                _notificationsEnabled = value;
+                if (!_notificationsEnabled) {
+                  _socketService.disconnectSocket();
+                } else {
+                  _socketService.connectToSocket(_handleNewNotification);
+                }
+              });
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(_notificationsEnabled ? 'On' : 'Off'),
+          ),
+        ],
       ),
       body: notificationState.when(
         initial: () => const Center(child: Text('No notifications yet')),
         loading: () => const Center(child: CircularProgressIndicator()),
         loaded: (notifications) {
-          // Create a modifiable copy of the notifications list
           final modifiableNotifications = List.from(notifications);
 
-          // Parse createdAt strings to DateTime objects and sort notifications by createdAt (newest first)
+          // Sort notifications by createdAt (newest first)
           modifiableNotifications.sort((a, b) {
             final DateTime dateA = DateFormat('yyyy-MM-ddTHH:mm:ssZ')
                 .parse(a.createdAt, true)
@@ -116,9 +145,18 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
                           ),
                         ],
                       ),
-                      trailing: isHighlighted
-                          ? const Icon(Icons.info, color: Colors.blue)
-                          : null,
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (isHighlighted)
+                            const Icon(Icons.info, color: Colors.blue),
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () =>
+                                _deleteNotification(notification.id),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   if (index < modifiableNotifications.length - 1)

@@ -347,5 +347,5 @@ async function deleteReservation(req, res) {
 
   
 // Run the function every second
-setInterval(changeReservationState, 1000);
+//setInterval(changeReservationState, 1000);
 module.exports = {getReservation,extendReservation,deleteReservation,getEventReservationOrganiser}

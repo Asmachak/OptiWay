@@ -1,6 +1,6 @@
 
 const {generateToken} = require('../middleware/jwt')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const defaultImageBuffer = 'https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg';
 const {generateID} = require("../middleware/generateID");
 const Admin = require('../models/admin');

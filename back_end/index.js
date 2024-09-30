@@ -34,15 +34,15 @@ const {scheduleReservationNotifications} = require('./controllers/notification_c
 /****************************************End-Declarations****************************************/ 
 
 // Synchroniser la base de données avec les modèles
-/*(async () => {
-  try {
-    await sequelize.sync({ alter: true }); // Avoid dropping tables
-    console.log('Database synchronized successfully');
-  } catch (error) {
-    console.error('Error synchronizing database:', error);
-  }
-})();
-*/
+// (async () => {
+//   try {
+//     await sequelize.sync({ alter: true }); // Avoid dropping tables
+//     console.log('Database synchronized successfully');
+//   } catch (error) {
+//     console.error('Error synchronizing database:', error);
+//   }
+// })();
+
 /*(async () => {
   try {
     // Sync only the ReservationEventParking model
@@ -94,7 +94,7 @@ const server = http.createServer(app);
 const io = initializeSocket(server);
 
 // Start the cron job for notifications
-scheduleReservationNotifications(io);
+//scheduleReservationNotifications(io);
 
 // Express middleware setup (e.g., for parsing JSON)
 app.use(express.json());

@@ -49,7 +49,7 @@ class OrganiserAccountScreen extends ConsumerWidget {
                       children: [
                         Text(
                           "${GetIt.instance.get<OrganiserLocalDataSource>().currentOrganiser!.name!} ${GetIt.instance.get<OrganiserLocalDataSource>().currentOrganiser!.lastName!}",
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         const SizedBox(width: 5),
                       ],
@@ -57,7 +57,7 @@ class OrganiserAccountScreen extends ConsumerWidget {
                   ),
 
                   Text("Profil Bio",
-                      style: Theme.of(context).textTheme.bodyText2),
+                      style: Theme.of(context).textTheme.bodyMedium),
                   const SizedBox(height: 20),
 
                   /// -- BUTTON

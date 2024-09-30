@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carouselSlider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
@@ -26,8 +26,8 @@ class _MovieCarouselState extends ConsumerState<MovieCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(
+    return carouselSlider.CarouselSlider(
+      options: carouselSlider.CarouselOptions(
         height: 200.0,
         enlargeCenterPage: true,
         autoPlay: true,

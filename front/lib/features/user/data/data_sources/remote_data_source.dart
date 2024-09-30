@@ -28,6 +28,7 @@ abstract class UserDataSource {
   Future<Either<AppException, UserModel>> uploadImage(
       {required File imageFile, required String id});
   Future<Either<AppException, List<UserModel>>> getUsers();
+  Future<Either<AppException, String>> deleteUser({required String id});
 }
 
 class UserRemoteDataSource implements UserDataSource {
@@ -371,6 +372,44 @@ class UserRemoteDataSource implements UserDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nUserRemoteDataSource.getUsers',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, String>> deleteUser({required String id}) async {
+    try {
+      final eitherType = await networkService.delete(
+        '/user/delete/$id',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) async {
+          const err = "error";
+          if (response.data == "User deleted and notification email sent.") {
+            return const Right("success");
+          }
+          return Left(
+            AppException(
+              err,
+              message: err,
+              statusCode: 1,
+              identifier: '${err}\nDeleteUserRemoteDataSource.ForgetPassword',
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier:
+              '${e.toString()}\nUpdateUserRemoteDataSource.ForgetPassword',
         ),
       );
     }

@@ -170,7 +170,7 @@ class _MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
                   widget.movie.description ?? '',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
             // Release Date

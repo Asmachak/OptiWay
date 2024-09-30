@@ -263,12 +263,12 @@ class _OrganiserHomeScreenState extends ConsumerState<OrganiserHomeScreen> {
                       children: [
                         Text(
                           'Hi, $userName',
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'What is new for today?',
-                          style: Theme.of(context).textTheme.subtitle1,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 16),
                         Row(

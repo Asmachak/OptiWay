@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/paiement/presentation/widgets/transaction_card.dart';
@@ -23,6 +23,43 @@ class _BillingHistoricScreenState extends ConsumerState<BillingHistoricScreen> {
       ref.watch(reservationNotifierProvider.notifier).getReservation(
           GetIt.instance.get<AuthLocalDataSource>().currentUser!.id!);
     });
+  }
+
+  // Function to handle report action
+  void _reportTransaction(String reservationId) {
+    // Here you can handle the logic to report the transaction
+    // For example, you might show a dialog or send a request to an API
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Report Transaction'),
+          content:
+              const Text('Are you sure you want to report this transaction?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Call your report action here
+                Navigator.of(context).pop();
+                // Optionally, show a confirmation message
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Transaction reported successfully.'),
+                  ),
+                );
+              },
+              child: const Text('Report'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -50,6 +87,8 @@ class _BillingHistoricScreenState extends ConsumerState<BillingHistoricScreen> {
                     final reservation = reservations[index];
                     return TransactionCard(
                       reservation: reservation,
+                      onReport: () => _reportTransaction(
+                          reservation.id!), // Pass the report function
                     );
                   },
                 ),

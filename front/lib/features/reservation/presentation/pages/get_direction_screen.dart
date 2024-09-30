@@ -75,10 +75,19 @@ class _GetDirectionScreenState extends State<GetDirectionScreen> {
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
 
+    // Create a PolylineRequest object
+    PolylineRequest request = PolylineRequest(
+      origin:
+          PointLatLng(currentLocation!.latitude, currentLocation!.longitude),
+      destination: PointLatLng(latitude, longitude),
+      mode: TravelMode.driving, // You can change travel mode here if needed
+    );
+
+    // Fetch polyline result with the request object
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        GOOGLE_MAPS_API_KEY,
-        PointLatLng(currentLocation!.latitude, currentLocation!.longitude),
-        PointLatLng(latitude, longitude));
+      googleApiKey: GOOGLE_MAPS_API_KEY,
+      request: request,
+    );
 
     if (result.points.isNotEmpty) {
       setState(() {

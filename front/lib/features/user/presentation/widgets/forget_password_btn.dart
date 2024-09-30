@@ -37,13 +37,13 @@ class ForgetPasswordBtnWidget extends StatelessWidget {
                   title,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 32, 40, 89),
-                  ).merge(Theme.of(context).textTheme.headline6),
+                  ).merge(Theme.of(context).textTheme.titleLarge),
                 ),
                 Text(
                   subTitle,
                   style: const TextStyle(
                     color: Color.fromARGB(255, 32, 40, 89),
-                  ).merge(Theme.of(context).textTheme.bodyText2),
+                  ).merge(Theme.of(context).textTheme.bodyMedium),
                 )
               ],
             )

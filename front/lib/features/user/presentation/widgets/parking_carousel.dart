@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:auto_route/auto_route.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carouselSlider;
 import 'package:flutter/material.dart';
 import 'package:front/features/parking/data/models/parking_model.dart';
 import 'package:front/routes/app_routes.gr.dart';
@@ -33,8 +33,8 @@ class ParkingCarousel extends StatelessWidget {
       // Add more paths as needed
     ];
 
-    return CarouselSlider(
-      options: CarouselOptions(
+    return carouselSlider.CarouselSlider(
+      options: carouselSlider.CarouselOptions(
         height: 300.0, // Adjust height to ensure it fits the content
         enlargeCenterPage: true,
         autoPlay: true,

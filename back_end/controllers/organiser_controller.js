@@ -1,6 +1,6 @@
 
 const {generateToken} = require('../middleware/jwt')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const defaultImageBuffer = 'https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg';
 const {handleImageUploadAsync} = require('../middleware/cloudinary')
 const { v4: uuidv4 } = require('uuid');
@@ -140,6 +140,35 @@ try {
       id: organiserId
     }
   });
+
+   // Prepare the email message
+   const message = `
+   Dear ${existingOrganiser.name},
+
+   We regret to inform you that your account associated with the email address ${existingOrganiser.email} has been deleted due to multiple complaints regarding your activity on our platform. This action was taken in accordance with our community guidelines to ensure a safe and positive environment for all users.
+
+   If you believe this decision was made in error, or if you have any questions about your account status, please reach out to our support team at support@example.com. We are committed to ensuring fair treatment and are open to reviewing your case.
+
+   Thank you for your understanding.
+
+   Best regards,
+   OptiWay
+ `;
+
+ const emailModel = {
+   email: existingOrganiser.email, // Use the existing user's email
+   subject: "Account Deletion ",
+   body: message
+ };
+
+ // Send the email
+ emailService.sendEmail(emailModel, (error, result) => {
+   if (error) {
+     console.error("Error sending email:", error);
+   } else {
+     console.log("Email sent successfully:", result);
+   }
+ });
 
   res.status(200).json("user deleted");
 

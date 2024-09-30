@@ -54,7 +54,7 @@ class _accountScreenState extends ConsumerState<accountScreen> {
                       children: [
                         Text(
                           "${GetIt.instance.get<AuthLocalDataSource>().currentUser!.name!} ${GetIt.instance.get<AuthLocalDataSource>().currentUser!.lastName!}",
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         const SizedBox(width: 5),
                       ],
@@ -62,7 +62,7 @@ class _accountScreenState extends ConsumerState<accountScreen> {
                   ),
 
                   Text("Profil Bio",
-                      style: Theme.of(context).textTheme.bodyText2),
+                      style: Theme.of(context).textTheme.bodyMedium),
                   const SizedBox(height: 20),
 
                   /// -- BUTTON

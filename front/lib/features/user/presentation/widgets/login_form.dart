@@ -212,7 +212,7 @@ void _showModalBottomSheet(BuildContext context) {
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 32, 40, 89))),
             Text("Select one of the options given below to reset your password",
-                style: Theme.of(context).textTheme.bodyText1),
+                style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 30.0),
             ForgetPasswordBtnWidget(
               onTap: () {

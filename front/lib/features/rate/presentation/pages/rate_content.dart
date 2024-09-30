@@ -67,7 +67,7 @@ class _RateContentState extends ConsumerState<RateContent> {
               ),
               Text(
                 "Your feedback is valuable, so we can improve",
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),

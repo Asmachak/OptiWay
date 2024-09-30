@@ -1,7 +1,7 @@
 // importData.js
 const Manufacturer = require('../models/carManufacturer');
 const CarModel = require('../models/carModel');
-const jsonData = require('../../cars.json'); // Assuming your JSON data is in a file
+const jsonData = require('../cars.json'); // Assuming your JSON data is in a file
 
 async function importData ()   {
   try {

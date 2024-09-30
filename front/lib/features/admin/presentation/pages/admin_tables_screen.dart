@@ -331,14 +331,14 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
     );
   }
 
-  // Build the column headers dynamically based on the selected model or loaded data
+  /// Build the column headers dynamically based on the selected model or loaded data
   List<DataColumn> _buildColumns(String model, List<Map<String, String>> data) {
     if (data.isEmpty) {
       return [];
     }
 
     // Extract the first row to get the keys (column names)
-    return data.first.keys.map((key) {
+    List<DataColumn> columns = data.first.keys.map((key) {
       return DataColumn(
         label: ConstrainedBox(
           constraints:
@@ -351,28 +351,174 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
         ),
       );
     }).toList();
+
+    // If the model is Users or Organizers, add a column for the delete button
+    if (model == 'Users' || model == 'Organizers') {
+      columns.add(const DataColumn(
+        label: Text('Action'),
+      ));
+    }
+
+    return columns;
   }
 
+// Build the rows dynamically based on the selected model or loaded data
   // Build the rows dynamically based on the selected model or loaded data
   List<DataRow> _buildRows(String model, List<Map<String, String>> data) {
     return data.map((row) {
-      return DataRow(
-        cells: row.values.map((value) {
-          return DataCell(
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                  maxWidth: 100), // Set max width for the content
-              child: Text(
-                value, // The value for the cell
-                maxLines: 2, // Allow up to 2 lines, you can adjust as needed
-                overflow:
-                    TextOverflow.ellipsis, // Show '...' for overflowing text
-                softWrap: true, // Enable text wrapping
-              ),
+      // Create a list of DataCells for the current row
+      List<DataCell> cells = row.values.map((value) {
+        return DataCell(
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 100, // Set max width for the content
             ),
-          );
-        }).toList(),
-      );
+            child: Text(
+              value, // The value for the cell
+              maxLines: 2, // Allow up to 2 lines
+              overflow:
+                  TextOverflow.ellipsis, // Show '...' for overflowing text
+              softWrap: true, // Enable text wrapping
+            ),
+          ),
+        );
+      }).toList();
+
+      // Add delete button if the model is Users or Organizers
+      if (model == 'Users' || model == 'Organizers') {
+        cells.add(
+          DataCell(
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () {
+                _showDeleteConfirmationDialog(context, model, row['Email']!);
+              },
+            ),
+          ),
+        );
+      }
+
+      return DataRow(cells: cells);
     }).toList();
+  }
+
+// Function to show the delete confirmation dialog with reason input
+  void _showDeleteConfirmationDialog(
+      BuildContext context, String model, String email) {
+    final TextEditingController reasonController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Deletion'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Please provide a reason for deletion:'),
+              const SizedBox(height: 10),
+              TextField(
+                controller: reasonController,
+                decoration: const InputDecoration(
+                  labelText: 'Reason',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 2,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                final reason = reasonController.text.trim();
+
+                // Ensure a reason is provided before proceeding
+                if (reason.isEmpty) {
+                  _showErrorDialog(context);
+                } else {
+                  Navigator.of(context).pop(); // Close the dialog
+                  _confirmDeletion(context, model, email, reason);
+                }
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+// Function to confirm deletion
+  void _confirmDeletion(
+      BuildContext context, String model, String email, String reason) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Deletion'),
+          content: Text(
+              'Are you sure you want to delete this item for the following reason?\n\n$reason'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                // Perform the delete action based on the model
+                if (model == 'Users') {
+                  _deleteUser(
+                      email, reason); // Use the email or unique identifier
+                } else if (model == 'Organizers') {
+                  _deleteOrganiser(
+                      email, reason); // Use the email or unique identifier
+                }
+              },
+              child: const Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+// Function to show an error dialog if no reason is provided
+  void _showErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Please provide a reason for deletion.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+// Function to delete a user (with reason)
+  void _deleteUser(String email, String reason) {
+    // Implement your user deletion logic here
+    // You can also log the deletion reason if needed
+    // ref.read(getAllUsersNotifierProvider.notifier).deleteUserByEmail(email);
+    print("User with email $email deleted for reason: $reason");
+  }
+
+// Function to delete an organiser (with reason)
+  void _deleteOrganiser(String email, String reason) {
+    // Implement your organiser deletion logic here
+    // You can also log the deletion reason if needed
+    // ref.read(getAllOrganisersNotifierProvider.notifier).deleteOrganiserByEmail(email);
+    print("Organiser with email $email deleted for reason: $reason");
   }
 }

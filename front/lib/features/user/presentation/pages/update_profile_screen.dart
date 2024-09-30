@@ -61,8 +61,8 @@ class UpdateProfileScreen extends ConsumerWidget {
         leading: IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-        title:
-            Text("Edit Profile", style: Theme.of(context).textTheme.headline4),
+        title: Text("Edit Profile",
+            style: Theme.of(context).textTheme.headlineMedium),
       ),
       body: SingleChildScrollView(
         child: Container(
