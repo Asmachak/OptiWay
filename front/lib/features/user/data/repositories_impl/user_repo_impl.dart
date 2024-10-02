@@ -67,4 +67,9 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<AppException, List<UserModel>>> getUsers() async {
     return remoteDataSource.getUsers();
   }
+
+  @override
+  Future<Either<AppException, String>> deleteUser({required String id}) async {
+    return remoteDataSource.deleteUser(id: id);
+  }
 }

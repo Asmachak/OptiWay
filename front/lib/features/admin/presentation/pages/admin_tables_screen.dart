@@ -4,13 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/event/data/models/movie/movie_model.dart';
 import 'package:front/features/event/presentation/blocs/movie_provider.dart';
 import 'package:front/features/organiser/domain/entities/organiser_entity.dart';
+import 'package:front/features/organiser/presentation/blocs/delete_organiser_providers.dart';
 import 'package:front/features/organiser/presentation/blocs/get_organisers_providers.dart';
 import 'package:front/features/parking/data/models/parking_model.dart';
 import 'package:front/features/parking/presentation/blocs/parking_provider.dart';
 import 'package:front/features/reclamation/data/models/reclamation_model.dart';
 import 'package:front/features/reclamation/presentation/blocs/reclamation_provider.dart';
+import 'package:front/features/user/presentation/blocs/delete_providers.dart';
 import 'package:front/features/user/presentation/blocs/get_users_providers.dart';
 import 'package:front/features/user/domain/entities/user_entity.dart';
+import 'package:front/features/user/presentation/blocs/state/delete/delete_user_state.dart';
+import 'package:front/features/organiser/presentation/blocs/state/deleteOrganiser/delete_organiser_state.dart'
+    as organiser_state;
 
 // StateProvider to manage the search term
 final searchProvider = StateProvider<String>((ref) => '');
@@ -32,12 +37,33 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(getAllUsersNotifierProvider.notifier).getUsers();
-      ref.read(getAllOrganisersNotifierProvider.notifier).getOrganisers();
-      ref.read(parkingNotifierProvider.notifier).getParkings();
-      ref.read(MovieNotifierProvider.notifier).fetchItems();
-      ref.read(reclamationNotifierProvider.notifier).getReclamations();
+      _fetchUsers();
+      _fetchOrganisers();
+      _fetchParkings();
+      _fetchMovies();
+      _fetchReclamations();
     });
+  }
+
+  void _fetchUsers() {
+    // Fetch all the data for users, organizers, parkings, movies, and reclamations
+    ref.read(getAllUsersNotifierProvider.notifier).getUsers();
+  }
+
+  void _fetchOrganisers() {
+    ref.read(getAllOrganisersNotifierProvider.notifier).getOrganisers();
+  }
+
+  void _fetchParkings() {
+    ref.read(parkingNotifierProvider.notifier).getParkings();
+  }
+
+  void _fetchMovies() {
+    ref.read(MovieNotifierProvider.notifier).fetchItems();
+  }
+
+  void _fetchReclamations() {
+    ref.read(reclamationNotifierProvider.notifier).getReclamations();
   }
 
   // Set initial model to "Parkings"
@@ -54,6 +80,24 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
     final getMovieState = ref.watch(MovieNotifierProvider);
     final getReclamationState = ref.watch(reclamationNotifierProvider);
 
+    ref.listen<DeleteUserState>(deleteNotifierProvider, (previous, next) {
+      if (next is Deleted) {
+        _showSnackBar('User successfully deleted!');
+        _fetchUsers(); // Refresh the user list
+      } else if (next is Deleted) {
+        _showSnackBar('Failed to delete user');
+      }
+    });
+
+    ref.listen<organiser_state.DeleteOrganiserState>(
+        deleteOrganisersNotifierProvider, (previous, next) {
+      if (next is organiser_state.Deleted) {
+        _showSnackBar('Organizer successfully deleted!');
+        _fetchOrganisers(); // Refresh the organizer list
+      } else if (next is organiser_state.Failure) {
+        _showSnackBar('Failed to delete organizer');
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Table Screen'),
@@ -61,6 +105,30 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            Container(
+              width: double.infinity, // Makes the button span the full width
+              child: TextButton.icon(
+                onPressed: _refreshCurrentModel, // Call the refresh function
+                icon: const Icon(Icons.refresh,
+                    color: Colors.white), // Add the refresh icon
+                label: const Text(
+                  'Refresh Current Model',
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white), // Adjust text size and color
+                ),
+                style: TextButton.styleFrom(
+                  backgroundColor:
+                      Colors.indigo.shade300, // Set the background color
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0), // Adjust padding
+                  shape: RoundedRectangleBorder(
+                    // Remove border
+                    borderRadius: BorderRadius.zero,
+                  ),
+                ),
+              ),
+            ),
             // Dropdown to select the model (Users, Organizers, Parkings, etc.)
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -243,16 +311,42 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
                 },
                 success: (rec) => const Center(child: Text('Select a model')),
               ),
+
+            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 
+  void _refreshCurrentModel() {
+    switch (selectedModel) {
+      case 'Users':
+        _fetchUsers();
+        break;
+      case 'Organizers':
+        _fetchOrganisers();
+        break;
+      case 'Parkings':
+        _fetchParkings();
+        break;
+      case 'Events':
+        _fetchMovies();
+        break;
+      case 'Reclamations':
+        _fetchReclamations();
+        break;
+      default:
+        // Optionally handle cases where no model is selected
+        break;
+    }
+  }
+
   // Convert UserEntity to Map<String, String> for DataTable
   List<Map<String, String>> convertUsersToMap(List<UserEntity> users) {
     return users.map((user) {
       return {
+        'id': user.id,
         'Name': user.name,
         'Last Name': user.lastName,
         'Email': user.email,
@@ -269,6 +363,7 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
       List<OrganiserEntity> organizers) {
     return organizers.map((organizer) {
       return {
+        'id': organizer.id,
         'Name': organizer.name,
         'Last Name': organizer.lastName,
         'Email': organizer.email,
@@ -391,7 +486,7 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
-                _showDeleteConfirmationDialog(context, model, row['Email']!);
+                _showDeleteConfirmationDialog(context, model, row['id']!);
               },
             ),
           ),
@@ -404,7 +499,7 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
 
 // Function to show the delete confirmation dialog with reason input
   void _showDeleteConfirmationDialog(
-      BuildContext context, String model, String email) {
+      BuildContext context, String model, String id) {
     final TextEditingController reasonController = TextEditingController();
 
     showDialog(
@@ -441,7 +536,7 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
                   _showErrorDialog(context);
                 } else {
                   Navigator.of(context).pop(); // Close the dialog
-                  _confirmDeletion(context, model, email, reason);
+                  _confirmDeletion(context, model, id, reason);
                 }
               },
               child: const Text('Delete'),
@@ -454,7 +549,7 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
 
 // Function to confirm deletion
   void _confirmDeletion(
-      BuildContext context, String model, String email, String reason) {
+      BuildContext context, String model, String id, String reason) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -472,11 +567,10 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
                 Navigator.of(context).pop(); // Close the dialog
                 // Perform the delete action based on the model
                 if (model == 'Users') {
-                  _deleteUser(
-                      email, reason); // Use the email or unique identifier
+                  _deleteUser(id, reason); // Use the email or unique identifier
                 } else if (model == 'Organizers') {
                   _deleteOrganiser(
-                      email, reason); // Use the email or unique identifier
+                      id, reason); // Use the email or unique identifier
                 }
               },
               child: const Text('Confirm'),
@@ -507,18 +601,36 @@ class _AdminTableScreenState extends ConsumerState<AdminTableScreen> {
   }
 
 // Function to delete a user (with reason)
-  void _deleteUser(String email, String reason) {
-    // Implement your user deletion logic here
-    // You can also log the deletion reason if needed
-    // ref.read(getAllUsersNotifierProvider.notifier).deleteUserByEmail(email);
-    print("User with email $email deleted for reason: $reason");
+  void _deleteUser(String id, String reason) {
+    ref.read(deleteNotifierProvider.notifier).deleteUSer(id);
+
+    print("State ${ref.watch(deleteNotifierProvider)}");
+
+    if (ref.watch(deleteNotifierProvider) is Deleted) {
+      _showSnackBar('User successfully deleted!');
+      _fetchUsers();
+    }
+    print("User with id $id deleted for reason: $reason");
   }
 
 // Function to delete an organiser (with reason)
-  void _deleteOrganiser(String email, String reason) {
-    // Implement your organiser deletion logic here
-    // You can also log the deletion reason if needed
-    // ref.read(getAllOrganisersNotifierProvider.notifier).deleteOrganiserByEmail(email);
-    print("Organiser with email $email deleted for reason: $reason");
+  void _deleteOrganiser(String id, String reason) {
+    ref.read(deleteOrganisersNotifierProvider.notifier).deleteOrganiser(id);
+
+    if (ref.watch(deleteOrganisersNotifierProvider) is Deleted) {
+      _showSnackBar('Organiser successfully deleted!');
+      _fetchOrganisers();
+    }
+    print("Organiser with id $id deleted for reason: $reason");
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green,
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 }

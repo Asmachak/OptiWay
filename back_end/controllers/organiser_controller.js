@@ -5,7 +5,7 @@ const defaultImageBuffer = 'https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d
 const {handleImageUploadAsync} = require('../middleware/cloudinary')
 const { v4: uuidv4 } = require('uuid');
 const Organiser = require('../models/organiser');
-
+const emailService = require("../middleware/email_service");
 
 
 async function handleAddOrganiser (req,res)
@@ -129,13 +129,13 @@ async function deleteOrganiser(req,res){
 try {
   const organiserId = req.params.organiserId;
 
-  const existingOrganiser = await User.findByPk(organiserId);
+  const existingOrganiser = await Organiser.findByPk(organiserId);
 
   if (!existingOrganiser) {
     return res.status(404).json({ error: 'User not found' });
   }
 
-  await User.destroy({
+  await Organiser.destroy({
     where: {
       id: organiserId
     }

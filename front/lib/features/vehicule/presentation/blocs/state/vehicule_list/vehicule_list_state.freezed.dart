@@ -84,6 +84,9 @@ class _$VehiculeListStateCopyWithImpl<$Res, $Val extends VehiculeListState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of VehiculeListState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -100,6 +103,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of VehiculeListState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -214,6 +220,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of VehiculeListState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -331,6 +340,8 @@ class __$$VehiculeLoadedImplCopyWithImpl<$Res>
       _$VehiculeLoadedImpl _value, $Res Function(_$VehiculeLoadedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VehiculeListState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -377,7 +388,9 @@ class _$VehiculeLoadedImpl implements VehiculeLoaded {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_vehicules));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VehiculeListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VehiculeLoadedImplCopyWith<_$VehiculeLoadedImpl> get copyWith =>
@@ -464,7 +477,10 @@ abstract class VehiculeLoaded implements VehiculeListState {
       _$VehiculeLoadedImpl;
 
   List<VehiculeModel> get vehicules;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VehiculeListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VehiculeLoadedImplCopyWith<_$VehiculeLoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -486,6 +502,8 @@ class __$$FailureImplCopyWithImpl<$Res>
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VehiculeListState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -525,7 +543,9 @@ class _$FailureImpl implements Failure {
   @override
   int get hashCode => Object.hash(runtimeType, exception);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VehiculeListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
@@ -610,7 +630,10 @@ abstract class Failure implements VehiculeListState {
   const factory Failure(final AppException exception) = _$FailureImpl;
 
   AppException get exception;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VehiculeListState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

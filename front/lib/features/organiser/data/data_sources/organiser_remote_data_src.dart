@@ -28,6 +28,7 @@ abstract class OrganiserDataSource {
   Future<Either<AppException, OrganiserModel>> uploadImage(
       {required File imageFile, required String id});
   Future<Either<AppException, List<OrganiserModel>>> getOrganisers();
+  Future<Either<AppException, String>> deleteOrganiser({required String id});
 }
 
 class OrganiserRemoteDataSource implements OrganiserDataSource {
@@ -383,6 +384,34 @@ class OrganiserRemoteDataSource implements OrganiserDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nUserRemoteDataSource.getUsers',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, String>> deleteOrganiser(
+      {required String id}) async {
+    try {
+      final eitherType = await networkService.delete(
+        '/organiser/delete/$id',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) async {
+          return Right(response.data);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier:
+              '${e.toString()}\nOrganizeRemoteDataSource.deleteOrganiser',
         ),
       );
     }

@@ -4,6 +4,7 @@ import 'package:front/core/infrastructure/providers/network_service_provider.dar
 import 'package:front/features/organiser/data/data_sources/organiser_remote_data_src.dart';
 import 'package:front/features/organiser/data/repositories_impl/organiser_repo_impl.dart';
 import 'package:front/features/organiser/domain/repositories/organiser_repo.dart';
+import 'package:front/features/organiser/domain/use_cases/delete_organiser_use_case.dart';
 import 'package:front/features/organiser/domain/use_cases/edit_password_use_case.dart';
 import 'package:front/features/organiser/domain/use_cases/edit_profile.dart';
 import 'package:front/features/organiser/domain/use_cases/forget_password_use_case.dart';
@@ -70,4 +71,8 @@ final forgetPasswordOrganiserUseCaseProvider =
 
 final getOrganisersUseCaseProvider = Provider<GetAllOrganisersUseCase>((ref) {
   return GetAllOrganisersUseCase(ref.read(organiserRepositoryProvider));
+});
+
+final deleteOrganisersUseCaseProvider = Provider<deleteOrganiserUseCase>((ref) {
+  return deleteOrganiserUseCase(ref.read(organiserRepositoryProvider));
 });

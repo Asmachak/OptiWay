@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'parking_state.dart';
+part of 'delete_user_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,32 +15,29 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$ParkingState {
+mixin _$DeleteUserState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ParkingModel> parkings) loaded,
     required TResult Function(AppException exception) failure,
-    required TResult Function() success,
+    required TResult Function(String msg) deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ParkingModel> parkings)? loaded,
     TResult? Function(AppException exception)? failure,
-    TResult? Function()? success,
+    TResult? Function(String msg)? deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ParkingModel> parkings)? loaded,
     TResult Function(AppException exception)? failure,
-    TResult Function()? success,
+    TResult Function(String msg)? deleted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,50 +45,47 @@ mixin _$ParkingState {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
-    required TResult Function(ParkingLoaded value) loaded,
     required TResult Function(Failure value) failure,
-    required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
-    TResult? Function(ParkingLoaded value)? loaded,
     TResult? Function(Failure value)? failure,
-    TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
-    TResult Function(ParkingLoaded value)? loaded,
     TResult Function(Failure value)? failure,
-    TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ParkingStateCopyWith<$Res> {
-  factory $ParkingStateCopyWith(
-          ParkingState value, $Res Function(ParkingState) then) =
-      _$ParkingStateCopyWithImpl<$Res, ParkingState>;
+abstract class $DeleteUserStateCopyWith<$Res> {
+  factory $DeleteUserStateCopyWith(
+          DeleteUserState value, $Res Function(DeleteUserState) then) =
+      _$DeleteUserStateCopyWithImpl<$Res, DeleteUserState>;
 }
 
 /// @nodoc
-class _$ParkingStateCopyWithImpl<$Res, $Val extends ParkingState>
-    implements $ParkingStateCopyWith<$Res> {
-  _$ParkingStateCopyWithImpl(this._value, this._then);
+class _$DeleteUserStateCopyWithImpl<$Res, $Val extends DeleteUserState>
+    implements $DeleteUserStateCopyWith<$Res> {
+  _$DeleteUserStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ParkingState
+  /// Create a copy of DeleteUserState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -104,13 +98,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$ParkingStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$DeleteUserStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ParkingState
+  /// Create a copy of DeleteUserState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -121,7 +115,7 @@ class _$InitialImpl implements Initial {
 
   @override
   String toString() {
-    return 'ParkingState.initial()';
+    return 'DeleteUserState.initial()';
   }
 
   @override
@@ -138,9 +132,8 @@ class _$InitialImpl implements Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ParkingModel> parkings) loaded,
     required TResult Function(AppException exception) failure,
-    required TResult Function() success,
+    required TResult Function(String msg) deleted,
   }) {
     return initial();
   }
@@ -150,9 +143,8 @@ class _$InitialImpl implements Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ParkingModel> parkings)? loaded,
     TResult? Function(AppException exception)? failure,
-    TResult? Function()? success,
+    TResult? Function(String msg)? deleted,
   }) {
     return initial?.call();
   }
@@ -162,9 +154,8 @@ class _$InitialImpl implements Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ParkingModel> parkings)? loaded,
     TResult Function(AppException exception)? failure,
-    TResult Function()? success,
+    TResult Function(String msg)? deleted,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -178,9 +169,8 @@ class _$InitialImpl implements Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
-    required TResult Function(ParkingLoaded value) loaded,
     required TResult Function(Failure value) failure,
-    required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) {
     return initial(this);
   }
@@ -190,9 +180,8 @@ class _$InitialImpl implements Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
-    TResult? Function(ParkingLoaded value)? loaded,
     TResult? Function(Failure value)? failure,
-    TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) {
     return initial?.call(this);
   }
@@ -202,9 +191,8 @@ class _$InitialImpl implements Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
-    TResult Function(ParkingLoaded value)? loaded,
     TResult Function(Failure value)? failure,
-    TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -214,7 +202,7 @@ class _$InitialImpl implements Initial {
   }
 }
 
-abstract class Initial implements ParkingState {
+abstract class Initial implements DeleteUserState {
   const factory Initial() = _$InitialImpl;
 }
 
@@ -227,13 +215,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$ParkingStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$DeleteUserStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ParkingState
+  /// Create a copy of DeleteUserState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -244,7 +232,7 @@ class _$LoadingImpl implements Loading {
 
   @override
   String toString() {
-    return 'ParkingState.loading()';
+    return 'DeleteUserState.loading()';
   }
 
   @override
@@ -261,9 +249,8 @@ class _$LoadingImpl implements Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ParkingModel> parkings) loaded,
     required TResult Function(AppException exception) failure,
-    required TResult Function() success,
+    required TResult Function(String msg) deleted,
   }) {
     return loading();
   }
@@ -273,9 +260,8 @@ class _$LoadingImpl implements Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ParkingModel> parkings)? loaded,
     TResult? Function(AppException exception)? failure,
-    TResult? Function()? success,
+    TResult? Function(String msg)? deleted,
   }) {
     return loading?.call();
   }
@@ -285,9 +271,8 @@ class _$LoadingImpl implements Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ParkingModel> parkings)? loaded,
     TResult Function(AppException exception)? failure,
-    TResult Function()? success,
+    TResult Function(String msg)? deleted,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -301,9 +286,8 @@ class _$LoadingImpl implements Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
-    required TResult Function(ParkingLoaded value) loaded,
     required TResult Function(Failure value) failure,
-    required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) {
     return loading(this);
   }
@@ -313,9 +297,8 @@ class _$LoadingImpl implements Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
-    TResult? Function(ParkingLoaded value)? loaded,
     TResult? Function(Failure value)? failure,
-    TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) {
     return loading?.call(this);
   }
@@ -325,9 +308,8 @@ class _$LoadingImpl implements Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
-    TResult Function(ParkingLoaded value)? loaded,
     TResult Function(Failure value)? failure,
-    TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -337,174 +319,8 @@ class _$LoadingImpl implements Loading {
   }
 }
 
-abstract class Loading implements ParkingState {
+abstract class Loading implements DeleteUserState {
   const factory Loading() = _$LoadingImpl;
-}
-
-/// @nodoc
-abstract class _$$ParkingLoadedImplCopyWith<$Res> {
-  factory _$$ParkingLoadedImplCopyWith(
-          _$ParkingLoadedImpl value, $Res Function(_$ParkingLoadedImpl) then) =
-      __$$ParkingLoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<ParkingModel> parkings});
-}
-
-/// @nodoc
-class __$$ParkingLoadedImplCopyWithImpl<$Res>
-    extends _$ParkingStateCopyWithImpl<$Res, _$ParkingLoadedImpl>
-    implements _$$ParkingLoadedImplCopyWith<$Res> {
-  __$$ParkingLoadedImplCopyWithImpl(
-      _$ParkingLoadedImpl _value, $Res Function(_$ParkingLoadedImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of ParkingState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? parkings = null,
-  }) {
-    return _then(_$ParkingLoadedImpl(
-      parkings: null == parkings
-          ? _value._parkings
-          : parkings // ignore: cast_nullable_to_non_nullable
-              as List<ParkingModel>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$ParkingLoadedImpl implements ParkingLoaded {
-  const _$ParkingLoadedImpl({required final List<ParkingModel> parkings})
-      : _parkings = parkings;
-
-  final List<ParkingModel> _parkings;
-  @override
-  List<ParkingModel> get parkings {
-    if (_parkings is EqualUnmodifiableListView) return _parkings;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_parkings);
-  }
-
-  @override
-  String toString() {
-    return 'ParkingState.loaded(parkings: $parkings)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ParkingLoadedImpl &&
-            const DeepCollectionEquality().equals(other._parkings, _parkings));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_parkings));
-
-  /// Create a copy of ParkingState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ParkingLoadedImplCopyWith<_$ParkingLoadedImpl> get copyWith =>
-      __$$ParkingLoadedImplCopyWithImpl<_$ParkingLoadedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<ParkingModel> parkings) loaded,
-    required TResult Function(AppException exception) failure,
-    required TResult Function() success,
-  }) {
-    return loaded(parkings);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<ParkingModel> parkings)? loaded,
-    TResult? Function(AppException exception)? failure,
-    TResult? Function()? success,
-  }) {
-    return loaded?.call(parkings);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<ParkingModel> parkings)? loaded,
-    TResult Function(AppException exception)? failure,
-    TResult Function()? success,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(parkings);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(Loading value) loading,
-    required TResult Function(ParkingLoaded value) loaded,
-    required TResult Function(Failure value) failure,
-    required TResult Function(Success value) success,
-  }) {
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initial value)? initial,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(ParkingLoaded value)? loaded,
-    TResult? Function(Failure value)? failure,
-    TResult? Function(Success value)? success,
-  }) {
-    return loaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(Loading value)? loading,
-    TResult Function(ParkingLoaded value)? loaded,
-    TResult Function(Failure value)? failure,
-    TResult Function(Success value)? success,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ParkingLoaded implements ParkingState {
-  const factory ParkingLoaded({required final List<ParkingModel> parkings}) =
-      _$ParkingLoadedImpl;
-
-  List<ParkingModel> get parkings;
-
-  /// Create a copy of ParkingState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ParkingLoadedImplCopyWith<_$ParkingLoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -518,13 +334,13 @@ abstract class _$$FailureImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$FailureImplCopyWithImpl<$Res>
-    extends _$ParkingStateCopyWithImpl<$Res, _$FailureImpl>
+    extends _$DeleteUserStateCopyWithImpl<$Res, _$FailureImpl>
     implements _$$FailureImplCopyWith<$Res> {
   __$$FailureImplCopyWithImpl(
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ParkingState
+  /// Create a copy of DeleteUserState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -550,7 +366,7 @@ class _$FailureImpl implements Failure {
 
   @override
   String toString() {
-    return 'ParkingState.failure(exception: $exception)';
+    return 'DeleteUserState.failure(exception: $exception)';
   }
 
   @override
@@ -565,7 +381,7 @@ class _$FailureImpl implements Failure {
   @override
   int get hashCode => Object.hash(runtimeType, exception);
 
-  /// Create a copy of ParkingState
+  /// Create a copy of DeleteUserState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -578,9 +394,8 @@ class _$FailureImpl implements Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ParkingModel> parkings) loaded,
     required TResult Function(AppException exception) failure,
-    required TResult Function() success,
+    required TResult Function(String msg) deleted,
   }) {
     return failure(exception);
   }
@@ -590,9 +405,8 @@ class _$FailureImpl implements Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ParkingModel> parkings)? loaded,
     TResult? Function(AppException exception)? failure,
-    TResult? Function()? success,
+    TResult? Function(String msg)? deleted,
   }) {
     return failure?.call(exception);
   }
@@ -602,9 +416,8 @@ class _$FailureImpl implements Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ParkingModel> parkings)? loaded,
     TResult Function(AppException exception)? failure,
-    TResult Function()? success,
+    TResult Function(String msg)? deleted,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -618,9 +431,8 @@ class _$FailureImpl implements Failure {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
-    required TResult Function(ParkingLoaded value) loaded,
     required TResult Function(Failure value) failure,
-    required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) {
     return failure(this);
   }
@@ -630,9 +442,8 @@ class _$FailureImpl implements Failure {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
-    TResult? Function(ParkingLoaded value)? loaded,
     TResult? Function(Failure value)? failure,
-    TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) {
     return failure?.call(this);
   }
@@ -642,9 +453,8 @@ class _$FailureImpl implements Failure {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
-    TResult Function(ParkingLoaded value)? loaded,
     TResult Function(Failure value)? failure,
-    TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -654,12 +464,12 @@ class _$FailureImpl implements Failure {
   }
 }
 
-abstract class Failure implements ParkingState {
+abstract class Failure implements DeleteUserState {
   const factory Failure(final AppException exception) = _$FailureImpl;
 
   AppException get exception;
 
-  /// Create a copy of ParkingState
+  /// Create a copy of DeleteUserState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
@@ -667,53 +477,79 @@ abstract class Failure implements ParkingState {
 }
 
 /// @nodoc
-abstract class _$$SuccessImplCopyWith<$Res> {
-  factory _$$SuccessImplCopyWith(
-          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
-      __$$SuccessImplCopyWithImpl<$Res>;
+abstract class _$$DeletedImplCopyWith<$Res> {
+  factory _$$DeletedImplCopyWith(
+          _$DeletedImpl value, $Res Function(_$DeletedImpl) then) =
+      __$$DeletedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String msg});
 }
 
 /// @nodoc
-class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$ParkingStateCopyWithImpl<$Res, _$SuccessImpl>
-    implements _$$SuccessImplCopyWith<$Res> {
-  __$$SuccessImplCopyWithImpl(
-      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
+class __$$DeletedImplCopyWithImpl<$Res>
+    extends _$DeleteUserStateCopyWithImpl<$Res, _$DeletedImpl>
+    implements _$$DeletedImplCopyWith<$Res> {
+  __$$DeletedImplCopyWithImpl(
+      _$DeletedImpl _value, $Res Function(_$DeletedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ParkingState
+  /// Create a copy of DeleteUserState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? msg = null,
+  }) {
+    return _then(_$DeletedImpl(
+      null == msg
+          ? _value.msg
+          : msg // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$SuccessImpl implements Success {
-  const _$SuccessImpl();
+class _$DeletedImpl implements Deleted {
+  const _$DeletedImpl(this.msg);
+
+  @override
+  final String msg;
 
   @override
   String toString() {
-    return 'ParkingState.success()';
+    return 'DeleteUserState.deleted(msg: $msg)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SuccessImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$DeletedImpl &&
+            (identical(other.msg, msg) || other.msg == msg));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, msg);
+
+  /// Create a copy of DeleteUserState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeletedImplCopyWith<_$DeletedImpl> get copyWith =>
+      __$$DeletedImplCopyWithImpl<_$DeletedImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ParkingModel> parkings) loaded,
     required TResult Function(AppException exception) failure,
-    required TResult Function() success,
+    required TResult Function(String msg) deleted,
   }) {
-    return success();
+    return deleted(msg);
   }
 
   @override
@@ -721,11 +557,10 @@ class _$SuccessImpl implements Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ParkingModel> parkings)? loaded,
     TResult? Function(AppException exception)? failure,
-    TResult? Function()? success,
+    TResult? Function(String msg)? deleted,
   }) {
-    return success?.call();
+    return deleted?.call(msg);
   }
 
   @override
@@ -733,13 +568,12 @@ class _$SuccessImpl implements Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ParkingModel> parkings)? loaded,
     TResult Function(AppException exception)? failure,
-    TResult Function()? success,
+    TResult Function(String msg)? deleted,
     required TResult orElse(),
   }) {
-    if (success != null) {
-      return success();
+    if (deleted != null) {
+      return deleted(msg);
     }
     return orElse();
   }
@@ -749,11 +583,10 @@ class _$SuccessImpl implements Success {
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) initial,
     required TResult Function(Loading value) loading,
-    required TResult Function(ParkingLoaded value) loaded,
     required TResult Function(Failure value) failure,
-    required TResult Function(Success value) success,
+    required TResult Function(Deleted value) deleted,
   }) {
-    return success(this);
+    return deleted(this);
   }
 
   @override
@@ -761,11 +594,10 @@ class _$SuccessImpl implements Success {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(Initial value)? initial,
     TResult? Function(Loading value)? loading,
-    TResult? Function(ParkingLoaded value)? loaded,
     TResult? Function(Failure value)? failure,
-    TResult? Function(Success value)? success,
+    TResult? Function(Deleted value)? deleted,
   }) {
-    return success?.call(this);
+    return deleted?.call(this);
   }
 
   @override
@@ -773,18 +605,25 @@ class _$SuccessImpl implements Success {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? initial,
     TResult Function(Loading value)? loading,
-    TResult Function(ParkingLoaded value)? loaded,
     TResult Function(Failure value)? failure,
-    TResult Function(Success value)? success,
+    TResult Function(Deleted value)? deleted,
     required TResult orElse(),
   }) {
-    if (success != null) {
-      return success(this);
+    if (deleted != null) {
+      return deleted(this);
     }
     return orElse();
   }
 }
 
-abstract class Success implements ParkingState {
-  const factory Success() = _$SuccessImpl;
+abstract class Deleted implements DeleteUserState {
+  const factory Deleted(final String msg) = _$DeletedImpl;
+
+  String get msg;
+
+  /// Create a copy of DeleteUserState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DeletedImplCopyWith<_$DeletedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

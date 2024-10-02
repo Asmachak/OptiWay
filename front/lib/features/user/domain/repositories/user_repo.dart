@@ -29,4 +29,5 @@ abstract class UserRepository {
   Future<Either<AppException, UserModel>> uploadImage(
       {required File imageFile, required String id});
   Future<Either<AppException, List<UserModel>>> getUsers();
+  Future<Either<AppException, String>> deleteUser({required String id});
 }

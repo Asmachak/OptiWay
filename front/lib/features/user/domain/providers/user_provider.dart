@@ -4,6 +4,7 @@ import 'package:front/core/infrastructure/providers/network_service_provider.dar
 import 'package:front/features/user/data/data_sources/remote_data_source.dart';
 import 'package:front/features/user/data/repositories_impl/user_repo_impl.dart';
 import 'package:front/features/user/domain/repositories/user_repo.dart';
+import 'package:front/features/user/domain/usescases/user/delete_user_use_case.dart';
 import 'package:front/features/user/domain/usescases/user/edit_password_use_case.dart';
 import 'package:front/features/user/domain/usescases/user/edit_profile_use_case.dart';
 import 'package:front/features/user/domain/usescases/user/forget_password_use_case.dart';
@@ -63,4 +64,8 @@ final forgetPasswordUseCaseProvider = Provider<ForgetPasswordUseCase>((ref) {
 
 final getAllUsersUseCaseProvider = Provider<GetAllUsersUseCase>((ref) {
   return GetAllUsersUseCase(ref.read(userRepositoryProvider));
+});
+
+final deleteUsersUseCaseProvider = Provider<deleteUserUseCase>((ref) {
+  return deleteUserUseCase(ref.read(userRepositoryProvider));
 });

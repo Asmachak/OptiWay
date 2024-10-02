@@ -28,4 +28,5 @@ abstract class OrganiserRepository {
   Future<Either<AppException, OrganiserModel>> uploadImage(
       {required File imageFile, required String id});
   Future<Either<AppException, List<OrganiserModel>>> getOrganisers();
+  Future<Either<AppException, String>> deleteOrganiser({required String id});
 }

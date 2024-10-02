@@ -67,4 +67,10 @@ class OrganiserRepositoryImpl implements OrganiserRepository {
   Future<Either<AppException, List<OrganiserModel>>> getOrganisers() async {
     return remoteDataSource.getOrganisers();
   }
+
+  @override
+  Future<Either<AppException, String>> deleteOrganiser(
+      {required String id}) async {
+    return remoteDataSource.deleteOrganiser(id: id);
+  }
 }
