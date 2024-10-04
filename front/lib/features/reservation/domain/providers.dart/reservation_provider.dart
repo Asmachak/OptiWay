@@ -5,8 +5,10 @@ import 'package:front/features/reservation/data/data_sources/reservation_remote_
 import 'package:front/features/reservation/data/repositories_impl/reservation_repo_impl.dart';
 import 'package:front/features/reservation/domain/repositories/reservation_repo.dart';
 import 'package:front/features/reservation/domain/use_cases/reservation/add_reservation_use_case.dart';
+import 'package:front/features/reservation/domain/use_cases/reservation/cancel_reservation_use_case.dart';
 import 'package:front/features/reservation/domain/use_cases/reservation/extend_reservation_use_case.dart';
 import 'package:front/features/reservation/domain/use_cases/reservation/get_reservation_use_case.dart';
+import 'package:front/features/reservation/domain/use_cases/reservation/reservation_use_cases.dart';
 
 final reservationdatasourceProvider =
     Provider.family<ReservationDataSource, NetworkService>(
@@ -35,4 +37,9 @@ final getReservationUseCaseProvider = Provider<GetReservationUsecases>((ref) {
 final extendReservationUseCaseProvider =
     Provider<ExtendReservationUsecases>((ref) {
   return ExtendReservationUsecases(ref.read(reservationRepositoryProvider));
+});
+
+final cancelReservationUseCaseProvider =
+    Provider<CancelReservationUsecase>((ref) {
+  return CancelReservationUsecase(ref.read(reservationRepositoryProvider));
 });

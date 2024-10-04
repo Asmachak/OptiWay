@@ -14,6 +14,9 @@ abstract class ReservationDataSource {
     required String id,
     required Map<String, dynamic> body,
   });
+  Future<Either<AppException, String>> cancelReservation({
+    required String id,
+  });
 }
 
 class ReservationRemoteDataSource implements ReservationDataSource {
@@ -110,6 +113,37 @@ class ReservationRemoteDataSource implements ReservationDataSource {
           statusCode: 1,
           identifier:
               '${e.toString()}\nReservationRemoteDataSource.ExtendReservations',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, String>> cancelReservation({
+    required String id,
+  }) async {
+    try {
+      final eitherType = await networkService.post('/cancelReservation/$id');
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          if (response.data == "Success") {
+            return Right(response.data);
+          } else {
+            return Left("erreur" as AppException);
+          }
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier:
+              '${e.toString()}\nReservationRemoteDataSource.CancelReservations',
         ),
       );
     }

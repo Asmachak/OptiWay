@@ -32,4 +32,11 @@ class ReservationRepositoryImpl implements ReservationRepository {
   }) {
     return remoteDataSource.extendReservation(id: id, body: body);
   }
+
+  @override
+  Future<Either<AppException, String>> cancelReservation({
+    required String id,
+  }) {
+    return remoteDataSource.cancelReservation(id: id);
+  }
 }

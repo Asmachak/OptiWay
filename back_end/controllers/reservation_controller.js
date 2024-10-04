@@ -345,7 +345,46 @@ async function deleteReservation(req, res) {
   }
 }
 
+async function cancelReservation(req, res) {
+  try {
+    const { id } = req.params;
+
+    // Find the reservation by its ID
+    const reservation = await Reservation.findByPk(id);
+
+    // If reservation not found, return a 404 response
+    if (!reservation) {
+      return res.status(404).send("Reservation not found!");
+    }
+
+    // Update the state of associated ReservationParking to "ended" if it exists
+    if (reservation.idResParking) {
+      await ReservationParking.update(
+        { state: 'ended' }, // Set state to "ended"
+        { where: { id: reservation.idResParking } }
+      );
+    }
+
+    // Update the state of associated ReservationEvent to "ended" if it exists
+    if (reservation.idResEvent) {
+      await ReservationEvent.update(
+        { state: 'ended' }, // Set state to "ended"
+        { where: { id: reservation.idResEvent } }
+      );
+    }
+
+    // Update the state of the reservation itself to "ended"
+    await reservation.update({ state: 'ended' });
+
+    // Send a success response
+    res.status(200).send("Success");
+  } catch (error) {
+    console.error("Error occurred when cancelling reservation:", error);
+    res.status(500).send("Error occurred when cancelling reservation: " + error.message);
+  }
+}
+
   
 // Run the function every second
-//setInterval(changeReservationState, 1000);
-module.exports = {getReservation,extendReservation,deleteReservation,getEventReservationOrganiser}
+setInterval(changeReservationState, 1000);
+module.exports = {getReservation,extendReservation,deleteReservation,getEventReservationOrganiser,cancelReservation}

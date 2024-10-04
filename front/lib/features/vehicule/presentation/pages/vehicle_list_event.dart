@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/paiement/presentation/blocs/paiement_provider.dart';
-import 'package:front/features/reservation/presentation/blocs/jsonDataProvider.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
 import 'package:front/features/vehicule/data/models/vehicule_model.dart';
 import 'package:front/features/vehicule/presentation/blocs/state/vehicule_list/vehicule_list_state.dart';
@@ -108,12 +107,18 @@ class _VehiculeListView extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: vehicules.length,
       itemBuilder: (context, index) {
-        final isSelected = vehicules[index].id == selectedCarId;
+        final vehicule = vehicules[index];
+        final isSelected = vehicule.id == selectedCarId;
+        final isAvailable = vehicule.state == 'available'; // Check if the vehicle is available
+
         return VehiculeCard(
-          vehicule: vehicules[index],
+          vehicule: vehicule,
           isSelected: isSelected,
+          isSelectable: isAvailable, // Disable card interaction if not available
           onTap: () {
-            onCarSelected(isSelected ? null : vehicules[index].id);
+            if (isAvailable) {
+              onCarSelected(isSelected ? null : vehicule.id);
+            }
           },
         );
       },

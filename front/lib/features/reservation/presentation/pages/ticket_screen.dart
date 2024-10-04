@@ -179,7 +179,7 @@ class _TicketReservationState extends ConsumerState<TicketReservation> {
                                   ),
                                 ),
                                 Text(
-                                  "area", // Replace with actual data
+                                  "area A2", // Replace with actual data
                                   style: TextStyle(
                                     color: Colors.grey[600],
                                     fontSize: 19,

@@ -5,7 +5,6 @@ import 'package:front/features/admin/data/data_sources/admin_local_data_src.dart
 import 'package:front/features/admin/presentation/blocs/auth_providers.dart';
 import 'package:front/features/admin/presentation/widgets/admin_profil_top_widget.dart';
 import 'package:front/features/user/presentation/widgets/menu_profile_widget.dart';
-import 'package:front/features/organiser/presentation/blocs/auth_providers.dart';
 import 'package:front/routes/app_routes.gr.dart';
 import 'package:get_it/get_it.dart';
 
@@ -73,27 +72,27 @@ class AdminAccountScreen extends ConsumerWidget {
                   const SizedBox(height: 30),
                   const Divider(),
                   const SizedBox(height: 10),
-                  ProfileMenuWidget(
-                      title: "Settings",
-                      icon: Icons.settings,
-                      onPress: () {
-                        //AutoRouter.of(context).push(const SettingRoute());
-                      }),
-                  ProfileMenuWidget(
-                      title: "Billing Details",
-                      icon: Icons.wallet,
-                      onPress: () {
-                        // AutoRouter.of(context)
-                        //     .push(const BillingDetailsRoute());
-                      }),
-                  ProfileMenuWidget(
-                      title: "User Management",
-                      icon: Icons.verified_user_sharp,
-                      onPress: () {
-                        // AutoRouter.of(context)
-                        //     .push(const UserManagementRoute());
-                      }),
-                  const Divider(),
+                  // ProfileMenuWidget(
+                  //     title: "Settings",
+                  //     icon: Icons.settings,
+                  //     onPress: () {
+                  //       //AutoRouter.of(context).push(const SettingRoute());
+                  //     }),
+                  // ProfileMenuWidget(
+                  //     title: "Billing Details",
+                  //     icon: Icons.wallet,
+                  //     onPress: () {
+                  //       // AutoRouter.of(context)
+                  //       //     .push(const BillingDetailsRoute());
+                  //     }),
+                  // ProfileMenuWidget(
+                  //     title: "User Management",
+                  //     icon: Icons.verified_user_sharp,
+                  //     onPress: () {
+                  //       // AutoRouter.of(context)
+                  //       //     .push(const UserManagementRoute());
+                  //     }),
+                  //const Divider(),
                   const SizedBox(height: 10),
                   ProfileMenuWidget(
                       title: "Information", icon: Icons.info, onPress: () {}),

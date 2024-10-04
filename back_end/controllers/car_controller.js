@@ -1,3 +1,4 @@
+
 // importData.js
 const Manufacturer = require('../models/carManufacturer');
 const CarModel = require('../models/carModel');

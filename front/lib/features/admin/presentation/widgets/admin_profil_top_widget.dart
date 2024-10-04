@@ -69,7 +69,7 @@ class _AdminProfilTopWidgetState extends ConsumerState<AdminProfilTopWidget> {
                 placeholder: (context, url) => Image.asset(
                     'assets/placeholder.webp'), // Replace with your asset path
                 errorWidget: (context, url, error) => Image.asset(
-                    'assets/error.png'), // Replace with your fallback asset path
+                    'assets/placeholder.webp'), // Replace with your fallback asset path
               ),
             ),
           ),

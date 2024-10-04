@@ -23,6 +23,9 @@ class VehiculeModel {
   @HiveField(5)
   final String? color;
 
+  @HiveField(6)
+  final String? state;
+
   factory VehiculeModel.fromJson(Map<String, dynamic> json) {
     return VehiculeModel(
       id: json['id'],
@@ -31,7 +34,7 @@ class VehiculeModel {
       marque: json['marque'],
       iduser: json['iduser'],
       color: json['color'],
-
+      state: json['state'],
     );
   }
 
@@ -42,7 +45,7 @@ class VehiculeModel {
     this.marque,
     this.iduser,
     this.color,
-
+    this.state,
   });
 
   Map<String, dynamic> toJson() {
@@ -53,7 +56,7 @@ class VehiculeModel {
       'marque': marque,
       'iduser': iduser,
       'color': color,
-
+      'state': state,
     };
   }
 }
@@ -66,7 +69,7 @@ VehiculeEntity vehiculeModelToEntity(VehiculeModel vehiculeModel) {
     marque: vehiculeModel.marque!,
     iduser: vehiculeModel.iduser!,
     color: vehiculeModel.color!,
-
+    state: vehiculeModel.state!,
   );
 }
 
@@ -78,6 +81,6 @@ VehiculeModel vehiculeEntityToModel(VehiculeEntity userEntity) {
     marque: userEntity.marque,
     iduser: userEntity.iduser,
     color: userEntity.color,
-
+    state: userEntity.state,
   );
 }

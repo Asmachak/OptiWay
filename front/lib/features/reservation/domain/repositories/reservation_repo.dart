@@ -12,4 +12,7 @@ abstract class ReservationRepository {
     required String id,
     required Map<String, dynamic> body,
   });
+  Future<Either<AppException, String>> cancelReservation({
+    required String id,
+  });
 }
