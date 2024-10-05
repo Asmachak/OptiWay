@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:front/features/notification/domain/use_cases/get_notification_use_case.dart';
 import 'package:front/features/notification/domain/use_cases/notification_use_cases.dart';
-import 'package:front/features/notification/presentation/blocs/state/notification_state.dart';
+import 'package:front/features/notification/presentation/blocs/state/notification_list/notification_state.dart';
 
 class NotificationNotifier extends StateNotifier<NotificationState> {
   final NotificationUseCases _notificationUseCases;
@@ -22,4 +22,5 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       },
     );
   }
+
 }

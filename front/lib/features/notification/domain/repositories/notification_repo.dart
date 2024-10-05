@@ -6,4 +6,7 @@ abstract class NotificationRepository {
   Future<Either<AppException, List<NotificationModel>>> getNotifications({
     required String iduser,
   });
+  Future<Either<AppException, String>> deleteNotification({
+    required String id,
+  });
 }

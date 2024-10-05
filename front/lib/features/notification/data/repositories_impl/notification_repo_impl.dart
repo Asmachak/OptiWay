@@ -18,4 +18,11 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }) {
     return remoteDataSource.getNotifications(userid: iduser);
   }
+
+  @override
+  Future<Either<AppException, String>> deleteNotification({
+    required String id,
+  }) {
+    return remoteDataSource.deleteNotification(id: id);
+  }
 }

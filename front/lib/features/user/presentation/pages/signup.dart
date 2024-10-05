@@ -16,8 +16,8 @@ class SignupScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: SafeArea(
           child: SizedBox(
-            height:
-                screenHeight, // Ensures the container height matches the screen height
+            height: screenHeight *
+                1.1, // Ensures the container height matches the screen height
             child: Container(
               color: const Color.fromARGB(255, 229, 237, 243),
               padding:

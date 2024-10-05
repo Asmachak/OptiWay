@@ -24,7 +24,7 @@ class PasswordOtpScreen extends ConsumerWidget {
 
     Timer(const Duration(milliseconds: 500), () {
       if (otpState is Verified) {
-        AutoRouter.of(context).navigate(ResetPasswordRoute(email: args.email));
+        AutoRouter.of(context).replace(ResetPasswordRoute(email: args.email));
       }
     });
 

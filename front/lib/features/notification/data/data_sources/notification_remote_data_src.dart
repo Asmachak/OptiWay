@@ -7,6 +7,9 @@ abstract class NotificationDataSource {
   Future<Either<AppException, List<NotificationModel>>> getNotifications({
     required String userid,
   });
+  Future<Either<AppException, String>> deleteNotification({
+    required String id,
+  });
 }
 
 class NotificationRemoteDataSource implements NotificationDataSource {
@@ -42,6 +45,37 @@ class NotificationRemoteDataSource implements NotificationDataSource {
           message: e.toString(),
           statusCode: 1,
           identifier: '${e.toString()}\nnotificationRemoteDataSource.GiveRate',
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AppException, String>> deleteNotification({
+    required String id,
+  }) async {
+    try {
+      final eitherType = await networkService.delete(
+        '/deleteNotification/$id',
+      );
+      return eitherType.fold(
+        (exception) {
+          return Left(exception);
+        },
+        (response) {
+          if (response.data == "success") {
+            return Right(response.data);
+          }
+          return Left("erreur" as AppException);
+        },
+      );
+    } catch (e) {
+      return Left(
+        AppException(
+          e.toString(),
+          message: e.toString(),
+          statusCode: 1,
+          identifier: '${e.toString()}\nnotificationRemoteDataSource.delete',
         ),
       );
     }

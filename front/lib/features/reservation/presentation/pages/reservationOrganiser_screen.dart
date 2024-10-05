@@ -107,7 +107,6 @@ class _ReservationOrganiserScreenState
     ref.listen<ReclamationState>(reclamationNotifierProvider, (previous, next) {
       if (next is Success) {
         // Close the modal only after success
-        Navigator.pop(context);
 
         // Show the success message
         ScaffoldMessenger.of(context).showSnackBar(
@@ -131,6 +130,8 @@ class _ReservationOrganiserScreenState
             elevation: 0,
           ),
         );
+
+        Navigator.pop(context);
       } else if (next is Failure) {
         // Show the failure message
         ScaffoldMessenger.of(context).showSnackBar(

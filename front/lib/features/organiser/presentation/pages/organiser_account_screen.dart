@@ -127,7 +127,7 @@ class OrganiserAccountScreen extends ConsumerWidget {
                                           .notifier)
                                       .logout();
                                   AutoRouter.of(context)
-                                      .navigate(const WelcomeRoute());
+                                      .replace(const WelcomeRoute());
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.redAccent,

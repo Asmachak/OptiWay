@@ -84,7 +84,7 @@ class OrganiserVerifyOtpScreen extends ConsumerWidget {
                     } else if (organiserAuthState is auth_state.Success) {
                       Future.delayed(Duration.zero, () {
                         AutoRouter.of(context)
-                            .navigate(const OrganiserLoginRoute());
+                            .replace(const OrganiserLoginRoute());
                       });
                       return const SizedBox();
                     } else {

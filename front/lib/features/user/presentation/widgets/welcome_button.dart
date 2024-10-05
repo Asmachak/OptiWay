@@ -42,16 +42,16 @@ class WelcomeButton extends StatelessWidget {
   void _handleButtonPress(BuildContext context) {
     switch (buttonText.toLowerCase()) {
       case 'login':
-        AutoRouter.of(context).navigate(const LoginRoute());
+        AutoRouter.of(context).push(const LoginRoute());
         break;
       case 'signup':
-        AutoRouter.of(context).navigate(const SignupRoute());
+        AutoRouter.of(context).push(const SignupRoute());
         break;
       case 'login as organiser':
-        AutoRouter.of(context).navigate(const OrganiserLoginRoute());
+        AutoRouter.of(context).push(const OrganiserLoginRoute());
         break;
       case 'signup as organiser':
-        AutoRouter.of(context).navigate(const OrganiserSignupRoute());
+        AutoRouter.of(context).push(const OrganiserSignupRoute());
         break;
       default:
         // Handle other cases or show a default action

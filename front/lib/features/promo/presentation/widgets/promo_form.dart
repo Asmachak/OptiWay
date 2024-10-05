@@ -57,10 +57,12 @@ class _PromoFormModalState extends ConsumerState<PromoFormModal> {
           ),
         );
         Navigator.of(context).pop(); // Close the modal
-      } else if (next is Error) {
+      } else if (next is Failure) {
         // Show error message
+        Navigator.pop(context);
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("next.message")),
+          SnackBar(content: Text("Promo Exist")),
         );
       }
     });

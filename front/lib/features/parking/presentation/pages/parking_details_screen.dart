@@ -69,13 +69,22 @@ class ParkingDetailsScreen extends ConsumerWidget {
   }
 
   void launchCall(String phoneNumber, BuildContext context) async {
-    String url = 'tel:$phoneNumber';
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+    var status = await Permission.phone.request();
+    if (status.isGranted) {
+      String url = 'tel:$phoneNumber';
+      if (await canLaunchUrl(Uri.parse(url))) {
+        await launchUrl(Uri.parse(url));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not launch phone dialer'),
+          ),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Could not launch phone dialer'),
+          content: Text('Phone call permission not granted'),
         ),
       );
     }
@@ -90,6 +99,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
     if (await canLaunchUrl(emailLaunchUri)) {
       await launchUrl(emailLaunchUri);
     } else {
+      debugPrint('Could not launch email client for $email');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Could not open email client'),
@@ -203,7 +213,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
                               text: distanceText,
                             ),
                             const SizedBox(width: 10),
-                            InfoButton(
+                            const InfoButton(
                               icon: Icons.access_time_filled,
                               text: "24h/24 , 7/7",
                             ),

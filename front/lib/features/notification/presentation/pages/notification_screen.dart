@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:front/features/notification/presentation/blocs/delete_notification_provider.dart';
 import 'package:front/features/notification/presentation/blocs/notification_provider.dart';
 import 'package:front/features/notification/presentation/blocs/socket_service.dart';
 import 'package:front/features/user/data/data_sources/local_data_source.dart';
@@ -17,7 +18,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
     with WidgetsBindingObserver {
   final SocketService _socketService = SocketService();
   var iduser = GetIt.instance.get<AuthLocalDataSource>().currentUser?.id;
-  bool _notificationsEnabled = true; // Add this to track notifications state
+  bool _notificationsEnabled = true;
 
   @override
   void initState() {
@@ -25,14 +26,12 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
     WidgetsBinding.instance.addObserver(this);
     _socketService.connectToSocket(_handleNewNotification);
 
-    // Delay the modification to after the widget tree is built
     Future.microtask(() {
       ref.read(notificationNotifierProvider.notifier).getNotifications(iduser!);
     });
   }
 
   void _handleNewNotification(Map<String, String> notification) {
-    // Refresh the notifications list from the database
     if (_notificationsEnabled) {
       ref.read(notificationNotifierProvider.notifier).getNotifications(iduser!);
     }
@@ -54,11 +53,42 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
     }
   }
 
-  // Add function to delete notifications
+  // Function to show confirmation dialog before deleting
+  Future<void> _showDeleteConfirmationDialog(
+      BuildContext context, String notificationId) async {
+    final bool? confirmed = await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Confirm Deletion'),
+        content: const Text('Are you sure you want to delete this notification?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      _deleteNotification(notificationId);
+    }
+  }
+
+  // Function to delete notification
   void _deleteNotification(String notificationId) {
-    // ref
-    //     .read(notificationNotifierProvider.notifier)
-    //     .deleteNotification(notificationId, iduser!);
+    ref
+        .read(deleteNotificationNotifierProvider.notifier)
+        .deleteNotifications(notificationId)
+        .then((_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Notification deleted successfully')),
+      );
+    });
   }
 
   @override
@@ -77,8 +107,14 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
                 _notificationsEnabled = value;
                 if (!_notificationsEnabled) {
                   _socketService.disconnectSocket();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Notifications disabled')),
+                  );
                 } else {
                   _socketService.connectToSocket(_handleNewNotification);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Notifications enabled')),
+                  );
                 }
               });
             },
@@ -121,8 +157,7 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
                   Container(
                     color: isHighlighted
                         ? Colors.blue[50]
-                        : Colors
-                            .transparent, // Blue background for the highlighted notification
+                        : Colors.transparent, // Highlight color
                     child: ListTile(
                       title: Text(
                         notification.title,
@@ -152,15 +187,15 @@ class _NotificationPageState extends ConsumerState<NotificationPage>
                             const Icon(Icons.info, color: Colors.blue),
                           IconButton(
                             icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () =>
-                                _deleteNotification(notification.id),
+                            onPressed: () => _showDeleteConfirmationDialog(
+                                context, notification.id),
                           ),
                         ],
                       ),
                     ),
                   ),
                   if (index < modifiableNotifications.length - 1)
-                    const Divider(), // Add a divider between notifications
+                    const Divider(), // Divider between notifications
                 ],
               );
             },

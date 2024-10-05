@@ -124,9 +124,29 @@ async function getNotifications(req, res) {
   }
 }
 
+async function deleteNotification(req, res) {
+  try {
+    const { id } = req.params;
+
+    // Find the reservation by its ID
+    await Notification.destroy({
+      where: {
+       id:id
+      }
+    });
+
+    // Send a success response
+    res.status(200).send("success");
+  } catch (error) {
+    console.error("Error occurred when geting notifications:", error);
+    res.status(500).send("Error occurred when geting notifications: " + error.message);
+  }
+}
+
 
 module.exports = {
     scheduleReservationNotifications,
     sendNotificationToUser,
-    getNotifications
+    getNotifications,
+    deleteNotification
 };

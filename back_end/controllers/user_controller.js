@@ -7,6 +7,7 @@ const multer = require('multer');
 const {generateID} = require("../middleware/generateID");
 const User = require('../models/user');
 const emailService = require("../middleware/email_service");
+const Rate = require('../models/rate');
 
 
 
@@ -137,11 +138,19 @@ async function deleteUser(req, res) {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    await Rate.destroy({
+      where: {
+        user: userId
+      }
+    });
+
     await User.destroy({
       where: {
         id: userId
       }
     });
+
+
 
     // Prepare the email message
     const message = `

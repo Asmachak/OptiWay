@@ -81,8 +81,7 @@ class AdminVerifyOtpScreen extends ConsumerWidget {
                       return const CircularProgressIndicator();
                     } else if (organiserAuthState is auth_state.Success) {
                       Future.delayed(Duration.zero, () {
-                        AutoRouter.of(context)
-                            .navigate(const AdminLoginRoute());
+                        AutoRouter.of(context).replace(const AdminLoginRoute());
                       });
                       return const SizedBox();
                     } else {

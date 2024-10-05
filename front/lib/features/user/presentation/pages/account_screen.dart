@@ -131,7 +131,7 @@ class _accountScreenState extends ConsumerState<accountScreen> {
                                       .read(authNotifierProvider.notifier)
                                       .logout();
                                   AutoRouter.of(context)
-                                      .navigate(const WelcomeRoute());
+                                      .replace(const WelcomeRoute());
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.redAccent,

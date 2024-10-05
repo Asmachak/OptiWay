@@ -102,7 +102,7 @@ class VerifyOtpScreen extends ConsumerWidget {
                       return const CircularProgressIndicator(); // Display a loading indicator while waiting for the registration process
                     } else if (authState is auth_state.Success) {
                       Future.delayed(Duration.zero, () {
-                        AutoRouter.of(context).navigate(
+                        AutoRouter.of(context).replace(
                             const LoginRoute() // Schedule the call to show the verification modal after the build process is completed
                             );
                       });
