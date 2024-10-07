@@ -251,8 +251,7 @@ class _MovieDetailCinemaScreenState
                       selectedTimingIndices: selectedTimingIndices,
                     ),
                   _buildTicketsSelection(promoState),
-                  if (jsonData["idparking"] == "" &&
-                      json["idevent"] != null) ...[
+                  if (jsonData["idparking"] == "" && json["idevent"] != "") ...[
                     _buildSelectCarButton(context, finalPrice),
                   ] else ...[
                     _buildPaymentButton(context, paiementState),
@@ -685,7 +684,7 @@ class _MovieDetailCinemaScreenState
       );
       final lastjson;
 
-      if (jsonData["idparking"] == "null" && json["parking"] != "null") {
+      if (jsonData["idparking"] == "" && json["parking"] != "") {
         lastjson = json;
       } else {
         lastjson = jsonData;

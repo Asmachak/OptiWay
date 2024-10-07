@@ -132,7 +132,7 @@ class ParkingDetailsScreen extends ConsumerWidget {
             appBar: AppBar(
               leading: IconButton(
                 onPressed: () {
-                  ref.read(reservationParkingDataProvider.notifier).state = {};
+                  resetReservationProviders(ref);
                   Navigator.of(context).pop();
                 },
                 icon: const Icon(Icons.arrow_back_ios_new_rounded),
