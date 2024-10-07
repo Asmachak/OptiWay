@@ -69,5 +69,6 @@ class AppRouter extends $AppRouter {
             maintainState: true,
           ),
         ]),
+        AutoRoute(page: CalendarRoute.page),
       ];
 }

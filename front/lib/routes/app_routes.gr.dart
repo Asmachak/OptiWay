@@ -8,10 +8,10 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:io' as _i59;
+import 'dart:io' as _i60;
 
-import 'package:auto_route/auto_route.dart' as _i53;
-import 'package:flutter/material.dart' as _i54;
+import 'package:auto_route/auto_route.dart' as _i54;
+import 'package:flutter/material.dart' as _i55;
 import 'package:front/features/admin/presentation/pages/admin_account_screen.dart'
     as _i3;
 import 'package:front/features/admin/presentation/pages/admin_home_screen.dart'
@@ -29,113 +29,115 @@ import 'package:front/features/admin/presentation/pages/sign_up_admin.dart'
 import 'package:front/features/admin/presentation/pages/verify_otp_admin.dart'
     as _i10;
 import 'package:front/features/event/data/models/movie/movie_model.dart'
-    as _i57;
+    as _i58;
 import 'package:front/features/event/presentation/pages/add_event_organiser.dart'
     as _i1;
 import 'package:front/features/event/presentation/pages/add_parking_event.dart'
-    as _i49;
+    as _i50;
 import 'package:front/features/event/presentation/pages/movie_details.dart'
-    as _i19;
-import 'package:front/features/event/presentation/pages/movie_details_cinema.dart'
-    as _i18;
-import 'package:front/features/event/presentation/pages/related_events_screen.dart'
-    as _i32;
-import 'package:front/features/notification/presentation/pages/notification_screen.dart'
     as _i20;
-import 'package:front/features/organiser/presentation/pages/login_organiser.dart'
-    as _i24;
-import 'package:front/features/organiser/presentation/pages/main_organiser_screen.dart'
-    as _i16;
-import 'package:front/features/organiser/presentation/pages/oragniser_home_screen.dart'
-    as _i23;
-import 'package:front/features/organiser/presentation/pages/organiser_account_screen.dart'
+import 'package:front/features/event/presentation/pages/movie_details_cinema.dart'
+    as _i19;
+import 'package:front/features/event/presentation/pages/related_events_screen.dart'
+    as _i33;
+import 'package:front/features/notification/presentation/pages/notification_screen.dart'
     as _i21;
-import 'package:front/features/organiser/presentation/pages/organiser_events_screen.dart'
-    as _i22;
-import 'package:front/features/organiser/presentation/pages/organiser_reservations_screen.dart'
+import 'package:front/features/organiser/presentation/pages/calender_screen.dart'
+    as _i13;
+import 'package:front/features/organiser/presentation/pages/login_organiser.dart'
     as _i25;
-import 'package:front/features/organiser/presentation/pages/organiser_statistiques_screen.dart'
-    as _i27;
-import 'package:front/features/organiser/presentation/pages/sign_up_organiser.dart'
+import 'package:front/features/organiser/presentation/pages/main_organiser_screen.dart'
+    as _i17;
+import 'package:front/features/organiser/presentation/pages/oragniser_home_screen.dart'
+    as _i24;
+import 'package:front/features/organiser/presentation/pages/organiser_account_screen.dart'
+    as _i22;
+import 'package:front/features/organiser/presentation/pages/organiser_events_screen.dart'
+    as _i23;
+import 'package:front/features/organiser/presentation/pages/organiser_reservations_screen.dart'
     as _i26;
-import 'package:front/features/organiser/presentation/pages/verify_otp_organiser.dart'
+import 'package:front/features/organiser/presentation/pages/organiser_statistiques_screen.dart'
     as _i28;
+import 'package:front/features/organiser/presentation/pages/sign_up_organiser.dart'
+    as _i27;
+import 'package:front/features/organiser/presentation/pages/verify_otp_organiser.dart'
+    as _i29;
 import 'package:front/features/paiement/presentation/pages/billing_historic_screen.dart'
     as _i12;
-import 'package:front/features/parking/data/models/parking_model.dart' as _i58;
+import 'package:front/features/parking/data/models/parking_model.dart' as _i59;
 import 'package:front/features/parking/presentation/pages/parking_details_screen.dart'
-    as _i30;
+    as _i31;
 import 'package:front/features/reservation/data/models/reservation/reservation_model.dart'
-    as _i56;
+    as _i57;
 import 'package:front/features/reservation/presentation/pages/get_direction_screen.dart'
-    as _i14;
+    as _i15;
 import 'package:front/features/reservation/presentation/pages/reservation_list_screen.dart'
-    as _i33;
-import 'package:front/features/reservation/presentation/pages/reservation_screen.dart'
     as _i34;
+import 'package:front/features/reservation/presentation/pages/reservation_screen.dart'
+    as _i35;
 import 'package:front/features/reservation/presentation/pages/ticket_screen.dart'
-    as _i39;
-import 'package:front/features/reservation/presentation/pages/timer_screen.dart'
     as _i40;
+import 'package:front/features/reservation/presentation/pages/timer_screen.dart'
+    as _i41;
 import 'package:front/features/user/presentation/pages/account_screen.dart'
-    as _i48;
+    as _i49;
 import 'package:front/features/user/presentation/pages/billing_details_screen.dart'
     as _i11;
 import 'package:front/features/user/presentation/pages/events_screen.dart'
-    as _i50;
-import 'package:front/features/user/presentation/pages/forget_password_mail_screen.dart'
-    as _i13;
-import 'package:front/features/user/presentation/pages/home_screen.dart'
     as _i51;
-import 'package:front/features/user/presentation/pages/login_screen.dart'
-    as _i15;
-import 'package:front/features/user/presentation/pages/main_screen.dart'
-    as _i17;
-import 'package:front/features/user/presentation/pages/otp_password.dart'
-    as _i31;
-import 'package:front/features/user/presentation/pages/otp_verify.dart' as _i46;
-import 'package:front/features/user/presentation/pages/parkings_screen.dart'
+import 'package:front/features/user/presentation/pages/forget_password_mail_screen.dart'
+    as _i14;
+import 'package:front/features/user/presentation/pages/home_screen.dart'
     as _i52;
+import 'package:front/features/user/presentation/pages/login_screen.dart'
+    as _i16;
+import 'package:front/features/user/presentation/pages/main_screen.dart'
+    as _i18;
+import 'package:front/features/user/presentation/pages/otp_password.dart'
+    as _i32;
+import 'package:front/features/user/presentation/pages/otp_verify.dart' as _i47;
+import 'package:front/features/user/presentation/pages/parkings_screen.dart'
+    as _i53;
 import 'package:front/features/user/presentation/pages/payement_methodes.dart'
-    as _i29;
+    as _i30;
 import 'package:front/features/user/presentation/pages/reset_password_screen.dart'
-    as _i35;
-import 'package:front/features/user/presentation/pages/settings_screen.dart'
     as _i36;
-import 'package:front/features/user/presentation/pages/signup.dart' as _i37;
+import 'package:front/features/user/presentation/pages/settings_screen.dart'
+    as _i37;
+import 'package:front/features/user/presentation/pages/signup.dart' as _i38;
 import 'package:front/features/user/presentation/pages/splash_screen.dart'
-    as _i38;
+    as _i39;
 import 'package:front/features/user/presentation/pages/update_profile_screen.dart'
-    as _i41;
-import 'package:front/features/user/presentation/pages/user_management_screen.dart'
     as _i42;
+import 'package:front/features/user/presentation/pages/user_management_screen.dart'
+    as _i43;
 import 'package:front/features/user/presentation/pages/welcome_screen.dart'
-    as _i47;
+    as _i48;
 import 'package:front/features/vehicule/data/models/vehicule_model.dart'
-    as _i55;
+    as _i56;
 import 'package:front/features/vehicule/presentation/pages/add_vehicule_screen.dart'
     as _i2;
 import 'package:front/features/vehicule/presentation/pages/vehicle_list_event.dart'
-    as _i43;
-import 'package:front/features/vehicule/presentation/pages/vehicule_list_reservation.dart'
     as _i44;
-import 'package:front/features/vehicule/presentation/pages/vehicule_list_screen.dart'
+import 'package:front/features/vehicule/presentation/pages/vehicule_list_reservation.dart'
     as _i45;
+import 'package:front/features/vehicule/presentation/pages/vehicule_list_screen.dart'
+    as _i46;
 
-abstract class $AppRouter extends _i53.RootStackRouter {
+abstract class $AppRouter extends _i54.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i53.PageFactory> pagesMap = {
+  final Map<String, _i54.PageFactory> pagesMap = {
     AddEventRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i1.AddEventScreen(),
       );
     },
     AddVehiculeRoute.name: (routeData) {
       final args = routeData.argsAs<AddVehiculeRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i2.AddVehiculeScreen(
           key: args.key,
@@ -144,50 +146,50 @@ abstract class $AppRouter extends _i53.RootStackRouter {
       );
     },
     AdminAccountRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i3.AdminAccountScreen(),
       );
     },
     AdminHomeRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i4.AdminHomeScreen(),
       );
     },
     AdminLoginRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i5.AdminLoginScreen(),
       );
     },
     AdminMainRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i6.AdminMainScreen(),
       );
     },
     AdminSignupRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i7.AdminSignupScreen(),
       );
     },
     AdminStatRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i8.AdminStatScreen(),
       );
     },
     AdminTableRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i9.AdminTableScreen(),
       );
     },
     AdminVerifyOtpRoute.name: (routeData) {
       final args = routeData.argsAs<AdminVerifyOtpRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i10.AdminVerifyOtpScreen(
           key: args.key,
@@ -197,56 +199,62 @@ abstract class $AppRouter extends _i53.RootStackRouter {
       );
     },
     BillingDetailsRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i11.BillingDetailsScreen(),
       );
     },
     BillingHistoricRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i12.BillingHistoricScreen(),
       );
     },
-    ForgetPasswordMailRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+    CalendarRoute.name: (routeData) {
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i13.ForgetPasswordMailScreen(),
+        child: _i13.CalendarPage(),
+      );
+    },
+    ForgetPasswordMailRoute.name: (routeData) {
+      return _i54.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i14.ForgetPasswordMailScreen(),
       );
     },
     GetDirectionRoute.name: (routeData) {
       final args = routeData.argsAs<GetDirectionRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i14.GetDirectionScreen(
+        child: _i15.GetDirectionScreen(
           key: args.key,
           reservation: args.reservation,
         ),
       );
     },
     LoginRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i15.LoginScreen(),
+        child: const _i16.LoginScreen(),
       );
     },
     MainOrganiserRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i16.MainOrganiserScreen(),
+        child: const _i17.MainOrganiserScreen(),
       );
     },
     MainRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i17.MainScreen(),
+        child: const _i18.MainScreen(),
       );
     },
     MovieDetailCinemaRoute.name: (routeData) {
       final args = routeData.argsAs<MovieDetailCinemaRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i18.MovieDetailCinemaScreen(
+        child: _i19.MovieDetailCinemaScreen(
           key: args.key,
           cinema: args.cinema,
           movie: args.movie,
@@ -255,67 +263,67 @@ abstract class $AppRouter extends _i53.RootStackRouter {
     },
     MovieDetailRoute.name: (routeData) {
       final args = routeData.argsAs<MovieDetailRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i19.MovieDetailScreen(
+        child: _i20.MovieDetailScreen(
           key: args.key,
           movie: args.movie,
         ),
       );
     },
     NotificationRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i20.NotificationPage(),
+        child: _i21.NotificationPage(),
       );
     },
     OrganiserAccountRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i21.OrganiserAccountScreen(),
+        child: const _i22.OrganiserAccountScreen(),
       );
     },
     OrganiserEventRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i22.OrganiserEventScreen(),
+        child: const _i23.OrganiserEventScreen(),
       );
     },
     OrganiserHomeRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i23.OrganiserHomeScreen(),
+        child: const _i24.OrganiserHomeScreen(),
       );
     },
     OrganiserLoginRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i24.OrganiserLoginScreen(),
+        child: const _i25.OrganiserLoginScreen(),
       );
     },
     OrganiserReservationRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i25.OrganiserReservationScreen(),
+        child: const _i26.OrganiserReservationScreen(),
       );
     },
     OrganiserSignupRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i26.OrganiserSignupScreen(),
+        child: const _i27.OrganiserSignupScreen(),
       );
     },
     OrganiserStatistqueRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i27.OrganiserStatistqueScreen(),
+        child: const _i28.OrganiserStatistqueScreen(),
       );
     },
     OrganiserVerifyOtpRoute.name: (routeData) {
       final args = routeData.argsAs<OrganiserVerifyOtpRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i28.OrganiserVerifyOtpScreen(
+        child: _i29.OrganiserVerifyOtpScreen(
           key: args.key,
           email: args.email,
           json: args.json,
@@ -323,16 +331,16 @@ abstract class $AppRouter extends _i53.RootStackRouter {
       );
     },
     PaiementMethodeRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i29.PaiementMethodeScreen(),
+        child: const _i30.PaiementMethodeScreen(),
       );
     },
     ParkingDetailsRoute.name: (routeData) {
       final args = routeData.argsAs<ParkingDetailsRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i30.ParkingDetailsScreen(
+        child: _i31.ParkingDetailsScreen(
           key: args.key,
           parking: args.parking,
         ),
@@ -340,31 +348,31 @@ abstract class $AppRouter extends _i53.RootStackRouter {
     },
     PasswordOtpRoute.name: (routeData) {
       final args = routeData.argsAs<PasswordOtpRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i31.PasswordOtpScreen(
+        child: _i32.PasswordOtpScreen(
           key: args.key,
           email: args.email,
         ),
       );
     },
     RelatedEventRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i32.RelatedEventScreen(),
+        child: const _i33.RelatedEventScreen(),
       );
     },
     ReservationListRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i33.ReservationListScreen(),
+        child: const _i34.ReservationListScreen(),
       );
     },
     ReservationRoute.name: (routeData) {
       final args = routeData.argsAs<ReservationRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i34.ReservationScreen(
+        child: _i35.ReservationScreen(
           key: args.key,
           idparking: args.idparking,
           parking: args.parking,
@@ -373,37 +381,37 @@ abstract class $AppRouter extends _i53.RootStackRouter {
     },
     ResetPasswordRoute.name: (routeData) {
       final args = routeData.argsAs<ResetPasswordRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i35.ResetPasswordScreen(
+        child: _i36.ResetPasswordScreen(
           key: args.key,
           email: args.email,
         ),
       );
     },
     SettingRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i36.SettingScreen(),
+        child: const _i37.SettingScreen(),
       );
     },
     SignupRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i37.SignupScreen(),
+        child: const _i38.SignupScreen(),
       );
     },
     SplashRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i38.SplashScreen(),
+        child: const _i39.SplashScreen(),
       );
     },
     TicketRoute.name: (routeData) {
       final args = routeData.argsAs<TicketRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i39.TicketScreen(
+        child: _i40.TicketScreen(
           key: args.key,
           reservation: args.reservation,
         ),
@@ -411,31 +419,31 @@ abstract class $AppRouter extends _i53.RootStackRouter {
     },
     TimerRoute.name: (routeData) {
       final args = routeData.argsAs<TimerRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i40.TimerScreen(
+        child: _i41.TimerScreen(
           key: args.key,
           reservation: args.reservation,
         ),
       );
     },
     UpdateProfileRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i41.UpdateProfileScreen(),
+        child: const _i42.UpdateProfileScreen(),
       );
     },
     UserManagementRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i42.UserManagementScreen(),
+        child: const _i43.UserManagementScreen(),
       );
     },
     VehiculeListReservationEventRoute.name: (routeData) {
       final args = routeData.argsAs<VehiculeListReservationEventRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i43.VehiculeListReservationEventScreen(
+        child: _i44.VehiculeListReservationEventScreen(
           key: args.key,
           finalPrice: args.finalPrice,
         ),
@@ -444,22 +452,22 @@ abstract class $AppRouter extends _i53.RootStackRouter {
     VehiculeListReservationRoute.name: (routeData) {
       final args = routeData.argsAs<VehiculeListReservationRouteArgs>(
           orElse: () => const VehiculeListReservationRouteArgs());
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i44.VehiculeListReservationScreen(key: args.key),
+        child: _i45.VehiculeListReservationScreen(key: args.key),
       );
     },
     VehiculeListRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i45.VehiculeListScreen(),
+        child: const _i46.VehiculeListScreen(),
       );
     },
     VerifyOtpRoute.name: (routeData) {
       final args = routeData.argsAs<VerifyOtpRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i46.VerifyOtpScreen(
+        child: _i47.VerifyOtpScreen(
           key: args.key,
           email: args.email,
           json: args.json,
@@ -467,22 +475,22 @@ abstract class $AppRouter extends _i53.RootStackRouter {
       );
     },
     WelcomeRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i47.WelcomeScreen(),
+        child: const _i48.WelcomeScreen(),
       );
     },
     AccountRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i48.accountScreen(),
+        child: const _i49.accountScreen(),
       );
     },
     AddParkingEventRoute.name: (routeData) {
       final args = routeData.argsAs<AddParkingEventRouteArgs>();
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i49.addParkingEventScreen(
+        child: _i50.addParkingEventScreen(
           key: args.key,
           eventData: args.eventData,
           image: args.image,
@@ -490,21 +498,21 @@ abstract class $AppRouter extends _i53.RootStackRouter {
       );
     },
     EventRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i50.eventScreen(),
+        child: const _i51.eventScreen(),
       );
     },
     HomeRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i51.homeScreen(),
+        child: const _i52.homeScreen(),
       );
     },
     ParkingsRoute.name: (routeData) {
-      return _i53.AutoRoutePage<dynamic>(
+      return _i54.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i52.parkingsScreen(),
+        child: const _i53.parkingsScreen(),
       );
     },
   };
@@ -512,8 +520,8 @@ abstract class $AppRouter extends _i53.RootStackRouter {
 
 /// generated route for
 /// [_i1.AddEventScreen]
-class AddEventRoute extends _i53.PageRouteInfo<void> {
-  const AddEventRoute({List<_i53.PageRouteInfo>? children})
+class AddEventRoute extends _i54.PageRouteInfo<void> {
+  const AddEventRoute({List<_i54.PageRouteInfo>? children})
       : super(
           AddEventRoute.name,
           initialChildren: children,
@@ -521,16 +529,16 @@ class AddEventRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'AddEventRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.AddVehiculeScreen]
-class AddVehiculeRoute extends _i53.PageRouteInfo<AddVehiculeRouteArgs> {
+class AddVehiculeRoute extends _i54.PageRouteInfo<AddVehiculeRouteArgs> {
   AddVehiculeRoute({
-    _i54.Key? key,
-    required List<_i55.VehiculeModel> vehicles,
-    List<_i53.PageRouteInfo>? children,
+    _i55.Key? key,
+    required List<_i56.VehiculeModel> vehicles,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           AddVehiculeRoute.name,
           args: AddVehiculeRouteArgs(
@@ -542,8 +550,8 @@ class AddVehiculeRoute extends _i53.PageRouteInfo<AddVehiculeRouteArgs> {
 
   static const String name = 'AddVehiculeRoute';
 
-  static const _i53.PageInfo<AddVehiculeRouteArgs> page =
-      _i53.PageInfo<AddVehiculeRouteArgs>(name);
+  static const _i54.PageInfo<AddVehiculeRouteArgs> page =
+      _i54.PageInfo<AddVehiculeRouteArgs>(name);
 }
 
 class AddVehiculeRouteArgs {
@@ -552,9 +560,9 @@ class AddVehiculeRouteArgs {
     required this.vehicles,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
-  final List<_i55.VehiculeModel> vehicles;
+  final List<_i56.VehiculeModel> vehicles;
 
   @override
   String toString() {
@@ -564,8 +572,8 @@ class AddVehiculeRouteArgs {
 
 /// generated route for
 /// [_i3.AdminAccountScreen]
-class AdminAccountRoute extends _i53.PageRouteInfo<void> {
-  const AdminAccountRoute({List<_i53.PageRouteInfo>? children})
+class AdminAccountRoute extends _i54.PageRouteInfo<void> {
+  const AdminAccountRoute({List<_i54.PageRouteInfo>? children})
       : super(
           AdminAccountRoute.name,
           initialChildren: children,
@@ -573,13 +581,13 @@ class AdminAccountRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'AdminAccountRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i4.AdminHomeScreen]
-class AdminHomeRoute extends _i53.PageRouteInfo<void> {
-  const AdminHomeRoute({List<_i53.PageRouteInfo>? children})
+class AdminHomeRoute extends _i54.PageRouteInfo<void> {
+  const AdminHomeRoute({List<_i54.PageRouteInfo>? children})
       : super(
           AdminHomeRoute.name,
           initialChildren: children,
@@ -587,13 +595,13 @@ class AdminHomeRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'AdminHomeRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i5.AdminLoginScreen]
-class AdminLoginRoute extends _i53.PageRouteInfo<void> {
-  const AdminLoginRoute({List<_i53.PageRouteInfo>? children})
+class AdminLoginRoute extends _i54.PageRouteInfo<void> {
+  const AdminLoginRoute({List<_i54.PageRouteInfo>? children})
       : super(
           AdminLoginRoute.name,
           initialChildren: children,
@@ -601,13 +609,13 @@ class AdminLoginRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'AdminLoginRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i6.AdminMainScreen]
-class AdminMainRoute extends _i53.PageRouteInfo<void> {
-  const AdminMainRoute({List<_i53.PageRouteInfo>? children})
+class AdminMainRoute extends _i54.PageRouteInfo<void> {
+  const AdminMainRoute({List<_i54.PageRouteInfo>? children})
       : super(
           AdminMainRoute.name,
           initialChildren: children,
@@ -615,13 +623,13 @@ class AdminMainRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'AdminMainRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i7.AdminSignupScreen]
-class AdminSignupRoute extends _i53.PageRouteInfo<void> {
-  const AdminSignupRoute({List<_i53.PageRouteInfo>? children})
+class AdminSignupRoute extends _i54.PageRouteInfo<void> {
+  const AdminSignupRoute({List<_i54.PageRouteInfo>? children})
       : super(
           AdminSignupRoute.name,
           initialChildren: children,
@@ -629,13 +637,13 @@ class AdminSignupRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'AdminSignupRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i8.AdminStatScreen]
-class AdminStatRoute extends _i53.PageRouteInfo<void> {
-  const AdminStatRoute({List<_i53.PageRouteInfo>? children})
+class AdminStatRoute extends _i54.PageRouteInfo<void> {
+  const AdminStatRoute({List<_i54.PageRouteInfo>? children})
       : super(
           AdminStatRoute.name,
           initialChildren: children,
@@ -643,13 +651,13 @@ class AdminStatRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'AdminStatRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i9.AdminTableScreen]
-class AdminTableRoute extends _i53.PageRouteInfo<void> {
-  const AdminTableRoute({List<_i53.PageRouteInfo>? children})
+class AdminTableRoute extends _i54.PageRouteInfo<void> {
+  const AdminTableRoute({List<_i54.PageRouteInfo>? children})
       : super(
           AdminTableRoute.name,
           initialChildren: children,
@@ -657,17 +665,17 @@ class AdminTableRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'AdminTableRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i10.AdminVerifyOtpScreen]
-class AdminVerifyOtpRoute extends _i53.PageRouteInfo<AdminVerifyOtpRouteArgs> {
+class AdminVerifyOtpRoute extends _i54.PageRouteInfo<AdminVerifyOtpRouteArgs> {
   AdminVerifyOtpRoute({
-    _i54.Key? key,
+    _i55.Key? key,
     required String email,
     required dynamic json,
-    List<_i53.PageRouteInfo>? children,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           AdminVerifyOtpRoute.name,
           args: AdminVerifyOtpRouteArgs(
@@ -680,8 +688,8 @@ class AdminVerifyOtpRoute extends _i53.PageRouteInfo<AdminVerifyOtpRouteArgs> {
 
   static const String name = 'AdminVerifyOtpRoute';
 
-  static const _i53.PageInfo<AdminVerifyOtpRouteArgs> page =
-      _i53.PageInfo<AdminVerifyOtpRouteArgs>(name);
+  static const _i54.PageInfo<AdminVerifyOtpRouteArgs> page =
+      _i54.PageInfo<AdminVerifyOtpRouteArgs>(name);
 }
 
 class AdminVerifyOtpRouteArgs {
@@ -691,7 +699,7 @@ class AdminVerifyOtpRouteArgs {
     required this.json,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   final String email;
 
@@ -705,8 +713,8 @@ class AdminVerifyOtpRouteArgs {
 
 /// generated route for
 /// [_i11.BillingDetailsScreen]
-class BillingDetailsRoute extends _i53.PageRouteInfo<void> {
-  const BillingDetailsRoute({List<_i53.PageRouteInfo>? children})
+class BillingDetailsRoute extends _i54.PageRouteInfo<void> {
+  const BillingDetailsRoute({List<_i54.PageRouteInfo>? children})
       : super(
           BillingDetailsRoute.name,
           initialChildren: children,
@@ -714,13 +722,13 @@ class BillingDetailsRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'BillingDetailsRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i12.BillingHistoricScreen]
-class BillingHistoricRoute extends _i53.PageRouteInfo<void> {
-  const BillingHistoricRoute({List<_i53.PageRouteInfo>? children})
+class BillingHistoricRoute extends _i54.PageRouteInfo<void> {
+  const BillingHistoricRoute({List<_i54.PageRouteInfo>? children})
       : super(
           BillingHistoricRoute.name,
           initialChildren: children,
@@ -728,13 +736,27 @@ class BillingHistoricRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'BillingHistoricRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i13.ForgetPasswordMailScreen]
-class ForgetPasswordMailRoute extends _i53.PageRouteInfo<void> {
-  const ForgetPasswordMailRoute({List<_i53.PageRouteInfo>? children})
+/// [_i13.CalendarPage]
+class CalendarRoute extends _i54.PageRouteInfo<void> {
+  const CalendarRoute({List<_i54.PageRouteInfo>? children})
+      : super(
+          CalendarRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CalendarRoute';
+
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i14.ForgetPasswordMailScreen]
+class ForgetPasswordMailRoute extends _i54.PageRouteInfo<void> {
+  const ForgetPasswordMailRoute({List<_i54.PageRouteInfo>? children})
       : super(
           ForgetPasswordMailRoute.name,
           initialChildren: children,
@@ -742,16 +764,16 @@ class ForgetPasswordMailRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'ForgetPasswordMailRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i14.GetDirectionScreen]
-class GetDirectionRoute extends _i53.PageRouteInfo<GetDirectionRouteArgs> {
+/// [_i15.GetDirectionScreen]
+class GetDirectionRoute extends _i54.PageRouteInfo<GetDirectionRouteArgs> {
   GetDirectionRoute({
-    _i54.Key? key,
-    required _i56.ReservationModel reservation,
-    List<_i53.PageRouteInfo>? children,
+    _i55.Key? key,
+    required _i57.ReservationModel reservation,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           GetDirectionRoute.name,
           args: GetDirectionRouteArgs(
@@ -763,8 +785,8 @@ class GetDirectionRoute extends _i53.PageRouteInfo<GetDirectionRouteArgs> {
 
   static const String name = 'GetDirectionRoute';
 
-  static const _i53.PageInfo<GetDirectionRouteArgs> page =
-      _i53.PageInfo<GetDirectionRouteArgs>(name);
+  static const _i54.PageInfo<GetDirectionRouteArgs> page =
+      _i54.PageInfo<GetDirectionRouteArgs>(name);
 }
 
 class GetDirectionRouteArgs {
@@ -773,9 +795,9 @@ class GetDirectionRouteArgs {
     required this.reservation,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
-  final _i56.ReservationModel reservation;
+  final _i57.ReservationModel reservation;
 
   @override
   String toString() {
@@ -784,9 +806,9 @@ class GetDirectionRouteArgs {
 }
 
 /// generated route for
-/// [_i15.LoginScreen]
-class LoginRoute extends _i53.PageRouteInfo<void> {
-  const LoginRoute({List<_i53.PageRouteInfo>? children})
+/// [_i16.LoginScreen]
+class LoginRoute extends _i54.PageRouteInfo<void> {
+  const LoginRoute({List<_i54.PageRouteInfo>? children})
       : super(
           LoginRoute.name,
           initialChildren: children,
@@ -794,13 +816,13 @@ class LoginRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'LoginRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i16.MainOrganiserScreen]
-class MainOrganiserRoute extends _i53.PageRouteInfo<void> {
-  const MainOrganiserRoute({List<_i53.PageRouteInfo>? children})
+/// [_i17.MainOrganiserScreen]
+class MainOrganiserRoute extends _i54.PageRouteInfo<void> {
+  const MainOrganiserRoute({List<_i54.PageRouteInfo>? children})
       : super(
           MainOrganiserRoute.name,
           initialChildren: children,
@@ -808,13 +830,13 @@ class MainOrganiserRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'MainOrganiserRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i17.MainScreen]
-class MainRoute extends _i53.PageRouteInfo<void> {
-  const MainRoute({List<_i53.PageRouteInfo>? children})
+/// [_i18.MainScreen]
+class MainRoute extends _i54.PageRouteInfo<void> {
+  const MainRoute({List<_i54.PageRouteInfo>? children})
       : super(
           MainRoute.name,
           initialChildren: children,
@@ -822,18 +844,18 @@ class MainRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'MainRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i18.MovieDetailCinemaScreen]
+/// [_i19.MovieDetailCinemaScreen]
 class MovieDetailCinemaRoute
-    extends _i53.PageRouteInfo<MovieDetailCinemaRouteArgs> {
+    extends _i54.PageRouteInfo<MovieDetailCinemaRouteArgs> {
   MovieDetailCinemaRoute({
-    _i54.Key? key,
+    _i55.Key? key,
     required String cinema,
-    required _i57.MovieModel movie,
-    List<_i53.PageRouteInfo>? children,
+    required _i58.MovieModel movie,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           MovieDetailCinemaRoute.name,
           args: MovieDetailCinemaRouteArgs(
@@ -846,8 +868,8 @@ class MovieDetailCinemaRoute
 
   static const String name = 'MovieDetailCinemaRoute';
 
-  static const _i53.PageInfo<MovieDetailCinemaRouteArgs> page =
-      _i53.PageInfo<MovieDetailCinemaRouteArgs>(name);
+  static const _i54.PageInfo<MovieDetailCinemaRouteArgs> page =
+      _i54.PageInfo<MovieDetailCinemaRouteArgs>(name);
 }
 
 class MovieDetailCinemaRouteArgs {
@@ -857,11 +879,11 @@ class MovieDetailCinemaRouteArgs {
     required this.movie,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   final String cinema;
 
-  final _i57.MovieModel movie;
+  final _i58.MovieModel movie;
 
   @override
   String toString() {
@@ -870,12 +892,12 @@ class MovieDetailCinemaRouteArgs {
 }
 
 /// generated route for
-/// [_i19.MovieDetailScreen]
-class MovieDetailRoute extends _i53.PageRouteInfo<MovieDetailRouteArgs> {
+/// [_i20.MovieDetailScreen]
+class MovieDetailRoute extends _i54.PageRouteInfo<MovieDetailRouteArgs> {
   MovieDetailRoute({
-    _i54.Key? key,
-    required _i57.MovieModel movie,
-    List<_i53.PageRouteInfo>? children,
+    _i55.Key? key,
+    required _i58.MovieModel movie,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           MovieDetailRoute.name,
           args: MovieDetailRouteArgs(
@@ -887,8 +909,8 @@ class MovieDetailRoute extends _i53.PageRouteInfo<MovieDetailRouteArgs> {
 
   static const String name = 'MovieDetailRoute';
 
-  static const _i53.PageInfo<MovieDetailRouteArgs> page =
-      _i53.PageInfo<MovieDetailRouteArgs>(name);
+  static const _i54.PageInfo<MovieDetailRouteArgs> page =
+      _i54.PageInfo<MovieDetailRouteArgs>(name);
 }
 
 class MovieDetailRouteArgs {
@@ -897,9 +919,9 @@ class MovieDetailRouteArgs {
     required this.movie,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
-  final _i57.MovieModel movie;
+  final _i58.MovieModel movie;
 
   @override
   String toString() {
@@ -908,9 +930,9 @@ class MovieDetailRouteArgs {
 }
 
 /// generated route for
-/// [_i20.NotificationPage]
-class NotificationRoute extends _i53.PageRouteInfo<void> {
-  const NotificationRoute({List<_i53.PageRouteInfo>? children})
+/// [_i21.NotificationPage]
+class NotificationRoute extends _i54.PageRouteInfo<void> {
+  const NotificationRoute({List<_i54.PageRouteInfo>? children})
       : super(
           NotificationRoute.name,
           initialChildren: children,
@@ -918,13 +940,13 @@ class NotificationRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'NotificationRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i21.OrganiserAccountScreen]
-class OrganiserAccountRoute extends _i53.PageRouteInfo<void> {
-  const OrganiserAccountRoute({List<_i53.PageRouteInfo>? children})
+/// [_i22.OrganiserAccountScreen]
+class OrganiserAccountRoute extends _i54.PageRouteInfo<void> {
+  const OrganiserAccountRoute({List<_i54.PageRouteInfo>? children})
       : super(
           OrganiserAccountRoute.name,
           initialChildren: children,
@@ -932,13 +954,13 @@ class OrganiserAccountRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'OrganiserAccountRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i22.OrganiserEventScreen]
-class OrganiserEventRoute extends _i53.PageRouteInfo<void> {
-  const OrganiserEventRoute({List<_i53.PageRouteInfo>? children})
+/// [_i23.OrganiserEventScreen]
+class OrganiserEventRoute extends _i54.PageRouteInfo<void> {
+  const OrganiserEventRoute({List<_i54.PageRouteInfo>? children})
       : super(
           OrganiserEventRoute.name,
           initialChildren: children,
@@ -946,13 +968,13 @@ class OrganiserEventRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'OrganiserEventRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i23.OrganiserHomeScreen]
-class OrganiserHomeRoute extends _i53.PageRouteInfo<void> {
-  const OrganiserHomeRoute({List<_i53.PageRouteInfo>? children})
+/// [_i24.OrganiserHomeScreen]
+class OrganiserHomeRoute extends _i54.PageRouteInfo<void> {
+  const OrganiserHomeRoute({List<_i54.PageRouteInfo>? children})
       : super(
           OrganiserHomeRoute.name,
           initialChildren: children,
@@ -960,13 +982,13 @@ class OrganiserHomeRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'OrganiserHomeRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i24.OrganiserLoginScreen]
-class OrganiserLoginRoute extends _i53.PageRouteInfo<void> {
-  const OrganiserLoginRoute({List<_i53.PageRouteInfo>? children})
+/// [_i25.OrganiserLoginScreen]
+class OrganiserLoginRoute extends _i54.PageRouteInfo<void> {
+  const OrganiserLoginRoute({List<_i54.PageRouteInfo>? children})
       : super(
           OrganiserLoginRoute.name,
           initialChildren: children,
@@ -974,13 +996,13 @@ class OrganiserLoginRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'OrganiserLoginRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i25.OrganiserReservationScreen]
-class OrganiserReservationRoute extends _i53.PageRouteInfo<void> {
-  const OrganiserReservationRoute({List<_i53.PageRouteInfo>? children})
+/// [_i26.OrganiserReservationScreen]
+class OrganiserReservationRoute extends _i54.PageRouteInfo<void> {
+  const OrganiserReservationRoute({List<_i54.PageRouteInfo>? children})
       : super(
           OrganiserReservationRoute.name,
           initialChildren: children,
@@ -988,13 +1010,13 @@ class OrganiserReservationRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'OrganiserReservationRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i26.OrganiserSignupScreen]
-class OrganiserSignupRoute extends _i53.PageRouteInfo<void> {
-  const OrganiserSignupRoute({List<_i53.PageRouteInfo>? children})
+/// [_i27.OrganiserSignupScreen]
+class OrganiserSignupRoute extends _i54.PageRouteInfo<void> {
+  const OrganiserSignupRoute({List<_i54.PageRouteInfo>? children})
       : super(
           OrganiserSignupRoute.name,
           initialChildren: children,
@@ -1002,13 +1024,13 @@ class OrganiserSignupRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'OrganiserSignupRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i27.OrganiserStatistqueScreen]
-class OrganiserStatistqueRoute extends _i53.PageRouteInfo<void> {
-  const OrganiserStatistqueRoute({List<_i53.PageRouteInfo>? children})
+/// [_i28.OrganiserStatistqueScreen]
+class OrganiserStatistqueRoute extends _i54.PageRouteInfo<void> {
+  const OrganiserStatistqueRoute({List<_i54.PageRouteInfo>? children})
       : super(
           OrganiserStatistqueRoute.name,
           initialChildren: children,
@@ -1016,18 +1038,18 @@ class OrganiserStatistqueRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'OrganiserStatistqueRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i28.OrganiserVerifyOtpScreen]
+/// [_i29.OrganiserVerifyOtpScreen]
 class OrganiserVerifyOtpRoute
-    extends _i53.PageRouteInfo<OrganiserVerifyOtpRouteArgs> {
+    extends _i54.PageRouteInfo<OrganiserVerifyOtpRouteArgs> {
   OrganiserVerifyOtpRoute({
-    _i54.Key? key,
+    _i55.Key? key,
     required String email,
     required dynamic json,
-    List<_i53.PageRouteInfo>? children,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           OrganiserVerifyOtpRoute.name,
           args: OrganiserVerifyOtpRouteArgs(
@@ -1040,8 +1062,8 @@ class OrganiserVerifyOtpRoute
 
   static const String name = 'OrganiserVerifyOtpRoute';
 
-  static const _i53.PageInfo<OrganiserVerifyOtpRouteArgs> page =
-      _i53.PageInfo<OrganiserVerifyOtpRouteArgs>(name);
+  static const _i54.PageInfo<OrganiserVerifyOtpRouteArgs> page =
+      _i54.PageInfo<OrganiserVerifyOtpRouteArgs>(name);
 }
 
 class OrganiserVerifyOtpRouteArgs {
@@ -1051,7 +1073,7 @@ class OrganiserVerifyOtpRouteArgs {
     required this.json,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   final String email;
 
@@ -1064,9 +1086,9 @@ class OrganiserVerifyOtpRouteArgs {
 }
 
 /// generated route for
-/// [_i29.PaiementMethodeScreen]
-class PaiementMethodeRoute extends _i53.PageRouteInfo<void> {
-  const PaiementMethodeRoute({List<_i53.PageRouteInfo>? children})
+/// [_i30.PaiementMethodeScreen]
+class PaiementMethodeRoute extends _i54.PageRouteInfo<void> {
+  const PaiementMethodeRoute({List<_i54.PageRouteInfo>? children})
       : super(
           PaiementMethodeRoute.name,
           initialChildren: children,
@@ -1074,16 +1096,16 @@ class PaiementMethodeRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'PaiementMethodeRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i30.ParkingDetailsScreen]
-class ParkingDetailsRoute extends _i53.PageRouteInfo<ParkingDetailsRouteArgs> {
+/// [_i31.ParkingDetailsScreen]
+class ParkingDetailsRoute extends _i54.PageRouteInfo<ParkingDetailsRouteArgs> {
   ParkingDetailsRoute({
-    _i54.Key? key,
-    required _i58.ParkingModel parking,
-    List<_i53.PageRouteInfo>? children,
+    _i55.Key? key,
+    required _i59.ParkingModel parking,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           ParkingDetailsRoute.name,
           args: ParkingDetailsRouteArgs(
@@ -1095,8 +1117,8 @@ class ParkingDetailsRoute extends _i53.PageRouteInfo<ParkingDetailsRouteArgs> {
 
   static const String name = 'ParkingDetailsRoute';
 
-  static const _i53.PageInfo<ParkingDetailsRouteArgs> page =
-      _i53.PageInfo<ParkingDetailsRouteArgs>(name);
+  static const _i54.PageInfo<ParkingDetailsRouteArgs> page =
+      _i54.PageInfo<ParkingDetailsRouteArgs>(name);
 }
 
 class ParkingDetailsRouteArgs {
@@ -1105,9 +1127,9 @@ class ParkingDetailsRouteArgs {
     required this.parking,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
-  final _i58.ParkingModel parking;
+  final _i59.ParkingModel parking;
 
   @override
   String toString() {
@@ -1116,12 +1138,12 @@ class ParkingDetailsRouteArgs {
 }
 
 /// generated route for
-/// [_i31.PasswordOtpScreen]
-class PasswordOtpRoute extends _i53.PageRouteInfo<PasswordOtpRouteArgs> {
+/// [_i32.PasswordOtpScreen]
+class PasswordOtpRoute extends _i54.PageRouteInfo<PasswordOtpRouteArgs> {
   PasswordOtpRoute({
-    _i54.Key? key,
+    _i55.Key? key,
     required String email,
-    List<_i53.PageRouteInfo>? children,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           PasswordOtpRoute.name,
           args: PasswordOtpRouteArgs(
@@ -1133,8 +1155,8 @@ class PasswordOtpRoute extends _i53.PageRouteInfo<PasswordOtpRouteArgs> {
 
   static const String name = 'PasswordOtpRoute';
 
-  static const _i53.PageInfo<PasswordOtpRouteArgs> page =
-      _i53.PageInfo<PasswordOtpRouteArgs>(name);
+  static const _i54.PageInfo<PasswordOtpRouteArgs> page =
+      _i54.PageInfo<PasswordOtpRouteArgs>(name);
 }
 
 class PasswordOtpRouteArgs {
@@ -1143,7 +1165,7 @@ class PasswordOtpRouteArgs {
     required this.email,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   final String email;
 
@@ -1154,9 +1176,9 @@ class PasswordOtpRouteArgs {
 }
 
 /// generated route for
-/// [_i32.RelatedEventScreen]
-class RelatedEventRoute extends _i53.PageRouteInfo<void> {
-  const RelatedEventRoute({List<_i53.PageRouteInfo>? children})
+/// [_i33.RelatedEventScreen]
+class RelatedEventRoute extends _i54.PageRouteInfo<void> {
+  const RelatedEventRoute({List<_i54.PageRouteInfo>? children})
       : super(
           RelatedEventRoute.name,
           initialChildren: children,
@@ -1164,13 +1186,13 @@ class RelatedEventRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'RelatedEventRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i33.ReservationListScreen]
-class ReservationListRoute extends _i53.PageRouteInfo<void> {
-  const ReservationListRoute({List<_i53.PageRouteInfo>? children})
+/// [_i34.ReservationListScreen]
+class ReservationListRoute extends _i54.PageRouteInfo<void> {
+  const ReservationListRoute({List<_i54.PageRouteInfo>? children})
       : super(
           ReservationListRoute.name,
           initialChildren: children,
@@ -1178,17 +1200,17 @@ class ReservationListRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'ReservationListRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i34.ReservationScreen]
-class ReservationRoute extends _i53.PageRouteInfo<ReservationRouteArgs> {
+/// [_i35.ReservationScreen]
+class ReservationRoute extends _i54.PageRouteInfo<ReservationRouteArgs> {
   ReservationRoute({
-    _i54.Key? key,
+    _i55.Key? key,
     required String idparking,
-    required _i58.ParkingModel parking,
-    List<_i53.PageRouteInfo>? children,
+    required _i59.ParkingModel parking,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           ReservationRoute.name,
           args: ReservationRouteArgs(
@@ -1201,8 +1223,8 @@ class ReservationRoute extends _i53.PageRouteInfo<ReservationRouteArgs> {
 
   static const String name = 'ReservationRoute';
 
-  static const _i53.PageInfo<ReservationRouteArgs> page =
-      _i53.PageInfo<ReservationRouteArgs>(name);
+  static const _i54.PageInfo<ReservationRouteArgs> page =
+      _i54.PageInfo<ReservationRouteArgs>(name);
 }
 
 class ReservationRouteArgs {
@@ -1212,11 +1234,11 @@ class ReservationRouteArgs {
     required this.parking,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   final String idparking;
 
-  final _i58.ParkingModel parking;
+  final _i59.ParkingModel parking;
 
   @override
   String toString() {
@@ -1225,12 +1247,12 @@ class ReservationRouteArgs {
 }
 
 /// generated route for
-/// [_i35.ResetPasswordScreen]
-class ResetPasswordRoute extends _i53.PageRouteInfo<ResetPasswordRouteArgs> {
+/// [_i36.ResetPasswordScreen]
+class ResetPasswordRoute extends _i54.PageRouteInfo<ResetPasswordRouteArgs> {
   ResetPasswordRoute({
-    _i54.Key? key,
+    _i55.Key? key,
     required String email,
-    List<_i53.PageRouteInfo>? children,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           ResetPasswordRoute.name,
           args: ResetPasswordRouteArgs(
@@ -1242,8 +1264,8 @@ class ResetPasswordRoute extends _i53.PageRouteInfo<ResetPasswordRouteArgs> {
 
   static const String name = 'ResetPasswordRoute';
 
-  static const _i53.PageInfo<ResetPasswordRouteArgs> page =
-      _i53.PageInfo<ResetPasswordRouteArgs>(name);
+  static const _i54.PageInfo<ResetPasswordRouteArgs> page =
+      _i54.PageInfo<ResetPasswordRouteArgs>(name);
 }
 
 class ResetPasswordRouteArgs {
@@ -1252,7 +1274,7 @@ class ResetPasswordRouteArgs {
     required this.email,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   final String email;
 
@@ -1263,9 +1285,9 @@ class ResetPasswordRouteArgs {
 }
 
 /// generated route for
-/// [_i36.SettingScreen]
-class SettingRoute extends _i53.PageRouteInfo<void> {
-  const SettingRoute({List<_i53.PageRouteInfo>? children})
+/// [_i37.SettingScreen]
+class SettingRoute extends _i54.PageRouteInfo<void> {
+  const SettingRoute({List<_i54.PageRouteInfo>? children})
       : super(
           SettingRoute.name,
           initialChildren: children,
@@ -1273,13 +1295,13 @@ class SettingRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'SettingRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i37.SignupScreen]
-class SignupRoute extends _i53.PageRouteInfo<void> {
-  const SignupRoute({List<_i53.PageRouteInfo>? children})
+/// [_i38.SignupScreen]
+class SignupRoute extends _i54.PageRouteInfo<void> {
+  const SignupRoute({List<_i54.PageRouteInfo>? children})
       : super(
           SignupRoute.name,
           initialChildren: children,
@@ -1287,13 +1309,13 @@ class SignupRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'SignupRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i38.SplashScreen]
-class SplashRoute extends _i53.PageRouteInfo<void> {
-  const SplashRoute({List<_i53.PageRouteInfo>? children})
+/// [_i39.SplashScreen]
+class SplashRoute extends _i54.PageRouteInfo<void> {
+  const SplashRoute({List<_i54.PageRouteInfo>? children})
       : super(
           SplashRoute.name,
           initialChildren: children,
@@ -1301,16 +1323,16 @@ class SplashRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'SplashRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i39.TicketScreen]
-class TicketRoute extends _i53.PageRouteInfo<TicketRouteArgs> {
+/// [_i40.TicketScreen]
+class TicketRoute extends _i54.PageRouteInfo<TicketRouteArgs> {
   TicketRoute({
-    _i54.Key? key,
-    required _i56.ReservationModel reservation,
-    List<_i53.PageRouteInfo>? children,
+    _i55.Key? key,
+    required _i57.ReservationModel reservation,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           TicketRoute.name,
           args: TicketRouteArgs(
@@ -1322,8 +1344,8 @@ class TicketRoute extends _i53.PageRouteInfo<TicketRouteArgs> {
 
   static const String name = 'TicketRoute';
 
-  static const _i53.PageInfo<TicketRouteArgs> page =
-      _i53.PageInfo<TicketRouteArgs>(name);
+  static const _i54.PageInfo<TicketRouteArgs> page =
+      _i54.PageInfo<TicketRouteArgs>(name);
 }
 
 class TicketRouteArgs {
@@ -1332,9 +1354,9 @@ class TicketRouteArgs {
     required this.reservation,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
-  final _i56.ReservationModel reservation;
+  final _i57.ReservationModel reservation;
 
   @override
   String toString() {
@@ -1343,12 +1365,12 @@ class TicketRouteArgs {
 }
 
 /// generated route for
-/// [_i40.TimerScreen]
-class TimerRoute extends _i53.PageRouteInfo<TimerRouteArgs> {
+/// [_i41.TimerScreen]
+class TimerRoute extends _i54.PageRouteInfo<TimerRouteArgs> {
   TimerRoute({
-    _i54.Key? key,
-    required _i56.ReservationModel reservation,
-    List<_i53.PageRouteInfo>? children,
+    _i55.Key? key,
+    required _i57.ReservationModel reservation,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           TimerRoute.name,
           args: TimerRouteArgs(
@@ -1360,8 +1382,8 @@ class TimerRoute extends _i53.PageRouteInfo<TimerRouteArgs> {
 
   static const String name = 'TimerRoute';
 
-  static const _i53.PageInfo<TimerRouteArgs> page =
-      _i53.PageInfo<TimerRouteArgs>(name);
+  static const _i54.PageInfo<TimerRouteArgs> page =
+      _i54.PageInfo<TimerRouteArgs>(name);
 }
 
 class TimerRouteArgs {
@@ -1370,9 +1392,9 @@ class TimerRouteArgs {
     required this.reservation,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
-  final _i56.ReservationModel reservation;
+  final _i57.ReservationModel reservation;
 
   @override
   String toString() {
@@ -1381,9 +1403,9 @@ class TimerRouteArgs {
 }
 
 /// generated route for
-/// [_i41.UpdateProfileScreen]
-class UpdateProfileRoute extends _i53.PageRouteInfo<void> {
-  const UpdateProfileRoute({List<_i53.PageRouteInfo>? children})
+/// [_i42.UpdateProfileScreen]
+class UpdateProfileRoute extends _i54.PageRouteInfo<void> {
+  const UpdateProfileRoute({List<_i54.PageRouteInfo>? children})
       : super(
           UpdateProfileRoute.name,
           initialChildren: children,
@@ -1391,13 +1413,13 @@ class UpdateProfileRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'UpdateProfileRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i42.UserManagementScreen]
-class UserManagementRoute extends _i53.PageRouteInfo<void> {
-  const UserManagementRoute({List<_i53.PageRouteInfo>? children})
+/// [_i43.UserManagementScreen]
+class UserManagementRoute extends _i54.PageRouteInfo<void> {
+  const UserManagementRoute({List<_i54.PageRouteInfo>? children})
       : super(
           UserManagementRoute.name,
           initialChildren: children,
@@ -1405,17 +1427,17 @@ class UserManagementRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'UserManagementRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i43.VehiculeListReservationEventScreen]
+/// [_i44.VehiculeListReservationEventScreen]
 class VehiculeListReservationEventRoute
-    extends _i53.PageRouteInfo<VehiculeListReservationEventRouteArgs> {
+    extends _i54.PageRouteInfo<VehiculeListReservationEventRouteArgs> {
   VehiculeListReservationEventRoute({
-    _i54.Key? key,
+    _i55.Key? key,
     required double finalPrice,
-    List<_i53.PageRouteInfo>? children,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           VehiculeListReservationEventRoute.name,
           args: VehiculeListReservationEventRouteArgs(
@@ -1427,8 +1449,8 @@ class VehiculeListReservationEventRoute
 
   static const String name = 'VehiculeListReservationEventRoute';
 
-  static const _i53.PageInfo<VehiculeListReservationEventRouteArgs> page =
-      _i53.PageInfo<VehiculeListReservationEventRouteArgs>(name);
+  static const _i54.PageInfo<VehiculeListReservationEventRouteArgs> page =
+      _i54.PageInfo<VehiculeListReservationEventRouteArgs>(name);
 }
 
 class VehiculeListReservationEventRouteArgs {
@@ -1437,7 +1459,7 @@ class VehiculeListReservationEventRouteArgs {
     required this.finalPrice,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   final double finalPrice;
 
@@ -1448,12 +1470,12 @@ class VehiculeListReservationEventRouteArgs {
 }
 
 /// generated route for
-/// [_i44.VehiculeListReservationScreen]
+/// [_i45.VehiculeListReservationScreen]
 class VehiculeListReservationRoute
-    extends _i53.PageRouteInfo<VehiculeListReservationRouteArgs> {
+    extends _i54.PageRouteInfo<VehiculeListReservationRouteArgs> {
   VehiculeListReservationRoute({
-    _i54.Key? key,
-    List<_i53.PageRouteInfo>? children,
+    _i55.Key? key,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           VehiculeListReservationRoute.name,
           args: VehiculeListReservationRouteArgs(key: key),
@@ -1462,14 +1484,14 @@ class VehiculeListReservationRoute
 
   static const String name = 'VehiculeListReservationRoute';
 
-  static const _i53.PageInfo<VehiculeListReservationRouteArgs> page =
-      _i53.PageInfo<VehiculeListReservationRouteArgs>(name);
+  static const _i54.PageInfo<VehiculeListReservationRouteArgs> page =
+      _i54.PageInfo<VehiculeListReservationRouteArgs>(name);
 }
 
 class VehiculeListReservationRouteArgs {
   const VehiculeListReservationRouteArgs({this.key});
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   @override
   String toString() {
@@ -1478,9 +1500,9 @@ class VehiculeListReservationRouteArgs {
 }
 
 /// generated route for
-/// [_i45.VehiculeListScreen]
-class VehiculeListRoute extends _i53.PageRouteInfo<void> {
-  const VehiculeListRoute({List<_i53.PageRouteInfo>? children})
+/// [_i46.VehiculeListScreen]
+class VehiculeListRoute extends _i54.PageRouteInfo<void> {
+  const VehiculeListRoute({List<_i54.PageRouteInfo>? children})
       : super(
           VehiculeListRoute.name,
           initialChildren: children,
@@ -1488,17 +1510,17 @@ class VehiculeListRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'VehiculeListRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i46.VerifyOtpScreen]
-class VerifyOtpRoute extends _i53.PageRouteInfo<VerifyOtpRouteArgs> {
+/// [_i47.VerifyOtpScreen]
+class VerifyOtpRoute extends _i54.PageRouteInfo<VerifyOtpRouteArgs> {
   VerifyOtpRoute({
-    _i54.Key? key,
+    _i55.Key? key,
     required String email,
     required dynamic json,
-    List<_i53.PageRouteInfo>? children,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           VerifyOtpRoute.name,
           args: VerifyOtpRouteArgs(
@@ -1511,8 +1533,8 @@ class VerifyOtpRoute extends _i53.PageRouteInfo<VerifyOtpRouteArgs> {
 
   static const String name = 'VerifyOtpRoute';
 
-  static const _i53.PageInfo<VerifyOtpRouteArgs> page =
-      _i53.PageInfo<VerifyOtpRouteArgs>(name);
+  static const _i54.PageInfo<VerifyOtpRouteArgs> page =
+      _i54.PageInfo<VerifyOtpRouteArgs>(name);
 }
 
 class VerifyOtpRouteArgs {
@@ -1522,7 +1544,7 @@ class VerifyOtpRouteArgs {
     required this.json,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   final String email;
 
@@ -1535,9 +1557,9 @@ class VerifyOtpRouteArgs {
 }
 
 /// generated route for
-/// [_i47.WelcomeScreen]
-class WelcomeRoute extends _i53.PageRouteInfo<void> {
-  const WelcomeRoute({List<_i53.PageRouteInfo>? children})
+/// [_i48.WelcomeScreen]
+class WelcomeRoute extends _i54.PageRouteInfo<void> {
+  const WelcomeRoute({List<_i54.PageRouteInfo>? children})
       : super(
           WelcomeRoute.name,
           initialChildren: children,
@@ -1545,13 +1567,13 @@ class WelcomeRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'WelcomeRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i48.accountScreen]
-class AccountRoute extends _i53.PageRouteInfo<void> {
-  const AccountRoute({List<_i53.PageRouteInfo>? children})
+/// [_i49.accountScreen]
+class AccountRoute extends _i54.PageRouteInfo<void> {
+  const AccountRoute({List<_i54.PageRouteInfo>? children})
       : super(
           AccountRoute.name,
           initialChildren: children,
@@ -1559,18 +1581,18 @@ class AccountRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'AccountRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i49.addParkingEventScreen]
+/// [_i50.addParkingEventScreen]
 class AddParkingEventRoute
-    extends _i53.PageRouteInfo<AddParkingEventRouteArgs> {
+    extends _i54.PageRouteInfo<AddParkingEventRouteArgs> {
   AddParkingEventRoute({
-    _i54.Key? key,
+    _i55.Key? key,
     required Map<String, dynamic> eventData,
-    required _i59.File image,
-    List<_i53.PageRouteInfo>? children,
+    required _i60.File image,
+    List<_i54.PageRouteInfo>? children,
   }) : super(
           AddParkingEventRoute.name,
           args: AddParkingEventRouteArgs(
@@ -1583,8 +1605,8 @@ class AddParkingEventRoute
 
   static const String name = 'AddParkingEventRoute';
 
-  static const _i53.PageInfo<AddParkingEventRouteArgs> page =
-      _i53.PageInfo<AddParkingEventRouteArgs>(name);
+  static const _i54.PageInfo<AddParkingEventRouteArgs> page =
+      _i54.PageInfo<AddParkingEventRouteArgs>(name);
 }
 
 class AddParkingEventRouteArgs {
@@ -1594,11 +1616,11 @@ class AddParkingEventRouteArgs {
     required this.image,
   });
 
-  final _i54.Key? key;
+  final _i55.Key? key;
 
   final Map<String, dynamic> eventData;
 
-  final _i59.File image;
+  final _i60.File image;
 
   @override
   String toString() {
@@ -1607,9 +1629,9 @@ class AddParkingEventRouteArgs {
 }
 
 /// generated route for
-/// [_i50.eventScreen]
-class EventRoute extends _i53.PageRouteInfo<void> {
-  const EventRoute({List<_i53.PageRouteInfo>? children})
+/// [_i51.eventScreen]
+class EventRoute extends _i54.PageRouteInfo<void> {
+  const EventRoute({List<_i54.PageRouteInfo>? children})
       : super(
           EventRoute.name,
           initialChildren: children,
@@ -1617,13 +1639,13 @@ class EventRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'EventRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i51.homeScreen]
-class HomeRoute extends _i53.PageRouteInfo<void> {
-  const HomeRoute({List<_i53.PageRouteInfo>? children})
+/// [_i52.homeScreen]
+class HomeRoute extends _i54.PageRouteInfo<void> {
+  const HomeRoute({List<_i54.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -1631,13 +1653,13 @@ class HomeRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i52.parkingsScreen]
-class ParkingsRoute extends _i53.PageRouteInfo<void> {
-  const ParkingsRoute({List<_i53.PageRouteInfo>? children})
+/// [_i53.parkingsScreen]
+class ParkingsRoute extends _i54.PageRouteInfo<void> {
+  const ParkingsRoute({List<_i54.PageRouteInfo>? children})
       : super(
           ParkingsRoute.name,
           initialChildren: children,
@@ -1645,5 +1667,5 @@ class ParkingsRoute extends _i53.PageRouteInfo<void> {
 
   static const String name = 'ParkingsRoute';
 
-  static const _i53.PageInfo<void> page = _i53.PageInfo<void>(name);
+  static const _i54.PageInfo<void> page = _i54.PageInfo<void>(name);
 }

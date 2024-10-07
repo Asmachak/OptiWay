@@ -279,13 +279,29 @@ class _OrganiserHomeScreenState extends ConsumerState<OrganiserHomeScreen> {
                                 icon: Icons.add,
                                 label: 'Add an Event',
                                 onTap: () {
-                                  AutoRouter.of(context).push(AddEventRoute());
+                                  AutoRouter.of(context)
+                                      .push(const AddEventRoute());
                                 },
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: _buildOptionCard(
+                                icon: Icons.calendar_month,
+                                label: 'See Your Calender',
+                                onTap: () {
+                                  AutoRouter.of(context)
+                                      .push(const CalendarRoute());
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
