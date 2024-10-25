@@ -7,7 +7,7 @@
     </p>
     <h2>Features</h2>
     <ul>
-        <li><strong>Security and Authentication</strong>: <strong>Secure Authentication</strong>: Implements robust, secure authentication using industry-standard encryption and token-based sessions.<strong>Email Verification with OTP </strong> Verifies user email addresses using an OTP (One-Time Password) sent via email, enhancing user account security and ensuring verified access. </li>
+        <li><strong>Security and Authentication</strong>: <br> <strong> * Secure Authentication</strong>: Implements robust, secure authentication using industry-standard encryption and token-based sessions.<br><strong>* Email Verification with OTP </strong> Verifies user email addresses using an OTP (One-Time Password) sent via email, enhancing user account security and ensuring verified access. </li>
         <li><strong>Real-Time Event Synchronization and notifications </strong>: Using <code>Socket.io </code> for dynamic updates, ensuring users receive live event changes and discounts. Also a user receive notifications for his reservations state and always a reminder before 15min the reservation expires.</li>
         <li><strong>Parking Reservation Management</strong>: Provides users with an easy-to-use interface for booking and managing parking slots.</li>
         <li><strong>Event Reservation Management</strong>: Provides users with an easy-to-use interface for booking and managing events related to parkings.</li>
